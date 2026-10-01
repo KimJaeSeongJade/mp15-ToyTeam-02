@@ -7,16 +7,16 @@ public abstract class Resource : MonoBehaviour, IInteractable, IPoolable
     public GameObject GameObject => gameObject; 
     public abstract BlockType BlockType { get; }
     [Header("Drop Settings")] 
-    public BlockType _dropMaterialType;
+    public BlockType DropMaterialType;
     
     protected int Health = 3;
     
     private float _cooldown = 0f;
     
     [Header("Damage Visuals")]
-    public GameObject visual1;
-    public GameObject visual2;
-    public GameObject visual3;
+    [SerializeField] private GameObject _visualTop;
+    [SerializeField] private GameObject _visualMiddle;
+    [SerializeField] private GameObject _visualBottom;
     
 
     public virtual void Initialize()
@@ -31,7 +31,7 @@ public abstract class Resource : MonoBehaviour, IInteractable, IPoolable
         _cooldown += deltaTime;
         if (_cooldown >= 1.0f)
         {
-            _cooldown -= 1.0f;
+            _cooldown = 0f;
             OnMined();
         }
     }
@@ -50,7 +50,7 @@ public abstract class Resource : MonoBehaviour, IInteractable, IPoolable
 
     public virtual void BreakResource()
     {
-        IPoolable dropItem = ObjectPool.Instance.Take(_dropMaterialType);
+        IPoolable dropItem = ObjectPool.Instance.Take(DropMaterialType);
         dropItem.GameObject.transform.position = transform.position;
         dropItem.GameObject.SetActive(true);
         
@@ -59,9 +59,24 @@ public abstract class Resource : MonoBehaviour, IInteractable, IPoolable
 
     protected virtual void UpdateVisuals()
     {
-        if(visual1 != null) visual1.SetActive(Health == 3);
-        if(visual2 != null) visual2.SetActive(Health == 2);
-        if(visual3 != null) visual3.SetActive(Health == 1);
+        switch (Health)
+        {
+            case 3:
+                _visualTop.SetActive(true);
+                _visualMiddle.SetActive(true);
+                _visualBottom.SetActive(true);
+                break;
+            case 2:
+                _visualTop.SetActive(false);
+                break; 
+            case 1:
+                _visualTop.SetActive(false);
+                _visualMiddle.SetActive(false);
+                break;
+            case 0:
+                ReturnToPool(GetComponent<IPoolable>());
+                break;
+        }
     }
 
 

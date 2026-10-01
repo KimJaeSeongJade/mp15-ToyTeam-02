@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public abstract class Material : MonoBehaviour, IStackable, IPoolable, IInteractable
+public abstract class MaterialBase : MonoBehaviour, IStackable, IPoolable, IInteractable
 { 
     public GameObject GameObject => gameObject;
     public abstract BlockType BlockType { get; }
