@@ -2,6 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// 플레이어의 행동 관리
+/// </summary>
 public class PlayerAction : MonoBehaviour
 {
     private const float BASE_MOVE_SPEED = 5f;
@@ -18,6 +21,10 @@ public class PlayerAction : MonoBehaviour
     private void Start() => Init();
     // ------------------------------
 
+    /// <summary>
+    /// 방향을 전달받아 플레이어를 해당 방향으로 전진
+    /// </summary>
+    /// <param name="direction"> 플레이어가 이동할 방향 </param>
     public void Move(Vector3 direction)
     {
         if (direction == Vector3.zero)
@@ -26,10 +33,13 @@ public class PlayerAction : MonoBehaviour
             return;
         }
 
-        _playerBody.MoveRotation(Quaternion.LookRotation(direction));
+        _playerBody.rotation = Quaternion.LookRotation(direction);
         _playerBody.velocity = _playerBody.transform.forward * _moveSpeed;
     }
 
+    /// <summary>
+    /// 플레이어가 이동 방향으로 대쉬
+    /// </summary>
     public void Dash()
     {
         StartCoroutine(DashRoutine());
