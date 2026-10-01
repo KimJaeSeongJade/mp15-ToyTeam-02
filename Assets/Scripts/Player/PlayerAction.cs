@@ -22,7 +22,7 @@ public class PlayerAction : MonoBehaviour
     // ------------------------------
 
     /// <summary>
-    /// 방향을 전달받아 플레이어를 해당 방향으로 전진
+    /// 방향을 전달 받아 플레이어를 해당 방향으로 전진
     /// </summary>
     /// <param name="direction"> 플레이어가 이동할 방향 </param>
     public void Move(Vector3 direction)
@@ -55,6 +55,17 @@ public class PlayerAction : MonoBehaviour
         _moveSpeed -= (BASE_MOVE_SPEED * DASH_SPEED_BONUS);
         yield return _waitDashCooldown;
         _canDash = true;
+    }
+
+    /// <summary>
+    /// 선택된 IInteractable와 손에 들고 있는 IInteractable를 전달 받아 선택된 IInteractable 상호작용 메서드를 호출
+    /// </summary>
+    /// <param name="target"> 선택된 IInteractable </param>
+    /// <param name="handItem"> 손에 들고 있는 IInteractable </param>
+    /// <returns> 상호작용 이후 플레이어가 들어야 할 IInteractable </returns>
+    public IInteractable TryInteract(IInteractable target, IInteractable handItem)
+    {
+        return target.ButtonInteract(handItem);
     }
 
     private void CacheComponents()
