@@ -40,6 +40,7 @@ public class ChunkManager : MonoBehaviour
 
         _previousChunkIndex = currentChunkIndex;
         LoadChunk(currentChunkIndex + _renderDistance);
+        LoadInvisibleWall(currentChunkIndex + _renderDistance);
     }
 
     private int GetChunkIndex(Vector3 position)
@@ -54,13 +55,21 @@ public class ChunkManager : MonoBehaviour
         chunk.SetChunkData(chunkIndex, _mapLoader.WorldMap, _material, _textureSize, _atlasSize);
         chunk.gameObject.SetActive(true);
 
-        GameObject invisibleWall = _invisibleWallPool.Dequeue();
-        // TODO:
-        // invisibleWall.transform.position = 
-        invisibleWall.SetActive(true);
-
-
         _loadedChunks.Enqueue(chunk);
+    }
+
+    private void LoadInvisibleWall(int chunkIndex)
+    {
+
+        GameObject invisibleWallTop = _invisibleWallPool.Dequeue();
+        GameObject invisibleWallBottom = _invisibleWallPool.Dequeue();
+
+        invisibleWallTop.transform.position = new Vector3(chunkIndex * CHUNK_SIZE, 0f, -1f);
+        invisibleWallBottom.transform.position = new Vector3(chunkIndex * CHUNK_SIZE, 0f, 20f);
+
+
+        invisibleWallTop.SetActive(true);
+        invisibleWallBottom.SetActive(true);
     }
 
     private void RemoveOldestChunk()
@@ -76,6 +85,7 @@ public class ChunkManager : MonoBehaviour
         for (int i = 0; i <= _renderDistance; i++)
         {
             LoadChunk(i);
+            LoadInvisibleWall(i);
         }
 
         _oldestChunkIndex = 0;
