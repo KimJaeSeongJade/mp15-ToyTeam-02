@@ -69,7 +69,7 @@ public class PlayerController : MonoBehaviour
         foreach (IInteractable detected in _detecteds)
         {
             Vector3 playerDirection = transform.forward;
-            Vector3 toDetectedDirection = (detected.GameObject.transform.position - transform.position);
+            Vector3 toDetectedDirection = (detected.GameObject.transform.position - transform.position).normalized;
             Ray ray = new Ray(transform.position, toDetectedDirection);
             RaycastHit hit;
 
@@ -99,6 +99,7 @@ public class PlayerController : MonoBehaviour
                 targetLookPercentage = canTargetLookPercentage;
             }
         }
+
         if (_target != target)
         {
             _target?.Untargeted();

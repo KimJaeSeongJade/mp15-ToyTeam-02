@@ -2,6 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// 플레이어의 행동 관리
+/// </summary>
 public class PlayerAction : MonoBehaviour
 {
     private const float BASE_MOVE_SPEED = 5f;
