@@ -45,6 +45,11 @@ public class Chunk : MonoBehaviour
         }
     }
 
+    private void SpawnInvisibleColliders()
+    {
+
+    }
+
     private void CacheComponents()
     {
         _meshBuilder = GetComponent<MeshBuilder>();

@@ -8,26 +8,27 @@ public class ChunkManager : MonoBehaviour
 
     [SerializeField] private Transform _targetTransform; // 청크 스트리밍 기준 타켓의 transform
     [SerializeField] private Chunk _chunkPrefab;
+    [SerializeField] private GameObject _invisibleWallPrefab;
     [SerializeField] private MapLoader _mapLoader;
     [SerializeField] private Material _material;
     [SerializeField] private float _textureSize = 32f;
     [SerializeField] private int _atlasSize = 4;
     [SerializeField] private int _renderDistance = 2;
 
+    private Queue<GameObject> _invisibleWallPool = new();
     private Queue<Chunk> _chunkPool = new();
     private Queue<Chunk> _loadedChunks = new();
     private int _previousChunkIndex;
     private int _oldestChunkIndex;
     private bool isInitialLoad;
+    private bool _canLoadMap => _mapLoader.CanLoadMap;
 
-    public bool canLoadMap => _mapLoader.CanLoadMap;
-
-    private void Awake() => CreateChunkPool();
+    private void Start() => Init();
     private void Update() => UpdateStreaming();
 
     private void UpdateStreaming()
     {
-        if (!canLoadMap || _targetTransform == null) return;
+        if (!_canLoadMap || _targetTransform == null) return;
 
         if (_loadedChunks.Count == 0) InitialLoad();
 
@@ -52,6 +53,12 @@ public class ChunkManager : MonoBehaviour
 
         chunk.SetChunkData(chunkIndex, _mapLoader.WorldMap, _material, _textureSize, _atlasSize);
         chunk.gameObject.SetActive(true);
+
+        GameObject invisibleWall = _invisibleWallPool.Dequeue();
+        // TODO:
+        // invisibleWall.transform.position = 
+        invisibleWall.SetActive(true);
+
 
         _loadedChunks.Enqueue(chunk);
     }
@@ -85,5 +92,23 @@ public class ChunkManager : MonoBehaviour
 
             _chunkPool.Enqueue(newChunk);
         }
+    }
+
+    private void CreateInvisibleWallPool()
+    {
+        for (int i = 0; i < _chunkPool.Count * 2; i++)
+        {
+            GameObject invisibleWall = Instantiate(_invisibleWallPrefab, transform);
+
+            invisibleWall.gameObject.SetActive(false);
+
+            _invisibleWallPool.Enqueue(invisibleWall);
+        }
+    }
+
+    private void Init()
+    {
+        CreateChunkPool();
+        CreateInvisibleWallPool();
     }
 }
