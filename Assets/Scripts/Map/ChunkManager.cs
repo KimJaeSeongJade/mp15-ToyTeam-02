@@ -16,6 +16,7 @@ public class ChunkManager : MonoBehaviour
     [SerializeField] private int _renderDistance = 2;
 
     private Queue<GameObject> _invisibleWallPool = new();
+    private Queue<GameObject> _loadedInvisibleWalls = new();
     private Queue<Chunk> _chunkPool = new();
     private Queue<Chunk> _loadedChunks = new();
     private int _previousChunkIndex;
@@ -36,9 +37,14 @@ public class ChunkManager : MonoBehaviour
 
         if (currentChunkIndex <= _previousChunkIndex) return;
 
-        if (currentChunkIndex - _renderDistance > _oldestChunkIndex) RemoveOldestChunk();
+        if (currentChunkIndex - _renderDistance > _oldestChunkIndex)
+        {
+            RemoveOldestChunk();
+            RemoveOldestInvisibleWalls();
+        }
 
         _previousChunkIndex = currentChunkIndex;
+
         LoadChunk(currentChunkIndex + _renderDistance);
         LoadInvisibleWall(currentChunkIndex + _renderDistance);
     }
@@ -60,7 +66,6 @@ public class ChunkManager : MonoBehaviour
 
     private void LoadInvisibleWall(int chunkIndex)
     {
-
         GameObject invisibleWallTop = _invisibleWallPool.Dequeue();
         GameObject invisibleWallBottom = _invisibleWallPool.Dequeue();
 
@@ -70,6 +75,9 @@ public class ChunkManager : MonoBehaviour
 
         invisibleWallTop.SetActive(true);
         invisibleWallBottom.SetActive(true);
+
+        _loadedInvisibleWalls.Enqueue(invisibleWallTop);
+        _loadedInvisibleWalls.Enqueue(invisibleWallBottom);
     }
 
     private void RemoveOldestChunk()
@@ -78,6 +86,19 @@ public class ChunkManager : MonoBehaviour
 
         chunk.gameObject.SetActive(false);
         _chunkPool.Enqueue(chunk);
+    }
+
+    private void RemoveOldestInvisibleWalls()
+    {
+        GameObject invisibleWallTop = _loadedInvisibleWalls.Dequeue();
+        GameObject invisibleWallBottom = _loadedInvisibleWalls.Dequeue();
+
+        invisibleWallTop.SetActive(false);
+        invisibleWallBottom.SetActive(false);
+
+        _invisibleWallPool.Enqueue(invisibleWallTop);
+        _invisibleWallPool.Enqueue(invisibleWallBottom);
+
     }
 
     private void InitialLoad()
