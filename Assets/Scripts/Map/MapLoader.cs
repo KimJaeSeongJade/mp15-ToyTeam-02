@@ -20,7 +20,7 @@ public class MapLoader : MonoBehaviour
 
     private IEnumerator LoadMapDataRoutine(string docId, string gid)
     {
-        Debug.Log("Requesting Sheet Data...");
+        Debug.Log("Requesting Map Data...");
         UnityWebRequest www = UnityWebRequest.Get($"https://docs.google.com/spreadsheets/d/{docId}/export?format=tsv&gid={gid}");
         yield return www.SendWebRequest();
 

@@ -25,20 +25,15 @@ public class Chunk : MonoBehaviour
         _worldMap = worldMap;
 
         _meshBuilder.CreateChunkMesh(chunkIndex, worldMap, material, textureSize, atlasSize);
-        // SpawnPoolObjects();
+        SpawnPoolObjects();
     }
 
-    /*
     private void SpawnPoolObjects()
     {
-        Debug.Log(_worldMap.GetLength(0));
-        Debug.Log(_worldMap.GetLength(1));
         for (int y = 0; y < _worldMap.GetLength(1); y++)
         {
             for (int x = 0; x < _worldMap.GetLength(0); x++)
             {
-
-                Debug.Log((BlockType)_worldMap[x, y]);
                 IPoolable newPoolable = ObjectPool.Instance.Take((BlockType)_worldMap[x, y]);
 
                 if (newPoolable == null) continue;
@@ -49,7 +44,6 @@ public class Chunk : MonoBehaviour
             }
         }
     }
-    */
 
     private void CacheComponents()
     {

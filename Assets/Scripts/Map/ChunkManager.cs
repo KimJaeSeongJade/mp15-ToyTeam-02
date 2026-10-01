@@ -72,6 +72,7 @@ public class ChunkManager : MonoBehaviour
         }
 
         _oldestChunkIndex = 0;
+        Debug.Log("Map Loaded!");
     }
 
     private void CreateChunkPool()
