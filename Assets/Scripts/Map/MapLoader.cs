@@ -29,8 +29,8 @@ public class MapLoader : MonoBehaviour
             Debug.Log("Web Request Error!");
             yield break;
         }
+
         ParseMapData(www.downloadHandler.text);
-        PrintMapData();
         Map.Instance.SetMapData(_worldMap);
         CanLoadMap = true;
     }
@@ -60,21 +60,6 @@ public class MapLoader : MonoBehaviour
             }
         }
 
-        Debug.Log($"Map Data loaded! Row : {row}, Column = {column}");
-    }
-
-    // 디버깅용
-    private void PrintMapData()
-    {
-        Debug.Log("WorldMap");
-        for (int j = _worldMap.GetLength(1) - 1; j >= 0; j--)
-        {
-            string a = "";
-            for (int i = 0; i < _worldMap.GetLength(0); i++)
-            {
-                a += $"{_worldMap[i, j]} ";
-            }
-            Debug.Log(a);
-        }
+        // Debug.Log($"Map Data loaded! Row : {row}, Column = {column}");
     }
 }
