@@ -15,24 +15,26 @@ public class TimerUI : UIBase
     // 활성화되는 게이지바
     [SerializeField] private Image _bar;
 
-    private void Awake()
+    protected override void Awake()
     {
+        base.Awake();
         _elapsedTime = 0;
     }
     private void Update()
     {
-        _bar.fillAmount = _elapsedTime/ _delayTime;
+        _bar.fillAmount = _elapsedTime / _delayTime;
     }
     private void OnTriggerStay(Collider other)
-    {
+    {        
         CurrentTime();
     }
 
-    private void OnTriggerExit(Collider other)
+    protected override void OnTriggerExit(Collider other)
     {
+        base.OnTriggerExit(other);
         _elapsedTime = 0;
     }
-    
+
     public override void PlayUI()
     {
         Debug.Log("UI활성화");
