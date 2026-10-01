@@ -4,12 +4,11 @@ using UnityEngine;
 
 public class RailItem : MonoBehaviour, IInteractable, IStackable, IPoolable
 {
-    private int count;
+    private int currentCount = 1;
     private int maxStack = 3;
     
-    private RailItem nextRailItem;
-    private RailItem prevRailItem;
-
+    // true라면 타일로써의 레일, flase라면 아이템으로써의 레일
+    [SerializeField] private bool isRailWay = false;
     private Outline _outline;
     
     /// <summary>
@@ -25,7 +24,7 @@ public class RailItem : MonoBehaviour, IInteractable, IStackable, IPoolable
     /// <summary>
     /// 쌓인 개수
     /// </summary>
-    public int Count => count;
+    public int Count => currentCount;
     
     /// <summary>
     /// 최대로 소지 가능한 개수
