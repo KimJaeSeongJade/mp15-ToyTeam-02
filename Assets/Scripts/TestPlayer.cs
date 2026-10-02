@@ -7,6 +7,7 @@ public class TestPlayer : MonoBehaviour
    [SerializeField] private Rail railOnMap;
    [SerializeField] private Rail railInHand;
    [SerializeField] private Rail lastRailWayOnMap;
+   
    private bool isTargeting;
    
    private void Update()
@@ -22,7 +23,9 @@ public class TestPlayer : MonoBehaviour
       // 상호작용 오브젝트 감지시 테두리 전환
       if (Input.GetKeyDown(KeyCode.Space))
       {
-         OutlineTest();
+         
+         PrefabRotateTest();
+         //OutlineTest();
       }
       
       lastRailWayOnMap.Targeted();
@@ -32,6 +35,11 @@ public class TestPlayer : MonoBehaviour
          ButtonInteractTest();
       }
          
+   }
+
+   private void PrefabRotateTest()
+   {
+      railOnMap.ChangeRailShape(RailShape.DownToLeftCurve);
    }
    
    private void AutoInteractTest()
