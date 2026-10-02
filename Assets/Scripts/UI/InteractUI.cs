@@ -4,9 +4,24 @@ using UnityEngine;
 
 public class InteractUI : UIBase
 {
-    private void OnTriggerStay(Collider other)
+    // Collider에 올라왔는지 확인하는 bool
+    private bool _isOnTrigger;
+
+    protected override void OnTriggerEnter(Collider other)
     {
-        if(Input.GetKeyDown(KeyCode.A))
+        base.OnTriggerEnter(other);
+        _isOnTrigger = true;
+    }
+
+    protected override void OnTriggerExit(Collider other)
+    {
+        base.OnTriggerExit(other);
+        _isOnTrigger = false;
+    }
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.A) && _isOnTrigger)
         {
             PlayUI();
         }

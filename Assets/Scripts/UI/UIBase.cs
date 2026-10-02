@@ -22,8 +22,7 @@ public abstract class UIBase : MonoBehaviour
     {
         _onImage = GetComponentsInChildren<Image>()[0];
         _offImage = GetComponentsInChildren<Image>()[1];
-        Debug.Log(_onImage.name);
-        Debug.Log(_offImage.name);
+        
         _onImage.gameObject.SetActive(false);
     }
     // UI에 Enter시 OnImage활성화
