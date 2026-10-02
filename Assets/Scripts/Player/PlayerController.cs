@@ -17,16 +17,25 @@ public class PlayerController : MonoBehaviour
     private Dictionary<IInteractable, float> _canTargetDict;
     private IInteractable _target;
     private KeyCode _dashKey = KeyCode.LeftShift;
+    private KeyCode _interactKey = KeyCode.Space;
+    private KeyCode _dropKey = KeyCode.Q;
     private bool _isPressedDashKey => Input.GetKeyDown(_dashKey);
+    private bool _isPressedInteractKey => Input.GetKeyDown(_interactKey);
+    private bool _isPressedDropKey => Input.GetKeyDown(_dropKey);
 
     // ------------------------------
     private void Awake() => CacheComponents();
     private void Start() => Init();
+    private void FixedUpdate()
+    {
+        _player.Move(_direction);
+    }
     private void Update()
     {
         ReadMove();
         ReadDash();
         DetectInteractable();
+        ReadInteract();
     }
     private void OnDrawGizmos()
     {
@@ -42,10 +51,6 @@ public class PlayerController : MonoBehaviour
         Gizmos.color = Color.yellow;
         Gizmos.DrawRay(transform.position, leftDir * _detectRange.Range);
         Gizmos.DrawRay(transform.position, rightDir * _detectRange.Range);
-    }
-    private void FixedUpdate()
-    {
-        _player.Move(_direction);
     }
     // ------------------------------
 
@@ -106,6 +111,13 @@ public class PlayerController : MonoBehaviour
             _target = target;
             _target?.Targeted();
         }
+    }
+
+    private void ReadInteract()
+    {
+        if (!_isPressedInteractKey) return;
+
+        _player.TryButtonInteract(_target);
     }
 
     private void CacheComponents()
