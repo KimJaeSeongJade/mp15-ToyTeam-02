@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MaterialTestPlayer : MonoBehaviour
+public class MaterialTestPlayer : MonoBehaviour, IInteractable
 {
     [SerializeField] private Tree _tree;
     [SerializeField] private Axe _axe;
@@ -13,14 +13,26 @@ public class MaterialTestPlayer : MonoBehaviour
         Debug.Log(_axe);
         _tree.AutoInteract(_axe.GetComponent<IInteractable>());
     }
-
-    private void Update()
+    
+    public GameObject GameObject { get; }
+    public BlockType BlockType { get; }
+    public void AutoInteract(IInteractable interactable)
     {
-        if (Input.GetKeyDown(KeyCode.Q))
-        {
-            Intteract();
-           
-        }
+        throw new System.NotImplementedException();
     }
 
+    public IInteractable ButtonInteract(IInteractable interactable)
+    {
+        throw new System.NotImplementedException();
+    }
+
+    public void Targeted()
+    {
+        Intteract();
+    }
+
+    public void Untargeted()
+    {
+        throw new System.NotImplementedException();
+    }
 }
