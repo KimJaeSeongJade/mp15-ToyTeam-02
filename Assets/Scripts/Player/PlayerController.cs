@@ -18,10 +18,8 @@ public class PlayerController : MonoBehaviour
     private IInteractable _target;
     private KeyCode _dashKey = KeyCode.LeftShift;
     private KeyCode _interactKey = KeyCode.Space;
-    private KeyCode _dropKey = KeyCode.Q;
     private bool _isPressedDashKey => Input.GetKeyDown(_dashKey);
     private bool _isPressedInteractKey => Input.GetKeyDown(_interactKey);
-    private bool _isPressedDropKey => Input.GetKeyDown(_dropKey);
 
     // ------------------------------
     private void Awake() => CacheComponents();
@@ -36,6 +34,7 @@ public class PlayerController : MonoBehaviour
         ReadDash();
         DetectInteractable();
         ReadInteract();
+        AutoInteract();
     }
     private void OnDrawGizmos()
     {
@@ -105,6 +104,12 @@ public class PlayerController : MonoBehaviour
             }
         }
 
+        if (target == null)
+        {
+            Vector2Int playerCoord = transform.position.WorldToCoord();
+            target = Map.Instance.GetInteractable(playerCoord);
+        }
+
         if (_target != target)
         {
             _target?.Untargeted();
@@ -118,6 +123,11 @@ public class PlayerController : MonoBehaviour
         if (!_isPressedInteractKey) return;
 
         _player.TryButtonInteract(_target);
+    }
+
+    private void AutoInteract()
+    {
+        _player.TryAutoInteract(_target);
     }
 
     private void CacheComponents()

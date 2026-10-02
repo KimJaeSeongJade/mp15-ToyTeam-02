@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.XR;
 
 /// <summary>
 /// 플레이어가 손에 든 아이템 정보 저장
@@ -24,28 +23,15 @@ public class PlayerHand : MonoBehaviour
     }
 
     /// <summary>
-    /// 플레이어가 손에 든 아이템의 위치를 Vector3로 저장
+    /// 플레이어가 손에 든 아이템의 위치
     /// </summary>
-    public Vector3 ItemVector3Position
+    public Vector3 ItemPosition
     {
         get => _item.GameObject.transform.position;
 
         set
         {
             _item.GameObject.transform.position = value;
-        }
-    }
-
-    /// <summary>
-    /// 플레이어가 손에 든 아이템의 위치를 Vector2로 저장
-    /// </summary>
-    public Vector2Int ItemVector2Position
-    {
-        get => _item.GameObject.transform.position.WorldToCoord();
-
-        set
-        {
-            _item.GameObject.transform.position = value.CoordToWorld();
         }
     }
 

@@ -2,28 +2,31 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ToolTest : MonoBehaviour, IInteractable
+public class ResourceTest : MonoBehaviour, IInteractable
 {
+    [SerializeField] private Material _baseMaterial;
+    [SerializeField] private Material _selectedMaterial;
+
     public GameObject GameObject { get => gameObject; }
     public BlockType BlockType { get; }
 
     public void AutoInteract(IInteractable interactable)
     {
-
+        Debug.Log("AutoInteract");
     }
 
     public IInteractable ButtonInteract(IInteractable interactable)
     {
-        return this;
+        return interactable;
     }
 
     public void Targeted()
     {
-        Debug.Log($"{this} Targeted");
+        gameObject.GetComponent<MeshRenderer>().material = _selectedMaterial;
     }
 
     public void Untargeted()
     {
-        Debug.Log($"{this} Untargeted");
+        gameObject.GetComponent<MeshRenderer>().material = _baseMaterial;
     }
 }
