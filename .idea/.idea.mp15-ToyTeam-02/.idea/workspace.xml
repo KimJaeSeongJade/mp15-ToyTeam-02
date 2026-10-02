@@ -11,17 +11,20 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="2f893ae6-9721-4960-956d-cb16e1060b0a" name="변경" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/.idea.mp15-ToyTeam-02/.idea/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/.idea.mp15-ToyTeam-02/.idea/encodings.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/.idea.mp15-ToyTeam-02/.idea/indexLayout.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/.idea.mp15-ToyTeam-02/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Scenes/HuiSu/HuiSu.unity" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Scenes/HuiSu/HuiSu.unity.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Scripts/RailItem.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Scripts/RailItem.cs.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Scripts/RailPoolManager.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Scripts/RailPoolManager.cs.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ProjectSettings/Packages/com.unity.testtools.codecoverage/Settings.json" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectSettings/Packages/com.unity.testtools.codecoverage/Settings.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Test/YoungGyu/Script/Material.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Test/YoungGyu/Script/PlayerTest.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Test/YoungGyu/Script/Resource.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Test/YoungGyu/Script/TestTree.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scenes/YoungGyu/KYE.unity" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scenes/YoungGyu/KYE.unity.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Test/YoungGyu/Material.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Test/YoungGyu/Material.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Test/YoungGyu/PlayerTest.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Test/YoungGyu/PlayerTest.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Test/YoungGyu/Resource.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Test/YoungGyu/Resource.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Test/YoungGyu/TestTree.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Test/YoungGyu/TestTree.cs.meta" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -108,6 +111,7 @@
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
+    "ModuleVcsDetector.initialDetectionPerformed": "true",
     "RunOnceActivity.MCP Project settings loaded": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.cidr.known.project.marker": "true",
@@ -116,7 +120,7 @@
     "RunOnceActivity.typescript.service.memoryLimit.init": "true",
     "cidr.known.project.marker": "true",
     "codeWithMe.voiceChat.enabledByDefault": "false",
-    "git-widget-placeholder": "main",
+    "git-widget-placeholder": "younggyu__Tree__rock",
     "ignore.virus.scanning.warn.message": "true",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
