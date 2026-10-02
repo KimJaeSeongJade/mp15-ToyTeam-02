@@ -28,7 +28,7 @@ public abstract class UIBase : MonoBehaviour
     // UI에 Enter시 OnImage활성화
     protected virtual void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.CompareTag("Player"))
+        if (other.gameObject.layer == 6)
         {
             _onImage.gameObject.SetActive(true);
             _offImage.gameObject.SetActive(false);
