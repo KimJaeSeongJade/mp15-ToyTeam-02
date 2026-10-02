@@ -64,25 +64,16 @@ public class PlayerAction : MonoBehaviour
     /// <param name="target"> 선택된 IInteractable </param>
     public void TryButtonInteract(IInteractable target)
     {
-        // 선택된 IInteractable이 없다면
         if (target == null)
         {
-            // 플레이어 위치의 IInteractable을 선택
             Vector2Int playerCoord = transform.position.WorldToCoord();
-            target = Map.Instance.GetInteractable(playerCoord);
-
-            // 그래도 선택된 IInteractable이 없다면 손에 든 IInteractable을 내려 놓기
-            if (target == null)
-            {
-                DropItem(playerCoord);
-                return;
-            }
+            DropItem(playerCoord);
+            return;
         }
 
         Vector2Int targetCoord = target.GameObject.transform.position.WorldToCoord();
         bool canInteract = target.ButtonInteract(_hand.Item) != _hand.Item;
 
-        // 선택된 IInteractable이 상호작용 가능하면 바꿔들기
         if (canInteract)
         {
             DropItem(targetCoord);
@@ -93,7 +84,7 @@ public class PlayerAction : MonoBehaviour
     private void PickUpItem(IInteractable newInteractable)
     {
         _hand.Item = newInteractable;
-        _hand.ItemVector3Position = _hand.transform.position;
+        _hand.ItemPosition = _hand.transform.position;
         _hand.ItemParent = _hand.transform;
     }
 
@@ -104,10 +95,21 @@ public class PlayerAction : MonoBehaviour
 
         if (_hand.Item != null)
         {
-            _hand.ItemVector2Position = position;
+            _hand.ItemPosition = position.CoordToWorld();
             _hand.ItemParent = null;
             _hand.Item = null;
         }
+    }
+
+    /// <summary>
+    /// 선택된 IInteractable과 자동 상호작용
+    /// </summary>
+    public void TryAutoInteract(IInteractable target)
+    {
+        if (_hand.Item == null || target == null) return;
+
+        Debug.Log($"{_hand.Item} / {target}");
+        target.AutoInteract(_hand.Item);
     }
 
     private void CacheComponents()
