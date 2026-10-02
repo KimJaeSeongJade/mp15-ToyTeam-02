@@ -9,7 +9,7 @@ public class ToolTest : MonoBehaviour, IInteractable
 
     public void AutoInteract(IInteractable interactable)
     {
-        
+
     }
 
     public IInteractable ButtonInteract(IInteractable interactable)
@@ -25,6 +25,6 @@ public class ToolTest : MonoBehaviour, IInteractable
 
     public void Untargeted()
     {
-       Debug.Log($"{this} Untargeted");
+        Debug.Log($"{this} Untargeted");
     }
 }
