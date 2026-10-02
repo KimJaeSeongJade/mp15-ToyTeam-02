@@ -10,7 +10,7 @@ public class Rail : MonoBehaviour, IInteractable, IStackable, IPoolable
     // true라면 타일로써의 레일, flase라면 아이템으로써의 레일 상태
     [SerializeField] private bool isRailWay = false;
     private Outline _outline;
-
+    
     /// <summary>
     /// 자신의 게임 오브젝트
     /// </summary>
@@ -73,13 +73,13 @@ public class Rail : MonoBehaviour, IInteractable, IStackable, IPoolable
     /// 플레이어가 raycast로 자동 상호작용 (레일 아이템 합쳐지기)
     /// </summary>
     /// <param name="interactable"> 플레이어가 손에 들고 있는 IInteractable </param>
-    public void AutoInteract(IInteractable interactable)
+    public void AutoInteract(IInteractable inPlayerHand)
     {
         // 레일의 상태가 RailWay 타일 상태라면 합쳐지지 않기
         if (isRailWay) return;
         
         // 플레이어가 접근한 오브젝트가 Rail 이면서, 아이템으로써의 레일인 경우
-        if (interactable is Rail RailOnHand && RailOnHand.BlockType == BlockType.Rail) 
+        if (inPlayerHand is Rail RailOnHand && RailOnHand.BlockType == BlockType.Rail) 
         {
             // 자기자신과 상호작용하지 않게 예외처리
             if (RailOnHand == this) return;
@@ -125,6 +125,7 @@ public class Rail : MonoBehaviour, IInteractable, IStackable, IPoolable
         // 1. 플레이어가 버튼을 눌러 손에든 레일아이템을 설치하는 경우
         if (inPlayerHand != null && inPlayerHand.BlockType == BlockType.Rail)
         {
+            
             // 기존의 맵위에 레일타일이 설치되지 않았을경우에만 레일 타일 설치
             if (!isRailWay)
             {
@@ -139,8 +140,10 @@ public class Rail : MonoBehaviour, IInteractable, IStackable, IPoolable
         // 2. 아무것도 들지 않은채로 버튼을 눌러 레일타일을 회수하는 경우 
         if (inPlayerHand == null)
         {
+            Debug.Log("플레이어가 아무것도 들지않는 조건문 진입");
             if (isRailWay)
             {
+                Debug.Log("바닥의 레일이 레일타일인 조건문 진입");
                 RemoveRailWay();
             }
             // 플레이어가 뽑아 타일에서 제거되어 레일아이템 상태가 된 자신을 반환
@@ -164,8 +167,11 @@ public class Rail : MonoBehaviour, IInteractable, IStackable, IPoolable
 
     public void RemoveRailWay()
     {
+        Debug.Log("바닥에서 레일제거하는 함수 진입");
         // 타일에서 제거되었으므로 레일 아이템으로 상태변경
         isRailWay = false;
+        
+        ReturnToPool(this);
         
         /* 설치될때 레일매니저 클래스를 통해 레일 모양 변경해야 하므로
         SetRailLink()
@@ -196,6 +202,7 @@ public class Rail : MonoBehaviour, IInteractable, IStackable, IPoolable
     /// <param name="poolable"> 자기 자신의 IPoolable </param>
     public void ReturnToPool(IPoolable poolable)
     {
+        Debug.Log("오브젝트 풀로 되돌리는 함수 진입");
         if (_outline != null)
         {
             _outline.enabled = false;
