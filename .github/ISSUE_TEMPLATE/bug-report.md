@@ -1,7 +1,7 @@
 ---
 name: Bug Report
 about: 오류나 문제점이 발생하면 사용하는 템플릿
-title: '[BUG] '
+title: '[Bug] '
 labels: 'bug'
 assignees: ''
 ---
