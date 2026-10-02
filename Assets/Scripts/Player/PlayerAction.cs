@@ -12,6 +12,7 @@ public class PlayerAction : MonoBehaviour
 
     private Rigidbody _playerBody;
     private float _moveSpeed;
+    private PlayerHand _hand;
     private WaitForSeconds _waitDashDuration = new WaitForSeconds(0.2f);
     private WaitForSeconds _waitDashCooldown = new WaitForSeconds(1f);
     private bool _canDash;
@@ -58,19 +59,61 @@ public class PlayerAction : MonoBehaviour
     }
 
     /// <summary>
-    /// 선택된 IInteractable와 손에 들고 있는 IInteractable를 전달 받아 선택된 IInteractable 상호작용 메서드를 호출
+    /// 손에 든 IInteractable을 선택된 IInteractable과 바꿔 들기, 선택된 IInteractable이 없다면 내려 놓기
     /// </summary>
     /// <param name="target"> 선택된 IInteractable </param>
-    /// <param name="handItem"> 손에 들고 있는 IInteractable </param>
-    /// <returns> 상호작용 이후 플레이어가 들어야 할 IInteractable </returns>
-    public IInteractable TryInteract(IInteractable target, IInteractable handItem)
+    public void TryButtonInteract(IInteractable target)
     {
-        return target.ButtonInteract(handItem);
+        // 선택된 IInteractable이 없다면
+        if (target == null)
+        {
+            // 플레이어 위치의 IInteractable을 선택
+            Vector2Int playerCoord = transform.position.WorldToCoord();
+            target = Map.Instance.GetInteractable(playerCoord);
+
+            // 그래도 선택된 IInteractable이 없다면 손에 든 IInteractable을 내려 놓기
+            if (target == null)
+            {
+                DropItem(playerCoord);
+                return;
+            }
+        }
+
+        Vector2Int targetCoord = target.GameObject.transform.position.WorldToCoord();
+        bool canInteract = target.ButtonInteract(_hand.Item) != _hand.Item;
+
+        // 선택된 IInteractable이 상호작용 가능하면 바꿔들기
+        if (canInteract)
+        {
+            DropItem(targetCoord);
+            PickUpItem(target);
+        }
+    }
+
+    private void PickUpItem(IInteractable newInteractable)
+    {
+        _hand.Item = newInteractable;
+        _hand.ItemVector3Position = _hand.transform.position;
+        _hand.ItemParent = _hand.transform;
+    }
+
+    
+    private void DropItem(Vector2Int position)
+    {
+        Map.Instance.SetInteractable(position, _hand.Item);
+
+        if (_hand.Item != null)
+        {
+            _hand.ItemVector2Position = position;
+            _hand.ItemParent = null;
+            _hand.Item = null;
+        }
     }
 
     private void CacheComponents()
     {
         _playerBody = GetComponent<Rigidbody>();
+        _hand = GetComponentInChildren<PlayerHand>();
     }
 
     private void Init()

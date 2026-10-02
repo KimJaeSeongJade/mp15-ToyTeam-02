@@ -9,7 +9,11 @@ public class Map : MonoBehaviour
     private int[,] _worldMap;
     private IInteractable[,] _interactableMap;
 
-    private void Awake() => SetSingleton();
+    private void Awake()
+    {
+        SetSingleton();
+        _interactableMap = new IInteractable[ChunkManager.CHUNK_SIZE, ChunkManager.CHUNK_SIZE];
+    }
 
     private void SetSingleton()
     {

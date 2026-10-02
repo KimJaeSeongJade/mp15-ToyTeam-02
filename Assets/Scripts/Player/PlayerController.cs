@@ -16,11 +16,12 @@ public class PlayerController : MonoBehaviour
     private List<IInteractable> _canTargetList;
     private Dictionary<IInteractable, float> _canTargetDict;
     private IInteractable _target;
-    private IInteractable _handItem;
     private KeyCode _dashKey = KeyCode.LeftShift;
     private KeyCode _interactKey = KeyCode.Space;
+    private KeyCode _dropKey = KeyCode.Q;
     private bool _isPressedDashKey => Input.GetKeyDown(_dashKey);
     private bool _isPressedInteractKey => Input.GetKeyDown(_interactKey);
+    private bool _isPressedDropKey => Input.GetKeyDown(_dropKey);
 
     // ------------------------------
     private void Awake() => CacheComponents();
@@ -116,7 +117,7 @@ public class PlayerController : MonoBehaviour
     {
         if (!_isPressedInteractKey) return;
 
-        _handItem = _player.TryInteract(_target, _handItem);
+        _player.TryButtonInteract(_target);
     }
 
     private void CacheComponents()
