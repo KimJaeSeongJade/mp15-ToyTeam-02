@@ -10,6 +10,7 @@ public class PlayerTest : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Alpha1))
         {
+           
             _tree = ObjectPool.Instance.Take(BlockType.Tree);
             _tree.GameObject.SetActive(true);
             _tree.GameObject.transform.position = transform.position;
@@ -17,7 +18,7 @@ public class PlayerTest : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.Alpha2))
         {
-            _tree.GameObject.GetComponent<TestTree>().OnMined();
+            _tree.GameObject.GetComponent<Tree>().OnMined();
            
         }
 

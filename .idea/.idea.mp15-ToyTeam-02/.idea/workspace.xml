@@ -11,20 +11,15 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="2f893ae6-9721-4960-956d-cb16e1060b0a" name="변경" comment="">
-      <change afterPath="$PROJECT_DIR$/Assets/Test/YoungGyu/Script/Material.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Test/YoungGyu/Script/PlayerTest.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Test/YoungGyu/Script/Resource.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Test/YoungGyu/Script/TestTree.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scenes/YoungGyu/KYE.unity" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scenes/YoungGyu/KYE.unity.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Test/YoungGyu/Material.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Test/YoungGyu/Material.cs.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Test/YoungGyu/PlayerTest.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Test/YoungGyu/PlayerTest.cs.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Test/YoungGyu/Resource.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Test/YoungGyu/Resource.cs.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Test/YoungGyu/TestTree.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Test/YoungGyu/TestTree.cs.meta" beforeDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Test/YoungGyu/Script/TestRock.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.mp15-ToyTeam-02/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.mp15-ToyTeam-02/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scenes/YoungGyu/PlayerMoveScene.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/YoungGyu/PlayerMoveScene.unity" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Test/Jeonghan/ToolTest.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Test/Jeonghan/ToolTest.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Test/YoungGyu/Script/PlayerTest.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Test/YoungGyu/Script/PlayerTest.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Test/YoungGyu/Script/Resource.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Test/YoungGyu/Script/Resource.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Test/YoungGyu/Script/TestTree.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Test/YoungGyu/Script/TestTree.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Test/YoungGyu/prefab/ObjectPool.prefab" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Test/YoungGyu/prefab/ObjectPool.prefab.meta" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -35,6 +30,9 @@
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="HighlightingSettingsPerFile">
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/37cc348edc804f4cb176b63962c716e7177200/78/85a51be4/Object.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Test/YoungGyu/Script/TestRock.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Test/YoungGyu/Script/playerTest.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/ProjectSettings/Packages/com.unity.testtools.codecoverage/Settings.json" root0="FORCE_HIGHLIGHTING" />
   </component>
   <component name="McpProjectServerCommands">
@@ -109,26 +107,26 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "ModuleVcsDetector.initialDetectionPerformed": "true",
-    "RunOnceActivity.MCP Project settings loaded": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.cidr.known.project.marker": "true",
-    "RunOnceActivity.git.unshallow": "true",
-    "RunOnceActivity.readMode.enableVisualFormatting": "true",
-    "RunOnceActivity.typescript.service.memoryLimit.init": "true",
-    "cidr.known.project.marker": "true",
-    "codeWithMe.voiceChat.enabledByDefault": "false",
-    "git-widget-placeholder": "younggyu__Tree__rock",
-    "ignore.virus.scanning.warn.message": "true",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.MCP Project settings loaded&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.cidr.known.project.marker&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.readMode.enableVisualFormatting&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.typescript.service.memoryLimit.init&quot;: &quot;true&quot;,
+    &quot;cidr.known.project.marker&quot;: &quot;true&quot;,
+    &quot;codeWithMe.voiceChat.enabledByDefault&quot;: &quot;false&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;younggyu__Tree__rock&quot;,
+    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;
   }
-}]]></component>
+}</component>
   <component name="RunManager" selected="Unity 에디터에 연결.Unity 에디터에 연결">
     <configuration name="유닛 테스트(배치 모드)" type="RunUnityExe" factoryName="Unity Executable">
       <option name="EXE_PATH" value="C:\Program Files\Unity\Hub\Editor\2022.3.62f3\Editor\Unity.exe" />
