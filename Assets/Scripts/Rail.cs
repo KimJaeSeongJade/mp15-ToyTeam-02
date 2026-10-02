@@ -63,7 +63,7 @@ public class Rail : MonoBehaviour, IInteractable, IStackable, IPoolable
       
     }
     
-    // 컴포넌트 초기화
+    
     private void CacheComponents()
     {
         _outline = GetComponent<Outline>();
@@ -140,10 +140,10 @@ public class Rail : MonoBehaviour, IInteractable, IStackable, IPoolable
         // 2. 아무것도 들지 않은채로 버튼을 눌러 레일타일을 회수하는 경우 
         if (inPlayerHand == null)
         {
-            Debug.Log("플레이어가 아무것도 들지않는 조건문 진입");
+           
             if (isRailWay)
             {
-                Debug.Log("바닥의 레일이 레일타일인 조건문 진입");
+               
                 RemoveRailWay();
             }
             // 플레이어가 뽑아 타일에서 제거되어 레일아이템 상태가 된 자신을 반환
@@ -153,21 +153,27 @@ public class Rail : MonoBehaviour, IInteractable, IStackable, IPoolable
         // 3. 조건에 맞지 않는경우는 플레이어의 손에 든 상태 유지
         return inPlayerHand;
     }
-
+    
+    /// <summary>
+    /// 레일타일을 맵에 배치
+    /// </summary>
     public void SetupRailWay()
     {
         // 맵에 설치되었으므로 레일타일로 상태변경
         isRailWay = true;
         currentCount = 1;
         
-        /* 설치될때 레일매니저 클래스를 통해 레일 모양 변경해야 하므로
+        /* Todo: 설치될때 레일매니저 클래스를 통해 레일 모양 변경
         SetRailLink()
         */
     }
 
+    /// <summary>
+    /// 레일타일을 맵에서 제거하 
+    /// </summary>
     public void RemoveRailWay()
     {
-        Debug.Log("바닥에서 레일제거하는 함수 진입");
+      
         // 타일에서 제거되었으므로 레일 아이템으로 상태변경
         isRailWay = false;
         
@@ -202,7 +208,7 @@ public class Rail : MonoBehaviour, IInteractable, IStackable, IPoolable
     /// <param name="poolable"> 자기 자신의 IPoolable </param>
     public void ReturnToPool(IPoolable poolable)
     {
-        Debug.Log("오브젝트 풀로 되돌리는 함수 진입");
+        
         if (_outline != null)
         {
             _outline.enabled = false;
