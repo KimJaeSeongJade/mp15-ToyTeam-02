@@ -8,8 +8,9 @@ public class DummyRock : MonoBehaviour, IPoolable
 
     public BlockType BlockType => BlockType.Rock;
 
-    public void ReturnToPool(IPoolable poolable)
+    public void ReturnToPool()
     {
-        throw new System.NotImplementedException();
+        ObjectPool.Instance.Return(GetComponent<IPoolable>());
+        gameObject.SetActive(false);
     }
 }

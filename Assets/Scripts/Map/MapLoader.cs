@@ -6,9 +6,17 @@ using UnityEngine.Networking;
 
 public class MapLoader : MonoBehaviour
 {
+    /// <summary>
+    /// 저장한 월드맵
+    /// </summary>
     public int[,] WorldMap => _worldMap;
 
-    private int[,] _worldMap;
+    // _worldMap <청크의 인덱스, 청크의 로컬맵>
+    private int[,] _worldMap; 
+
+    /// <summary>
+    /// 외부에서 맵 정보를 읽어와서 배열로 저장한 여부
+    /// </summary>
     public bool CanLoadMap { get; private set; }
 
     private void Start()
@@ -45,6 +53,7 @@ public class MapLoader : MonoBehaviour
         int row = lines.Length - rowStartIndex;
         int column = lines[0].Split('\t').Length - columnStartIndex;
 
+        int totalChunk = (column - 1) % ChunkManager.CHUNK_SIZE;
 
         _worldMap = new int[column, row];
 

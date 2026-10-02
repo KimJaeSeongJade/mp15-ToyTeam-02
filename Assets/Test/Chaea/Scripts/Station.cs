@@ -2,11 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class DummyTree : MonoBehaviour, IPoolable
+public class Station : MonoBehaviour, IPoolable
 {
-    public GameObject GameObject => gameObject;
+    public GameObject GameObject { get => gameObject; }
 
-    public BlockType BlockType => BlockType.Tree;
+    public BlockType BlockType { get => BlockType.Station; }
 
     public void ReturnToPool()
     {

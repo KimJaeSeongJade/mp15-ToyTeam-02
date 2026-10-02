@@ -9,7 +9,7 @@ public enum BlockType
     Rock,
     Water,
     Obstacle,
-    Platform,
+    Station,
 
     RailWay,
     Rail,

@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class ChunkManager : MonoBehaviour
 {
+    /// <summary>
+    /// 청크 한 변의 길이
+    /// </summary>
     public const int CHUNK_SIZE = 20;
 
     [SerializeField] private Transform _targetTransform; // 청크 스트리밍 기준 타켓의 transform
@@ -18,16 +21,16 @@ public class ChunkManager : MonoBehaviour
     private Queue<Chunk> _loadedChunks = new();
     private int _previousChunkIndex;
     private int _oldestChunkIndex;
-    private bool isInitialLoad;
-
-    public bool canLoadMap => _mapLoader.CanLoadMap;
+    private bool _isInitialLoad;
+    private int[,] _worldMap; // 전체 월드 맵
+    private bool _canLoadMap => _mapLoader.CanLoadMap;
 
     private void Awake() => CreateChunkPool();
     private void Update() => UpdateStreaming();
 
     private void UpdateStreaming()
     {
-        if (!canLoadMap || _targetTransform == null) return;
+        if (!_canLoadMap || _targetTransform == null) return;
 
         if (_loadedChunks.Count == 0) InitialLoad();
 
