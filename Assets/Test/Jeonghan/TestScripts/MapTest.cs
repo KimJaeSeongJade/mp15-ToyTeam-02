@@ -16,6 +16,7 @@ public class MapTest : MonoBehaviour
         foreach(GameObject interactable in interactables)
         {
             Map.Instance.SetInteractable(interactable.transform.position.WorldToCoord(), interactable.GetComponent<IInteractable>());
+            interactable.transform.position = interactable.transform.position.WorldToCoord().CoordToWorld();
         }
 
         foreach(GameObject interactable in interactables)
