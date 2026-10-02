@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class InteractUI : UIBase
 {
+    private KeyCode _interactKey => KeyCode.Space;
+
     // Collider에 올라왔는지 확인하는 bool
     private bool _isOnTrigger;
 
@@ -27,7 +29,7 @@ public class InteractUI : UIBase
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.A) && _isOnTrigger)
+        if (Input.GetKeyDown(_interactKey) && _isOnTrigger)
         {
             PlayUI();
         }
