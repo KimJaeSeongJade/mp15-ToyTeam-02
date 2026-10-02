@@ -11,7 +11,6 @@ public enum BlockType
     Obstacle,
     Station,
 
-    RailWay,
     Rail,
     Wood,
     Iron,
