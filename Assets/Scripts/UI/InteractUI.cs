@@ -10,13 +10,19 @@ public class InteractUI : UIBase
     protected override void OnTriggerEnter(Collider other)
     {
         base.OnTriggerEnter(other);
-        _isOnTrigger = true;
+        if (other.gameObject.layer == 6)
+        {
+            _isOnTrigger = true;
+        }
     }
 
     protected override void OnTriggerExit(Collider other)
     {
         base.OnTriggerExit(other);
-        _isOnTrigger = false;
+        if (other.gameObject.layer == 6)
+        {
+            _isOnTrigger = false;
+        }
     }
 
     private void Update()

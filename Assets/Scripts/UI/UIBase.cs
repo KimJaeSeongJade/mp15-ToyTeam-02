@@ -28,15 +28,21 @@ public abstract class UIBase : MonoBehaviour
     // UI에 Enter시 OnImage활성화
     protected virtual void OnTriggerEnter(Collider other)
     {
-        _onImage.gameObject.SetActive(true);
-        _offImage.gameObject.SetActive(false);
+        if (other.gameObject.CompareTag("Player"))
+        {
+            _onImage.gameObject.SetActive(true);
+            _offImage.gameObject.SetActive(false);
+        }
     }
 
     // UI에 Exit시 OnImage비활성화
     protected virtual void OnTriggerExit(Collider other)
     {
-        _offImage.gameObject.SetActive(true);
-        _onImage.gameObject.SetActive(false);
+        if (other.gameObject.layer == 6)
+        {
+            _offImage.gameObject.SetActive(true);
+            _onImage.gameObject.SetActive(false);
+        }
     }
 
     // 각 UI별 기능 작동

@@ -25,14 +25,20 @@ public class TimerUI : UIBase
         _bar.fillAmount = _elapsedTime / _delayTime;
     }
     private void OnTriggerStay(Collider other)
-    {        
-        CurrentTime();
+    {
+        if (other.gameObject.layer == 6)
+        {
+            CurrentTime();
+        }
     }
 
     protected override void OnTriggerExit(Collider other)
     {
         base.OnTriggerExit(other);
-        _elapsedTime = 0;
+        if (other.gameObject.layer == 6)
+        {
+            _elapsedTime = 0;
+        }
     }
 
     public override void PlayUI()
