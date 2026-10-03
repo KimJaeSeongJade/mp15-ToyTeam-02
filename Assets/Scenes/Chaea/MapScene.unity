@@ -155,6 +155,8 @@ MonoBehaviour:
   - {fileID: 2390541082046146445, guid: fa70d302e80e84d4f9b38abe9e61385c, type: 3}
   - {fileID: 7254555343520438022, guid: b67cfc2542f88bf43a357dce1de0231e, type: 3}
   - {fileID: 5610440037511451557, guid: 2648ad47bb935134ca166ee029b9057c, type: 3}
+  - {fileID: 1502992922404576112, guid: e5ef77f85b155274e8ee9f41226907fa, type: 3}
+  - {fileID: 7597181580959295453, guid: 9bfe49e9802a9d840abcbaf28c164447, type: 3}
 --- !u!4 &131395530
 Transform:
   m_ObjectHideFlags: 0
@@ -367,7 +369,7 @@ GameObject:
   - component: {fileID: 701739345}
   - component: {fileID: 701739346}
   m_Layer: 0
-  m_Name: GameObject
+  m_Name: TestObjectPool
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
