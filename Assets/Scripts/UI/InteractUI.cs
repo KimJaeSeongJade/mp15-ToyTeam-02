@@ -30,6 +30,12 @@ public class InteractUI : UIBase
         }
     }
 
+    protected override void OnDisable()
+    {
+        base.OnDisable();
+        _isOnTrigger = false;
+    }
+
     private void Update()
     {
         if (Input.GetKeyDown(_interactKey) && _isOnTrigger)
