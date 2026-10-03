@@ -10,9 +10,10 @@ public class PlayerAction : MonoBehaviour
     private const float BASE_MOVE_SPEED = 5f;
     private const float DASH_SPEED_BONUS = 4f;
 
-    private Rigidbody _playerBody;
     private float _moveSpeed;
+    private Rigidbody _playerBody;
     private PlayerHand _hand;
+    private Animator _animator;
     private WaitForSeconds _waitDashDuration = new WaitForSeconds(0.2f);
     private WaitForSeconds _waitDashCooldown = new WaitForSeconds(1f);
     private bool _canDash;
@@ -30,10 +31,12 @@ public class PlayerAction : MonoBehaviour
     {
         if (direction == Vector3.zero)
         {
+            _animator.SetBool("IsMoving", false);
             _playerBody.velocity = Vector3.zero;
             return;
         }
 
+        _animator.SetBool("IsMoving", true);
         _playerBody.rotation = Quaternion.LookRotation(direction);
         _playerBody.velocity = _playerBody.transform.forward * _moveSpeed;
     }
@@ -83,6 +86,7 @@ public class PlayerAction : MonoBehaviour
 
     private void PickUpItem(IInteractable newInteractable)
     {
+        _animator.SetBool("IsHolding", true);
         _hand.Item = newInteractable;
         _hand.ItemPosition = _hand.transform.position;
         _hand.ItemParent = _hand.transform;
@@ -91,6 +95,7 @@ public class PlayerAction : MonoBehaviour
     
     private void DropItem(Vector2Int position)
     {
+        _animator.SetBool("IsHolding", false);
         Map.Instance.SetInteractable(position, _hand.Item);
 
         if (_hand.Item != null)
@@ -108,7 +113,6 @@ public class PlayerAction : MonoBehaviour
     {
         if (_hand.Item == null || target == null) return;
 
-        Debug.Log($"{_hand.Item} / {target}");
         target.AutoInteract(_hand.Item);
     }
 
@@ -116,6 +120,7 @@ public class PlayerAction : MonoBehaviour
     {
         _playerBody = GetComponent<Rigidbody>();
         _hand = GetComponentInChildren<PlayerHand>();
+        _animator = GetComponentInChildren<Animator>();
     }
 
     private void Init()
