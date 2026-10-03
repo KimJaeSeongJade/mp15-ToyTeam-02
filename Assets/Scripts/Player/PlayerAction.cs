@@ -111,6 +111,15 @@ public class PlayerAction : MonoBehaviour
 
         if (_hand.Item != null)
         {
+            if (_hand.Item.BlockType == BlockType.Rail)
+            {
+                if (RailManager.Instance.TryRailwayPlace(position))
+                {
+                    Rail rail = _hand.Item as Rail;
+                    rail.RemoveRailway();
+                }
+            }
+
             _hand.Item.GameObject.transform.rotation = Quaternion.identity;
             _hand.ItemPosition = position.CoordToWorld();
             _hand.ItemParent = null;

@@ -6,7 +6,9 @@ public class Rail : MonoBehaviour, IInteractable, IStackable, IPoolable
 {
     [SerializeField] private int _currentCount = 1;   // 현재 중첩 갯수
     [SerializeField] private int _maxStack = 3;       // 최대 중첩 갯수
-    [SerializeField] private GameObject _lineRailPrefab;
+    [SerializeField] private GameObject _lineRailPrefabTop;
+    [SerializeField] private GameObject _lineRailPrefabMiddle;
+    [SerializeField] private GameObject _lineRailPrefabBottom;
     [SerializeField] private GameObject _curveRailPrefab;
 
 
@@ -51,7 +53,33 @@ public class Rail : MonoBehaviour, IInteractable, IStackable, IPoolable
             _outline.enabled = false;
         }
 
+        UpdateStackVisuals();
         ChangeRailShape(RailShape.HorizontalLine);
+    }
+
+    private void UpdateStackVisuals()
+    {
+        switch (Count)
+        {
+            case 3:
+                _lineRailPrefabTop.SetActive(true);
+                _lineRailPrefabMiddle.SetActive(true);
+                _lineRailPrefabBottom.SetActive(true);
+                break;
+            case 2:
+                _lineRailPrefabTop.SetActive(false);
+                _lineRailPrefabMiddle.SetActive(true);
+                _lineRailPrefabBottom.SetActive(true);
+                break;
+            case 1:
+                _lineRailPrefabTop.SetActive(false);
+                _lineRailPrefabMiddle.SetActive(false);
+                _lineRailPrefabBottom.SetActive(true);
+                break;
+            case 0:
+                ReturnToPool();
+                break;
+        }
     }
 
     private void CacheComponents()
@@ -79,7 +107,6 @@ public class Rail : MonoBehaviour, IInteractable, IStackable, IPoolable
             {
                 inPlayerRail._currentCount = _maxStack;
                 _currentCount = totalCount - _maxStack;
-
             }
             else
             {
@@ -87,7 +114,10 @@ public class Rail : MonoBehaviour, IInteractable, IStackable, IPoolable
                 _currentCount = 0;
                 ReturnToPool();
             }
-            
+
+            Rail rail = inPlayerHand as Rail;
+            rail.UpdateStackVisuals();
+            UpdateStackVisuals();
         }
     }
 
@@ -98,7 +128,8 @@ public class Rail : MonoBehaviour, IInteractable, IStackable, IPoolable
     /// <returns> 상호작용 이후 플레이어가 들어야 할 IInteractable </returns>
     public IInteractable ButtonInteract(IInteractable inPlayerHand)
     {
-        Debug.Log(IsRailway);
+        // if (inPlayerHand.GameObject == gameObject) return inPlayerHand;
+
         // 1. 플레이어가 버튼을 눌러 손에든 레일아이템을 설치하는 경우
         if (inPlayerHand != null)
         {
@@ -125,12 +156,12 @@ public class Rail : MonoBehaviour, IInteractable, IStackable, IPoolable
                 {
                     RemoveRailway();
                     // 플레이어가 뽑아 타일에서 제거되어 레일아이템 상태가 된 자신을 반환
-                    return this;
                 }
                 
             }
+            return this;
         }
-        
+
         // 3. 조건에 맞지 않는경우는 플레이어의 손에 든 상태 유지
         return inPlayerHand;
     }
@@ -143,14 +174,10 @@ public class Rail : MonoBehaviour, IInteractable, IStackable, IPoolable
         // 맵에 설치되었으므로 레일타일로 상태변경
         IsRailway = true;
         _currentCount = 1;
-        
-        /* Todo: 설치될때 레일매니저 클래스를 통해 레일 모양 변경
-        SetRailLink()
-        */
     }
 
     /// <summary>
-    /// 레일타일을 맵에서 제거하 
+    /// 레일타일을 맵에서 제거
     /// </summary>
     public void RemoveRailway()
     {
@@ -158,13 +185,6 @@ public class Rail : MonoBehaviour, IInteractable, IStackable, IPoolable
         // 타일에서 제거되었으므로 레일 아이템으로 상태변경
         IsRailway = false;
         RailManager.Instance.RemoveLastRailway();
-
-        ReturnToPool();
-        
-        /* 설치될때 레일매니저 클래스를 통해 레일 모양 변경해야 하므로
-        SetRailLink()
-        */
-        // 
     }
 
     /// <summary>
@@ -212,33 +232,33 @@ public class Rail : MonoBehaviour, IInteractable, IStackable, IPoolable
         switch (railShape)
         {
             case RailShape.VerticalLine:
-                _lineRailPrefab.SetActive(true);
+                _lineRailPrefabBottom.SetActive(true);
                 _curveRailPrefab.SetActive(false);
-                _lineRailPrefab.transform.rotation = Quaternion.identity;
+                _lineRailPrefabBottom.transform.rotation = Quaternion.identity;
                 break;
             case RailShape.HorizontalLine:
-                _lineRailPrefab.SetActive(true);
+                _lineRailPrefabBottom.SetActive(true);
                 _curveRailPrefab.SetActive(false);
-                _lineRailPrefab.transform.eulerAngles = new Vector3(0, 90, 0);
+                _lineRailPrefabBottom.transform.eulerAngles = new Vector3(0, 90, 0);
                 break;
             
             case RailShape.DownToRightCurve:
-                _lineRailPrefab.SetActive(false);
+                _lineRailPrefabBottom.SetActive(false);
                 _curveRailPrefab.SetActive(true);
                 _curveRailPrefab.transform.eulerAngles = new Vector3(-90, 0, 0);
                 break;
             case RailShape.UpToRightCurve:
-                _lineRailPrefab.SetActive(false);
+                _lineRailPrefabBottom.SetActive(false);
                 _curveRailPrefab.SetActive(true);
                 _curveRailPrefab.transform.eulerAngles = new Vector3(-90, 90, 0);
                 break;
             case RailShape.UpToLeftCurve:
-                _lineRailPrefab.SetActive(false);
+                _lineRailPrefabBottom.SetActive(false);
                 _curveRailPrefab.SetActive(true);
                 _curveRailPrefab.transform.eulerAngles = new Vector3(-90, 180, 0);
                 break;
             case RailShape.DownToLeftCurve:
-                _lineRailPrefab.SetActive(false);
+                _lineRailPrefabBottom.SetActive(false);
                 _curveRailPrefab.SetActive(true);
                 _curveRailPrefab.transform.eulerAngles = new Vector3(-90, 270, 0);
                 break;
