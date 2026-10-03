@@ -12,7 +12,7 @@ public class UnityEventInteractUI : InteractUI
 
     public UnityEvent OnUIPressed => _onUIPressed;
 
-    public override void PlayUI()
+    protected override void PlayUI()
     {
         OnUIPressed.Invoke();
     }

@@ -18,9 +18,8 @@ public class PanelChange : InteractUI
     }
 
     //현재 패널을 끄고, 다음 패널을 켬. TitleSceneManager에 Undo스택 저장
-    public override void PlayUI()
-    {
-        Debug.Log("PanelChange작동");
+    protected override void PlayUI()
+    {        
         _NextPanel.SetActive(true);
         _currentPanel.SetActive(false);
         _titleSceneManager.StackUI.Push((_currentPanel, _NextPanel));

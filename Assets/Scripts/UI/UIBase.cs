@@ -52,7 +52,7 @@ public abstract class UIBase : MonoBehaviour
     }
 
     // 각 UI별 기능 작동
-    public abstract void PlayUI();
+    protected abstract void PlayUI();
 
     private void OnUI()
     {
