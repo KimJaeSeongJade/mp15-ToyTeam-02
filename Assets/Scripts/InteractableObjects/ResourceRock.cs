@@ -2,7 +2,7 @@ using System;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class ResourceRock : Resource
+public class ResourceRock : ResourceBase
 {
     [SerializeField] Outline _outline;
 

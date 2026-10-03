@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class Material : MonoBehaviour, IStackable, IPoolable, IInteractable
+public abstract class MaterialBase : MonoBehaviour, IStackable, IPoolable, IInteractable
 {
     [Header("Material Settings")]
     [SerializeField] private GameObject _visualTop;
@@ -58,7 +58,7 @@ public abstract class Material : MonoBehaviour, IStackable, IPoolable, IInteract
     {
         if (interactable.BlockType == BlockType)
         {
-            Material material = interactable as Material;
+            MaterialBase material = interactable as MaterialBase;
 
             int totalCount = Count + material.Count;
 

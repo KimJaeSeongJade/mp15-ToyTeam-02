@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ToolPickaxe : Tool
+public class ToolPickaxe : ToolBase
 {
     [SerializeField] Outline _outline;
 

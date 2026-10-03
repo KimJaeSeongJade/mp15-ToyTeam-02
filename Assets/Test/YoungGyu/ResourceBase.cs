@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public abstract class Resource : MonoBehaviour, IInteractable, IPoolable
+public abstract class ResourceBase : MonoBehaviour, IInteractable, IPoolable
 {
     private const float COOLDOWN = 1f;
 

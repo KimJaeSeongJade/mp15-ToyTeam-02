@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 
-public abstract class Tool : MonoBehaviour, IInteractable
+public abstract class ToolBase : MonoBehaviour, IInteractable
 {
     public GameObject GameObject { get; }
     public abstract BlockType BlockType { get; }

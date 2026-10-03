@@ -2,7 +2,7 @@ using System;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class ResourceTree : Resource
+public class ResourceTree : ResourceBase
 {
     [SerializeField] Outline _outline;
 
