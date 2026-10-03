@@ -89,6 +89,15 @@ public class PlayerAction : MonoBehaviour
     {
         _animator.SetBool("IsHolding", true);
         _hand.Item = newInteractable;
+        _hand.Item.GameObject.transform.rotation = transform.rotation;
+
+        // 도구면 회전
+        ToolBase tool = newInteractable as ToolBase;
+        if (tool != null)
+        {
+            _hand.Item.GameObject.transform.Rotate(-45f, -90f, 0);
+        }
+
         _hand.ItemPosition = _hand.transform.position;
         _hand.ItemParent = _hand.transform;
     }
@@ -98,9 +107,11 @@ public class PlayerAction : MonoBehaviour
     {
         _animator.SetBool("IsHolding", false);
         Map.Instance.SetHoldable(position, _hand.Item);
+        
 
         if (_hand.Item != null)
         {
+            _hand.Item.GameObject.transform.rotation = Quaternion.identity;
             _hand.ItemPosition = position.CoordToWorld();
             _hand.ItemParent = null;
             _hand.Item = null;
