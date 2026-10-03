@@ -51,6 +51,7 @@ MonoBehaviour:
   _visualTop: {fileID: 1729401099710297010}
   _visualMiddle: {fileID: 8533447815869478168}
   _visualBottom: {fileID: 7757201571730232894}
+  _outline: {fileID: 5111705867517127408}
 --- !u!114 &5111705867517127408
 MonoBehaviour:
   m_ObjectHideFlags: 0

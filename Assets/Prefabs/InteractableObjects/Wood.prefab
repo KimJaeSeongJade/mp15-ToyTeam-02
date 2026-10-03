@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1056607999291865434}
   - component: {fileID: 7999731160758432143}
+  - component: {fileID: 2680396813200547685}
   m_Layer: 0
   m_Name: Wood
   m_TagString: Untagged
@@ -50,6 +51,25 @@ MonoBehaviour:
   _visualTop: {fileID: 702784140495568166}
   _visualMiddle: {fileID: 3807580429067341865}
   _visualBottom: {fileID: 6004633006734513974}
+  _outline: {fileID: 2680396813200547685}
+--- !u!114 &2680396813200547685
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 54620538346265904}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5fea29bb7c508c244a1f805a5fd3fc4d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  outlineMode: 0
+  outlineColor: {r: 1, g: 0, b: 0, a: 1}
+  outlineWidth: 10
+  precomputeOutline: 0
+  bakeKeys: []
+  bakeValues: []
 --- !u!1001 &360749362085167223
 PrefabInstance:
   m_ObjectHideFlags: 0
