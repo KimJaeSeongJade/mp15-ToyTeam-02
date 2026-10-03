@@ -2,11 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class DummyAxe : MonoBehaviour, IPoolable, IInteractable
+public class DummyTrain : MonoBehaviour, IInteractable
 {
-    public GameObject GameObject => gameObject;
+    public GameObject GameObject { get; }
 
-    public BlockType BlockType => BlockType.Axe;
+    public BlockType BlockType { get; }
 
     public void AutoInteract(IInteractable interactable)
     {
@@ -14,11 +14,6 @@ public class DummyAxe : MonoBehaviour, IPoolable, IInteractable
     }
 
     public IInteractable ButtonInteract(IInteractable interactable)
-    {
-        throw new System.NotImplementedException();
-    }
-
-    public void ReturnToPool()
     {
         throw new System.NotImplementedException();
     }

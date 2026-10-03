@@ -91,7 +91,7 @@ public class PlayerAction : MonoBehaviour
     
     private void DropItem(Vector2Int position)
     {
-        Map.Instance.SetInteractable(position, _hand.Item);
+        Map.Instance.SetHoldable(position, _hand.Item);
 
         if (_hand.Item != null)
         {

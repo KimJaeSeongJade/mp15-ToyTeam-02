@@ -46,7 +46,7 @@ public class RailManager : MonoBehaviour
     }
 
 
-    private void AddRailWay(Rail targetRail)
+    public void AddRailWay(Rail targetRail)
     {
         // Todo: 맵의 해당 타일을 RailWay로 교체
         LinkedListNode<Rail> prevRailNode = Rails.Last;

@@ -5,6 +5,9 @@ using UnityEngine;
 
 public class ObjectPool : MonoBehaviour
 {
+    /// <summary>
+    /// 오브젝트 풀 싱글톤
+    /// </summary>
     public static ObjectPool Instance;
 
     [SerializeField] private List<GameObject> _prefabList;
@@ -17,6 +20,11 @@ public class ObjectPool : MonoBehaviour
     private void Awake() => SetSingleton();
     private void Start() => CreatePool();
 
+    /// <summary>
+    /// 오브젝트 풀에서 특정 블록 종류의 IPoolable 꺼내기
+    /// </summary>
+    /// <param name="blockType"> 블록 종류 </param>
+    /// <returns></returns>
     public IPoolable Take(BlockType blockType)
     {
         if (_objectPoolDict.ContainsKey(blockType))
@@ -38,6 +46,10 @@ public class ObjectPool : MonoBehaviour
         return null;
     }
 
+    /// <summary>
+    /// IPoolable 오브젝트를 오브젝트 풀에 반환
+    /// </summary>
+    /// <param name="poolable"> IPoolable 오브젝트 </param>
     public void Return(IPoolable poolable)
     {
         if (!_objectPoolDict.ContainsKey(poolable.BlockType)) return;

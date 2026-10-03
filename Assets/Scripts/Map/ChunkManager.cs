@@ -13,6 +13,7 @@ public class ChunkManager : MonoBehaviour
     [SerializeField] private Chunk _chunkPrefab;
     [SerializeField] private GameObject _invisibleWallPrefab;
     [SerializeField] private MapLoader _mapLoader;
+    [SerializeField] private SplineManager _splineManager;
     [SerializeField] private Material _material;
     [SerializeField] private float _textureSize = 32f;
     [SerializeField] private int _atlasSize = 4;
@@ -62,7 +63,7 @@ public class ChunkManager : MonoBehaviour
     {
         Chunk chunk = _chunkPool.Dequeue();
 
-        chunk.SetChunkData(chunkIndex, _mapLoader.WorldMap, _material, _textureSize, _atlasSize);
+        chunk.SetChunkData(chunkIndex, _splineManager, _mapLoader.WorldMap, _material, _textureSize, _atlasSize);
         chunk.gameObject.SetActive(true);
 
         _loadedChunks.Enqueue(chunk);
