@@ -28,7 +28,7 @@ public class ChunkManager : MonoBehaviour
     private int[,] _worldMap; // 전체 월드 맵
     private bool _canLoadMap => _mapLoader.CanLoadMap;
 
-    private void Awake() => CreateChunkPool();
+    private void Awake() => Init();
     private void Update() => UpdateStreaming();
 
     private void UpdateStreaming()
