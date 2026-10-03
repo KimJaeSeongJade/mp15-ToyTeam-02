@@ -107,26 +107,40 @@ public abstract class ResourceBase : MonoBehaviour, IInteractable, IPoolable
         ReturnToPool();
     }
 
-    public void ReturnToPool()
-    {
-        gameObject.SetActive(false);
-        ObjectPool.Instance.Return(this);
-    }
-
+    /// <summary>
+    /// 플레이어가 버튼을 눌러 바닥에 있는 이 오브젝트와 상호작용
+    /// </summary>
+    /// <param name="interactable"> 플레이어 손에 있는 오브젝트 </param>
+    /// <returns></returns>
     public IInteractable ButtonInteract(IInteractable interactable)
     {
         return interactable;
     }
 
+    /// <summary>
+    /// 플레이어가 타겟팅
+    /// </summary>
     public void Targeted()
     {
         Outline.enabled = true;
     }
 
+    /// <summary>
+    /// 플레이어가 타겟팅 취소
+    /// </summary>
     public void Untargeted()
     {
         Outline.enabled = false;
         _isMining = false;
         _cooldownTimer = 0f;
+    }
+
+    /// <summary>
+    /// 오브젝트 풀로 반환
+    /// </summary>
+    public void ReturnToPool()
+    {
+        gameObject.SetActive(false);
+        ObjectPool.Instance.Return(this);
     }
 }

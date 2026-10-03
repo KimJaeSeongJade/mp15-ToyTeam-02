@@ -98,6 +98,7 @@ public class Rail : MonoBehaviour, IInteractable, IStackable, IPoolable
     /// <returns> 상호작용 이후 플레이어가 들어야 할 IInteractable </returns>
     public IInteractable ButtonInteract(IInteractable inPlayerHand)
     {
+        Debug.Log(IsRailway);
         // 1. 플레이어가 버튼을 눌러 손에든 레일아이템을 설치하는 경우
         if (inPlayerHand != null)
         {
@@ -122,12 +123,12 @@ public class Rail : MonoBehaviour, IInteractable, IStackable, IPoolable
                 // todo: 열차가 지나간 Railway는 상호작용 불가능하게
                 if (RailManager.Instance.Rails.Last.Value == this)
                 {
-                    RemoveRailway();   
+                    RemoveRailway();
+                    // 플레이어가 뽑아 타일에서 제거되어 레일아이템 상태가 된 자신을 반환
+                    return this;
                 }
                 
             }
-            // 플레이어가 뽑아 타일에서 제거되어 레일아이템 상태가 된 자신을 반환
-            return this;
         }
         
         // 3. 조건에 맞지 않는경우는 플레이어의 손에 든 상태 유지
@@ -172,7 +173,8 @@ public class Rail : MonoBehaviour, IInteractable, IStackable, IPoolable
     public void Targeted()
     {
         // 플레이어 감지범위내에 레일이 있을때 테두리 켜기
-        _outline.enabled = true;
+        if (!IsRailway || this == RailManager.Instance.Rails.Last.Value)
+            _outline.enabled = true;
     }
 
     /// <summary>
@@ -240,10 +242,6 @@ public class Rail : MonoBehaviour, IInteractable, IStackable, IPoolable
                 _curveRailPrefab.SetActive(true);
                 _curveRailPrefab.transform.eulerAngles = new Vector3(-90, 270, 0);
                 break;
-                
         }
-        
     }
-    
-    
 }
