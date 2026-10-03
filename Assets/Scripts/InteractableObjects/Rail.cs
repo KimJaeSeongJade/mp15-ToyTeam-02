@@ -93,32 +93,37 @@ public class Rail : MonoBehaviour, IInteractable, IStackable, IPoolable
     /// <param name="interactable"> 플레이어가 손에 들고 있는 IInteractable </param>
     public void AutoInteract(IInteractable inPlayerHand)
     {
-        // 레일의 상태가 Railway 타일 상태라면 합쳐지지 않기
-        if (IsRailway) return;
-        
+        // 자기 자신 감지 또는 레일의 상태가 Railway 타일 상태라면 합쳐지지 않기
+        if (inPlayerHand != null && inPlayerHand.GameObject == gameObject ||
+            IsRailway ||
+            inPlayerHand.BlockType != BlockType.Rail) return;
+
+        Debug.Log(inPlayerHand.GameObject.activeSelf);
+        Debug.Log(gameObject.activeSelf);
+
         // 플레이어가 접근한 오브젝트가 Rail인 경우
-        if (inPlayerHand.BlockType == BlockType.Rail)
-        {
-            Rail inPlayerRail = inPlayerHand as Rail;
+        Rail inPlayerRail = inPlayerHand as Rail;
 
-            int totalCount = _currentCount + inPlayerRail.Count;
+        int totalCount = _currentCount + inPlayerRail.Count;
             
-            if(totalCount > _maxStack)
-            {
-                inPlayerRail._currentCount = _maxStack;
-                _currentCount = totalCount - _maxStack;
-            }
-            else
-            {
-                inPlayerRail._currentCount = totalCount;
-                _currentCount = 0;
-                ReturnToPool();
-            }
-
-            Rail rail = inPlayerHand as Rail;
-            rail.UpdateStackVisuals();
-            UpdateStackVisuals();
+        if(totalCount > _maxStack)
+        {
+            inPlayerRail._currentCount = _maxStack;
+            _currentCount = totalCount - _maxStack;
         }
+        else
+        {
+            inPlayerRail._currentCount = totalCount;
+            _currentCount = 0;
+            ReturnToPool();
+        }
+        Debug.Log(inPlayerRail._currentCount);
+        Debug.Log(_currentCount);
+
+
+        Rail rail = inPlayerHand as Rail;
+        rail.UpdateStackVisuals();
+        UpdateStackVisuals();
     }
 
     /// <summary>
@@ -128,42 +133,23 @@ public class Rail : MonoBehaviour, IInteractable, IStackable, IPoolable
     /// <returns> 상호작용 이후 플레이어가 들어야 할 IInteractable </returns>
     public IInteractable ButtonInteract(IInteractable inPlayerHand)
     {
-        // if (inPlayerHand.GameObject == gameObject) return inPlayerHand;
-
-        // 1. 플레이어가 버튼을 눌러 손에든 레일아이템을 설치하는 경우
-        if (inPlayerHand != null)
-        {
-            
-            // 기존의 맵위에 레일타일이 설치되지 않았을경우에만 레일 타일 설치
-            if (!IsRailway)
-            {
-                return this; 
-            }
-            else
-            {
-                return inPlayerHand;
-            }
-            
-        }
+        // 1. 스스로를 상호작용하는 경우 플레이어의 손에 든 상태 유지
+        if (inPlayerHand != null && inPlayerHand.GameObject == gameObject)
+            return inPlayerHand;
         
-        // 2. 아무것도 들지 않은채로 버튼을 눌러 레일타일을 회수하는 경우 
-        if (inPlayerHand == null)
-        {
-            if (IsRailway)
-            {
-                // todo: 열차가 지나간 Railway는 상호작용 불가능하게
-                if (RailManager.Instance.Rails.Last.Value == this)
-                {
-                    RemoveRailway();
-                    // 플레이어가 뽑아 타일에서 제거되어 레일아이템 상태가 된 자신을 반환
-                }
-                
-            }
-            return this;
-        }
+        // todo: 열차가 지나간 Railway는 상호작용 불가능하게
 
-        // 3. 조건에 맞지 않는경우는 플레이어의 손에 든 상태 유지
-        return inPlayerHand;
+        // 2. 마지막에 설치된 railway인 경우 타일에서 제거
+        if (IsRailway)
+        {
+            if (RailManager.Instance.Rails.Last.Value == this)
+            {
+                RemoveRailway();
+                return this;
+            }
+            return inPlayerHand;
+        }
+        return this;
     }
     
     /// <summary>
@@ -212,7 +198,6 @@ public class Rail : MonoBehaviour, IInteractable, IStackable, IPoolable
     /// <param name="poolable"> 자기 자신의 IPoolable </param>
     public void ReturnToPool()
     {
-        
         if (_outline != null)
         {
             _outline.enabled = false;
@@ -220,11 +205,9 @@ public class Rail : MonoBehaviour, IInteractable, IStackable, IPoolable
         
         IsRailway = false;
         _currentCount = 1;
-        
-        // 오트젝트풀 클래스로 자기 자신을 반환해야 함
-        // ObjectPool.Instance.Return(this);
-        
+
         gameObject.SetActive(false);
+        ObjectPool.Instance.Return(this);
     }
 
     public void ChangeRailShape(RailShape railShape)
