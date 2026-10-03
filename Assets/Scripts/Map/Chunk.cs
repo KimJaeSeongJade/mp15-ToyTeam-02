@@ -19,7 +19,7 @@ public class Chunk : MonoBehaviour
     /// <param name="material"></param>
     /// <param name="textureSize"></param>
     /// <param name="atlasSize"></param>
-    public void SetChunkData(int chunkIndex, SplineManager splineManager, int[,] worldMap, Material material, float textureSize, float atlasSize)
+    public void SetChunkData(int chunkIndex, SplineManager splineManager, int[,] worldMap, UnityEngine.Material material, float textureSize, float atlasSize)
     {
         _chunkIndex = chunkIndex;
         _splineManager = splineManager;

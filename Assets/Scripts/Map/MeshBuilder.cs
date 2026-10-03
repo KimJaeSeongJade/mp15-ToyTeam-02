@@ -43,7 +43,7 @@ public class MeshBuilder : MonoBehaviour
     /// <param name="material"></param>
     /// <param name="textureSize"></param>
     /// <param name="atlasSize"></param>
-    public void CreateChunkMesh(int chunkIndex, int[,] worldMap, Material material, float textureSize, float atlasSize)
+    public void CreateChunkMesh(int chunkIndex, int[,] worldMap, UnityEngine.Material material, float textureSize, float atlasSize)
     {
         _chunkIndex = chunkIndex;
         _worldMap = worldMap;

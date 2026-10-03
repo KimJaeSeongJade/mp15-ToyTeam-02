@@ -2,17 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MaterialTest : MonoBehaviour, IInteractable
+public class TempToolTest : MonoBehaviour, IInteractable
 {
-    [SerializeField] private UnityEngine.Material _baseMaterial;
-    [SerializeField] private UnityEngine.Material _selectedMaterial;
-
     public GameObject GameObject { get => gameObject; }
     public BlockType BlockType { get; }
 
     public void AutoInteract(IInteractable interactable)
     {
-        
+
     }
 
     public IInteractable ButtonInteract(IInteractable interactable)
@@ -22,11 +19,12 @@ public class MaterialTest : MonoBehaviour, IInteractable
 
     public void Targeted()
     {
-        gameObject.GetComponent<MeshRenderer>().material = _selectedMaterial;
+        Debug.Log($"{this} Untargeted");
+
     }
 
     public void Untargeted()
     {
-        gameObject.GetComponent<MeshRenderer>().material = _baseMaterial;
+        Debug.Log($"{this} Untargeted");
     }
 }
