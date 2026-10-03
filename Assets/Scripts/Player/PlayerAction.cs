@@ -8,7 +8,7 @@ using UnityEngine;
 public class PlayerAction : MonoBehaviour
 {
     private const float BASE_MOVE_SPEED = 5f;
-    private const float DASH_SPEED_BONUS = 0.7f;
+    private const float DASH_SPEED_BONUS = 0.5f;
 
     private float _moveSpeed;
     private Rigidbody _playerBody;
@@ -112,7 +112,7 @@ public class PlayerAction : MonoBehaviour
     /// </summary>
     public void TryAutoInteract(IInteractable target)
     {
-        if (_hand.Item == null || target == null) return;
+        if (_hand.Item == null || target == null || _hand.Item == target) return;
 
         target.AutoInteract(_hand.Item);
     }
