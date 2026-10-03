@@ -1,42 +1,71 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public abstract class Resource : MonoBehaviour, IInteractable, IPoolable
 {
-    public GameObject GameObject => gameObject; 
-    public abstract BlockType BlockType { get; }
-    [Header("Drop Settings")] 
-    public BlockType DropMaterialType;
-    
-    protected int Health = 3;
-    
-    private float _cooldown = 0f;
-    
-    [Header("Damage Visuals")]
+    private const float COOLDOWN = 1f;
+
+    [Header("Material Settings")]
     [SerializeField] private GameObject _visualTop;
     [SerializeField] private GameObject _visualMiddle;
     [SerializeField] private GameObject _visualBottom;
-    
 
-    public virtual void Initialize()
-    {
-        Health = 3;
-        _cooldown = 0f;
-        UpdateVisuals();
-    }
+    public GameObject GameObject => gameObject; 
+    public abstract BlockType BlockType { get; }
+    public abstract BlockType ToolType { get; }
+    public abstract BlockType DropMaterialType { get; }
+    public abstract Outline Outline { get; }
 
-    public virtual void ProcessMining(float deltaTime)
+    private bool _isMining = false;
+    private float _cooldownTimer = 0f;
+    private IPoolable _dropItem;
+
+    protected int Health = 3;
+
+    private void OnEnable() => Init();
+    private void Update() => Mining();
+
+    private void Mining()
     {
-        _cooldown += deltaTime;
-        if (_cooldown >= 1.0f)
+        if (!_isMining)
         {
-            _cooldown = 0f;
+            return;
+        }
+        _cooldownTimer += Time.deltaTime;
+        if (_cooldownTimer >= COOLDOWN)
+        {
+            _cooldownTimer = 0f;
             OnMined();
         }
     }
-    
-    public virtual void OnMined()
+
+    private void Init()
+    {
+        Outline.enabled = false;
+        Health = 3;
+        _cooldownTimer = 0f;
+        UpdateVisuals();
+    }
+
+    public void AutoInteract(IInteractable interactable)
+    {
+        if (interactable.BlockType == ToolType)
+        {
+            Debug.Log("RockResource : AutoInteract");
+            ProcessMining();
+        }
+    }
+
+    private void ProcessMining()
+    {
+        _isMining = true;
+        Debug.Log("Resource : ProcessMining");
+        
+    }
+
+    private void OnMined()
     {
         Health--;
         UpdateVisuals();
@@ -45,19 +74,9 @@ public abstract class Resource : MonoBehaviour, IInteractable, IPoolable
         {
             BreakResource();
         }
-        
     }
 
-    public virtual void BreakResource()
-    {
-        IPoolable dropItem = ObjectPool.Instance.Take(DropMaterialType);
-        dropItem.GameObject.transform.position = transform.position;
-        dropItem.GameObject.SetActive(true);
-        
-        ReturnToPool();
-    }
-
-    protected virtual void UpdateVisuals()
+    private void UpdateVisuals()
     {
         switch (Health)
         {
@@ -79,33 +98,34 @@ public abstract class Resource : MonoBehaviour, IInteractable, IPoolable
         }
     }
 
+    private void BreakResource()
+    {
+        _dropItem = ObjectPool.Instance.Take(DropMaterialType);
+        _dropItem.GameObject.transform.position = transform.position;
+        _dropItem.GameObject.SetActive(true);
 
+        ReturnToPool();
+    }
 
     public void ReturnToPool()
     {
-        
         gameObject.SetActive(false);
-        //풀에 다시 넣기
         ObjectPool.Instance.Return(this);
-    }
-
-    public void AutoInteract(IInteractable interactable)
-    {
-        throw new System.NotImplementedException();
     }
 
     public IInteractable ButtonInteract(IInteractable interactable)
     {
-        return this;
+        return interactable;
     }
 
     public void Targeted()
     {
-        throw new System.NotImplementedException();
+        Outline.enabled = true;
     }
 
     public void Untargeted()
     {
-        _cooldown = 0f;
+        Outline.enabled = false;
+        _cooldownTimer = 0f;
     }
 }

@@ -14,7 +14,7 @@ public class ChunkManager : MonoBehaviour
     [SerializeField] private GameObject _invisibleWallPrefab;
     [SerializeField] private MapLoader _mapLoader;
     [SerializeField] private SplineManager _splineManager;
-    [SerializeField] private Material _material;
+    [SerializeField] private UnityEngine.Material _material;
     [SerializeField] private float _textureSize = 32f;
     [SerializeField] private int _atlasSize = 4;
     [SerializeField] private int _renderDistance = 2;

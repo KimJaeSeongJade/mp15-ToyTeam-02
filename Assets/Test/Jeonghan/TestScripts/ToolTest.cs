@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class ToolTest : MonoBehaviour, IInteractable
 {
-    [SerializeField] private Material _baseMaterial;
-    [SerializeField] private Material _selectedMaterial;
+    [SerializeField] private UnityEngine.Material _baseMaterial;
+    [SerializeField] private UnityEngine.Material _selectedMaterial;
 
     public GameObject GameObject { get => gameObject; }
     public BlockType BlockType { get; }

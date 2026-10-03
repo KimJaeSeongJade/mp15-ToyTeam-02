@@ -118,7 +118,7 @@ public class PlayerController : MonoBehaviour
         if (target == null)
         {
             Vector2Int playerCoord = transform.position.WorldToCoord();
-            target = Map.Instance.GetHoldable(playerCoord);
+            // target = Map.Instance.GetHoldable(playerCoord);
         }
 
         if (_target != target)
