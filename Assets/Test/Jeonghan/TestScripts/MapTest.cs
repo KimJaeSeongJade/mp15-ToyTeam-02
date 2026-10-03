@@ -6,6 +6,8 @@ public class MapTest : MonoBehaviour
 {
     [SerializeField] GameObject[] interactables;
 
+    private IInteractable[,] _holdableMap;
+
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.M)) Foo();

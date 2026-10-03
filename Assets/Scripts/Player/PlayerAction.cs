@@ -8,13 +8,13 @@ using UnityEngine;
 public class PlayerAction : MonoBehaviour
 {
     private const float BASE_MOVE_SPEED = 5f;
-    private const float DASH_SPEED_BONUS = 4f;
+    private const float DASH_SPEED_BONUS = 0.7f;
 
     private float _moveSpeed;
     private Rigidbody _playerBody;
     private PlayerHand _hand;
     private Animator _animator;
-    private WaitForSeconds _waitDashDuration = new WaitForSeconds(0.2f);
+    private WaitForSeconds _waitDashDuration = new WaitForSeconds(0.3f);
     private WaitForSeconds _waitDashCooldown = new WaitForSeconds(1f);
     private bool _canDash;
 
@@ -54,9 +54,9 @@ public class PlayerAction : MonoBehaviour
         if (!_canDash) yield break;
 
         _canDash = false;
-        _moveSpeed += (BASE_MOVE_SPEED * DASH_SPEED_BONUS);
+        _moveSpeed += (BASE_MOVE_SPEED * (1 + DASH_SPEED_BONUS));
         yield return _waitDashDuration;
-        _moveSpeed -= (BASE_MOVE_SPEED * DASH_SPEED_BONUS);
+        _moveSpeed -= (BASE_MOVE_SPEED * (1 + DASH_SPEED_BONUS));
         yield return _waitDashCooldown;
         _canDash = true;
     }

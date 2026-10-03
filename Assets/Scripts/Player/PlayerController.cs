@@ -16,8 +16,13 @@ public class PlayerController : MonoBehaviour
     private List<IInteractable> _canTargetList;
     private Dictionary<IInteractable, float> _canTargetDict;
     private IInteractable _target;
+    private KeyCode _moveUp = KeyCode.W;
+    private KeyCode _moveDown = KeyCode.S;
+    private KeyCode _moveLeft = KeyCode.A;
+    private KeyCode _moveRight = KeyCode.D;
     private KeyCode _dashKey = KeyCode.LeftShift;
     private KeyCode _interactKey = KeyCode.Space;
+    private bool _isPressedMoveKey => Input.GetKey(_moveUp) || Input.GetKey(_moveDown) || Input.GetKey(_moveLeft) || Input.GetKey(_moveRight);
     private bool _isPressedDashKey => Input.GetKeyDown(_dashKey);
     private bool _isPressedInteractKey => Input.GetKeyDown(_interactKey);
 
@@ -55,6 +60,12 @@ public class PlayerController : MonoBehaviour
 
     private void ReadMove()
     {
+        if (!_isPressedMoveKey)
+        {
+            _direction = Vector3.zero;
+            return;
+        }
+
         float horizontal = Input.GetAxis("Horizontal");
         float vertical = Input.GetAxis("Vertical");
 
@@ -74,11 +85,12 @@ public class PlayerController : MonoBehaviour
         {
             Vector3 playerDirection = transform.forward;
             Vector3 toDetectedDirection = (detected.GameObject.transform.position - transform.position).normalized;
+            float lookPercentage = Vector3.Dot(toDetectedDirection, playerDirection);
+
             Ray ray = new Ray(transform.position, toDetectedDirection);
             RaycastHit hit;
-
-            float lookPercentage = Vector3.Dot(toDetectedDirection, playerDirection);
             if (!Physics.Raycast(ray, out hit, _detectRange.Range)) continue;
+            
             if (lookPercentage >= THRESHOLD && hit.transform.GetComponent<IInteractable>() == detected)
             {
                 if (!_canTargetList.Contains(detected)) _canTargetList.Add(detected);
@@ -93,17 +105,16 @@ public class PlayerController : MonoBehaviour
 
         IInteractable target = null;
         float targetLookPercentage = -1;
-        for (int i = 0; i < _canTargetList.Count; i++)
+        foreach(IInteractable canTarget in _canTargetList)
         {
-            IInteractable canTarget = _canTargetList[i];
-            float canTargetLookPercentage = _canTargetDict[_canTargetList[i]];
-            if (canTargetLookPercentage > targetLookPercentage)
+            float canTargetLookPercentage = _canTargetDict[canTarget];
+            if(canTargetLookPercentage > targetLookPercentage)
             {
                 target = canTarget;
                 targetLookPercentage = canTargetLookPercentage;
             }
         }
-
+        
         if (target == null)
         {
             Vector2Int playerCoord = transform.position.WorldToCoord();
