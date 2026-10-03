@@ -1,7 +1,7 @@
 ---
 name: Feature
 about: 새로운 기능을 구현하거나 추가할 때 사용하는 템플릿
-title: '[FEAT] '
+title: '[Feat] '
 labels: 'enhancement'
 assignees: ''
 ---
@@ -15,7 +15,7 @@ assignees: ''
 - 세부 작업 2
 - 세부 작업 3
 
-## 완료 조건 (Definition of Done)
+## 완료 조건
 어떤 상태가 되었을 때 이 기능이 완성된 것으로 볼 수 있는지 명시해 주세요.
 - 해당 기능 작동 확인 (화면/API 테스트 완료)
 - 관련 코드 리뷰 및 머지(Merge) 완료
