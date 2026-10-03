@@ -62,7 +62,6 @@ public class Map : MonoBehaviour
     public void SetHoldable(Vector2Int coord, IInteractable interactable)
     {
         _holdableMap[coord.x, coord.y] = interactable;
-        Debug.Log($"Holdable object: {coord.x}, {coord.y} {interactable.GameObject.name}");
     }
 
     /// <summary>

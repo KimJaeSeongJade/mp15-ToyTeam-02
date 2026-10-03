@@ -15,22 +15,14 @@ public class SplineManager : MonoBehaviour
     private List<BezierKnot> _knots = new();
     private Spline _spline;
 
-    public bool IsInitialized = false;
-
+    private void Awake() => InitSpline();
     /// <summary>
     /// 초기 rail을 추가하며 Spline 초기화
     /// </summary>
     /// <param name="initialRailway"> 초기 rail 좌표 리스트 </param>
-    public void InitSpline(List<Vector2Int> initialRailway)
+    public void InitSpline()
     {
         _spline = _splineContainer.AddSpline();
-
-        foreach (Vector2Int coord in initialRailway)
-        {
-            AddSplineKnot(coord);
-        }
-
-        IsInitialized = true;
     }
 
     /// <summary>
@@ -40,6 +32,18 @@ public class SplineManager : MonoBehaviour
     public void AddSplineKnot(Vector2Int coord)
     {
         _knots.Add(new(coord.CoordToWorld()));
+        _spline.Knots = _knots;
+
+        SplineRange all = new SplineRange(0, _spline.Count);
+        _spline.SetTangentMode(all, TangentMode.AutoSmooth);
+    }
+
+    /// <summary>
+    /// 마지막에 배치한 railway(spline knot) 삭제
+    /// </summary>
+    public void RemoveLastSplineKnot()
+    {
+        _knots.RemoveAt(_spline.Count - 1);
         _spline.Knots = _knots;
 
         SplineRange all = new SplineRange(0, _spline.Count);

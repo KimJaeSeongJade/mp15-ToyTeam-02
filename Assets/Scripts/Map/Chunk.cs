@@ -37,12 +37,20 @@ public class Chunk : MonoBehaviour
             for (int x = _chunkIndex * ChunkManager.CHUNK_SIZE; x < (_chunkIndex + 1) * ChunkManager.CHUNK_SIZE; x++)
             {
                 if (x >= _worldMap.GetLength(0)) continue;
+
                 BlockType blocktype = (BlockType)_worldMap[x, y];
+                Vector2Int coord = new Vector2Int(x, y);
+
+                if (blocktype == BlockType.Rail && _chunkIndex == 0)
+                {
+                    RailManager.Instance.TryRailwayPlace(coord);
+                    continue;
+                }
+
                 IPoolable newPoolable = ObjectPool.Instance.Take(blocktype);
 
                 if (newPoolable == null) continue;
 
-                Vector2Int coord = new Vector2Int(x, y);
                 newPoolable.GameObject.transform.position = coord.CoordToWorld();
                 newPoolable.GameObject.SetActive(true);
 
@@ -50,14 +58,10 @@ public class Chunk : MonoBehaviour
                 if ((int)blocktype >= Map.HOLDABLE_BLOCKTYPE_OFFSET)
                 {
                     IInteractable interactable = newPoolable as IInteractable;
+
                     if (interactable != null)
                     {
                         Map.Instance.SetHoldable(coord, newPoolable as IInteractable);
-                    }
-
-                    if (blocktype == BlockType.Rail)
-                    {
-                        RailManager.Instance.AddRailWay(interactable as Rail);
                     }
                 }
             }
@@ -66,24 +70,7 @@ public class Chunk : MonoBehaviour
 
     private void SpawnTrain()
     {
-        if (_chunkIndex != 0) return;
-
-        List<Vector2Int> initialRailway = new();
-
-        for (int y = 0; y < _worldMap.GetLength(1); y++)
-        {
-            for (int x = 0; x < ChunkManager.CHUNK_SIZE; x++)
-            {
-                if (x >= _worldMap.GetLength(0)) continue;
-
-                if ((BlockType)_worldMap[x, y] == BlockType.Rail)
-                {
-                    initialRailway.Add(new Vector2Int(x, y));
-                }
-            }
-        }
         // TODO: Instantiate train
-        _splineManager.InitSpline(initialRailway);
     }
 
     private void CacheComponents()

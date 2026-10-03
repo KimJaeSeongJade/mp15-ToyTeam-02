@@ -1,11 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Splines;
 
 public class SplineTest : MonoBehaviour
 {
     [SerializeField] private SplineManager _splineManager;
     [SerializeField] private Rail _railPrefab;
+    [SerializeField] private DummyTrain _dummyTrain;
 
     private Camera _cam;
 
@@ -13,7 +15,6 @@ public class SplineTest : MonoBehaviour
 
     private void Update()
     {
-        if (!_splineManager.IsInitialized) return;
         ReadMouseInput();
     }
 
@@ -27,9 +28,10 @@ public class SplineTest : MonoBehaviour
             if (Physics.Raycast(ray, out hit))
             {
                 Vector2Int coord = hit.point.WorldToCoord();
-                AddRail(coord);
+                RailManager.Instance.TryRailwayPlace(coord);
             }
         }
+
         if (Input.GetMouseButtonDown(1))
         {
             Ray ray = _cam.ScreenPointToRay(Input.mousePosition);
@@ -37,23 +39,29 @@ public class SplineTest : MonoBehaviour
 
             if (Physics.Raycast(ray, out hit))
             {
-                if (hit.collider.gameObject)
-                {
+                Vector2Int coord = hit.point.WorldToCoord();
 
+                IInteractable interactable = Map.Instance.GetHoldable(coord);
+
+                Rail rail = interactable as Rail;
+                if (rail != null)
+                {
+                    rail.ButtonInteract(null);
                 }
             }
         }
-        
-    }
 
-    private void AddRail(Vector2Int coord)
-    {
-        Debug.Log($"{coord.x} {coord.y}");
-        Rail newRail = Instantiate(_railPrefab);
-        newRail.transform.position = coord.CoordToWorld();
-        RailManager.Instance.AddRailWay(newRail);
-
-        _splineManager.AddSplineKnot(coord);
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            if (_dummyTrain.gameObject.activeSelf == false)
+            {
+                _dummyTrain.gameObject.SetActive(true);
+            }
+            else
+            {
+                _dummyTrain.gameObject.SetActive(false);
+            }
+        }
     }
 
     private void CacheComponents()
