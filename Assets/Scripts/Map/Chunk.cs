@@ -32,8 +32,10 @@ public class Chunk : MonoBehaviour
     {
         for (int y = 0; y < _worldMap.GetLength(1); y++)
         {
-            for (int x = 0; x < _worldMap.GetLength(0); x++)
+            for (int x = _chunkIndex * ChunkManager.CHUNK_SIZE; x < (_chunkIndex + 1) * ChunkManager.CHUNK_SIZE; x++)
             {
+                if (x >= _worldMap.GetLength(0)) return;
+
                 IPoolable newPoolable = ObjectPool.Instance.Take((BlockType)_worldMap[x, y]);
 
                 if (newPoolable == null) continue;

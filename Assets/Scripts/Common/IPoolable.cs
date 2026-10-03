@@ -20,6 +20,5 @@ public interface IPoolable
     /// <summary>
     /// 자기 자신을 오브젝트 풀로 반환
     /// </summary>
-    /// <param name="poolable"> 자기 자신의 IPoolable </param>
-    public void ReturnToPool(IPoolable poolable);
+    public void ReturnToPool();
 }

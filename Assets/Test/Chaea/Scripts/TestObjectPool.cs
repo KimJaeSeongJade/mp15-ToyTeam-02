@@ -1,27 +1,32 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class TestObjectPool : MonoBehaviour
 {
-    IPoolable _poolable;
+    private Stack<IPoolable> _poolables = new();
 
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.Alpha1))
         {
-            _poolable = ObjectPool.Instance.Take(BlockType.Rock);
-            _poolable.GameObject.transform.position = Vector3.zero;
-            _poolable.GameObject.SetActive(true);
+            IPoolable poolable = ObjectPool.Instance.Take(BlockType.Axe);
+            poolable.GameObject.transform.position = Vector3.zero;
+            poolable.GameObject.SetActive(true);
+            _poolables.Push(poolable);
 
-            Debug.Log($"Got {_poolable.GameObject.name} from object pool!");
+            Debug.Log($"Got {poolable.GameObject.name} from object pool!");
         }
 
         if (Input.GetKeyDown(KeyCode.Alpha2))
         {
-            ObjectPool.Instance.Return(_poolable);
-            _poolable.GameObject.SetActive(false);
-            _poolable = null;
+            if (_poolables.Count == 0) Debug.Log("Poolables empty");
+
+            IPoolable poolable = _poolables.Pop();
+            ObjectPool.Instance.Return(poolable);
+            poolable.GameObject.SetActive(false);
+            poolable = null;
 
             Debug.Log($"Object returned!");
         }

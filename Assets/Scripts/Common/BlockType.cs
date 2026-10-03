@@ -8,9 +8,9 @@ public enum BlockType
     Tree,
     Rock,
     Water,
-
     Obstacle,
-    RailWay,
+    Station,
+
     Rail,
     Wood,
     Iron,

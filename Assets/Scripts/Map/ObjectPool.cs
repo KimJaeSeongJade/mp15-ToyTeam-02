@@ -12,7 +12,7 @@ public class ObjectPool : MonoBehaviour
     private Dictionary<BlockType, GameObject> _prefabDict = new();
     private Dictionary<BlockType, GameObject> _poolParent = new();
 
-    private const int INITIAL_POOL_SIZE = 10;
+    private const int INITIAL_POOL_SIZE = 5;
 
     private void Awake() => SetSingleton();
     private void Start() => CreatePool();
