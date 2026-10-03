@@ -113,11 +113,7 @@ public class PlayerAction : MonoBehaviour
         {
             if (_hand.Item.BlockType == BlockType.Rail)
             {
-                if (RailManager.Instance.TryRailwayPlace(position))
-                {
-                    Rail rail = _hand.Item as Rail;
-                    rail.RemoveRailway();
-                }
+                RailManager.Instance.TryRailwayPlace(position);
             }
 
             _hand.Item.GameObject.transform.rotation = Quaternion.identity;

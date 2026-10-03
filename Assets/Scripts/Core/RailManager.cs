@@ -39,13 +39,16 @@ public class RailManager : MonoBehaviour
     /// <returns></returns>
     public bool TryRailwayPlace(Vector2Int coord)
     {
+        Debug.Log("TryRailwayPlace");
         if (Map.Instance.GetHoldable(coord) != null)
         {
+            Debug.Log("there is holdable object");
             return false;
         }
 
         if (Rails.Count == 0)
         {
+            Debug.Log("rail count 0");
             AddRailway(coord);
             return true;
         }
@@ -58,12 +61,13 @@ public class RailManager : MonoBehaviour
             AddRailway(coord);
             return true;
         }
-
+        Debug.Log("not last position");
         return false;
     }
 
     private void AddRailway(Vector2Int coord)
     {
+        Debug.Log("AddRailway");
         IPoolable poolable = ObjectPool.Instance.Take(BlockType.Rail);
         Rail newRail = poolable as Rail;
 
@@ -189,10 +193,11 @@ public class RailManager : MonoBehaviour
     {
         if (Rails.Count == 0) return;
 
-        Map.Instance.SetHoldable(Rails.Last.Value.GameObject.transform.position.WorldToCoord(), null);
         _splineManager.RemoveLastSplineKnot();
         Rails.RemoveLast();
 
         UpdateRailwayShape();
+
+        Debug.Log(Rails.Last.Value.GameObject.transform.position.WorldToCoord());
     }
 }

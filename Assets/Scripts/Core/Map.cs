@@ -51,6 +51,7 @@ public class Map : MonoBehaviour
     /// <returns></returns>
     public IInteractable GetHoldable(Vector2Int coord)
     {
+        if (_holdableMap == null) return null;
         return _holdableMap[coord.x, coord.y];
     }
 
@@ -61,6 +62,7 @@ public class Map : MonoBehaviour
     /// <param name="interactable"> 플레이어가 들 수 있는 오브젝트 </param>
     public void SetHoldable(Vector2Int coord, IInteractable interactable)
     {
+        Debug.Log($"SetHoldable {interactable?.GameObject.name}");
         _holdableMap[coord.x, coord.y] = interactable;
     }
 

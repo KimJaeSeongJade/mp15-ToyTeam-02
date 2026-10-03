@@ -98,9 +98,6 @@ public class Rail : MonoBehaviour, IInteractable, IStackable, IPoolable
             IsRailway ||
             inPlayerHand.BlockType != BlockType.Rail) return;
 
-        Debug.Log(inPlayerHand.GameObject.activeSelf);
-        Debug.Log(gameObject.activeSelf);
-
         // 플레이어가 접근한 오브젝트가 Rail인 경우
         Rail inPlayerRail = inPlayerHand as Rail;
 
@@ -117,8 +114,6 @@ public class Rail : MonoBehaviour, IInteractable, IStackable, IPoolable
             _currentCount = 0;
             ReturnToPool();
         }
-        Debug.Log(inPlayerRail._currentCount);
-        Debug.Log(_currentCount);
 
 
         Rail rail = inPlayerHand as Rail;
@@ -133,23 +128,41 @@ public class Rail : MonoBehaviour, IInteractable, IStackable, IPoolable
     /// <returns> 상호작용 이후 플레이어가 들어야 할 IInteractable </returns>
     public IInteractable ButtonInteract(IInteractable inPlayerHand)
     {
-        // 1. 스스로를 상호작용하는 경우 플레이어의 손에 든 상태 유지
         if (inPlayerHand != null && inPlayerHand.GameObject == gameObject)
             return inPlayerHand;
-        
-        // todo: 열차가 지나간 Railway는 상호작용 불가능하게
 
-        // 2. 마지막에 설치된 railway인 경우 타일에서 제거
-        if (IsRailway)
+        // 1. 플레이어가 버튼을 눌러 손에든 레일아이템을 설치하는 경우
+        if (inPlayerHand != null)
         {
-            if (RailManager.Instance.Rails.Last.Value == this)
+
+            // 기존의 맵위에 레일타일이 설치되지 않았을경우에만 레일 타일 설치
+            if (!IsRailway)
             {
-                RemoveRailway();
                 return this;
+            }
+            else
+            {
+                return inPlayerHand;
+            }
+
+        }
+        // 2. 아무것도 들지 않은채로 버튼을 눌러 레일타일을 회수하는 경우 
+        else
+        {
+            if (IsRailway)
+            {
+                // todo: 열차가 지나간 Railway는 상호작용 불가능하게
+                if (RailManager.Instance.Rails.Last.Value == this)
+                {
+                    IsRailway = false;
+                    RailManager.Instance.RemoveLastRailway();
+
+                    // 플레이어가 뽑아 타일에서 제거되어 레일아이템 상태가 된 자신을 반환
+                    return this;
+                }
             }
             return inPlayerHand;
         }
-        return this;
     }
     
     /// <summary>
@@ -160,17 +173,6 @@ public class Rail : MonoBehaviour, IInteractable, IStackable, IPoolable
         // 맵에 설치되었으므로 레일타일로 상태변경
         IsRailway = true;
         _currentCount = 1;
-    }
-
-    /// <summary>
-    /// 레일타일을 맵에서 제거
-    /// </summary>
-    public void RemoveRailway()
-    {
-      
-        // 타일에서 제거되었으므로 레일 아이템으로 상태변경
-        IsRailway = false;
-        RailManager.Instance.RemoveLastRailway();
     }
 
     /// <summary>
