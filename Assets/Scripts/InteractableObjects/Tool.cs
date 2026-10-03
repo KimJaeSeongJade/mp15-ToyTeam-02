@@ -9,6 +9,13 @@ public abstract class Tool : MonoBehaviour, IInteractable
     public abstract BlockType BlockType { get; }
     public abstract Outline Outline { get; }
 
+    private void OnEnable() => Init();
+
+    private void Init()
+    {
+        Outline.enabled = false;
+    }
+
     public void AutoInteract(IInteractable interactable)
     {
     }
