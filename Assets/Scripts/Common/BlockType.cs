@@ -11,6 +11,8 @@ public enum BlockType
     Obstacle,
     Station,
 
+
+    // Holdable
     Rail,
     Wood,
     Iron,

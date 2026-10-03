@@ -13,7 +13,7 @@ public class Rail : MonoBehaviour, IInteractable, IStackable, IPoolable
     /// <summary>
     /// true라면 타일로써의 레일, flase라면 아이템으로써의 레일 상태
     /// </summary>
-    [field: SerializeField] public bool IsRailWay { get; private set; }
+    [field: SerializeField] public bool IsRailway { get; private set; }
 
     private Outline _outline;
     
@@ -53,7 +53,7 @@ public class Rail : MonoBehaviour, IInteractable, IStackable, IPoolable
 
         ChangeRailShape(RailShape.HorizontalLine);
     }
-    
+
     private void CacheComponents()
     {
         _outline = GetComponent<Outline>();
@@ -65,8 +65,8 @@ public class Rail : MonoBehaviour, IInteractable, IStackable, IPoolable
     /// <param name="interactable"> 플레이어가 손에 들고 있는 IInteractable </param>
     public void AutoInteract(IInteractable inPlayerHand)
     {
-        // 레일의 상태가 RailWay 타일 상태라면 합쳐지지 않기
-        if (IsRailWay) return;
+        // 레일의 상태가 Railway 타일 상태라면 합쳐지지 않기
+        if (IsRailway) return;
         
         // 플레이어가 접근한 오브젝트가 Rail인 경우
         if (inPlayerHand.BlockType == BlockType.Rail)
@@ -103,7 +103,7 @@ public class Rail : MonoBehaviour, IInteractable, IStackable, IPoolable
         {
             
             // 기존의 맵위에 레일타일이 설치되지 않았을경우에만 레일 타일 설치
-            if (!IsRailWay)
+            if (!IsRailway)
             {
                 return this; 
             }
@@ -117,14 +117,12 @@ public class Rail : MonoBehaviour, IInteractable, IStackable, IPoolable
         // 2. 아무것도 들지 않은채로 버튼을 눌러 레일타일을 회수하는 경우 
         if (inPlayerHand == null)
         {
-           
-            if (IsRailWay)
+            if (IsRailway)
             {
-                // todo: 열차가 지나간 RailWay는 상호작용 불가능하게
+                // todo: 열차가 지나간 Railway는 상호작용 불가능하게
                 if (RailManager.Instance.Rails.Last.Value == this)
                 {
-                    RemoveRailWay();   
-                    RailManager.Instance.Rails.RemoveLast();
+                    RemoveRailway();   
                 }
                 
             }
@@ -139,10 +137,10 @@ public class Rail : MonoBehaviour, IInteractable, IStackable, IPoolable
     /// <summary>
     /// 레일타일을 맵에 배치
     /// </summary>
-    public void SetupRailWay()
+    public void SetupRailway()
     {
         // 맵에 설치되었으므로 레일타일로 상태변경
-        IsRailWay = true;
+        IsRailway = true;
         _currentCount = 1;
         
         /* Todo: 설치될때 레일매니저 클래스를 통해 레일 모양 변경
@@ -153,12 +151,13 @@ public class Rail : MonoBehaviour, IInteractable, IStackable, IPoolable
     /// <summary>
     /// 레일타일을 맵에서 제거하 
     /// </summary>
-    public void RemoveRailWay()
+    public void RemoveRailway()
     {
       
         // 타일에서 제거되었으므로 레일 아이템으로 상태변경
-        IsRailWay = false;
-        
+        IsRailway = false;
+        RailManager.Instance.RemoveLastRailway();
+
         ReturnToPool();
         
         /* 설치될때 레일매니저 클래스를 통해 레일 모양 변경해야 하므로
@@ -197,7 +196,7 @@ public class Rail : MonoBehaviour, IInteractable, IStackable, IPoolable
             _outline.enabled = false;
         }
         
-        IsRailWay = false;
+        IsRailway = false;
         _currentCount = 1;
         
         // 오트젝트풀 클래스로 자기 자신을 반환해야 함
@@ -227,7 +226,6 @@ public class Rail : MonoBehaviour, IInteractable, IStackable, IPoolable
                 _curveRailPrefab.transform.eulerAngles = new Vector3(-90, 0, 0);
                 break;
             case RailShape.UpToRightCurve:
-                Debug.Log("Changed rail shape!");
                 _lineRailPrefab.SetActive(false);
                 _curveRailPrefab.SetActive(true);
                 _curveRailPrefab.transform.eulerAngles = new Vector3(-90, 90, 0);

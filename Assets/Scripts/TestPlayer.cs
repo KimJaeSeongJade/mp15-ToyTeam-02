@@ -6,7 +6,7 @@ public class TestPlayer : MonoBehaviour
 {
    [SerializeField] private Rail railOnMap;
    [SerializeField] private Rail railInHand;
-   [SerializeField] private Rail lastRailWayOnMap;
+   [SerializeField] private Rail lastRailwayOnMap;
    
    private bool isTargeting;
    
@@ -28,7 +28,7 @@ public class TestPlayer : MonoBehaviour
          //OutlineTest();
       }
       
-      lastRailWayOnMap.Targeted();
+      lastRailwayOnMap.Targeted();
       // 버튼을 통한 상호작용 테스트
       if (Input.GetKeyDown(KeyCode.E))
       {
@@ -50,9 +50,9 @@ public class TestPlayer : MonoBehaviour
       
       railOnMap.AutoInteract(railInHand);
       
-      if (railOnMap.IsRailWay)
+      if (railOnMap.IsRailway)
       {
-         Debug.Log($"맵에 위치한 레일이 RailWay라서, 중첩할 수 없습니다");
+         Debug.Log($"맵에 위치한 레일이 Railway라서, 중첩할 수 없습니다");
       }
 
       Debug.Log(" TestPlayer: AutoInteract 적용 시도 (바닥의 레일아이템을 흡수)");
@@ -80,10 +80,10 @@ public class TestPlayer : MonoBehaviour
    private void ButtonInteractTest()
    {
       Debug.Log("[상호작용 전]");
-      Debug.Log($"[{lastRailWayOnMap.name}]의 레일 타입: {lastRailWayOnMap.BlockType} ");
-      lastRailWayOnMap.ButtonInteract(railInHand);
+      Debug.Log($"[{lastRailwayOnMap.name}]의 레일 타입: {lastRailwayOnMap.BlockType} ");
+      lastRailwayOnMap.ButtonInteract(railInHand);
       Debug.Log("[상호작용 후]");
-      Debug.Log($"[{lastRailWayOnMap.name}]의 레일 타입: {lastRailWayOnMap.BlockType} ");
+      Debug.Log($"[{lastRailwayOnMap.name}]의 레일 타입: {lastRailwayOnMap.BlockType} ");
    }
    
    

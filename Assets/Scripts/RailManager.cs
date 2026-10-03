@@ -4,14 +4,13 @@ using UnityEngine;
 
 public class RailManager : MonoBehaviour
 {
+    [SerializeField] private SplineManager _splineManager;
+
     // 마지막 레일 판단을 쉽게하기위해 링크드 리스트형태로 구현
     public LinkedList<Rail> Rails = new LinkedList<Rail>();
-    
-
     public static RailManager Instance { get; private set; }
 
     private void Awake()
-    
     {
         SetSingleton();
     }
@@ -28,35 +27,73 @@ public class RailManager : MonoBehaviour
         Instance = this;
     }
 
-
     public Rail GetLastRailway()
     {
         return Rails.Last.Value;
     }
 
-    public void TryRailWayPlace(Rail targetRail, Vector2Int coord)
+    /// <summary>
+    /// Railway 설치 할 수 있다면 설치하고 true, 설치할 수 없다면 false
+    /// </summary>
+    /// <param name="coord"> 맵 좌표 </param>
+    /// <returns></returns>
+    public bool TryRailwayPlace(Vector2Int coord)
     {
-        Vector2Int lastRailCoord = Rails.Last.Value.transform.position.WorldToCoord();
-        
-        if (lastRailCoord.x == coord.x && Mathf.Abs(lastRailCoord.y - coord.y) == 1 )
+        if (Map.Instance.GetHoldable(coord) != null)
         {
-            AddRailWay(targetRail);
+            return false;
         }
 
-    }
+        if (Rails.Count == 0)
+        {
+            AddRailway(coord);
+            return true;
+        }
 
-
-    private void AddRailWay(Rail targetRail)
-    {
-        // Todo: 맵의 해당 타일을 RailWay로 교체
-        LinkedListNode<Rail> prevRailNode = Rails.Last;
-        Rails.AddLast(targetRail);
+        Vector2Int lastRailCoord = Rails.Last.Value.transform.position.WorldToCoord();
         
-        ChangeRailWayShape(prevRailNode);
-        ChangeRailWayShape(Rails.Last);
+        if (lastRailCoord.x == coord.x && Mathf.Abs(lastRailCoord.y - coord.y) == 1 ||
+            lastRailCoord.y == coord.y && Mathf.Abs(lastRailCoord.x - coord.x) == 1)
+        {
+            AddRailway(coord);
+            return true;
+        }
+
+        return false;
     }
 
-    private void ChangeRailWayShape(LinkedListNode<Rail> targetNode)
+    private void AddRailway(Vector2Int coord)
+    {
+        IPoolable poolable = ObjectPool.Instance.Take(BlockType.Rail);
+        Rail newRail = poolable as Rail;
+
+        newRail.GameObject.transform.position = coord.CoordToWorld();
+        newRail.GameObject.SetActive(true);
+
+        Map.Instance.SetHoldable(coord, newRail);
+        _splineManager.AddSplineKnot(coord);
+
+        newRail.SetupRailway();
+
+        Rails.AddLast(newRail);
+
+        UpdateRailwayShape();
+    }
+
+    private void UpdateRailwayShape()
+    {
+        LinkedListNode<Rail> prevRailNode = Rails.Last.Previous;
+
+        if (prevRailNode == null)
+        {
+            return;
+        }
+
+        if (prevRailNode != Rails.First) ChangeRailwayShape(prevRailNode);
+        ChangeRailwayShape(Rails.Last);
+    }
+
+    private void ChangeRailwayShape(LinkedListNode<Rail> targetNode)
     {
         Rail targetRail = targetNode.Value;
         Vector2Int currentRailCoord = targetNode.Value.transform.position.WorldToCoord();
@@ -66,26 +103,25 @@ public class RailManager : MonoBehaviour
         {
             if (prevRailCoord.x == currentRailCoord.x)
             {
-                targetRail.ChangeRailShape(RailShape.HorizontalLine);
+                targetRail.ChangeRailShape(RailShape.VerticalLine);
             }
             else if (prevRailCoord.y == currentRailCoord.y)
             {
-                targetRail.ChangeRailShape(RailShape.VerticalLine);
+                targetRail.ChangeRailShape(RailShape.HorizontalLine);
             }
         }
         else
         {
           
             Vector2Int nextRailCoord = targetNode.Next.Value.transform.position.WorldToCoord();
-            
             if (prevRailCoord.x == nextRailCoord.x)
             {
-                targetRail.ChangeRailShape(RailShape.HorizontalLine);
+                targetRail.ChangeRailShape(RailShape.VerticalLine);
             }
             
             else if (prevRailCoord.y == nextRailCoord.y)
             {
-                targetRail.ChangeRailShape(RailShape.VerticalLine);
+                targetRail.ChangeRailShape(RailShape.HorizontalLine);
             }
             
             else if (prevRailCoord.x == currentRailCoord.x)
@@ -141,23 +177,22 @@ public class RailManager : MonoBehaviour
                     {
                         targetRail.ChangeRailShape(RailShape.UpToRightCurve);
                     }
-                    
                 }
-                
             }
-            
-            
-        }
-        
-        
-        
+        }    
     }
-    
-    
-    
 
+    /// <summary>
+    /// 마지막에 설치한 Railway 제거
+    /// </summary>
+    public void RemoveLastRailway()
+    {
+        if (Rails.Count == 0) return;
 
+        Map.Instance.SetHoldable(Rails.Last.Value.GameObject.transform.position.WorldToCoord(), null);
+        _splineManager.RemoveLastSplineKnot();
+        Rails.RemoveLast();
 
-
-
+        UpdateRailwayShape();
+    }
 }

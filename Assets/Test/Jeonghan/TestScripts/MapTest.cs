@@ -15,13 +15,13 @@ public class MapTest : MonoBehaviour
     {
         foreach(GameObject interactable in interactables)
         {
-            Map.Instance.SetInteractable(interactable.transform.position.WorldToCoord(), interactable.GetComponent<IInteractable>());
+            Map.Instance.SetHoldable(interactable.transform.position.WorldToCoord(), interactable.GetComponent<IInteractable>());
             interactable.transform.position = interactable.transform.position.WorldToCoord().CoordToWorld();
         }
 
         foreach(GameObject interactable in interactables)
         {
-            Debug.Log($"{Map.Instance.GetInteractable(interactable.transform.position.WorldToCoord())}");
+            Debug.Log($"{Map.Instance.GetHoldable(interactable.transform.position.WorldToCoord())}");
         }
     }
 }
