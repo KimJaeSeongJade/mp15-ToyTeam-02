@@ -75,6 +75,7 @@ public class PlayerAction : MonoBehaviour
         }
 
         Vector2Int targetCoord = target.GameObject.transform.position.WorldToCoord();
+
         bool canInteract = target.ButtonInteract(_hand.Item) != _hand.Item;
 
         if (canInteract)

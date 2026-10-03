@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 
-public abstract class ToolBase : MonoBehaviour, IInteractable
+public abstract class ToolBase : MonoBehaviour, IInteractable, IPoolable
 {
-    public GameObject GameObject { get; }
+    public GameObject GameObject => gameObject;
     public abstract BlockType BlockType { get; }
     public abstract Outline Outline { get; }
 
@@ -32,6 +32,12 @@ public abstract class ToolBase : MonoBehaviour, IInteractable
 
     public void Untargeted()
     {
-        Outline.enabled = true;
+        Outline.enabled = false;
+    }
+
+    public void ReturnToPool()
+    {
+        ObjectPool.Instance.Return(this);
+        gameObject.SetActive(false);
     }
 }
