@@ -3,7 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
-public class Undo : InteractUI
+/// <summary>
+/// 상호작용시 버튼에 등록된 메서드를 작동
+/// </summary>
+public class UnityEventInteractUI : InteractUI
 {
     [SerializeField] private UnityEvent _onUIPressed;
 

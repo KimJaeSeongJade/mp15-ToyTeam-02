@@ -2,6 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// 상호작용키를 누르면 작동하는 UI
+/// </summary>
 public class InteractUI : UIBase
 {
     private KeyCode _interactKey => KeyCode.Space;

@@ -4,6 +4,9 @@ using System.Net.NetworkInformation;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
+/// <summary>
+/// Game관리 Singleton Manager
+/// </summary>
 public class GameManager : MonoBehaviour
 {
     private static GameManager _instance;

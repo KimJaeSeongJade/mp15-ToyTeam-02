@@ -3,7 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
-public class ILRUI : InteractUI
+/// <summary>
+/// 시간이 지날시 버튼에 등록된 메서드를 작동
+/// </summary>
+public class UnityEventTimerUI : TimerUI
 {
     [SerializeField] private UnityEvent _onUIPressed;
 
