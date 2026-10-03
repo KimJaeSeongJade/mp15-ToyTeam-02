@@ -96,7 +96,7 @@ public class PlayerAction : MonoBehaviour
     private void DropItem(Vector2Int position)
     {
         _animator.SetBool("IsHolding", false);
-        Map.Instance.SetInteractable(position, _hand.Item);
+        Map.Instance.SetHoldable(position, _hand.Item);
 
         if (_hand.Item != null)
         {
