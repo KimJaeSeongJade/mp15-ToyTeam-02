@@ -8,8 +8,8 @@ public class InvisibleWaterBlock : MonoBehaviour, IPoolable
 
     public BlockType BlockType { get => BlockType.Water; }
 
-    public void ReturnToPool(IPoolable poolable)
+    public void ReturnToPool()
     {
-        ObjectPool.Instance.Return(GetComponent<IPoolable>());
+        ObjectPool.Instance.Return(this);
     }
 }

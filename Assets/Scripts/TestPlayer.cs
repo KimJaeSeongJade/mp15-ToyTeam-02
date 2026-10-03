@@ -50,9 +50,9 @@ public class TestPlayer : MonoBehaviour
       
       railOnMap.AutoInteract(railInHand);
       
-      if (railOnMap.BlockType == BlockType.RailWay)
+      if (railOnMap.IsRailWay)
       {
-         Debug.Log($"맵에 위치한 레일의 타입이 {railOnMap.BlockType}라서, 중첩할 수 없습니다");
+         Debug.Log($"맵에 위치한 레일이 RailWay라서, 중첩할 수 없습니다");
       }
 
       Debug.Log(" TestPlayer: AutoInteract 적용 시도 (바닥의 레일아이템을 흡수)");

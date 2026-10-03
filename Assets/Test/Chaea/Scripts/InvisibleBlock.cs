@@ -8,8 +8,8 @@ public class InvisibleBlock : MonoBehaviour, IPoolable
 
     public BlockType BlockType { get => BlockType.None; }
 
-    public void ReturnToPool(IPoolable poolable)
+    public void ReturnToPool()
     {
-        ObjectPool.Instance.Return(GetComponent<IPoolable>());
+        ObjectPool.Instance.Return(this);
     }
 }

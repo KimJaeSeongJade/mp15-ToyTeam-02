@@ -8,10 +8,13 @@ public class Rail : MonoBehaviour, IInteractable, IStackable, IPoolable
     [SerializeField] private int _maxStack = 3;       // 최대 중첩 갯수
     [SerializeField] private GameObject _lineRailPrefab;
     [SerializeField] private GameObject _curveRailPrefab;
-    
-    
-    // true라면 타일로써의 레일, flase라면 아이템으로써의 레일 상태
-    [SerializeField] private bool _isRailWay = false;
+
+
+    /// <summary>
+    /// true라면 타일로써의 레일, flase라면 아이템으로써의 레일 상태
+    /// </summary>
+    [field: SerializeField] public bool IsRailWay { get; private set; }
+
     private Outline _outline;
     
     /// <summary>
@@ -22,22 +25,7 @@ public class Rail : MonoBehaviour, IInteractable, IStackable, IPoolable
     /// <summary>
     /// 자신의 블록 종류
     /// </summary>
-    public BlockType BlockType
-    {
-        get
-        {   
-            // 레일의 상태가 레일 타일일 경우
-            if (_isRailWay == true)
-            {
-                return BlockType.RailWay;
-            }
-            // 레일의 상태가 레일 아이템인 경우
-            else
-            {
-                return BlockType.Rail;
-            }
-        }
-    }
+    public BlockType BlockType => BlockType.Rail;
     
     /// <summary>
     /// 쌓인 개수
@@ -78,9 +66,9 @@ public class Rail : MonoBehaviour, IInteractable, IStackable, IPoolable
     public void AutoInteract(IInteractable inPlayerHand)
     {
         // 레일의 상태가 RailWay 타일 상태라면 합쳐지지 않기
-        if (_isRailWay) return;
+        if (IsRailWay) return;
         
-        // 플레이어가 접근한 오브젝트가 Rail 이면서, 아이템으로써의 레일인 경우
+        // 플레이어가 접근한 오브젝트가 Rail인 경우
         if (inPlayerHand.BlockType == BlockType.Rail)
         {
             Rail inPlayerRail = inPlayerHand as Rail;
@@ -97,7 +85,7 @@ public class Rail : MonoBehaviour, IInteractable, IStackable, IPoolable
             {
                 inPlayerRail._currentCount = totalCount;
                 _currentCount = 0;
-                ReturnToPool(this);
+                ReturnToPool();
             }
             
         }
@@ -115,7 +103,7 @@ public class Rail : MonoBehaviour, IInteractable, IStackable, IPoolable
         {
             
             // 기존의 맵위에 레일타일이 설치되지 않았을경우에만 레일 타일 설치
-            if (!_isRailWay)
+            if (!IsRailWay)
             {
                 return this; 
             }
@@ -130,7 +118,7 @@ public class Rail : MonoBehaviour, IInteractable, IStackable, IPoolable
         if (inPlayerHand == null)
         {
            
-            if (_isRailWay)
+            if (IsRailWay)
             {
                 // todo: 열차가 지나간 RailWay는 상호작용 불가능하게
                 if (RailManager.Instance.Rails.Last.Value == this)
@@ -154,7 +142,7 @@ public class Rail : MonoBehaviour, IInteractable, IStackable, IPoolable
     public void SetupRailWay()
     {
         // 맵에 설치되었으므로 레일타일로 상태변경
-        _isRailWay = true;
+        IsRailWay = true;
         _currentCount = 1;
         
         /* Todo: 설치될때 레일매니저 클래스를 통해 레일 모양 변경
@@ -169,9 +157,9 @@ public class Rail : MonoBehaviour, IInteractable, IStackable, IPoolable
     {
       
         // 타일에서 제거되었으므로 레일 아이템으로 상태변경
-        _isRailWay = false;
+        IsRailWay = false;
         
-        ReturnToPool(this);
+        ReturnToPool();
         
         /* 설치될때 레일매니저 클래스를 통해 레일 모양 변경해야 하므로
         SetRailLink()
@@ -201,7 +189,7 @@ public class Rail : MonoBehaviour, IInteractable, IStackable, IPoolable
     /// 자기 자신을 오브젝트 풀로 반환
     /// </summary>
     /// <param name="poolable"> 자기 자신의 IPoolable </param>
-    public void ReturnToPool(IPoolable poolable)
+    public void ReturnToPool()
     {
         
         if (_outline != null)
@@ -209,11 +197,11 @@ public class Rail : MonoBehaviour, IInteractable, IStackable, IPoolable
             _outline.enabled = false;
         }
         
-        _isRailWay = false;
+        IsRailWay = false;
         _currentCount = 1;
         
         // 오트젝트풀 클래스로 자기 자신을 반환해야 함
-        // ObjectPool.Instance.Return(this.gameObject);
+        // ObjectPool.Instance.Return(this);
         
         gameObject.SetActive(false);
     }

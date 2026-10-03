@@ -54,7 +54,7 @@ public abstract class Resource : MonoBehaviour, IInteractable, IPoolable
         dropItem.GameObject.transform.position = transform.position;
         dropItem.GameObject.SetActive(true);
         
-        ReturnToPool(this);
+        ReturnToPool();
     }
 
     protected virtual void UpdateVisuals()
@@ -74,19 +74,19 @@ public abstract class Resource : MonoBehaviour, IInteractable, IPoolable
                 _visualMiddle.SetActive(false);
                 break;
             case 0:
-                ReturnToPool(GetComponent<IPoolable>());
+                ReturnToPool();
                 break;
         }
     }
 
 
 
-    public void ReturnToPool(IPoolable poolable)
+    public void ReturnToPool()
     {
         
         gameObject.SetActive(false);
         //풀에 다시 넣기
-        ObjectPool.Instance.Return(poolable);
+        ObjectPool.Instance.Return(this);
     }
 
     public void AutoInteract(IInteractable interactable)

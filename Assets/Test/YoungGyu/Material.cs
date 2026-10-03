@@ -56,7 +56,7 @@ public abstract class MaterialBase : MonoBehaviour, IStackable, IPoolable, IInte
         throw new System.NotImplementedException();
     }
 
-    public void ReturnToPool(IPoolable poolable)
+    public void ReturnToPool()
     {
         gameObject.SetActive(false);
         ObjectPool.Instance.Return(this);
