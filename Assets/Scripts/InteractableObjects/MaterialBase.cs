@@ -78,6 +78,7 @@ public abstract class MaterialBase : MonoBehaviour, IStackable, IPoolable, IInte
 
     public IInteractable ButtonInteract(IInteractable interactable)
     {
+        Map.Instance.SetHoldable(transform.position.WorldToCoord(), interactable);
         return this;
     }
 

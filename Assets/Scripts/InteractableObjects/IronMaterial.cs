@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MaterialIron : MaterialBase
+public class IronMaterial : MaterialBase
 {
     [SerializeField] Outline _outline;
 

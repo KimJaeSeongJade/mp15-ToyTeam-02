@@ -126,6 +126,7 @@ public abstract class ResourceBase : MonoBehaviour, IInteractable, IPoolable
     public void Untargeted()
     {
         Outline.enabled = false;
+        _isMining = false;
         _cooldownTimer = 0f;
     }
 }

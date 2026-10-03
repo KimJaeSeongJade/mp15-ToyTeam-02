@@ -51,7 +51,7 @@ public class SplineTest : MonoBehaviour
             }
         }
 
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (Input.GetKeyDown(KeyCode.T))
         {
             if (_dummyTrain.gameObject.activeSelf == false)
             {

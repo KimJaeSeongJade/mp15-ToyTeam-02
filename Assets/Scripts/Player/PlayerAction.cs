@@ -75,12 +75,15 @@ public class PlayerAction : MonoBehaviour
         }
 
         Vector2Int targetCoord = target.GameObject.transform.position.WorldToCoord();
-        bool canInteract = target.ButtonInteract(_hand.Item) != _hand.Item;
 
-        if (canInteract)
+        IInteractable newInteractable = target.ButtonInteract(_hand.Item);
+        Debug.Log(newInteractable.GameObject.name);
+        //bool canInteract = target.ButtonInteract(_hand.Item) != _hand.Item;
+
+        if (newInteractable != null)
         {
             DropItem(targetCoord);
-            PickUpItem(target);
+            PickUpItem(newInteractable);
         }
     }
 
