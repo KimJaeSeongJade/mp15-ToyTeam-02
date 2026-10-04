@@ -53,6 +53,16 @@ public class TitleSceneManager : MonoBehaviour
         _settingUI.SetActive(false);
     }
 
+    public void PlayerAdd()
+    {
+
+    }
+
+    public void PlayerDel()
+    {
+
+    }
+
     // 게임 종료
     public void Quit()
     {

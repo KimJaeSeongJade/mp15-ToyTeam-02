@@ -57,6 +57,23 @@ public class SceneManagerA : MonoBehaviour
         GameManager.Instance.IsPause = false;
     }
 
+    // 게임 창모드 변경
+    private void ChangeFullScreenMode(int mode)
+    {
+        switch(mode)
+        {
+            case 0:
+                Screen.fullScreenMode = FullScreenMode.FullScreenWindow;
+                break;
+            case 1:
+                Screen.fullScreenMode = FullScreenMode.Windowed;
+                break;
+        }
+    }
+
+    // 게임 해상도 변경
+
+
     private void SetSingleton()
     {
         if (Instance != null && Instance != this)
