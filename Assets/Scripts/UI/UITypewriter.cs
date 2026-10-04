@@ -5,6 +5,9 @@ using DG.Tweening;
 using TMPro;
 using UnityEngine.UI;
 
+/// <summary>
+/// Text 타자기 효과
+/// </summary>
 public class UITypewriter : MonoBehaviour
 {
     [SerializeField] private TMP_Text _textMP;

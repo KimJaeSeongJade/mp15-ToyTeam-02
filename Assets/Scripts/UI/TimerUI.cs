@@ -41,7 +41,7 @@ public class TimerUI : UIBase
         }
     }
 
-    public override void PlayUI()
+    protected override void PlayUI()
     {
         Debug.Log("UI활성화");
     }

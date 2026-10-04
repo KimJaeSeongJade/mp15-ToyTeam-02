@@ -4,6 +4,9 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
+/// <summary>
+/// Scene 관리 Singleton Manager
+/// </summary>
 public class SceneManagerA : MonoBehaviour
 {
     private static SceneManagerA _instance;
@@ -35,6 +38,12 @@ public class SceneManagerA : MonoBehaviour
     {
         SceneManager.LoadScene(2);
     }
+
+    public void LoadTutorialScene()
+    {
+        SceneManager.LoadScene(3);
+    }
+
     // 게임 정지
     public void Pause()
     {
