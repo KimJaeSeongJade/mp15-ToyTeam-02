@@ -270,7 +270,7 @@ public class Rail : MonoBehaviour, IInteractable, IStackable, IPoolable
             // 벡터의 `x축 -90도`는 레일 타일을 바닥에 눕히는 기준 각도입니다.
             // 벡터의 `y축` 값을 90도씩 회전 시켜 4개의 방향을 만듭니다.
             
-            // 2.1 (┌ 방향 곡선]: ⬇️➡️ 
+            // 2.1 (└ 방향 곡선]: ⬇️➡️ 
             case RailShape.DownToRightCurve:
                 _lineRailPrefab.SetActive(false);
                 _curveRailPrefab.SetActive(true);
@@ -278,21 +278,21 @@ public class Rail : MonoBehaviour, IInteractable, IStackable, IPoolable
                 _curveRailPrefab.transform.eulerAngles = new Vector3(-90, 0, 0);
                 break;
             
-            // 2.2 (└ 방향 곡선): ⬆️➡️
+            // 2.2 (┌ 방향 곡선): ⬆️➡️
             case RailShape.UpToRightCurve:
                 _lineRailPrefab.SetActive(false);
                 _curveRailPrefab.SetActive(true);
                 _curveRailPrefab.transform.eulerAngles = new Vector3(-90, 90, 0);
                 break;
             
-            // 2.3 (┘ 방향 곡선):  ⬆️⬅️
+            // 2.3 (┐ 방향 곡선):  ⬆️⬅️
             case RailShape.UpToLeftCurve:
                 _lineRailPrefab.SetActive(false);
                 _curveRailPrefab.SetActive(true);
                 _curveRailPrefab.transform.eulerAngles = new Vector3(-90, 180, 0);
                 break;
             
-            // 2.4 (┐ 방향 곡선): ⬇️⬅️
+            // 2.4 (┘ 방향 곡선): ⬇️⬅️
             case RailShape.DownToLeftCurve:
                 _lineRailPrefab.SetActive(false);
                 _curveRailPrefab.SetActive(true);
