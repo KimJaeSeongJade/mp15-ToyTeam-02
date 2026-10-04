@@ -107,18 +107,21 @@ public class PlayerAction : MonoBehaviour
     {
         _animator.SetBool("IsHolding", false);
 
-        IInteractable newInteractable = null;
-
         if (_hand.Item != null)
         {
+            // 레일을 배치할 수 있는 경우에 개수를 하나 줄이고 배치
             if (_hand.Item.BlockType == BlockType.Rail)
-            {
+            {   
                 if (RailManager.Instance.TryRailwayPlace(position))
                 {
                     Rail rail = _hand.Item as Rail;
-                    newInteractable = rail.ReduceStack();
-                    Debug.Log(newInteractable);
-                    if (newInteractable != null) return;
+                    rail.ReduceStack();
+
+                    if (rail.Count == 0)
+                    {
+                        _hand.Item = null;
+                    }
+                    return;
                 }
             }
 
@@ -128,7 +131,7 @@ public class PlayerAction : MonoBehaviour
         }
 
         Map.Instance.SetHoldable(position, _hand.Item);
-        _hand.Item = newInteractable;
+        _hand.Item = null;
     }
 
     /// <summary>

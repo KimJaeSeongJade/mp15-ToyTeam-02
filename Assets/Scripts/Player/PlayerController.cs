@@ -116,6 +116,7 @@ public class PlayerController : MonoBehaviour
             }
         }
 
+
         if (_playerHand.Item == target || target != null && target.GameObject.activeSelf == false)
         {
             target = null;

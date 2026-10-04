@@ -53,6 +53,7 @@ public class Rail : MonoBehaviour, IInteractable, IStackable, IPoolable
             _outline.enabled = false;
         }
 
+        _currentCount = 1;
         UpdateStackVisuals();
         ChangeRailShape(RailShape.HorizontalLine);
     }
@@ -77,7 +78,6 @@ public class Rail : MonoBehaviour, IInteractable, IStackable, IPoolable
                 _lineRailPrefabBottom.SetActive(true);
                 break;
             case 0:
-                ReturnToPool();
                 break;
         }
     }
@@ -94,14 +94,13 @@ public class Rail : MonoBehaviour, IInteractable, IStackable, IPoolable
     public void AutoInteract(IInteractable inPlayerHand)
     {
         // 자기 자신 감지 또는 레일의 상태가 Railway 타일 상태라면 합쳐지지 않기
-        if (inPlayerHand != null && inPlayerHand.GameObject == gameObject ||
-            IsRailway ||
+        if (IsRailway ||
+            inPlayerHand == null ||
+            inPlayerHand.GameObject == gameObject ||
             inPlayerHand.BlockType != BlockType.Rail) return;
 
         // 플레이어가 접근한 오브젝트가 Rail인 경우
         Rail inPlayerRail = inPlayerHand as Rail;
-        Debug.Log($"Check railway inplayerhand {inPlayerRail.IsRailway}");
-        Debug.Log($"Check railway this {IsRailway}");
 
         int totalCount = _currentCount + inPlayerRail.Count;
             
@@ -118,8 +117,6 @@ public class Rail : MonoBehaviour, IInteractable, IStackable, IPoolable
             ReturnToPool();
         }
 
-        Debug.Log($"autoInteract current {_currentCount}");
-        Debug.Log($"autoInteract inplayerHand {inPlayerRail._currentCount}");
         Rail rail = inPlayerHand as Rail;
         rail.UpdateStackVisuals();
         UpdateStackVisuals();
@@ -152,55 +149,17 @@ public class Rail : MonoBehaviour, IInteractable, IStackable, IPoolable
             }
             return inPlayerHand;
         }
-
-        /*
-        // 1. 플레이어가 버튼을 눌러 손에든 레일아이템을 설치하는 경우
-        if (inPlayerHand != null)
-        {
-
-            // 기존의 맵위에 레일타일이 설치되지 않았을경우에만 레일 타일 설치
-            if (!IsRailway)
-            {
-                return this;
-            }
-            else
-            {
-                return inPlayerHand;
-            }
-
-        }
-        // 2. 아무것도 들지 않은채로 버튼을 눌러 레일타일을 회수하는 경우 
-        else
-        {
-            if (IsRailway)
-            {
-                // todo: 열차가 지나간 Railway는 상호작용 불가능하게
-                if (RailManager.Instance.Rails.Last.Value == this)
-                {
-                    IsRailway = false;
-                    RailManager.Instance.RemoveLastRailway();
-
-                    // 플레이어가 뽑아 타일에서 제거되어 레일아이템 상태가 된 자신을 반환
-                    return this;
-                }
-            }
-            return inPlayerHand;
-        }
-        */
     }
 
-    public IInteractable ReduceStack()
+    public void ReduceStack()
     {
-        Debug.Log("Stack reduced");
         _currentCount--;
-        Debug.Log(_currentCount);
-        UpdateStackVisuals();
-        if (_currentCount <= 0)
+
+        if (_currentCount == 0)
         {
             ReturnToPool();
-            return null;
         }
-        return this;
+        UpdateStackVisuals();
     }
     
     /// <summary>
@@ -238,14 +197,12 @@ public class Rail : MonoBehaviour, IInteractable, IStackable, IPoolable
     /// <param name="poolable"> 자기 자신의 IPoolable </param>
     public void ReturnToPool()
     {
-        Debug.Log("Returned to pool");
         if (_outline != null)
         {
             _outline.enabled = false;
         }
         
         IsRailway = false;
-        _currentCount = 1;
 
         gameObject.SetActive(false);
         ObjectPool.Instance.Return(this);

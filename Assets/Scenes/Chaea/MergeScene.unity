@@ -122,53 +122,6 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
---- !u!1 &51148111
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 51148112}
-  - component: {fileID: 51148113}
-  m_Layer: 0
-  m_Name: SplineTest
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &51148112
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 51148111}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &51148113
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 51148111}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 533367e1248c65c4ca2ccbe96fce760e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _splineManager: {fileID: 1195103906}
-  _railPrefab: {fileID: 1404608376042640530, guid: 9fe402f3c54d2ed448366169d0cfc692, type: 3}
-  _dummyTrain: {fileID: 1172076411}
 --- !u!1001 &90312596
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -557,17 +510,6 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 29a074d529cf945029ef7cf40540c9df, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &1172076411 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 637078851796545259, guid: 094bc9c1b3703f44cb93e7d865eb5160, type: 3}
-  m_PrefabInstance: {fileID: 90312596}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2c08fc4c31859c848b1afeb9db3a9fb6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &1195103905
@@ -965,4 +907,3 @@ SceneRoots:
   - {fileID: 255108432}
   - {fileID: 90312596}
   - {fileID: 1667553554}
-  - {fileID: 51148112}
