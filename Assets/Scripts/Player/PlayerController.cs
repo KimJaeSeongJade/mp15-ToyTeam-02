@@ -91,7 +91,7 @@ public class PlayerController : MonoBehaviour
             RaycastHit hit;
             if (!Physics.Raycast(ray, out hit, _detectRange.Range)) continue;
             
-            if (lookPercentage >= THRESHOLD && hit.transform.GetComponent<IInteractable>() == detected)
+            if (lookPercentage >= THRESHOLD && hit.transform.GetComponent<IInteractable>() == detected && detected != GetComponentInChildren<PlayerHand>().Item)
             {
                 if (!_canTargetList.Contains(detected)) _canTargetList.Add(detected);
                 _canTargetDict.TryAdd(detected, lookPercentage);
