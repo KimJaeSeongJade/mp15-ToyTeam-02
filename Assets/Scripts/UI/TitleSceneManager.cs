@@ -38,7 +38,7 @@ public class TitleSceneManager : MonoBehaviour
             undoUI.Item2.SetActive(false);
         }
     }
-
+    // Setting창 열기
     public void OppenSetting()
     {
         SceneManagerA.Instance._isSelectNow = false;
@@ -48,7 +48,7 @@ public class TitleSceneManager : MonoBehaviour
         _settingUI.gameObject.GetComponent<MenuController>()._isSelect = true;
         _settingUI.gameObject.GetComponent<MenuController>()._isSettingUI = false;
     }
-
+    // Setting창 닫기
     private void CloseSetting()
     {
         if (!SceneManagerA.Instance._isSelectNow)
@@ -58,7 +58,7 @@ public class TitleSceneManager : MonoBehaviour
             _settingUI.SetActive(false);
         }
     }
-
+        
     public void ChangeScreenMode(int value)
     {
         SceneManagerA.Instance.ChangeScreenMode(value);

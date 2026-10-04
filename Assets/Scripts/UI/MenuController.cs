@@ -5,6 +5,7 @@ using UnityEngine.UI;
 
 public class MenuController : MonoBehaviour
 {
+    // 설정조작 MenuController에 지금 프리팹 부여
     public MenuController _prevMenu;
 
     private KeyCode _upKey => KeyCode.W;
@@ -131,6 +132,7 @@ public class MenuController : MonoBehaviour
     }
 
     // 코루틴으로 _inKey키 동시 입력 지연
+    // 설정조작UI로 들어감
     private IEnumerator In()
     {
         yield return null;
@@ -146,6 +148,7 @@ public class MenuController : MonoBehaviour
         }
     }
 
+    // 설정조작UI에서 나옴
     private void Out()
     {
         SceneManagerA.Instance._isSelectNow = false;
@@ -154,6 +157,7 @@ public class MenuController : MonoBehaviour
         _prevMenu._isSelect = true;
     }
 
+    // Silder면 value조절, LRUI면 좌우 넘기기
     private void SetCurrentUI(int value)
     {
         if (_panel[_currenNum].transform.Find("Slider"))

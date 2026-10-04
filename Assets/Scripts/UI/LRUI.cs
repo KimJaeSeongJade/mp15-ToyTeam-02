@@ -24,15 +24,17 @@ public class LRUI : MonoBehaviour
     }
     private void Init()
     {
-        _currntNum = 1;
-        _prevNum = 1;
+        _currntNum = _text.Length / 2;
+        _prevNum = _text.Length / 2;
     }    
 
     private void CashComponent()
     {
-        _text[0].gameObject.SetActive(false);
-        _text[1].gameObject.SetActive(true);
-        _text[2].gameObject.SetActive(false);
+        for (int i = 0; i < _text.Length; i++)
+        {
+            _text[i].gameObject.SetActive(false);           
+        }
+        _text[_currntNum].gameObject.SetActive(true);
     }
     // 유니티 이벤트에 등록시킬 페이지 바꾸는 매서드
     public void ChangePage(int num)
