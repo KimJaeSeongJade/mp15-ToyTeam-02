@@ -3,14 +3,15 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Splines;
 
-public class DummyTrain : MonoBehaviour, IInteractable
+public class DummyTrain : MonoBehaviour
 {
-    [SerializeField] private SplineAnimate _splineAnimate;
+    [SerializeField] protected SplineAnimate _splineAnimate;
+    
+    public static float MaxTrainSpeed = .5f;
 
-    public GameObject GameObject { get; }
+    private WaitForSeconds _wait = new WaitForSeconds(2f);
 
-    public BlockType BlockType { get; }
-
+    // -----------------------------
     private void Awake()
     {
         _splineAnimate.enabled = false;
@@ -18,39 +19,36 @@ public class DummyTrain : MonoBehaviour, IInteractable
 
     private void OnEnable() => Init();
     private void OnDisable() => UnbindSplineAnimateEvents();
+    // -----------------------------
 
-    private void OnSplineUpdate(Vector3 vector, Quaternion quaternion)
+    protected virtual void OnSplineUpdate(Vector3 vector, Quaternion quaternion)
     {
-        if (_splineAnimate.NormalizedTime >= 1.0f)
+        if (_splineAnimate.NormalizedTime >= 1.0f - _splineAnimate.StartOffset)
         {
-            Debug.Log("열차 끝에 도착");
+            Destroy(gameObject);
         }
-    }
-
-    public void AutoInteract(IInteractable interactable)
-    {
-        throw new System.NotImplementedException();
-    }
-
-    public IInteractable ButtonInteract(IInteractable interactable)
-    {
-        throw new System.NotImplementedException();
-    }
-
-    public void Targeted()
-    {
-        throw new System.NotImplementedException();
-    }
-
-    public void Untargeted()
-    {
-        throw new System.NotImplementedException();
     }
 
     private void Init()
     {
         BindSplineAnimateEvents();
+
+        StartCoroutine(TrainDepartRoutine());
+    }
+
+    private IEnumerator TrainDepartRoutine()
+    {
         _splineAnimate.enabled = true;
+        _splineAnimate.Restart(true);
+        _splineAnimate.MaxSpeed = 0f;
+
+        yield return _wait;
+        TrainDepart();
+    }
+
+    private void TrainDepart()
+    {
+        _splineAnimate.MaxSpeed = MaxTrainSpeed;
         _splineAnimate.Restart(true);
     }
 

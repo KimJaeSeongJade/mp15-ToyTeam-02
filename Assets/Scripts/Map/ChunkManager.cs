@@ -103,7 +103,6 @@ public class ChunkManager : MonoBehaviour
 
         _invisibleWallPool.Enqueue(invisibleWallTop);
         _invisibleWallPool.Enqueue(invisibleWallBottom);
-
     }
 
     private void InitialLoad()
@@ -114,8 +113,14 @@ public class ChunkManager : MonoBehaviour
             LoadInvisibleWall(i);
         }
 
+        _splineManager.LoadTrain();
         _oldestChunkIndex = 0;
         Debug.Log("Map Loaded!");
+    }
+
+    private void LoadTrain()
+    {
+
     }
 
     private void CreateChunkPool()
