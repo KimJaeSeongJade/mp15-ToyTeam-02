@@ -66,6 +66,7 @@ public class Rail : MonoBehaviour, IInteractable, IStackable, IPoolable
         }
 
         ChangeRailShape(RailShape.HorizontalLine);
+        _currentCount = 1;
     }
 
     private void CacheComponents()
@@ -189,9 +190,6 @@ public class Rail : MonoBehaviour, IInteractable, IStackable, IPoolable
         
         // RailManager를 통해 새롭게 마지막이된 레일 타일의 모양과 레일의 연결 관계를 재설정
         RailManager.Instance.RemoveLastRailway();
-
-        // 제거되었으므로 해당 타일을 오브젝트풀로 반환
-        ReturnToPool();
         
     }
 
@@ -221,7 +219,6 @@ public class Rail : MonoBehaviour, IInteractable, IStackable, IPoolable
     /// <param name="poolable"> 자기 자신의 IPoolable </param>
     public void ReturnToPool()
     {
-        
         if (_outline != null)
         {
             _outline.enabled = false;
@@ -231,6 +228,7 @@ public class Rail : MonoBehaviour, IInteractable, IStackable, IPoolable
         _currentCount = 1;
         
         gameObject.SetActive(false);
+        ObjectPool.Instance.Return(this);
     }
     
     /// <summary>
@@ -270,7 +268,7 @@ public class Rail : MonoBehaviour, IInteractable, IStackable, IPoolable
             // 벡터의 `x축 -90도`는 레일 타일을 바닥에 눕히는 기준 각도입니다.
             // 벡터의 `y축` 값을 90도씩 회전 시켜 4개의 방향을 만듭니다.
             
-            // 2.1 (└ 방향 곡선]: ⬇️➡️ 
+            // 2.1 ⬇️➡️ '└' 모양 곡선 레일
             case RailShape.DownToRightCurve:
                 _lineRailPrefab.SetActive(false);
                 _curveRailPrefab.SetActive(true);
@@ -278,21 +276,21 @@ public class Rail : MonoBehaviour, IInteractable, IStackable, IPoolable
                 _curveRailPrefab.transform.eulerAngles = new Vector3(-90, 0, 0);
                 break;
             
-            // 2.2 (┌ 방향 곡선): ⬆️➡️
+            // 2.2 ⬆️➡️ '┌' 모양 곡선 레일
             case RailShape.UpToRightCurve:
                 _lineRailPrefab.SetActive(false);
                 _curveRailPrefab.SetActive(true);
                 _curveRailPrefab.transform.eulerAngles = new Vector3(-90, 90, 0);
                 break;
             
-            // 2.3 (┐ 방향 곡선):  ⬆️⬅️
+            // 2.3 ⬆️⬅️ '┐' 모양 곡선 레일
             case RailShape.UpToLeftCurve:
                 _lineRailPrefab.SetActive(false);
                 _curveRailPrefab.SetActive(true);
                 _curveRailPrefab.transform.eulerAngles = new Vector3(-90, 180, 0);
                 break;
             
-            // 2.4 (┘ 방향 곡선): ⬇️⬅️
+            // 2.4 ⬇️⬅️ '┘' 모양 곡선 레일
             case RailShape.DownToLeftCurve:
                 _lineRailPrefab.SetActive(false);
                 _curveRailPrefab.SetActive(true);

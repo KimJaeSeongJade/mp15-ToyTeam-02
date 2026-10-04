@@ -191,27 +191,38 @@ public class RailManager : MonoBehaviour
                 targetRail.ChangeRailShape(RailShape.HorizontalLine);
             }
             
-            // 3. 이전 레일과 현재 레일의 x 좌표가 동 일하고 
+            // 조건 A. 이전 레일과 현재 레일의 x 좌표가 동일하고 (수직으로 위치)
             else if (prevRailCoord.x == currentRailCoord.x)
             {
+                // 조건 B. 현재 레일의 y 좌표가 이전 레일보다 크고
+                //  = 현재 레일이 이전 레일보다 위쪽에 위치하며 ⬆️
                 if (prevRailCoord.y < currentRailCoord.y)
                 {
+                    // 3.다음 레일의 x 좌표가 현재 레일보다 크므로 오른쪽에 위치 ➡️
+                    // 결과적으로 ⬆️➡️ = '┌' 모양 레일 배치가 필요
                     if (currentRailCoord.x < nextRailCoord.x )
                     {
                         targetRail.ChangeRailShape(RailShape.UpToRightCurve);
                     }
+                    // 4. `3.`이 아닌경우 = 다름레일이 왼쪽에 위치 ⬅️
+                    // 결과적으로 ⬆️⬅️ = '┐' 모양 레일 배치가 필요
                     else
                     {
                         targetRail.ChangeRailShape(RailShape.UpToLeftCurve);
                     }
                 }
                 
+                // '조건 B' 가 아닌경우 = 현재 레일이 이전 레일보다 아래쪽에 위치하며 ⬇️
                 else
                 {
+                    // 5.다음 레일의 x좌표가 현재 레일보다 크므로 오른쪽에 위치 ️️️➡️
+                    // 결과적으로 ⬇️➡️ = '└' 모양 레일 배치가 필요
                     if (currentRailCoord.x < nextRailCoord.x)
                     {
                         targetRail.ChangeRailShape(RailShape.DownToRightCurve);
                     }
+                    // 6. '5.'가 아닌 경우 = 다음 레일이 왼쪽에 위치 ⬅️
+                    // 결과적으로 ⬇️⬅️ = '┘' 모양 레일 배치가 필요
                     else
                     {
                         targetRail.ChangeRailShape(RailShape.DownToLeftCurve);
@@ -221,28 +232,38 @@ public class RailManager : MonoBehaviour
                 
             }
             
-            
+            // 조건 C. 이전 레일과 현재 레일의 y 좌표가 동일하고 (수평 으로 위치)
             else if (prevRailCoord.y == currentRailCoord.y)
             {
+                // 조건 D. 현재 레일의 x 좌표기 이전 레일보다 크고
+                //  = 현재 레일이 이전 레일보다 오른쪽에 위치하며 ➡️
                 if (prevRailCoord.x < currentRailCoord.x)
                 {
+                    // 7. 다음 레일의 y 좌표가 현재 레일보다 크므로 위쪽에 위치 ⬆️
+                    // 결과적으로 ➡️⬆️ = '┘' 모양 레일 배치가 필요
                     if (currentRailCoord.y < nextRailCoord.y)
                     {
                         targetRail.ChangeRailShape(RailShape.DownToLeftCurve);
                     }
+                    // 8. '7.'이 아닌 경우 = 다음 레일이 아래 쪽에 배치 ⬇️️
+                    // 결과적으로 ➡️️⬇️️ = '┐' 모양 레일 배치가 필요
                     else
                     {
                         targetRail.ChangeRailShape(RailShape.UpToLeftCurve);
                     }
                 }
-
+                
+                // `조건 D`가 아닌 경우 = 현재 레일이 왼쪽에 위치 ⬅️
                 else
                 {
+                    // 9. 다음 레일의 y 좌표가 현재 레일보다 크므로 위쪽에 위치 ⬆️
+                    // 결과적으로 ⬅️⬆️ = '└' 모양 레일 배치가 필요
                     if (currentRailCoord.y < nextRailCoord.y)
                     {
                         targetRail.ChangeRailShape(RailShape.DownToRightCurve);
                     }
-                    
+                    // 10. '9.'가 아닌 경우 = 다름 레일이 아래 쪽에 배치 ️️⬇️️
+                    // 결과적으로 ⬅️⬇️️ = '┌' 모양 레일 배치가 필요
                     else
                     {
                         targetRail.ChangeRailShape(RailShape.UpToRightCurve);
@@ -253,16 +274,21 @@ public class RailManager : MonoBehaviour
     }
 
     /// <summary>
-    /// 마지막에 설치한 Railway 제거
+    /// 가장 마지막에 설치한 레일 타일 제거
     /// </summary>
     public void RemoveLastRailway()
     {
+        // 레일이 하나도 없는 경우는 예외 처리
         if (Rails.Count == 0) return;
 
+        // Map 싱글톤 접근: 타일 맵 데이터 갱신
         Map.Instance.SetHoldable(Rails.Last.Value.GameObject.transform.position.WorldToCoord(), null);
+        // SplineManager 클래스 접근: 실제 열차 주행결로에서 마지막 구간 제거
         _splineManager.RemoveLastSplineKnot();
+        // 링크드 리스트에서 마지막 레일 노드 제거
         Rails.RemoveLast();
 
+        // 레일 모양 변경: 삭제된 마지막 레일 직전의 레일 모양을 변경
         UpdateRailwayShape();
     }
 }
