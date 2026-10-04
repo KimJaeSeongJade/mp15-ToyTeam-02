@@ -1,6 +1,6 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class GameSceneManager : MonoBehaviour
@@ -8,6 +8,8 @@ public class GameSceneManager : MonoBehaviour
     public static GameSceneManager Instance;
 
     [SerializeField] private LocomotiveCart _locomotiveCart;
+
+    public event Action OnGameEnd;
 
     public bool IsGameEnd { get; private set; }
     public bool IsGameWin { get; private set; }
@@ -33,12 +35,14 @@ public class GameSceneManager : MonoBehaviour
     private void GameOver()
     {
         Debug.Log("Game over");
+        // OnGameEnd?.Invoke();
         IsGameEnd = true;
         IsGameWin = false;
     }
 
     private void GameWin()
     {
+        // OnGameEnd?.Invoke();
         IsGameEnd = true;
         IsGameWin = true;
     }

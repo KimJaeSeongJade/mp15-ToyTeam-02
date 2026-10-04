@@ -7,6 +7,7 @@ using UnityEngine.Splines;
 public class LocomotiveCart : DummyTrain
 {
     public event Action OnTrainArrived;
+
     protected override void OnSplineUpdate(Vector3 vector, Quaternion quaternion)
     {
         base.OnSplineUpdate(vector, quaternion);

@@ -6,6 +6,9 @@ using UnityEngine.Splines;
 public class DummyTrain : MonoBehaviour
 {
     [SerializeField] protected SplineAnimate _splineAnimate;
+    
+    public static float MaxTrainSpeed = .5f;
+
     private WaitForSeconds _wait = new WaitForSeconds(2f);
 
     // -----------------------------
@@ -45,7 +48,7 @@ public class DummyTrain : MonoBehaviour
 
     private void TrainDepart()
     {
-        _splineAnimate.MaxSpeed = .2f;
+        _splineAnimate.MaxSpeed = MaxTrainSpeed;
         _splineAnimate.Restart(true);
     }
 
