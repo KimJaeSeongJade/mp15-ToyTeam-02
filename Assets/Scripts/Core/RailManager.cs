@@ -4,11 +4,14 @@ using UnityEngine;
 
 public class RailManager : MonoBehaviour
 {
+    public static RailManager Instance { get; private set; }
+
     [SerializeField] private SplineManager _splineManager;
 
     // 마지막 레일 판단을 쉽게하기위해 링크드 리스트형태로 구현
     public LinkedList<Rail> Rails = new LinkedList<Rail>();
-    public static RailManager Instance { get; private set; }
+
+    private Vector2Int _endRailCoord = new Vector2Int(-1, -1);
 
     private void Awake()
     {
@@ -197,4 +200,29 @@ public class RailManager : MonoBehaviour
 
         UpdateRailwayShape();
     }
+
+    /// <summary>
+    /// 게임 초기부터 배치되는 마지막 레일 설치
+    /// </summary>
+    public void PlaceEndRailway(Vector2Int coord)
+    { 
+        IPoolable poolable = ObjectPool.Instance.Take(BlockType.Rail);
+        Rail newRail = poolable as Rail;
+
+        newRail.GameObject.transform.position = coord.CoordToWorld();
+        newRail.GameObject.SetActive(true);
+
+        Map.Instance.SetHoldable(coord, newRail);
+
+        newRail.SetupRailway();
+
+        if (_endRailCoord == new Vector2Int(-1, -1))
+        {
+            _endRailCoord = coord;
+        }
+
+        Debug.Log(_endRailCoord);
+    }
+
+    // TODO: Railway가 _endRailCoord에 배치되면 나머지 railway도 spline에 추가하도록 list 구현
 }

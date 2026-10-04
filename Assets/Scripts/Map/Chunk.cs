@@ -41,10 +41,18 @@ public class Chunk : MonoBehaviour
                 BlockType blocktype = (BlockType)_worldMap[x, y];
                 Vector2Int coord = new Vector2Int(x, y);
 
-                if (blocktype == BlockType.Rail && _chunkIndex == 0)
+                if (blocktype == BlockType.Rail)
                 {
-                    RailManager.Instance.TryRailwayPlace(coord);
-                    continue;
+                    if (_chunkIndex == 0)
+                    {
+                        RailManager.Instance.TryRailwayPlace(coord);
+                        continue;
+                    }
+                    else
+                    {
+                        RailManager.Instance.PlaceEndRailway(coord);
+                        continue;
+                    }
                 }
 
                 IPoolable newPoolable = ObjectPool.Instance.Take(blocktype);
