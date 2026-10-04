@@ -9,9 +9,10 @@ public class PlayerController : MonoBehaviour
 {
     private const float THRESHOLD = 0.7f;
 
-    private PlayerAction _player;
+    [SerializeField] private PlayerHand _playerHand;
+    [SerializeField] private PlayerAction _player;
+    [SerializeField] private DetectRange _detectRange;
     private Vector3 _direction;
-    private DetectRange _detectRange;
     private List<IInteractable> _detecteds => _detectRange.Detecteds;
     private List<IInteractable> _canTargetList;
     private Dictionary<IInteractable, float> _canTargetDict;
@@ -27,7 +28,6 @@ public class PlayerController : MonoBehaviour
     private bool _isPressedInteractKey => Input.GetKeyDown(_interactKey);
 
     // ------------------------------
-    private void Awake() => CacheComponents();
     private void Start() => Init();
     private void FixedUpdate()
     {
@@ -91,7 +91,8 @@ public class PlayerController : MonoBehaviour
             RaycastHit hit;
             if (!Physics.Raycast(ray, out hit, _detectRange.Range)) continue;
             
-            if (lookPercentage >= THRESHOLD && hit.transform.GetComponent<IInteractable>() == detected)
+            if (lookPercentage >= THRESHOLD && hit.transform.GetComponent<IInteractable>() == detected &&
+                detected.GameObject.activeSelf == true)
             {
                 if (!_canTargetList.Contains(detected)) _canTargetList.Add(detected);
                 _canTargetDict.TryAdd(detected, lookPercentage);
@@ -114,7 +115,13 @@ public class PlayerController : MonoBehaviour
                 targetLookPercentage = canTargetLookPercentage;
             }
         }
-        
+
+
+        if (_playerHand.Item == target || target != null && target.GameObject.activeSelf == false)
+        {
+            target = null;
+        }
+
         if (target == null)
         {
             Vector2Int playerCoord = transform.position.WorldToCoord();
@@ -139,12 +146,6 @@ public class PlayerController : MonoBehaviour
     private void AutoInteract()
     {
         _player.TryAutoInteract(_target);
-    }
-
-    private void CacheComponents()
-    {
-        _player = GetComponent<PlayerAction>();
-        _detectRange = GetComponentInChildren<DetectRange>();
     }
 
     private void Init()

@@ -10,16 +10,16 @@ public class PlayerAction : MonoBehaviour
     private const float BASE_MOVE_SPEED = 5f;
     private const float DASH_SPEED_BONUS = 0.5f;
 
+    [SerializeField] private Rigidbody _playerBody;
+    [SerializeField] private PlayerHand _hand;
+    [SerializeField] private Animator _animator;
+
     private float _moveSpeed;
-    private Rigidbody _playerBody;
-    private PlayerHand _hand;
-    private Animator _animator;
     private WaitForSeconds _waitDashDuration = new WaitForSeconds(0.3f);
     private WaitForSeconds _waitDashCooldown = new WaitForSeconds(1f);
     private bool _canDash;
 
     // ------------------------------
-    private void Awake() => CacheComponents();
     private void Start() => Init();
     // ------------------------------
 
@@ -106,16 +106,32 @@ public class PlayerAction : MonoBehaviour
     private void DropItem(Vector2Int position)
     {
         _animator.SetBool("IsHolding", false);
-        Map.Instance.SetHoldable(position, _hand.Item);
-        
 
         if (_hand.Item != null)
         {
+            // 레일을 배치할 수 있는 경우에 개수를 하나 줄이고 배치
+            if (_hand.Item.BlockType == BlockType.Rail)
+            {   
+                if (RailManager.Instance.TryRailwayPlace(position))
+                {
+                    Rail rail = _hand.Item as Rail;
+                    rail.ReduceStack();
+
+                    if (rail.Count == 0)
+                    {
+                        _hand.Item = null;
+                    }
+                    return;
+                }
+            }
+
             _hand.Item.GameObject.transform.rotation = Quaternion.identity;
             _hand.ItemPosition = position.CoordToWorld();
             _hand.ItemParent = null;
-            _hand.Item = null;
         }
+
+        Map.Instance.SetHoldable(position, _hand.Item);
+        _hand.Item = null;
     }
 
     /// <summary>
@@ -123,16 +139,9 @@ public class PlayerAction : MonoBehaviour
     /// </summary>
     public void TryAutoInteract(IInteractable target)
     {
-        if (_hand.Item == null || target == null || _hand.Item == target) return;
+        if (_hand.Item == null || target == null ||_hand.Item == target) return;
 
         target.AutoInteract(_hand.Item);
-    }
-
-    private void CacheComponents()
-    {
-        _playerBody = GetComponent<Rigidbody>();
-        _hand = GetComponentInChildren<PlayerHand>();
-        _animator = GetComponentInChildren<Animator>();
     }
 
     private void Init()

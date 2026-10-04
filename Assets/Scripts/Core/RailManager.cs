@@ -58,7 +58,6 @@ public class RailManager : MonoBehaviour
             AddRailway(coord);
             return true;
         }
-
         return false;
     }
 
@@ -189,7 +188,6 @@ public class RailManager : MonoBehaviour
     {
         if (Rails.Count == 0) return;
 
-        Map.Instance.SetHoldable(Rails.Last.Value.GameObject.transform.position.WorldToCoord(), null);
         _splineManager.RemoveLastSplineKnot();
         Rails.RemoveLast();
 
