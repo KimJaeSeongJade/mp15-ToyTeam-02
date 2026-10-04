@@ -192,6 +192,7 @@ public class RailManager : MonoBehaviour
     public void RemoveLastRailway()
     {
         if (Rails.Count == 0) return;
+        Debug.Log("Railway removed");
 
         _splineManager.RemoveLastSplineKnot();
         Rails.RemoveLast();

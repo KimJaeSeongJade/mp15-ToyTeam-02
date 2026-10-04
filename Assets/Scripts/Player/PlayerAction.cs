@@ -106,21 +106,29 @@ public class PlayerAction : MonoBehaviour
     private void DropItem(Vector2Int position)
     {
         _animator.SetBool("IsHolding", false);
-        Map.Instance.SetHoldable(position, _hand.Item);
-        
+
+        IInteractable newInteractable = null;
 
         if (_hand.Item != null)
         {
             if (_hand.Item.BlockType == BlockType.Rail)
             {
-                RailManager.Instance.TryRailwayPlace(position);
+                if (RailManager.Instance.TryRailwayPlace(position))
+                {
+                    Rail rail = _hand.Item as Rail;
+                    newInteractable = rail.ReduceStack();
+                    Debug.Log(newInteractable);
+                    if (newInteractable != null) return;
+                }
             }
 
             _hand.Item.GameObject.transform.rotation = Quaternion.identity;
             _hand.ItemPosition = position.CoordToWorld();
             _hand.ItemParent = null;
-            _hand.Item = null;
         }
+
+        Map.Instance.SetHoldable(position, _hand.Item);
+        _hand.Item = newInteractable;
     }
 
     /// <summary>
@@ -128,8 +136,7 @@ public class PlayerAction : MonoBehaviour
     /// </summary>
     public void TryAutoInteract(IInteractable target)
     {
-        if (_hand.Item == null || target == null ||_hand.Item == target ||
-            target != null && target.GameObject.activeSelf == false) return;
+        if (_hand.Item == null || target == null ||_hand.Item == target) return;
 
         target.AutoInteract(_hand.Item);
     }

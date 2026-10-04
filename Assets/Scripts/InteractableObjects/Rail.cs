@@ -100,6 +100,8 @@ public class Rail : MonoBehaviour, IInteractable, IStackable, IPoolable
 
         // 플레이어가 접근한 오브젝트가 Rail인 경우
         Rail inPlayerRail = inPlayerHand as Rail;
+        Debug.Log($"Check railway inplayerhand {inPlayerRail.IsRailway}");
+        Debug.Log($"Check railway this {IsRailway}");
 
         int totalCount = _currentCount + inPlayerRail.Count;
             
@@ -112,10 +114,12 @@ public class Rail : MonoBehaviour, IInteractable, IStackable, IPoolable
         {
             inPlayerRail._currentCount = totalCount;
             _currentCount = 0;
+            Map.Instance.SetHoldable(transform.position.WorldToCoord(), null);
             ReturnToPool();
         }
 
-
+        Debug.Log($"autoInteract current {_currentCount}");
+        Debug.Log($"autoInteract inplayerHand {inPlayerRail._currentCount}");
         Rail rail = inPlayerHand as Rail;
         rail.UpdateStackVisuals();
         UpdateStackVisuals();
@@ -128,9 +132,28 @@ public class Rail : MonoBehaviour, IInteractable, IStackable, IPoolable
     /// <returns> 상호작용 이후 플레이어가 들어야 할 IInteractable </returns>
     public IInteractable ButtonInteract(IInteractable inPlayerHand)
     {
-        if (inPlayerHand != null && inPlayerHand.GameObject == gameObject)
+        if ((inPlayerHand != null && inPlayerHand.GameObject == gameObject) ||
+            (inPlayerHand != null && inPlayerHand.BlockType != BlockType.Rail))
             return inPlayerHand;
 
+        if (!IsRailway)
+        {
+            return this;
+        }
+        else
+        {
+            if (RailManager.Instance.Rails.Last.Value == this)
+            {
+                IsRailway = false;
+                RailManager.Instance.RemoveLastRailway();
+
+                // 플레이어가 뽑아 타일에서 제거되어 레일아이템 상태가 된 자신을 반환
+                return this;
+            }
+            return inPlayerHand;
+        }
+
+        /*
         // 1. 플레이어가 버튼을 눌러 손에든 레일아이템을 설치하는 경우
         if (inPlayerHand != null)
         {
@@ -163,6 +186,21 @@ public class Rail : MonoBehaviour, IInteractable, IStackable, IPoolable
             }
             return inPlayerHand;
         }
+        */
+    }
+
+    public IInteractable ReduceStack()
+    {
+        Debug.Log("Stack reduced");
+        _currentCount--;
+        Debug.Log(_currentCount);
+        UpdateStackVisuals();
+        if (_currentCount <= 0)
+        {
+            ReturnToPool();
+            return null;
+        }
+        return this;
     }
     
     /// <summary>
@@ -200,6 +238,7 @@ public class Rail : MonoBehaviour, IInteractable, IStackable, IPoolable
     /// <param name="poolable"> 자기 자신의 IPoolable </param>
     public void ReturnToPool()
     {
+        Debug.Log("Returned to pool");
         if (_outline != null)
         {
             _outline.enabled = false;
