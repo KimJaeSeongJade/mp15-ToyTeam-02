@@ -60,30 +60,39 @@ public class Rail : MonoBehaviour, IInteractable, IStackable, IPoolable
     }
 
     /// <summary>
-    /// 플레이어가 raycast로 자동 상호작용 (레일 아이템 합쳐지기)
+    /// 플레이어가 범위 내로 다가왔을 때 실행되는 자동으로 상호작용 당하는 경우
+    /// (손에든 레일 아이템에 바닥에 놓인 레일 아이템 수량 합치기)
     /// </summary>
-    /// <param name="interactable"> 플레이어가 손에 들고 있는 IInteractable </param>
+    /// <param name="inPlayerHand"> 플레이어가 손에 들고 있는 IInteractable </param>
     public void AutoInteract(IInteractable inPlayerHand)
     {
-        // 레일의 상태가 Railway 타일 상태라면 합쳐지지 않기
+        // 플레이어가 접근한 레일의 상태가 Railway 상태(레일 타일)라면 합쳐지지 않도록 확인
         if (IsRailway) return;
         
-        // 플레이어가 접근한 오브젝트가 Rail인 경우
+        // 플레이에가 손에든 IInteractable 구현 객체가 레일 블록타입인지 확인
         if (inPlayerHand.BlockType == BlockType.Rail)
         {
-            Rail inPlayerRail = inPlayerHand as Rail;
+            // 블록타입이 확인되면 손에든 오브젝트에 Rail 클래스 속성 부여
+            Rail railInPlayer = inPlayerHand as Rail;
 
-            int totalCount = _currentCount + inPlayerRail.Count;
+            // 손에든 레일 아이템과 상호작용 당하는 레일 아이템의 총 갯수 계산
+            int totalCount = _currentCount + railInPlayer.Count;
             
+            // 두 레일 아이템의 총 갯수가 플레이어가 소지할 수 있는 갯수보다 클경우
             if(totalCount > _maxStack)
             {
-                inPlayerRail._currentCount = _maxStack;
+                // 플레이어의 손에는 최대 소지수만큼 돌려주고
+                railInPlayer._currentCount = _maxStack;
+                // 그 나머지를 상호작용 당하는 레일 아이템의 갯수로 지정한다 
                 _currentCount = totalCount - _maxStack;
 
             }
+            // 두 레일 아이템의 갯수를 합쳐도 플레이어의 최대 소지 샛수보다 적을 경우
             else
             {
-                inPlayerRail._currentCount = totalCount;
+                // 플레이어가 소지한 레일아이템의 갯수는 두 레일 아이템의 갯수를 합친 것
+                railInPlayer._currentCount = totalCount;
+                // 플레이어쪽으로 레일아이템이 합쳐졌으므로 상호작용 당한 레일아이템은 오브젝트풀로 반환
                 _currentCount = 0;
                 ReturnToPool();
             }
@@ -92,20 +101,25 @@ public class Rail : MonoBehaviour, IInteractable, IStackable, IPoolable
     }
 
     /// <summary>
-    /// 플레이어가 버튼 눌러서 상호작용
+    /// 플레이어가 버튼 눌러서 상호작용 당하는 경우
+    /// (1. 레일 타일 설치 / 2. 레일 타일 회수 / 3. 제작차에서 완성된 레일 아이템 들기)
     /// </summary>
     /// <param name="inPlayerHand"> 플레이어가 손에 들고 있는 IInteractable </param>
     /// <returns> 상호작용 이후 플레이어가 들어야 할 IInteractable </returns>
     public IInteractable ButtonInteract(IInteractable inPlayerHand)
     {
-        Debug.Log(IsRailway);
+        
         // 1. 플레이어가 버튼을 눌러 손에든 레일아이템을 설치하는 경우
+        
+        // 플레이어가 레일 아이템을 들었는지 확인
         if (inPlayerHand != null)
         {
+            // 플레이어가 손에든 레일의 상태가 '아이템'인지 '타일' 인지 확인
             
-            // 기존의 맵위에 레일타일이 설치되지 않았을경우에만 레일 타일 설치
+            // 손에든 것이 레일 아이템 이라면
             if (!IsRailway)
             {
+                // 맵에 설치되기 위해 플레이어 손에들린 자신을 반환
                 return this; 
             }
             else
