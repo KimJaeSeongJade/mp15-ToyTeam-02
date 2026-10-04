@@ -3,10 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class MenuController : MonoBehaviour
+public class TMenuController : MonoBehaviour
 {
-    public MenuController _prevMenu;
-
     private KeyCode _upKey => KeyCode.W;
     private KeyCode _downKey => KeyCode.S;
     private KeyCode _inKey => KeyCode.D;
@@ -14,17 +12,22 @@ public class MenuController : MonoBehaviour
 
     private UIConnector uiconnector;
 
-    [SerializeField] private List<GameObject> _panel = new();
+    [SerializeField] private GameObject _fistPanelList;
+    [SerializeField] private GameObject _secondPanelList;
+
+    private List<GameObject> _panel = new();
     private int _currenNum;
 
     // 지금 조작할 UI인지
-    public bool _isSelect;
-    
+    //public bool _isSelect;
+
     //--------------------
 
     private void OnEnable()
     {
-        for(int i = 0; i<_panel.Count;i++)
+        _panel = _fistPanelList.GetComponent<PanelListConnector>().PannelList;
+
+        for (int i = 0; i < _panel.Count; i++)
         {
             _panel[i].transform.Find("Image").GetComponent<Image>().enabled = false;
             if (_panel[i].TryGetComponent<UIConnector>(out uiconnector))
@@ -33,7 +36,7 @@ public class MenuController : MonoBehaviour
             }
         }
         _currenNum = 0;
-        _isSelect = false;
+        //_isSelect = false;
         _panel[_currenNum].transform.Find("Image").GetComponent<Image>().enabled = true;
         if (_panel[_currenNum].TryGetComponent<UIConnector>(out uiconnector))
         {
@@ -52,9 +55,9 @@ public class MenuController : MonoBehaviour
 
     private void Update()
     {
-        
-        if (_isSelect)
-        {
+
+        //if (_isSelect)
+        //{
             if (Input.GetKeyDown(_upKey))
             {
                 Up();
@@ -71,7 +74,7 @@ public class MenuController : MonoBehaviour
             {
                 Out();
             }
-        }
+        
     }
 
     private void Up()
@@ -79,7 +82,7 @@ public class MenuController : MonoBehaviour
         if (_currenNum > 0)
         {
             _panel[_currenNum].transform.Find("Image").GetComponent<Image>().enabled = false;
-            if(_panel[_currenNum].TryGetComponent<UIConnector>(out uiconnector))
+            if (_panel[_currenNum].TryGetComponent<UIConnector>(out uiconnector))
             {
                 uiconnector.ChildUI.gameObject.SetActive(false);
             }
@@ -97,16 +100,16 @@ public class MenuController : MonoBehaviour
         if (_currenNum < _panel.Count - 1)
         {
             _panel[_currenNum].transform.Find("Image").GetComponent<Image>().enabled = false;
-            if (_panel[_currenNum].TryGetComponent<UIConnector>(out uiconnector))
-            {
-                uiconnector.ChildUI.gameObject.SetActive(false);
-            }
+            //if (_panel[_currenNum].TryGetComponent<UIConnector>(out uiconnector))
+            //{
+            //    uiconnector.ChildUI.gameObject.SetActive(false);
+            //}
             _currenNum++;
             _panel[_currenNum].transform.Find("Image").GetComponent<Image>().enabled = true;
-            if (_panel[_currenNum].TryGetComponent<UIConnector>(out uiconnector))
-            {
-                uiconnector.ChildUI.gameObject.SetActive(true);
-            }
+            //if (_panel[_currenNum].TryGetComponent<UIConnector>(out uiconnector))
+            //{
+            //    uiconnector.ChildUI.gameObject.SetActive(true);
+            //}
         }
     }
 
@@ -115,13 +118,13 @@ public class MenuController : MonoBehaviour
         uiconnector.ChildUI.gameObject.GetComponentInChildren<MenuController>()._isSelect = true;
         uiconnector.ChildUI.gameObject.GetComponentInChildren<MenuController>()._prevMenu = gameObject.GetComponent<MenuController>();
         SceneManagerA.Instance._isSelectNow = true;
-        _isSelect = false;
+        //_isSelect = false;
     }
 
     private void Out()
     {
         SceneManagerA.Instance._isSelectNow = false;
-        _isSelect = false;
-        _prevMenu._isSelect = true;
+        //_isSelect = false;
+        //_prevMenu._isSelect = true;
     }
 }

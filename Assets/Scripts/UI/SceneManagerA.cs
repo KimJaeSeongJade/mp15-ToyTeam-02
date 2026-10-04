@@ -23,6 +23,9 @@ public class SceneManagerA : MonoBehaviour
         }
     }
 
+    //TitleScene
+    public bool _isSelectNow;
+
     //--------------------
     private void Awake()
     {

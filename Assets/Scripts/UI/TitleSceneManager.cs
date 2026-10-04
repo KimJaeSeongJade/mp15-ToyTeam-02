@@ -13,6 +13,7 @@ public class TitleSceneManager : MonoBehaviour
     [SerializeField] private GameObject _quitUI;
     [SerializeField] private GameObject _settingUI;
     private bool _isSettingOpen;
+
     public Stack<(GameObject, GameObject)> StackUI = new ();
 
     private void Update()
@@ -41,16 +42,21 @@ public class TitleSceneManager : MonoBehaviour
 
     public void OppenSetting()
     {
+        SceneManagerA.Instance._isSelectNow = false;
         _isSettingOpen = true;
         SceneManagerA.Instance.Pause();
         _settingUI.SetActive(true);
+        _settingUI.gameObject.GetComponent<MenuController>()._isSelect = true;
     }
 
     private void CloseSetting()
     {
-        _isSettingOpen = false;
-        SceneManagerA.Instance.Continue();
-        _settingUI.SetActive(false);
+        if (!SceneManagerA.Instance._isSelectNow)
+        {
+            _isSettingOpen = false;
+            SceneManagerA.Instance.Continue();
+            _settingUI.SetActive(false);
+        }
     }
 
     public void PlayerAdd()
