@@ -230,8 +230,6 @@ public class RailManager : MonoBehaviour
             _endRailCoord = coord;
         }
         _endRails.Add(coord);
-
-        Debug.Log(coord);
     }
 
     private void CheckConnectedWithEndRailway(Vector2Int coord)

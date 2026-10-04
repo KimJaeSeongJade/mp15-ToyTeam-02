@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.Mathematics;
@@ -8,6 +9,9 @@ public class SplineManager : MonoBehaviour
 {
     [SerializeField] private GameObject[] _trains;
     [SerializeField] private SplineContainer _splineContainer;
+
+    public event Action<int> OnRailwayChanged;
+    public int SplineCount => _spline.Count;
 
     private LinkedList<Rail> _railLinkedList = new();
     private MapLoader map;
@@ -35,6 +39,7 @@ public class SplineManager : MonoBehaviour
 
         SplineRange all = new SplineRange(0, _spline.Count);
         _spline.SetTangentMode(all, TangentMode.AutoSmooth);
+        OnRailwayChanged?.Invoke(_spline.Count);
     }
 
     /// <summary>
@@ -47,6 +52,7 @@ public class SplineManager : MonoBehaviour
 
         SplineRange all = new SplineRange(0, _spline.Count);
         _spline.SetTangentMode(all, TangentMode.AutoSmooth);
+        OnRailwayChanged?.Invoke(_spline.Count);
     }
 
     public void LoadTrain()
