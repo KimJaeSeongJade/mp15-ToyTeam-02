@@ -3,44 +3,80 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Unity.Mathematics;
+using UnityEditorInternal;
 using UnityEngine;
+using static UnityEditor.Progress;
 
 public class WaveFunction : MonoBehaviour
 {
     public int Dimensions => ChunkManager.CHUNK_SIZE;
-    public List<CellPath> GridComponents;
-    public CellPath CellObj;
+    public List<Cell> GridComponents;
+    public Cell CellObj;
 
     public int Iterations = 0;
 
     private Dictionary<int, Tile> _tiles = new();
 
-    private Dictionary<Direction, Vector2Int> _directions = new();
-
-    private void InitDirection()
+    private Vector2Int[] _directions = new[]
     {
-        _directions[Direction.Up] = new Vector2Int(0, 1);
-        _directions[Direction.Right] = new Vector2Int(1, 0);
-        _directions[Direction.Down] = new Vector2Int(0, -1);
-        _directions[Direction.Left] = new Vector2Int(-1, 0);
-    }
-
+        new Vector2Int(0, 1),
+        new Vector2Int(1, 0),
+        new Vector2Int(0, -1),
+        new Vector2Int(-1, 0)
+    };
 
     private void Awake()
     {
-        InitDirection();
-
         int[,] sampleMapData = new int[20, 40];
 
         LoadMapData(sampleMapData);
 
-        GridComponents = new List<CellPath>();
+        GridComponents = new List<Cell>();
         InitializeGrid();
     }
 
     private void LoadMapData(int[,] mapData)
     {
+        _tiles.Clear();
 
+        // Weight 설정
+        for (int y = 0; y < mapData.GetLength(1); y++)
+        {
+            for (int x = 0; x < mapData.GetLength(0); x++)
+            {
+                int blockType = mapData[x, y];
+
+                if (!_tiles.TryGetValue(blockType, out Tile tile))
+                {
+                    tile = new Tile(blockType, 0f);
+                    _tiles[blockType] = tile;
+                }
+
+                tile.Weight += 1f;
+            }
+        }
+
+        // Rules 설정
+        for (int y = 0; y < mapData.GetLength(1); y++)
+        {
+            for (int x = 0; x < mapData.GetLength(0); x++)
+            {
+                int currentType = mapData[x, y];
+                Tile currentTile = _tiles[currentType];
+
+                for (int i = 0; i < _directions.Length; i++)
+                {
+                    int nx = x + _directions[i].x;
+                    int ny = y + _directions[i].y;
+
+                    if (nx >= 0 && nx < mapData.GetLength(0) && ny >= 0 && ny < mapData.GetLength(1))
+                    {
+                        int neighborType = mapData[ny, nx];
+                        currentTile.AddNeighbor((Direction)i, neighborType);
+                    }
+                }
+            }
+        }
     }
 
     private void InitializeGrid()
@@ -49,8 +85,8 @@ public class WaveFunction : MonoBehaviour
         {
             for (int x = 0; x < Dimensions; x++)
             {
-                CellPath newCell = new CellPath();
-                newCell.CreateCell(false, TileObjects);
+                Cell newCell = new Cell();
+                newCell.CreateCell(false, _tiles.Values.ToArray());
                 GridComponents.Add(newCell);
             }
         }
@@ -61,11 +97,11 @@ public class WaveFunction : MonoBehaviour
 
     private IEnumerator CheckEntropy()
     {
-        List<CellPath> tempGrid = new List<CellPath>(GridComponents);
+        List<Cell> tempGrid = new List<Cell>(GridComponents);
 
         tempGrid.RemoveAll(c => c.Collapsed);
 
-        tempGrid.Sort((a, b) => { return a.TileOptions.Length - b.TileOptions.Length; });
+        tempGrid.Sort((a, b) => a.TileOptions.Length.CompareTo(b.TileOptions.Length));
 
         int arrLength = tempGrid[0].TileOptions.Length;
         int stopIndex = default;
@@ -89,25 +125,43 @@ public class WaveFunction : MonoBehaviour
         CollapseCell(tempGrid);
     }
 
-    private void CollapseCell(List<CellPath> tempGrid)
+    private void CollapseCell(List<Cell> tempGrid)
     {
         int randIndex = UnityEngine.Random.Range(0, tempGrid.Count);
 
-        CellPath cellToCollapse = tempGrid[randIndex];
+        Cell cellToCollapse = tempGrid[randIndex];
 
         cellToCollapse.Collapsed = true;
-        TilePath selectedTile = cellToCollapse.TileOptions[UnityEngine.Random.Range(0, cellToCollapse.TileOptions.Length)];
-        cellToCollapse.TileOptions = new TilePath[] { selectedTile };
 
-        TilePath foundTile = cellToCollapse.TileOptions[0];
-        Instantiate(foundTile, cellToCollapse.transform.position, Quaternion.identity);
+        Tile selectedTile = SelectTile(cellToCollapse.TileOptions);
+        cellToCollapse.TileOptions = new Tile[] { selectedTile };
 
         UpdateGeneration();
     }
 
+    private Tile SelectTile(Tile[] tileOptions)
+    {
+        float totalWeight = 0f;
+        foreach (Tile tile in tileOptions)
+        {
+            totalWeight += tile.Weight;
+        }
+
+        float roll = UnityEngine.Random.Range(0f, totalWeight);
+        float cumulative = 0f;
+
+        foreach (Tile tile in tileOptions)
+        {
+            cumulative += tile.Weight;
+            if (roll <= cumulative) return tile;
+        }
+
+        return tileOptions[0];
+    }
+
     private void UpdateGeneration()
     {
-        List<CellPath> newGenerationCell = new List<CellPath>(GridComponents);
+        List<Cell> newGenerationCell = new List<Cell>(GridComponents);
 
         for (int y = 0; y < Dimensions; y++)
         {
@@ -121,88 +175,37 @@ public class WaveFunction : MonoBehaviour
                 }
                 else
                 {
-                    List<TilePath> options = new List<TilePath>();
-                    foreach (TilePath t in TileObjects)
-                    {
-                        options.Add(t);
-                    }
+                    List<Tile> options = _tiles.Values.ToList();
 
-                    //update above
-                    if (y > 0)
-                    {
-                        CellPath up = GridComponents[x + (y - 1) * Dimensions];
-                        List<TilePath> validOptions = new List<TilePath>();
-
-                        foreach (TilePath possibleOptions in up.TileOptions)
-                        {
-                            var valOption = Array.FindIndex(TileObjects, obj => obj == possibleOptions);
-                            var valid = TileObjects[valOption].UpNeighbors;
-
-                            validOptions = validOptions.Concat(valid).ToList();
-                        }
-
-                        CheckValidity(options, validOptions);
-                    }
-
-                    //update right
-                    if (x < Dimensions - 1)
-                    {
-                        CellPath right = GridComponents[x + 1 + y * Dimensions];
-                        List<TilePath> validOptions = new List<TilePath>();
-
-                        foreach (TilePath possibleOptions in right.TileOptions)
-                        {
-                            var valOption = Array.FindIndex(TileObjects, obj => obj == possibleOptions);
-                            var valid = TileObjects[valOption].LeftNeighbors;
-
-                            validOptions = validOptions.Concat(valid).ToList();
-                        }
-
-                        CheckValidity(options, validOptions);
-                    }
-
-                    //look down
+                    // Up
                     if (y < Dimensions - 1)
                     {
-                        CellPath down = GridComponents[x + (y + 1) * Dimensions];
-                        List<TilePath> validOptions = new List<TilePath>();
-
-                        foreach (TilePath possibleOptions in down.TileOptions)
-                        {
-                            var valOption = Array.FindIndex(TileObjects, obj => obj == possibleOptions);
-                            var valid = TileObjects[valOption].DownNeighbors;
-
-                            validOptions = validOptions.Concat(valid).ToList();
-                        }
-
-                        CheckValidity(options, validOptions);
+                        Cell up = GridComponents[x + (y + 1) * Dimensions];
+                        CheckValidity(options, up.TileOptions, Direction.Down);
                     }
 
-                    //look left
+                    // Right
+                    if (x < Dimensions - 1)
+                    {
+                        Cell right = GridComponents[x + 1 + y * Dimensions];
+                        CheckValidity(options, right.TileOptions, Direction.Left);
+                    }
+
+                    // Down
+                    if (y < Dimensions - 1)
+                    {
+                        Cell down = GridComponents[x + (y - 1) * Dimensions];
+                        CheckValidity(options, down.TileOptions, Direction.Up);
+                    }
+
+                    // Left
                     if (x > 0)
                     {
-                        CellPath left = GridComponents[x - 1 + y * Dimensions];
-                        List<TilePath> validOptions = new List<TilePath>();
-
-                        foreach (TilePath possibleOptions in left.TileOptions)
-                        {
-                            var valOption = Array.FindIndex(TileObjects, obj => obj == possibleOptions);
-                            var valid = TileObjects[valOption].RightNeighbors;
-
-                            validOptions = validOptions.Concat(valid).ToList();
-                        }
-
-                        CheckValidity(options, validOptions);
+                        Cell left = GridComponents[x - 1 + y * Dimensions];
+                        CheckValidity(options, left.TileOptions, Direction.Right);
                     }
 
-                    TilePath[] newTileList = new TilePath[options.Count];
-
-                    for (int i = 0; i < options.Count; i++)
-                    {
-                        newTileList[i] = options[i];
-                    }
-
-                    newGenerationCell[index].RecreateCell(newTileList);
+                    newGenerationCell[index].RecreateCell(options.ToArray());
                 }
             }
         }
@@ -217,15 +220,30 @@ public class WaveFunction : MonoBehaviour
 
     }
 
-    private void CheckValidity(List<TilePath> optionList, List<TilePath> validOption)
+    private void CheckValidity(List<Tile> currentOptions, Tile[] neighborTileOptions, Direction oppositeDirection)
     {
-        for (int x = optionList.Count - 1; x >= 0; x--)
+        List<Tile> validOptions = new List<Tile>();
+
+        foreach (Tile myTile in currentOptions)
         {
-            var element = optionList[x];
-            if (!validOption.Contains(element))
+            bool isValid = false;
+
+            foreach (Tile neighborTile in neighborTileOptions)
             {
-                optionList.RemoveAt(x);
+                if (neighborTile.Rules[oppositeDirection].Contains(myTile.BlockType))
+                {
+                    isValid = true;
+                    break;
+                }
+            }
+
+            if (isValid)
+            {
+                validOptions.Add(myTile);
             }
         }
+
+        currentOptions.Clear();
+        currentOptions.AddRange(validOptions);
     }
 }

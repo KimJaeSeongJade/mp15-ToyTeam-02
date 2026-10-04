@@ -4,15 +4,22 @@ using UnityEngine;
 
 public class Cell : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    public bool Collapsed;
+    public Tile[] TileOptions;
+
+    /// <summary>
+    /// 한 Cell의 후보 설정
+    /// </summary>
+    /// <param name="collapsed"> 붕괴 여부 </param>
+    /// <param name="tiles"> 후보 </param>
+    public void CreateCell(bool collapsed, Tile[] tiles)
     {
-        
+        this.Collapsed = collapsed;
+        TileOptions = tiles;
     }
 
-    // Update is called once per frame
-    void Update()
+    public void RecreateCell(Tile[] tiles)
     {
-        
+        TileOptions = tiles;
     }
 }
