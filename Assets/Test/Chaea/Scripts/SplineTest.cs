@@ -6,7 +6,6 @@ using UnityEngine.Splines;
 public class SplineTest : MonoBehaviour
 {
     [SerializeField] private SplineManager _splineManager;
-    [SerializeField] private Rail _railPrefab;
     [SerializeField] private DummyTrain _dummyTrain;
 
     private Camera _cam;
@@ -20,37 +19,6 @@ public class SplineTest : MonoBehaviour
 
     private void ReadMouseInput()
     {
-        if (Input.GetMouseButtonDown(0))
-        {
-            Ray ray = _cam.ScreenPointToRay(Input.mousePosition);
-            RaycastHit hit;
-
-            if (Physics.Raycast(ray, out hit))
-            {
-                Vector2Int coord = hit.point.WorldToCoord();
-                RailManager.Instance.TryRailwayPlace(coord);
-            }
-        }
-
-        if (Input.GetMouseButtonDown(1))
-        {
-            Ray ray = _cam.ScreenPointToRay(Input.mousePosition);
-            RaycastHit hit;
-
-            if (Physics.Raycast(ray, out hit))
-            {
-                Vector2Int coord = hit.point.WorldToCoord();
-
-                IInteractable interactable = Map.Instance.GetHoldable(coord);
-
-                Rail rail = interactable as Rail;
-                if (rail != null)
-                {
-                    rail.ButtonInteract(null);
-                }
-            }
-        }
-
         if (Input.GetKeyDown(KeyCode.T))
         {
             if (_dummyTrain.gameObject.activeSelf == false)

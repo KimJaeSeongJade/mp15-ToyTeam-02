@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Splines;
 
-public class DummyTrain : MonoBehaviour, IInteractable
+public class DummyTrain : MonoBehaviour
 {
     [SerializeField] private SplineAnimate _splineAnimate;
 
@@ -25,26 +25,6 @@ public class DummyTrain : MonoBehaviour, IInteractable
         {
             Debug.Log("열차 끝에 도착");
         }
-    }
-
-    public void AutoInteract(IInteractable interactable)
-    {
-        throw new System.NotImplementedException();
-    }
-
-    public IInteractable ButtonInteract(IInteractable interactable)
-    {
-        throw new System.NotImplementedException();
-    }
-
-    public void Targeted()
-    {
-        throw new System.NotImplementedException();
-    }
-
-    public void Untargeted()
-    {
-        throw new System.NotImplementedException();
     }
 
     private void Init()
