@@ -79,7 +79,7 @@ public abstract class Train : MonoBehaviour, IInteractable
             Vector3 targetPosition = followTarget.position;
             targetPosition.y = transform.position.y;
             // 앞 열차칸을 바라보도록 설정
-            transform.LookAt(followTarget.position);
+            transform.LookAt(targetPosition);
 
             // 앞 대상을 향해 조금씩 이동
             transform.position = Vector3.MoveTowards(transform.position, 

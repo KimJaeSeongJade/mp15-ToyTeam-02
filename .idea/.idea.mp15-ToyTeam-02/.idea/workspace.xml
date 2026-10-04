@@ -12,8 +12,7 @@
   <component name="ChangeListManager">
     <list default="true" id="2f893ae6-9721-4960-956d-cb16e1060b0a" name="변경" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.mp15-ToyTeam-02/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.mp15-ToyTeam-02/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Core/RailManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Core/RailManager.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/InteractableObjects/Rail.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/InteractableObjects/Rail.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/CargoCart.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/CargoCart.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/Train.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Train.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />

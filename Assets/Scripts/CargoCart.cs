@@ -66,27 +66,68 @@ public class CargoCart : Train
         // 1. 목재 수납
         if (material.BlockType == BlockType.Wood)
         {
+            // 목재를 저장할 공간이 남아있다면 
             if (currentWoodCount < maxResourceCount)
             {
-                currentWoodCount += material.Count;
-                UpdateResourceVisual();
+                // 화물칸에 더 담을 수 있는 갯수 계산
+                int remainCount = maxResourceCount - currentWoodCount;
+            
+                // 1.1) 손에든 재료의 갯수가 화물칸의 남은 공간보다 큰 경우
+                if (material.Count > remainCount)
+                {
+                    // 화물칸은 가득 채우고
+                    currentWoodCount = maxResourceCount;
+                    // 화물칸을 채우고 남은 갯수만큼 플레이어가 소지한 재료 갯수 차감 
+                    material.AddCount(-remainCount);
+                    UpdateResourceVisual();
 
-                // 풀에 반납 후 플레이어 손을 비워주기 위해 null 반환
-                material.ReturnToPool();
-                return null;
+                    // 남은 재료 아이템을 플레이어 손에 돌려줌
+                    return material;
+                }
+                // 1.2) 플레이어가 소지한 재료를 전부 화물칸에 넣는 경우
+                else
+                {
+                    currentWoodCount += material.Count;
+                    UpdateResourceVisual();
+
+                    // 전부 수납되었으므로 풀로 반환 후 빈손(null) 리턴
+                    material.ReturnToPool();
+                    return null;
+                }
             }
+           
         }
-        // 2, 철 수납
+        // 2. 철 수납
         else if (material.BlockType == BlockType.Iron)
         {
+            // 철을 저장할 공간이 남아있다면 
             if (currentIronCount < maxResourceCount)
             {
-                currentIronCount += material.Count;
-                UpdateResourceVisual();
+                // 화물칸에 더 담을 수 있는 갯수 계산
+                int remainSpace = maxResourceCount - currentIronCount;
 
-                // 풀에 반납 후 플레이어 손을 비워주기 위해 null 반환
-                material.ReturnToPool();
-                return null;
+                // 2.1) 손에든 재료의 갯수가 화물칸의 남은 공간보다 큰 경우
+                if (material.Count > remainSpace)
+                {
+                    // 화물칸은 가득 채우고
+                    currentIronCount = maxResourceCount;
+                    // 화물칸을 채우고 남은 갯수만큼 플레이어가 소지한 재료 갯수 차감 
+                    material.AddCount(-remainSpace);
+                    UpdateResourceVisual();
+                    
+                    // 남은 재료 아이템을 플레이어 손에 돌려줌
+                    return material; 
+                }
+                // 2.2) 플레이어가 소지한 재료를 전부 화물칸에 넣는 경우
+                else
+                {
+                    currentIronCount += material.Count;
+                    UpdateResourceVisual();
+                    
+                    // 전부 수납되었으므로 풀로 반환 후 빈손(null) 리턴
+                    material.ReturnToPool();
+                    return null;
+                }
             }
         }
 
@@ -129,34 +170,33 @@ public class CargoCart : Train
     }
   
     /// <summary>
-    /// ObjectPool에서 자원을 꺼내 활성화하고, 인출 수량(amount)을 설정하여 반환합니다.
+    /// 오브젝트 풀에서 지정된 자원을 꺼내 화물칸 위치에 활성화하고,
+    /// 꺼낸 수량에 맞추어 MaterialBase 수량 및 시각 연출을 적용한뒤 반환합니다.
     /// </summary>
+    /// <param name="type">꺼낼 자원의 블록 종류 </param>
+    /// <param name="amount">플레이어 손에 전달할 총 재료 갯수</param>
+    /// <returns>생성되어 수량이 세팅된 자원의 IInteractable</returns>
     private IInteractable SpawnResourceItem(BlockType type, int amount)
     {
-        if (ObjectPool.Instance == null || amount <= 0) return null;
-
-        // 1. 싱글톤 오브젝트 풀에서 지정된 자원의 IPoolable 꺼내기
+        // 싱글톤 오브젝트 풀에서 지정된 재료의 IPoolable 꺼내기
         IPoolable poolable = ObjectPool.Instance.Take(type);
+        
+        // 꺼낸 IPoolable 구현 객체를 MaterialBase 객체 변수에 담음
+        MaterialBase material = poolable as MaterialBase;
 
-        if (poolable != null)
+        if (material != null)
         {
-            // 2. MaterialBase로 형변환
-            MaterialBase material = poolable as MaterialBase;
+            // 화물칸 위치로 이동 후 오브젝트 활성화 
+            material.transform.position = transform.position;
+            material.gameObject.SetActive(true);
 
-            if (material != null)
+            // 기본 1개 외에 추가 인출 수량이 있다면 AddCount로 세팅 
+            if (amount > 1)
             {
-                // 3. 화물칸 위치로 이동 후 활성화 (OnEnable 시 기본 Count = 1 및 3D 모델 세팅됨)
-                material.transform.position = transform.position;
-                material.gameObject.SetActive(true);
-
-                // 4. 기본 1개 외에 추가 인출 수량이 있다면 AddCount로 세팅 (3D visual 자동 갱신)
-                if (amount > 1)
-                {
-                    material.AddCount(amount - 1);
-                }
-
-                return material;
+                material.AddCount(amount - 1);
             }
+
+            return material;
         }
 
         return null;
@@ -168,7 +208,7 @@ public class CargoCart : Train
     /// </summary>
     private void UpdateResourceVisual()
     {
-        // TODO: 인스펙터에 연결된 3D 오브젝트 배열(WoodMeshes, IronMeshes)을 
+        // TODO: 화물칸에 쌓인 재료 카운트에 맞는 비주얼 효과 구현
         // currentWoodCount, currentIronCount 수량에 맞춰 SetActive(true/false) 처리
     }
 
