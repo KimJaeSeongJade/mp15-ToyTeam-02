@@ -1,14 +1,21 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class RailManager : MonoBehaviour
 {
+    public static RailManager Instance { get; private set; }
+
     [SerializeField] private SplineManager _splineManager;
+
+    public event Action OnRailwayConnected;
 
     // 마지막 레일 판단을 쉽게하기위해 링크드 리스트형태로 구현
     public LinkedList<Rail> Rails = new LinkedList<Rail>();
-    public static RailManager Instance { get; private set; }
+
+    private Vector2Int _endRailCoord = new Vector2Int(-1, -1);
+    private List<Vector2Int> _endRails = new();
 
     private void Awake()
     {
@@ -81,6 +88,11 @@ public class RailManager : MonoBehaviour
         Rails.AddLast(newRail);
 
         UpdateRailwayShape();
+
+        if (_endRails.Count != 0)
+        {
+            CheckConnectedWithEndRailway(coord);
+        }
     }
 
     private void UpdateRailwayShape()
@@ -196,5 +208,41 @@ public class RailManager : MonoBehaviour
         Rails.RemoveLast();
 
         UpdateRailwayShape();
+    }
+
+    /// <summary>
+    /// 게임 초기부터 배치되는 마지막 레일 설치
+    /// </summary>
+    public void PlaceEndRailway(Vector2Int coord)
+    { 
+        IPoolable poolable = ObjectPool.Instance.Take(BlockType.Rail);
+        Rail newRail = poolable as Rail;
+
+        newRail.GameObject.transform.position = coord.CoordToWorld();
+        newRail.GameObject.SetActive(true);
+
+        Map.Instance.SetHoldable(coord, newRail);
+
+        newRail.SetupRailway();
+
+        if (_endRailCoord == new Vector2Int(-1, -1))
+        {
+            _endRailCoord = coord;
+        }
+        _endRails.Add(coord);
+    }
+
+    private void CheckConnectedWithEndRailway(Vector2Int coord)
+    {
+        if (coord.x == _endRailCoord.x && Mathf.Abs(coord.y - _endRailCoord.y) == 1 ||
+            coord.y == _endRailCoord.y && Mathf.Abs(coord.x - _endRailCoord.x) == 1)
+        {
+            OnRailwayConnected?.Invoke();
+
+            foreach (Vector2Int endRailCoord in _endRails)
+            {
+                _splineManager.AddSplineKnot(endRailCoord);
+            }
+        }
     }
 }

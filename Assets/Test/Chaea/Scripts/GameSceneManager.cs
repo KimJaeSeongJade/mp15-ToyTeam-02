@@ -16,8 +16,8 @@ public class GameSceneManager : MonoBehaviour
 
 
     private void Awake() => SetSingleton();
-    private void Start() => BindTrainEvents();
-    private void OnDestroy() => UnbindTrainEvents();
+    private void Start() => BindGameEvents();
+    private void OnDestroy() => UnbindGameEvents();
 
     // 다른 씬 로드하면 파괴되는 싱글톤
     private void SetSingleton()
@@ -40,20 +40,23 @@ public class GameSceneManager : MonoBehaviour
         IsGameWin = false;
     }
 
-    private void GameWin()
+    private void GameClear()
     {
+        Debug.Log("Game clear");
         // OnGameEnd?.Invoke();
         IsGameEnd = true;
         IsGameWin = true;
     }
 
-    private void BindTrainEvents()
+    private void BindGameEvents()
     {
         _locomotiveCart.OnTrainArrived += GameOver;
+        RailManager.Instance.OnRailwayConnected += GameClear;
     }
 
-    private void UnbindTrainEvents()
+    private void UnbindGameEvents()
     {
         _locomotiveCart.OnTrainArrived -= GameOver;
+        RailManager.Instance.OnRailwayConnected -= GameClear;
     }
 }

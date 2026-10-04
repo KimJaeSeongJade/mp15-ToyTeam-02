@@ -27,7 +27,6 @@ public class Chunk : MonoBehaviour
 
         _meshBuilder.CreateChunkMesh(chunkIndex, worldMap, material, textureSize, atlasSize);
         SpawnPoolObjects();
-        SpawnTrain();
     }
 
     private void SpawnPoolObjects()
@@ -41,10 +40,18 @@ public class Chunk : MonoBehaviour
                 BlockType blocktype = (BlockType)_worldMap[x, y];
                 Vector2Int coord = new Vector2Int(x, y);
 
-                if (blocktype == BlockType.Rail && _chunkIndex == 0)
+                if (blocktype == BlockType.Rail)
                 {
-                    RailManager.Instance.TryRailwayPlace(coord);
-                    continue;
+                    if (_chunkIndex == 0)
+                    {
+                        RailManager.Instance.TryRailwayPlace(coord);
+                        continue;
+                    }
+                    else
+                    {
+                        RailManager.Instance.PlaceEndRailway(coord);
+                        continue;
+                    }
                 }
 
                 IPoolable newPoolable = ObjectPool.Instance.Take(blocktype);
@@ -66,11 +73,6 @@ public class Chunk : MonoBehaviour
                 }
             }
         }
-    }
-
-    private void SpawnTrain()
-    {
-        // TODO: Instantiate train
     }
 
     private void CacheComponents()
