@@ -111,7 +111,7 @@ public abstract class Train : MonoBehaviour, IInteractable
     public abstract IInteractable ButtonInteract(IInteractable interactable);
 
     // 상호작용 가능 여부에 따라 테두리 켜고 끄기
-    public virtual void Targeted() { }
-    public virtual void Untargeted() { }
-    
+    public abstract void Targeted();
+    public abstract void Untargeted();
+
 }
