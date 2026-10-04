@@ -55,6 +55,8 @@ public class ObjectPool : MonoBehaviour
         if (!_objectPoolDict.ContainsKey(poolable.BlockType)) return;
 
         _objectPoolDict[poolable.BlockType].Push(poolable);
+
+        poolable.GameObject.transform.SetParent(_poolParent[poolable.BlockType].transform);
     }
 
     private void CreatePool()

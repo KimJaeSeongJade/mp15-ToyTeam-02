@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -22,12 +23,17 @@ public class RailManager : MonoBehaviour
     /// </summary>
     public static RailManager Instance { get; private set; }
 
+    public event Action OnRailwayConnected;
+
+    private Vector2Int _endRailCoord = new Vector2Int(-1, -1);
+    private List<Vector2Int> _endRails = new();
+
     private void Awake()
     {
         SetSingleton();
     }
 
-    //싱글톤 설정
+    // 싱글톤 설정
     private void SetSingleton()
     {
         if (Instance != null && Instance != this)
@@ -114,6 +120,11 @@ public class RailManager : MonoBehaviour
 
         // 6. 신규 레일 설치에 따라 인접한 레일의 모양 및 회전 모습 갱신
         UpdateRailwayShape();
+
+        if (_endRails.Count != 0)
+        {
+            CheckConnectedWithEndRailway(coord);
+        }
     }
     
     // 모양을 바꿀 대상 레일 선정 : 새로 설치된 레일 및 기존에 가장 마지막이였던 레일
@@ -281,14 +292,47 @@ public class RailManager : MonoBehaviour
         // 레일이 하나도 없는 경우는 예외 처리
         if (Rails.Count == 0) return;
 
-        // Map 싱글톤 접근: 타일 맵 데이터 갱신
-        Map.Instance.SetHoldable(Rails.Last.Value.GameObject.transform.position.WorldToCoord(), null);
-        // SplineManager 클래스 접근: 실제 열차 주행결로에서 마지막 구간 제거
         _splineManager.RemoveLastSplineKnot();
         // 링크드 리스트에서 마지막 레일 노드 제거
         Rails.RemoveLast();
 
         // 레일 모양 변경: 삭제된 마지막 레일 직전의 레일 모양을 변경
         UpdateRailwayShape();
+    }
+
+    /// <summary>
+    /// 게임 초기부터 배치되는 마지막 레일 설치
+    /// </summary>
+    public void PlaceEndRailway(Vector2Int coord)
+    { 
+        IPoolable poolable = ObjectPool.Instance.Take(BlockType.Rail);
+        Rail newRail = poolable as Rail;
+
+        newRail.GameObject.transform.position = coord.CoordToWorld();
+        newRail.GameObject.SetActive(true);
+
+        Map.Instance.SetHoldable(coord, newRail);
+
+        newRail.SetupRailway();
+
+        if (_endRailCoord == new Vector2Int(-1, -1))
+        {
+            _endRailCoord = coord;
+        }
+        _endRails.Add(coord);
+    }
+
+    private void CheckConnectedWithEndRailway(Vector2Int coord)
+    {
+        if (coord.x == _endRailCoord.x && Mathf.Abs(coord.y - _endRailCoord.y) == 1 ||
+            coord.y == _endRailCoord.y && Mathf.Abs(coord.x - _endRailCoord.x) == 1)
+        {
+            OnRailwayConnected?.Invoke();
+
+            foreach (Vector2Int endRailCoord in _endRails)
+            {
+                _splineManager.AddSplineKnot(endRailCoord);
+            }
+        }
     }
 }

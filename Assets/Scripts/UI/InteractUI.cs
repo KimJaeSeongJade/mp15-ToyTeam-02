@@ -2,8 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// 상호작용키를 누르면 작동하는 UI
+/// </summary>
 public class InteractUI : UIBase
 {
+    private KeyCode _interactKey => KeyCode.Space;
+
     // Collider에 올라왔는지 확인하는 bool
     private bool _isOnTrigger;
 
@@ -25,15 +30,21 @@ public class InteractUI : UIBase
         }
     }
 
+    protected override void OnDisable()
+    {
+        base.OnDisable();
+        _isOnTrigger = false;
+    }
+
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.A) && _isOnTrigger)
+        if (Input.GetKeyDown(_interactKey) && _isOnTrigger)
         {
             PlayUI();
         }
     }
 
-    public override void PlayUI()
+    protected override void PlayUI()
     {
         Debug.Log("UI활성화");
     }

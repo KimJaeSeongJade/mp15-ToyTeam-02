@@ -17,15 +17,17 @@ public class Rail : MonoBehaviour, IInteractable, IStackable, IPoolable
     /// <summary>
     /// 직선 레일 모양: 수직, 수평으로 구분 
     /// </summary>
-    [SerializeField] private GameObject _lineRailPrefab;
+    [SerializeField] private GameObject _lineRailPrefabTop;
+    [SerializeField] private GameObject _lineRailPrefabMiddle;
+    [SerializeField] private GameObject _lineRailPrefabBottom;
     
     /// <summary>
     /// 곡선 레일 모양: 4방향으로 꺽이는 형태 4가지로 구분 
     /// </summary>
-    [SerializeField] private GameObject _curveRailPrefab;   // 
+    [SerializeField] private GameObject _curveRailPrefab;
     
     /// <summary>
-    /// true라면 타일로써의 레일, flase라면 아이템으로써의 레일 상태
+    /// true라면 타일로써의 레일, false라면 아이템으로써의 레일 상태
     /// </summary>
     [field: SerializeField] public bool IsRailway { get; private set; }
     
@@ -65,8 +67,34 @@ public class Rail : MonoBehaviour, IInteractable, IStackable, IPoolable
             _outline.enabled = false;
         }
 
+        _currentCount = 1;
+        UpdateStackVisuals();
         ChangeRailShape(RailShape.HorizontalLine);
         _currentCount = 1;
+    }
+
+    private void UpdateStackVisuals()
+    {
+        switch (Count)
+        {
+            case 3:
+                _lineRailPrefabTop.SetActive(true);
+                _lineRailPrefabMiddle.SetActive(true);
+                _lineRailPrefabBottom.SetActive(true);
+                break;
+            case 2:
+                _lineRailPrefabTop.SetActive(false);
+                _lineRailPrefabMiddle.SetActive(true);
+                _lineRailPrefabBottom.SetActive(true);
+                break;
+            case 1:
+                _lineRailPrefabTop.SetActive(false);
+                _lineRailPrefabMiddle.SetActive(false);
+                _lineRailPrefabBottom.SetActive(true);
+                break;
+            case 0:
+                break;
+        }
     }
 
     private void CacheComponents()
@@ -81,38 +109,33 @@ public class Rail : MonoBehaviour, IInteractable, IStackable, IPoolable
     /// <param name="inPlayerHand"> 플레이어가 손에 들고 있는 IInteractable </param>
     public void AutoInteract(IInteractable inPlayerHand)
     {
-        // 플레이어가 접근한 레일의 상태가 Railway 상태(레일 타일)라면 합쳐지지 않도록 확인
-        if (IsRailway) return;
-        
-        // 플레이에가 손에든 IInteractable 구현 객체가 레일 블록타입인지 확인
-        if (inPlayerHand.BlockType == BlockType.Rail)
+        // 자기 자신 감지 또는 레일의 상태가 Railway 타일 상태라면 합쳐지지 않기
+        if (IsRailway ||
+            inPlayerHand == null ||
+            inPlayerHand.GameObject == gameObject ||
+            inPlayerHand.BlockType != BlockType.Rail) return;
+
+        // 플레이어가 접근한 오브젝트가 Rail인 경우
+        Rail inPlayerRail = inPlayerHand as Rail;
+
+        int totalCount = _currentCount + inPlayerRail.Count;
+            
+        if(totalCount > _maxStack)
         {
-            // 블록타입이 확인되면 손에든 오브젝트에 Rail 클래스 속성 부여
-            Rail railInPlayer = inPlayerHand as Rail;
-
-            // 손에든 레일 아이템과 상호작용 당하는 레일 아이템의 총 갯수 계산
-            int totalCount = _currentCount + railInPlayer.Count;
-            
-            // 두 레일 아이템의 총 갯수가 플레이어가 소지할 수 있는 갯수보다 클경우
-            if(totalCount > _maxStack)
-            {
-                // 플레이어의 손에는 최대 소지수만큼 돌려주고
-                railInPlayer._currentCount = _maxStack;
-                // 그 나머지를 상호작용 당하는 레일 아이템의 갯수로 지정한다 
-                _currentCount = totalCount - _maxStack;
-
-            }
-            // 두 레일 아이템의 갯수를 합쳐도 플레이어의 최대 소지 샛수보다 적을 경우
-            else
-            {
-                // 플레이어가 소지한 레일아이템의 갯수는 두 레일 아이템의 갯수를 합친 것
-                railInPlayer._currentCount = totalCount;
-                // 플레이어쪽으로 레일아이템이 합쳐졌으므로 상호작용 당한 레일아이템은 오브젝트풀로 반환
-                _currentCount = 0;
-                ReturnToPool();
-            }
-            
+            inPlayerRail._currentCount = _maxStack;
+            _currentCount = totalCount - _maxStack;
         }
+        else
+        {
+            inPlayerRail._currentCount = totalCount;
+            _currentCount = 0;
+            Map.Instance.SetHoldable(transform.position.WorldToCoord(), null);
+            ReturnToPool();
+        }
+
+        Rail rail = inPlayerHand as Rail;
+        rail.UpdateStackVisuals();
+        UpdateStackVisuals();
     }
 
     /// <summary>
@@ -123,50 +146,51 @@ public class Rail : MonoBehaviour, IInteractable, IStackable, IPoolable
     /// <returns> 상호작용 이후 플레이어가 들어야 할 IInteractable </returns>
     public IInteractable ButtonInteract(IInteractable inPlayerHand)
     {
-        
-        // 1. 플레이어가 버튼을 눌러 손에든 레일아이템을 설치하는 경우
-        
-        // 플레이어가 레일 아이템을 들었는지 확인
-        if (inPlayerHand != null)
+        if (inPlayerHand != null && inPlayerHand.GameObject == gameObject)
+            return inPlayerHand;
+
+        if (!IsRailway)
         {
-            // 플레이어가 손에든 레일의 상태가 '아이템'인지 '타일' 인지 확인
-            
-            // 손에든 것이 레일 아이템 이라면
-            if (!IsRailway)
-            {
-                // 맵에 설치되기 위해 플레이어 손에 들린 자신을 반환하여 호출될 준비
-                return this; 
-            }
-            // 손에든 것이 레일 아이템이 아니라면
-            else
-            {
-                // 원래 들고있는 IInteractable 상속 객체를 반환
-                return inPlayerHand;
-            }
-            
+            return this;
         }
-        
-        // 2. 아무것도 들지 않은채로 버튼을 눌러 레일타일을 회수하는 경우 
-        
-        // 플레이어가 손에 아무것도 들지 않았는지 확인
-        if (inPlayerHand == null)
+        else
         {
-            // 상호작용을 시도하는 레일의 상태가 레일 타일이 맞는지 확인
-            if (IsRailway)
+            if (inPlayerHand != null && inPlayerHand.BlockType != BlockType.Rail)
+                return inPlayerHand;
+
+            // 플레이어가 손에 이미 레일을 최대치 들고 있는 경우 손에 든 오브젝트 반환
+            if (inPlayerHand != null && inPlayerHand.BlockType == BlockType.Rail)
             {
-                // 회수하려는 레일 타일이 열차가 통과하지 않은 레일 타일인지 확인
-                if (RailManager.Instance.Rails.Last.Value == this)
+                Rail inPlayerRail = inPlayerHand as Rail;
+                if (inPlayerRail.Count == _maxStack)
                 {
-                    // 맞다면 레일을 제거
-                    RemoveRailway();
-                    // 제거되어 레일아이템 상태가 된 자신을 반환
-                    return this;
+                    return inPlayerHand;
                 }
             }
+            if (RailManager.Instance.Rails.Last.Value == this)
+            {
+                IsRailway = false;
+                RailManager.Instance.RemoveLastRailway();
+
+                // 플레이어가 뽑아 타일에서 제거되어 레일아이템 상태가 된 자신을 반환
+                return this;
+            }
+            return inPlayerHand;
         }
-        
-        // 두 상황 모두 아니면 플레이어의 손에 든 상태 유지
-        return inPlayerHand;
+    }
+
+    /// <summary>
+    /// 레일을 배치하여 현재 스택을 하나 줄임
+    /// </summary>
+    public void ReduceStack()
+    {
+        _currentCount--;
+
+        if (_currentCount == 0)
+        {
+            ReturnToPool();
+        }
+        UpdateStackVisuals();
     }
     
     /// <summary>
@@ -177,20 +201,6 @@ public class Rail : MonoBehaviour, IInteractable, IStackable, IPoolable
         // 맵에 설치되었으므로 레일타일로 상태변경
         IsRailway = true;
         _currentCount = 1;
-    }
-
-    /// <summary>
-    /// 버튼을 눌러 설치된 레일 타일을 회수하는 경우에 호출되어 레일 제거
-    /// </summary>
-    public void RemoveRailway()
-    {
-      
-        // 타일에서 제거되었으므로 타일 상태에서 아이템으로 상태 변경
-        IsRailway = false;
-        
-        // RailManager를 통해 새롭게 마지막이된 레일 타일의 모양과 레일의 연결 관계를 재설정
-        RailManager.Instance.RemoveLastRailway();
-        
     }
 
     /// <summary>
@@ -225,8 +235,7 @@ public class Rail : MonoBehaviour, IInteractable, IStackable, IPoolable
         }
         
         IsRailway = false;
-        _currentCount = 1;
-        
+
         gameObject.SetActive(false);
         ObjectPool.Instance.Return(this);
     }
@@ -238,6 +247,10 @@ public class Rail : MonoBehaviour, IInteractable, IStackable, IPoolable
     /// </summary>
     /// <param name="railShape">설정할 레일 모양 Enum</param>
 
+    /// <summary>
+    /// 연결된 railway에 맞도록 레일의 모양 변경
+    /// </summary>
+    /// <param name="railShape"></param>
     public void ChangeRailShape(RailShape railShape)
     {
         
@@ -247,21 +260,15 @@ public class Rail : MonoBehaviour, IInteractable, IStackable, IPoolable
             
             // 1.1 세로 방향의 직선 레일 모양 만들기
             case RailShape.VerticalLine:
-                // 직선 레일 모양 적용
-                _lineRailPrefab.SetActive(true);
-                // 곡선 레일 모양 비적용
+                _lineRailPrefabBottom.SetActive(true);
                 _curveRailPrefab.SetActive(false);
-                // 회전은 기본값(0도, 회전 없음) 적용 -> 세로 형태로 설정
-                _lineRailPrefab.transform.rotation = Quaternion.identity;
+                _lineRailPrefabBottom.transform.rotation = Quaternion.identity;
                 break;
             // 2.1 가로 방향의 직선 레일 모양 만들기
             case RailShape.HorizontalLine:
-                // 직선 레일 모양 적용
-                _lineRailPrefab.SetActive(true);
-                // 곡선 레일 모양 비적용
+                _lineRailPrefabBottom.SetActive(true);
                 _curveRailPrefab.SetActive(false);
-                // 회전은 Y축으로 90도 회전 -> 가로 형태로 설정
-                _lineRailPrefab.transform.eulerAngles = new Vector3(0, 90, 0);
+                _lineRailPrefabBottom.transform.eulerAngles = new Vector3(0, 90, 0);
                 break;
             
             // 2. 곡선 레일의 모양 구현하기
@@ -270,7 +277,7 @@ public class Rail : MonoBehaviour, IInteractable, IStackable, IPoolable
             
             // 2.1 ⬇️➡️ '└' 모양 곡선 레일
             case RailShape.DownToRightCurve:
-                _lineRailPrefab.SetActive(false);
+                _lineRailPrefabBottom.SetActive(false);
                 _curveRailPrefab.SetActive(true);
                 // 곡선 레일 프리팹 기준 초기 회전값
                 _curveRailPrefab.transform.eulerAngles = new Vector3(-90, 0, 0);
@@ -278,21 +285,21 @@ public class Rail : MonoBehaviour, IInteractable, IStackable, IPoolable
             
             // 2.2 ⬆️➡️ '┌' 모양 곡선 레일
             case RailShape.UpToRightCurve:
-                _lineRailPrefab.SetActive(false);
+                _lineRailPrefabBottom.SetActive(false);
                 _curveRailPrefab.SetActive(true);
                 _curveRailPrefab.transform.eulerAngles = new Vector3(-90, 90, 0);
                 break;
             
             // 2.3 ⬆️⬅️ '┐' 모양 곡선 레일
             case RailShape.UpToLeftCurve:
-                _lineRailPrefab.SetActive(false);
+                _lineRailPrefabBottom.SetActive(false);
                 _curveRailPrefab.SetActive(true);
                 _curveRailPrefab.transform.eulerAngles = new Vector3(-90, 180, 0);
                 break;
             
             // 2.4 ⬇️⬅️ '┘' 모양 곡선 레일
             case RailShape.DownToLeftCurve:
-                _lineRailPrefab.SetActive(false);
+                _lineRailPrefabBottom.SetActive(false);
                 _curveRailPrefab.SetActive(true);
                 _curveRailPrefab.transform.eulerAngles = new Vector3(-90, 270, 0);
                 break;

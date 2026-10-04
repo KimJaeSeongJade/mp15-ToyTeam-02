@@ -9,17 +9,21 @@ public class PlayerAction : MonoBehaviour
 {
     private const float BASE_MOVE_SPEED = 5f;
     private const float DASH_SPEED_BONUS = 0.5f;
+    private const string PARAM_IS_MOVING = "IsMoving";
+    private const string PARAM_IS_HOLDING = "IsHolding";
+    private const string PARAM_IS_HOLDING_TOOL = "IsHoldingTool";
+    private const string PARAM_IS_USING = "IsUsing";
+
+    [SerializeField] private Rigidbody _playerBody;
+    [SerializeField] private PlayerHand _hand;
+    [SerializeField] private Animator _animator;
 
     private float _moveSpeed;
-    private Rigidbody _playerBody;
-    private PlayerHand _hand;
-    private Animator _animator;
     private WaitForSeconds _waitDashDuration = new WaitForSeconds(0.3f);
     private WaitForSeconds _waitDashCooldown = new WaitForSeconds(1f);
     private bool _canDash;
 
     // ------------------------------
-    private void Awake() => CacheComponents();
     private void Start() => Init();
     // ------------------------------
 
@@ -31,12 +35,12 @@ public class PlayerAction : MonoBehaviour
     {
         if (direction == Vector3.zero)
         {
-            _animator.SetBool("IsMoving", false);
+            _animator.SetBool(PARAM_IS_MOVING, false);
             _playerBody.velocity = Vector3.zero;
             return;
         }
 
-        _animator.SetBool("IsMoving", true);
+        _animator.SetBool(PARAM_IS_MOVING, true);
         _playerBody.rotation = Quaternion.LookRotation(direction);
         _playerBody.velocity = _playerBody.transform.forward * _moveSpeed;
     }
@@ -87,7 +91,7 @@ public class PlayerAction : MonoBehaviour
 
     private void PickUpItem(IInteractable newInteractable)
     {
-        _animator.SetBool("IsHolding", true);
+        _animator.SetLayerWeight(1, 1f);
         _hand.Item = newInteractable;
         _hand.Item.GameObject.transform.rotation = transform.rotation;
 
@@ -95,9 +99,15 @@ public class PlayerAction : MonoBehaviour
         ToolBase tool = newInteractable as ToolBase;
         if (tool != null)
         {
+            _animator.SetBool(PARAM_IS_HOLDING_TOOL, true);
             _hand.Item.GameObject.transform.Rotate(-45f, -90f, 0);
         }
+        else
+        {
+            _animator.SetBool(PARAM_IS_HOLDING, true);
+        }
 
+        _hand.Item.GameObject.layer = 2;
         _hand.ItemPosition = _hand.transform.position;
         _hand.ItemParent = _hand.transform;
     }
@@ -105,17 +115,36 @@ public class PlayerAction : MonoBehaviour
     
     private void DropItem(Vector2Int position)
     {
-        _animator.SetBool("IsHolding", false);
+        _animator.SetLayerWeight(1, 0f);
+        _animator.SetBool(PARAM_IS_HOLDING_TOOL, false);
+        _animator.SetBool(PARAM_IS_HOLDING, false);
         Map.Instance.SetHoldable(position, _hand.Item);
-        
 
         if (_hand.Item != null)
         {
+            // 레일을 배치할 수 있는 경우에 개수를 하나 줄이고 배치
+            if (_hand.Item.BlockType == BlockType.Rail)
+            {   
+                if (RailManager.Instance.TryRailwayPlace(position))
+                {
+                    Rail rail = _hand.Item as Rail;
+                    rail.ReduceStack();
+
+                    if (rail.Count == 0)
+                    {
+                        _hand.Item = null;
+                    }
+                    return;
+                }
+            }
+
             _hand.Item.GameObject.transform.rotation = Quaternion.identity;
             _hand.ItemPosition = position.CoordToWorld();
             _hand.ItemParent = null;
-            _hand.Item = null;
         }
+
+        Map.Instance.SetHoldable(position, _hand.Item);
+        _hand.Item = null;
     }
 
     /// <summary>
@@ -123,16 +152,21 @@ public class PlayerAction : MonoBehaviour
     /// </summary>
     public void TryAutoInteract(IInteractable target)
     {
-        if (_hand.Item == null || target == null || _hand.Item == target) return;
+        if (_hand.Item == null || target == null || _hand.Item == target)
+        {
+            _animator.SetBool(PARAM_IS_USING, false);
+            return;
+        }
 
+        if((target is ResourceTree && _hand.Item is ToolAxe) || (target is ResourceRock && _hand.Item is ToolPickaxe))
+        {
+            _animator.SetBool(PARAM_IS_USING, true);
+        }
+        else
+        {
+            _animator.SetBool(PARAM_IS_USING, false);
+        }
         target.AutoInteract(_hand.Item);
-    }
-
-    private void CacheComponents()
-    {
-        _playerBody = GetComponent<Rigidbody>();
-        _hand = GetComponentInChildren<PlayerHand>();
-        _animator = GetComponentInChildren<Animator>();
     }
 
     private void Init()

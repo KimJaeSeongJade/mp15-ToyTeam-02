@@ -1,0 +1,19 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.Events;
+
+/// <summary>
+/// 시간이 지날시 버튼에 등록된 메서드를 작동
+/// </summary>
+public class UnityEventTimerUI : TimerUI
+{
+    [SerializeField] private UnityEvent _onUIPressed;
+
+    public UnityEvent OnUIPressed => _onUIPressed;
+
+    protected override void PlayUI()
+    {
+        OnUIPressed.Invoke();
+    }
+}
