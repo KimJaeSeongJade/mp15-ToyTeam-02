@@ -129,8 +129,7 @@ public class Rail : MonoBehaviour, IInteractable, IStackable, IPoolable
     /// <returns> 상호작용 이후 플레이어가 들어야 할 IInteractable </returns>
     public IInteractable ButtonInteract(IInteractable inPlayerHand)
     {
-        if ((inPlayerHand != null && inPlayerHand.GameObject == gameObject) ||
-            (inPlayerHand != null && inPlayerHand.BlockType != BlockType.Rail))
+        if (inPlayerHand != null && inPlayerHand.GameObject == gameObject)
             return inPlayerHand;
 
         if (!IsRailway)
@@ -139,6 +138,9 @@ public class Rail : MonoBehaviour, IInteractable, IStackable, IPoolable
         }
         else
         {
+            if (inPlayerHand != null && inPlayerHand.BlockType != BlockType.Rail)
+                return inPlayerHand;
+
             if (RailManager.Instance.Rails.Last.Value == this)
             {
                 IsRailway = false;
