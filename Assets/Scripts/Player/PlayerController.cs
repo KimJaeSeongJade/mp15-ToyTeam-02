@@ -117,6 +117,7 @@ public class PlayerController : MonoBehaviour
         }
 
 
+        // 이미 손에 든 오브젝트, 비활성화된 오브젝트를 타겟에서 제외
         if (_playerHand.Item == target || target != null && target.GameObject.activeSelf == false)
         {
             target = null;

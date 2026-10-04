@@ -162,6 +162,9 @@ public class Rail : MonoBehaviour, IInteractable, IStackable, IPoolable
         }
     }
 
+    /// <summary>
+    /// 레일을 배치하여 현재 스택을 하나 줄임
+    /// </summary>
     public void ReduceStack()
     {
         _currentCount--;
@@ -219,6 +222,10 @@ public class Rail : MonoBehaviour, IInteractable, IStackable, IPoolable
         ObjectPool.Instance.Return(this);
     }
 
+    /// <summary>
+    /// 연결된 railway에 맞도록 레일의 모양 변경
+    /// </summary>
+    /// <param name="railShape"></param>
     public void ChangeRailShape(RailShape railShape)
     {
         switch (railShape)

@@ -15,7 +15,7 @@ public class RailManager : MonoBehaviour
         SetSingleton();
     }
 
-    //싱글톤 설정
+    // 싱글톤 설정
     private void SetSingleton()
     {
         if (Instance != null && Instance != this)
@@ -27,6 +27,10 @@ public class RailManager : MonoBehaviour
         Instance = this;
     }
 
+    /// <summary>
+    /// 마지막에 설치한 Railway 반환
+    /// </summary>
+    /// <returns></returns>
     public Rail GetLastRailway()
     {
         return Rails.Last.Value;
