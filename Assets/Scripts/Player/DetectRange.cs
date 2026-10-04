@@ -7,8 +7,9 @@ using UnityEngine;
 /// </summary>
 public class DetectRange : MonoBehaviour
 {
+    [SerializeField] private SphereCollider _sphereCollider;
+
     private List<IInteractable> _detecteds;
-    private SphereCollider _sphereCollider;
 
     /// <summary>
     /// 영역 안으로 들어온 오브젝트를 저장

@@ -14,16 +14,16 @@ public class PlayerAction : MonoBehaviour
     private const string PARAM_IS_HOLDING_TOOL = "IsHoldingTool";
     private const string PARAM_IS_USING = "IsUsing";
 
+    [SerializeField] private Rigidbody _playerBody;
+    [SerializeField] private PlayerHand _hand;
+    [SerializeField] private Animator _animator;
+
     private float _moveSpeed;
-    private Rigidbody _playerBody;
-    private PlayerHand _hand;
-    private Animator _animator;
     private WaitForSeconds _waitDashDuration = new WaitForSeconds(0.3f);
     private WaitForSeconds _waitDashCooldown = new WaitForSeconds(1f);
     private bool _canDash;
 
     // ------------------------------
-    private void Awake() => CacheComponents();
     private void Start() => Init();
     // ------------------------------
 
@@ -122,12 +122,29 @@ public class PlayerAction : MonoBehaviour
 
         if (_hand.Item != null)
         {
-            _hand.Item.GameObject.layer = 0;
+            // 레일을 배치할 수 있는 경우에 개수를 하나 줄이고 배치
+            if (_hand.Item.BlockType == BlockType.Rail)
+            {   
+                if (RailManager.Instance.TryRailwayPlace(position))
+                {
+                    Rail rail = _hand.Item as Rail;
+                    rail.ReduceStack();
+
+                    if (rail.Count == 0)
+                    {
+                        _hand.Item = null;
+                    }
+                    return;
+                }
+            }
+
             _hand.Item.GameObject.transform.rotation = Quaternion.identity;
             _hand.ItemPosition = position.CoordToWorld();
             _hand.ItemParent = null;
-            _hand.Item = null;
         }
+
+        Map.Instance.SetHoldable(position, _hand.Item);
+        _hand.Item = null;
     }
 
     /// <summary>
@@ -150,13 +167,6 @@ public class PlayerAction : MonoBehaviour
             _animator.SetBool(PARAM_IS_USING, false);
         }
         target.AutoInteract(_hand.Item);
-    }
-
-    private void CacheComponents()
-    {
-        _playerBody = GetComponent<Rigidbody>();
-        _hand = GetComponentInChildren<PlayerHand>();
-        _animator = GetComponentInChildren<Animator>();
     }
 
     private void Init()

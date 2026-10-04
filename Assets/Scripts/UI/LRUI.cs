@@ -2,6 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// 좌우로 텍스트를 넘기는 UI
+/// </summary>
 public class LRUI : MonoBehaviour
 {
     //화면에 보일 Text 오브젝트 배열

@@ -9,9 +9,10 @@ public class PlayerController : MonoBehaviour
 {
     private const float THRESHOLD = 0.7f;
 
-    private PlayerAction _player;
+    [SerializeField] private PlayerHand _playerHand;
+    [SerializeField] private PlayerAction _player;
+    [SerializeField] private DetectRange _detectRange;
     private Vector3 _direction;
-    private DetectRange _detectRange;
     private List<IInteractable> _detecteds => _detectRange.Detecteds;
     private List<IInteractable> _canTargetList;
     private Dictionary<IInteractable, float> _canTargetDict;
@@ -27,7 +28,6 @@ public class PlayerController : MonoBehaviour
     private bool _isPressedInteractKey => Input.GetKeyDown(_interactKey);
 
     // ------------------------------
-    private void Awake() => CacheComponents();
     private void Start() => Init();
     private void FixedUpdate()
     {
@@ -114,7 +114,14 @@ public class PlayerController : MonoBehaviour
                 targetLookPercentage = canTargetLookPercentage;
             }
         }
-        
+
+
+        // 이미 손에 든 오브젝트, 비활성화된 오브젝트를 타겟에서 제외
+        if (_playerHand.Item == target || target != null && target.GameObject.activeSelf == false)
+        {
+            target = null;
+        }
+
         if (target == null)
         {
             Vector2Int playerCoord = transform.position.WorldToCoord();
@@ -139,12 +146,6 @@ public class PlayerController : MonoBehaviour
     private void AutoInteract()
     {
         _player.TryAutoInteract(_target);
-    }
-
-    private void CacheComponents()
-    {
-        _player = GetComponent<PlayerAction>();
-        _detectRange = GetComponentInChildren<DetectRange>();
     }
 
     private void Init()

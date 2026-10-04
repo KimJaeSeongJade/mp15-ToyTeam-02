@@ -3,7 +3,9 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
-
+/// <summary>
+/// Text 깜박이는 효과
+/// </summary>
 public class UIBlink : MonoBehaviour
 {
     [SerializeField]private TextMeshProUGUI _text;
