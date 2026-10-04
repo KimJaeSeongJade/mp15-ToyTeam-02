@@ -25,11 +25,3 @@ public class CreateRandomMap : MonoBehaviour
     }
 }
 
-public enum Direction
-{
-    Up,
-    Right,
-    Down,
-    Left
-}
-

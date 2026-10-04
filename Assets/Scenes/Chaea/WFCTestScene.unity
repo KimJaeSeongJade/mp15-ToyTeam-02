@@ -337,8 +337,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 92040531fa1949b4991e91418b5bbb11, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dimensions: 20
-  tileObjects:
+  Dimensions: 20
+  TileObjects:
   - {fileID: -8291842432262455801, guid: 34a12db8b1b25ab4b962111f29561df0, type: 3}
   - {fileID: -2174135314315563846, guid: dcbbddef15300af49bea2d9a1a0bc0e8, type: 3}
   - {fileID: 2577190013834350673, guid: 1537d4461a8a1ac4387c4584c48b5ce3, type: 3}
@@ -347,8 +347,9 @@ MonoBehaviour:
   - {fileID: -1817715922084528458, guid: d982e7e40fb52094ead959a962661147, type: 3}
   - {fileID: 7277666531030821491, guid: bb44a95940c44484ea88a85b2a7984a3, type: 3}
   - {fileID: -1485209384711667519, guid: aca7ca71890406f4299b34594475809a, type: 3}
-  gridComponents: []
-  cellObj: {fileID: 8284908990309597997, guid: 641a42e170654a6489f90936ef7dd60f, type: 3}
+  GridComponents: []
+  CellObj: {fileID: 8284908990309597997, guid: 641a42e170654a6489f90936ef7dd60f, type: 3}
+  _iterations: 0
 --- !u!4 &1796873925
 Transform:
   m_ObjectHideFlags: 0

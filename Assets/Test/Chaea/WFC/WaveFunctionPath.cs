@@ -5,42 +5,19 @@ using System.Linq;
 using Unity.Mathematics;
 using UnityEngine;
 
-public class WaveFunction : MonoBehaviour
+public class WaveFunctionPath : MonoBehaviour
 {
-    public int Dimensions => ChunkManager.CHUNK_SIZE;
+    public int Dimensions;
+    public TilePath[] TileObjects;
     public List<CellPath> GridComponents;
     public CellPath CellObj;
 
-    public int Iterations = 0;
-
-    private Dictionary<int, Tile> _tiles = new();
-
-    private Dictionary<Direction, Vector2Int> _directions = new();
-
-    private void InitDirection()
-    {
-        _directions[Direction.Up] = new Vector2Int(0, 1);
-        _directions[Direction.Right] = new Vector2Int(1, 0);
-        _directions[Direction.Down] = new Vector2Int(0, -1);
-        _directions[Direction.Left] = new Vector2Int(-1, 0);
-    }
-
+    public int _iterations = 0;
 
     private void Awake()
     {
-        InitDirection();
-
-        int[,] sampleMapData = new int[20, 40];
-
-        LoadMapData(sampleMapData);
-
         GridComponents = new List<CellPath>();
         InitializeGrid();
-    }
-
-    private void LoadMapData(int[,] mapData)
-    {
-
     }
 
     private void InitializeGrid()
@@ -49,7 +26,7 @@ public class WaveFunction : MonoBehaviour
         {
             for (int x = 0; x < Dimensions; x++)
             {
-                CellPath newCell = new CellPath();
+                CellPath newCell = Instantiate(CellObj, new Vector2(x, y), Quaternion.identity);
                 newCell.CreateCell(false, TileObjects);
                 GridComponents.Add(newCell);
             }
@@ -208,9 +185,9 @@ public class WaveFunction : MonoBehaviour
         }
 
         GridComponents = newGenerationCell;
-        Iterations++;
+        _iterations++;
 
-        if (Iterations < Dimensions * Dimensions)
+        if (_iterations < Dimensions * Dimensions)
         {
             StartCoroutine(CheckEntropy());
         }
