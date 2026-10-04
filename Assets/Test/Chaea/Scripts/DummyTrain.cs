@@ -6,6 +6,7 @@ using UnityEngine.Splines;
 public class DummyTrain : MonoBehaviour
 {
     [SerializeField] private SplineAnimate _splineAnimate;
+    private WaitForSeconds _wait = new WaitForSeconds(2f);
 
     // -----------------------------
     private void Awake()
@@ -16,7 +17,6 @@ public class DummyTrain : MonoBehaviour
     private void OnEnable() => Init();
     private void OnDisable() => UnbindSplineAnimateEvents();
     // -----------------------------
-
 
     private void OnSplineUpdate(Vector3 vector, Quaternion quaternion)
     {
@@ -30,7 +30,23 @@ public class DummyTrain : MonoBehaviour
     private void Init()
     {
         BindSplineAnimateEvents();
+
+        StartCoroutine(TrainDepartRoutine());
+    }
+
+    private IEnumerator TrainDepartRoutine()
+    {
         _splineAnimate.enabled = true;
+        _splineAnimate.Restart(true);
+        _splineAnimate.MaxSpeed = 0f;
+
+        yield return _wait;
+        TrainDepart();
+    }
+
+    private void TrainDepart()
+    {
+        _splineAnimate.MaxSpeed = .2f;
         _splineAnimate.Restart(true);
     }
 
