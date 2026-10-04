@@ -535,10 +535,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: CraftCart
       objectReference: {fileID: 0}
-    - target: {fileID: 122490402466527865, guid: be303c68ac4519843b28a366df901aa7, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 1292575550747268532, guid: be303c68ac4519843b28a366df901aa7, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -583,22 +579,6 @@ PrefabInstance:
       propertyPath: m_Target
       value: 
       objectReference: {fileID: 1195103907}
-    - target: {fileID: 4693247588195454389, guid: be303c68ac4519843b28a366df901aa7, type: 3}
-      propertyPath: m_Duration
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4693247588195454389, guid: be303c68ac4519843b28a366df901aa7, type: 3}
-      propertyPath: m_MaxSpeed
-      value: 0.1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4693247588195454389, guid: be303c68ac4519843b28a366df901aa7, type: 3}
-      propertyPath: m_PlayOnAwake
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5670198294436298962, guid: be303c68ac4519843b28a366df901aa7, type: 3}
-      propertyPath: _offsetRate
-      value: 2
-      objectReference: {fileID: 0}
     - target: {fileID: 5670198294436298962, guid: be303c68ac4519843b28a366df901aa7, type: 3}
       propertyPath: _splineManager
       value: 
@@ -682,10 +662,6 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 1233168719208085447, guid: 21c8a6009ff8cff48b20039b48b95c9b, type: 3}
-      propertyPath: _offsetRate
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1233168719208085447, guid: 21c8a6009ff8cff48b20039b48b95c9b, type: 3}
       propertyPath: _splineManager
       value: 
       objectReference: {fileID: 1195103906}
@@ -693,26 +669,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: CargoCart
       objectReference: {fileID: 0}
-    - target: {fileID: 4064652543926026422, guid: 21c8a6009ff8cff48b20039b48b95c9b, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 5289944945439828275, guid: 21c8a6009ff8cff48b20039b48b95c9b, type: 3}
       propertyPath: m_Target
       value: 
       objectReference: {fileID: 1195103907}
-    - target: {fileID: 5289944945439828275, guid: 21c8a6009ff8cff48b20039b48b95c9b, type: 3}
-      propertyPath: m_Duration
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5289944945439828275, guid: 21c8a6009ff8cff48b20039b48b95c9b, type: 3}
-      propertyPath: m_MaxSpeed
-      value: 0.1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5289944945439828275, guid: 21c8a6009ff8cff48b20039b48b95c9b, type: 3}
-      propertyPath: m_PlayOnAwake
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 7988488213466278496, guid: 21c8a6009ff8cff48b20039b48b95c9b, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -794,8 +754,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _trains:
-  - {fileID: 210943188}
   - {fileID: 1412287184}
+  - {fileID: 210943188}
   - {fileID: 1166436890}
   - {fileID: 1001737492}
   _splineContainer: {fileID: 1195103907}
@@ -903,10 +863,6 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2607123211334316190, guid: 806845fe282837243bbbba6fa121578b, type: 3}
-      propertyPath: _offsetRate
-      value: 4
-      objectReference: {fileID: 0}
-    - target: {fileID: 2607123211334316190, guid: 806845fe282837243bbbba6fa121578b, type: 3}
       propertyPath: _splineManager
       value: 
       objectReference: {fileID: 1195103906}
@@ -914,26 +870,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: EngineCart
       objectReference: {fileID: 0}
-    - target: {fileID: 4801280456084019704, guid: 806845fe282837243bbbba6fa121578b, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 6402696198470065024, guid: 806845fe282837243bbbba6fa121578b, type: 3}
       propertyPath: m_Target
       value: 
       objectReference: {fileID: 1195103907}
-    - target: {fileID: 6402696198470065024, guid: 806845fe282837243bbbba6fa121578b, type: 3}
-      propertyPath: m_Duration
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6402696198470065024, guid: 806845fe282837243bbbba6fa121578b, type: 3}
-      propertyPath: m_MaxSpeed
-      value: 0.1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6402696198470065024, guid: 806845fe282837243bbbba6fa121578b, type: 3}
-      propertyPath: m_PlayOnAwake
-      value: 0
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -1246,8 +1186,8 @@ SceneRoots:
   - {fileID: 1195103908}
   - {fileID: 255108432}
   - {fileID: 1667553554}
-  - {fileID: 1052790299}
   - {fileID: 787710382}
+  - {fileID: 1052790299}
   - {fileID: 1408545518}
   - {fileID: 177335331}
   - {fileID: 211969454}
