@@ -7,10 +7,7 @@ public class DummyTrain : MonoBehaviour
 {
     [SerializeField] private SplineAnimate _splineAnimate;
 
-    public GameObject GameObject { get; }
-
-    public BlockType BlockType { get; }
-
+    // -----------------------------
     private void Awake()
     {
         _splineAnimate.enabled = false;
@@ -18,11 +15,14 @@ public class DummyTrain : MonoBehaviour
 
     private void OnEnable() => Init();
     private void OnDisable() => UnbindSplineAnimateEvents();
+    // -----------------------------
+
 
     private void OnSplineUpdate(Vector3 vector, Quaternion quaternion)
     {
-        if (_splineAnimate.NormalizedTime >= 1.0f)
+        if (_splineAnimate.NormalizedTime >= 1.0f - _splineAnimate.StartOffset)
         {
+            Destroy(gameObject);
             Debug.Log("열차 끝에 도착");
         }
     }

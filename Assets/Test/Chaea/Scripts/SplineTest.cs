@@ -6,7 +6,7 @@ using UnityEngine.Splines;
 public class SplineTest : MonoBehaviour
 {
     [SerializeField] private SplineManager _splineManager;
-    [SerializeField] private DummyTrain _dummyTrain;
+    [SerializeField] private GameObject[] _trains;
 
     private Camera _cam;
 
@@ -21,13 +21,18 @@ public class SplineTest : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.T))
         {
-            if (_dummyTrain.gameObject.activeSelf == false)
+            foreach (GameObject gameObject in _trains)
             {
-                _dummyTrain.gameObject.SetActive(true);
-            }
-            else
-            {
-                _dummyTrain.gameObject.SetActive(false);
+                DummyTrain train = gameObject.GetComponent<DummyTrain>();
+
+                if (train.gameObject.activeSelf == false)
+                {
+                    train.gameObject.SetActive(true);
+                }
+                else
+                {
+                    train.gameObject.SetActive(false);
+                }
             }
         }
     }
