@@ -23,24 +23,27 @@ public abstract class UIBase : MonoBehaviour
     private void Init()
     {
         _isAllExist = false;
-        if (GetComponentsInChildren<Image>() != null)
+        if (GetComponentsInChildren<Image>().Length > 1)
         {
             _onImage = GetComponentsInChildren<Image>()[0];
-            if (GetComponentsInChildren<Image>().Length > 1)
-            {
-                _offImage = GetComponentsInChildren<Image>()[1];
-                _isAllExist = true;
-            }
+            _offImage = GetComponentsInChildren<Image>()[1];
+            _isAllExist = true;
+            _onImage.gameObject.SetActive(false);
         }
-        
-        _onImage.gameObject.SetActive(false);
+        else if(GetComponentsInChildren<Image>().Length == 1)
+        {
+            _offImage = GetComponentsInChildren<Image>()[0];
+        }
     }
     // UI에 Enter시 OnImage활성화
     protected virtual void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.layer == 6 && _isAllExist)
         {
-            _onImage.gameObject.SetActive(true);
+            if (_isAllExist)
+            {
+                _onImage.gameObject.SetActive(true);
+            }
             _offImage.gameObject.SetActive(false);
         }
     }
@@ -48,18 +51,21 @@ public abstract class UIBase : MonoBehaviour
     // UI에 Exit시 OnImage비활성화
     protected virtual void OnTriggerExit(Collider other)
     {
-        if (other.gameObject.layer == 6 && _isAllExist)
+        if (other.gameObject.layer == 6)
         {
             _offImage.gameObject.SetActive(true);
-            _onImage.gameObject.SetActive(false);
+            if (_isAllExist)
+            {
+                _onImage.gameObject.SetActive(false);
+            }
         }
     }
 
     protected virtual void OnDisable()
     {
+        _offImage.gameObject.SetActive(true);
         if (_isAllExist)
-        {
-            _offImage.gameObject.SetActive(true);
+        {            
             _onImage.gameObject.SetActive(false);
         }
     }

@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
@@ -23,7 +24,7 @@ public class SceneManagerA : MonoBehaviour
         }
     }
     private int _screenModeNum;
-    private int _ResolutionNum;
+    private int _resolutionNum;
 
     //TitleScene
     public bool _isSelectNow;
@@ -33,7 +34,7 @@ public class SceneManagerA : MonoBehaviour
     {
         SetSingleton();
         _screenModeNum = 1;
-        _ResolutionNum = 1;
+        _resolutionNum = 1;
     }
 
     public void LoadTitleScene()
@@ -68,7 +69,9 @@ public class SceneManagerA : MonoBehaviour
     public void ChangeScreenMode(int value)
     {
         _screenModeNum += value;
-        switch (value)
+        _screenModeNum = Math.Clamp(_screenModeNum, 0, 2);
+        Debug.Log($"ResolutionNum: {_screenModeNum}");
+        switch (_screenModeNum)
         {
             case 0:
                 Screen.fullScreenMode = FullScreenMode.FullScreenWindow;
@@ -84,18 +87,25 @@ public class SceneManagerA : MonoBehaviour
 
     // 게임 해상도 변경
     public void SetResolution(int value)
-    {
-        _ResolutionNum += value;
-        switch (value)
+    {        
+        _resolutionNum += value;
+        _resolutionNum = Math.Clamp(_resolutionNum, 0, 2);
+        Debug.Log($"ResolutionNum: {_resolutionNum}");
+        switch (_resolutionNum)
         {
             case 0:
                 Screen.SetResolution(1280, 720, Screen.fullScreen);
+                Debug.Log($"해상도 변경: ({Screen.width}x{Screen.height})");
                 break;
             case 1:
                 Screen.SetResolution(1920, 1080, Screen.fullScreen);
+                Debug.Log($"해상도 변경: ({Screen.width}x{Screen.height})");
                 break;
             case 2:
                 Screen.SetResolution(2560, 1440, Screen.fullScreen);
+                Debug.Log($"해상도 변경: ({Screen.width}x{Screen.height})");
+                break;
+            default:
                 break;
         }
     }

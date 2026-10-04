@@ -1,6 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using UnityEditor.SearchService;
 using UnityEngine;
 
 /// <summary>
@@ -87,7 +86,7 @@ public class TitleSceneManager : MonoBehaviour
         #if UNITY_EDITOR
             UnityEditor.EditorApplication.isPlaying = false;
         #else
-            Appleication.Quit();
+            Application.Quit();
         #endif
     }
 
