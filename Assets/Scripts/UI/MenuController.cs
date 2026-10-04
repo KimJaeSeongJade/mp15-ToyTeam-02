@@ -37,10 +37,13 @@ public class MenuController : MonoBehaviour
         }
         _currenNum = 0;
         _isSelect = false;
-        _panel[_currenNum].transform.Find("Image").GetComponent<Image>().enabled = true;
-        if (_panel[_currenNum].TryGetComponent<UIConnector>(out uiconnector))
+        if (!_isSettingUI)
         {
-            uiconnector.ChildUI.gameObject.SetActive(true);
+            _panel[_currenNum].transform.Find("Image").GetComponent<Image>().enabled = true;
+            if (_panel[_currenNum].TryGetComponent<UIConnector>(out uiconnector))
+            {
+                uiconnector.ChildUI.gameObject.SetActive(true);
+            }
         }
     }
 
@@ -68,24 +71,27 @@ public class MenuController : MonoBehaviour
             }
             if (Input.GetKeyDown(_inKey))
             {
-                In();
+                // 코루틴으로 _inKey키 동시 입력 지연
+                StartCoroutine(In());
             }
             if (Input.GetKeyDown(_outKey))
             {
                 Out();
             }
-        }
-        if(_isSettingUI)
-        {
-            if (Input.GetKeyDown(_inKey))
+
+            if (_isSettingUI)
             {
-                SetCurrentUI(1);
-            }
-            if (Input.GetKeyDown(_LeftKey))
-            {
-                SetCurrentUI(-1);
+                if (Input.GetKeyDown(_inKey))
+                {
+                    SetCurrentUI(1);
+                }
+                if (Input.GetKeyDown(_LeftKey))
+                {
+                    SetCurrentUI(-1);
+                }
             }
         }
+        
     }
 
     private void Up()
@@ -124,21 +130,26 @@ public class MenuController : MonoBehaviour
         }
     }
 
-    private void In()
+    // 코루틴으로 _inKey키 동시 입력 지연
+    private IEnumerator In()
     {
+        yield return null;
         if (!_isSettingUI)
         {
             uiconnector.ChildUI.gameObject.GetComponentInChildren<MenuController>()._isSettingUI = true;
             uiconnector.ChildUI.gameObject.GetComponentInChildren<MenuController>()._isSelect = true;
             uiconnector.ChildUI.gameObject.GetComponentInChildren<MenuController>()._prevMenu = gameObject.GetComponent<MenuController>();
+            uiconnector.ChildUI.gameObject.GetComponentInChildren<MenuController>()._panel[0].transform.Find("Image").GetComponent<Image>().enabled = true;
+            
             SceneManagerA.Instance._isSelectNow = true;
-            _isSelect = false;            
+            _isSelect = false;
         }
     }
 
     private void Out()
     {
         SceneManagerA.Instance._isSelectNow = false;
+        _panel[_currenNum].transform.Find("Image").GetComponent<Image>().enabled = false;
         _isSelect = false;
         _prevMenu._isSelect = true;
     }
@@ -149,9 +160,19 @@ public class MenuController : MonoBehaviour
         {
             _panel[_currenNum].transform.Find("Slider").GetComponent<Slider>().value += (10 * value);
         }
-        else if()
+        else if(_panel[_currenNum].transform.Find("SetModeLR"))
         {
-
+            switch(value)
+            {
+                case -1:
+                    _panel[_currenNum].transform.Find("SetModeLR").Find("Left").GetComponent<UnityEventInteractUI>().OnUIPressed.Invoke();
+                    break;
+                case 1:
+                    _panel[_currenNum].transform.Find("SetModeLR").Find("Right").GetComponent<UnityEventInteractUI>().OnUIPressed.Invoke();
+                    break;
+                default:
+                    break;
+            }
         }
     }
 }

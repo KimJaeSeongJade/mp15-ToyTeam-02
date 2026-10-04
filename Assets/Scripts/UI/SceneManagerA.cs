@@ -22,6 +22,8 @@ public class SceneManagerA : MonoBehaviour
             return _instance;
         }
     }
+    private int _screenModeNum;
+    private int _ResolutionNum;
 
     //TitleScene
     public bool _isSelectNow;
@@ -30,6 +32,8 @@ public class SceneManagerA : MonoBehaviour
     private void Awake()
     {
         SetSingleton();
+        _screenModeNum = 1;
+        _ResolutionNum = 1;
     }
 
     public void LoadTitleScene()
@@ -61,9 +65,10 @@ public class SceneManagerA : MonoBehaviour
     }
 
     // 게임 창모드 변경
-    private void ChangeFullScreenMode(int mode)
+    public void ChangeScreenMode(int value)
     {
-        switch(mode)
+        _screenModeNum += value;
+        switch (value)
         {
             case 0:
                 Screen.fullScreenMode = FullScreenMode.FullScreenWindow;
@@ -71,11 +76,29 @@ public class SceneManagerA : MonoBehaviour
             case 1:
                 Screen.fullScreenMode = FullScreenMode.Windowed;
                 break;
+            case 2:
+                Screen.fullScreenMode = FullScreenMode.ExclusiveFullScreen;
+                break;
         }
     }
 
     // 게임 해상도 변경
-
+    public void SetResolution(int value)
+    {
+        _ResolutionNum += value;
+        switch (value)
+        {
+            case 0:
+                Screen.SetResolution(1280, 720, Screen.fullScreen);
+                break;
+            case 1:
+                Screen.SetResolution(1920, 1080, Screen.fullScreen);
+                break;
+            case 2:
+                Screen.SetResolution(2560, 1440, Screen.fullScreen);
+                break;
+        }
+    }
 
     private void SetSingleton()
     {

@@ -60,6 +60,17 @@ public class TitleSceneManager : MonoBehaviour
         }
     }
 
+    public void ChangeScreenMode(int value)
+    {
+        SceneManagerA.Instance.ChangeScreenMode(value);
+    }
+
+    public void SetResolution(int value)
+    {
+        SceneManagerA.Instance.SetResolution(value);
+    }
+
+
     public void PlayerAdd()
     {
 
