@@ -15,11 +15,15 @@ public class TMenuController : MonoBehaviour
     [SerializeField] private GameObject _fistPanelList;
     [SerializeField] private GameObject _secondPanelList;
 
+    [SerializeField] private TMenuController _otherTMenu;
+
     private List<GameObject> _panel = new();
     private int _currenNum;
 
-    // 지금 조작할 UI인지
-    //public bool _isSelect;
+    private bool _isSecond;
+
+    //지금 조작할 UI인지
+    public bool _isSelect;
 
     //--------------------
 
@@ -36,28 +40,28 @@ public class TMenuController : MonoBehaviour
             }
         }
         _currenNum = 0;
-        //_isSelect = false;
+        _isSelect = false;
         _panel[_currenNum].transform.Find("Image").GetComponent<Image>().enabled = true;
-        if (_panel[_currenNum].TryGetComponent<UIConnector>(out uiconnector))
+        if (!_isSecond)
         {
-            uiconnector.ChildUI.gameObject.SetActive(true);
+            _secondPanelList.GetComponent<PanelListConnector>().PannelList[_currenNum].SetActive(true);
         }
     }
 
     private void OnDisable()
     {
         _panel[_currenNum].transform.Find("Image").GetComponent<Image>().enabled = false;
-        if (_panel[_currenNum].TryGetComponent<UIConnector>(out uiconnector))
+        if (!_isSecond)
         {
-            uiconnector.ChildUI.gameObject.SetActive(false);
+            _secondPanelList.GetComponent<PanelListConnector>().PannelList[_currenNum].SetActive(false);
         }
     }
 
     private void Update()
     {
 
-        //if (_isSelect)
-        //{
+        if (_isSelect)
+        {
             if (Input.GetKeyDown(_upKey))
             {
                 Up();
@@ -74,7 +78,7 @@ public class TMenuController : MonoBehaviour
             {
                 Out();
             }
-        
+        }
     }
 
     private void Up()
@@ -82,15 +86,15 @@ public class TMenuController : MonoBehaviour
         if (_currenNum > 0)
         {
             _panel[_currenNum].transform.Find("Image").GetComponent<Image>().enabled = false;
-            if (_panel[_currenNum].TryGetComponent<UIConnector>(out uiconnector))
+            if (!_isSecond)
             {
-                uiconnector.ChildUI.gameObject.SetActive(false);
+                _secondPanelList.GetComponent<PanelListConnector>().PannelList[_currenNum].SetActive(false);
             }
             _currenNum--;
             _panel[_currenNum].transform.Find("Image").GetComponent<Image>().enabled = true;
-            if (_panel[_currenNum].TryGetComponent<UIConnector>(out uiconnector))
+            if (!_isSecond)
             {
-                uiconnector.ChildUI.gameObject.SetActive(true);
+                _secondPanelList.GetComponent<PanelListConnector>().PannelList[_currenNum].SetActive(true);
             }
         }
     }
@@ -100,31 +104,30 @@ public class TMenuController : MonoBehaviour
         if (_currenNum < _panel.Count - 1)
         {
             _panel[_currenNum].transform.Find("Image").GetComponent<Image>().enabled = false;
-            //if (_panel[_currenNum].TryGetComponent<UIConnector>(out uiconnector))
-            //{
-            //    uiconnector.ChildUI.gameObject.SetActive(false);
-            //}
+            if (!_isSecond)
+            {
+                _secondPanelList.GetComponent<PanelListConnector>().PannelList[_currenNum].SetActive(false);
+            }
             _currenNum++;
             _panel[_currenNum].transform.Find("Image").GetComponent<Image>().enabled = true;
-            //if (_panel[_currenNum].TryGetComponent<UIConnector>(out uiconnector))
-            //{
-            //    uiconnector.ChildUI.gameObject.SetActive(true);
-            //}
+            if (!_isSecond)
+            {
+                _secondPanelList.GetComponent<PanelListConnector>().PannelList[_currenNum].SetActive(true);
+            }
         }
     }
 
     private void In()
-    {
-        uiconnector.ChildUI.gameObject.GetComponentInChildren<MenuController>()._isSelect = true;
-        uiconnector.ChildUI.gameObject.GetComponentInChildren<MenuController>()._prevMenu = gameObject.GetComponent<MenuController>();
-        SceneManagerA.Instance._isSelectNow = true;
-        //_isSelect = false;
+    {       
+        _isSelect = false;
+        _otherTMenu.gameObject.GetComponent<PanelListConnector>().PannelList[_currenNum].gameObject.GetComponent<TMenuController>()._isSelect = true;
+        _otherTMenu.gameObject.GetComponent<PanelListConnector>().PannelList[_currenNum].gameObject.GetComponent<TMenuController>()._isSecond = true;
     }
 
     private void Out()
     {
         SceneManagerA.Instance._isSelectNow = false;
-        //_isSelect = false;
-        //_prevMenu._isSelect = true;
+        _isSelect = false;
+        _otherTMenu._isSelect = true;
     }
 }

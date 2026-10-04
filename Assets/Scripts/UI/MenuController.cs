@@ -11,6 +11,7 @@ public class MenuController : MonoBehaviour
     private KeyCode _downKey => KeyCode.S;
     private KeyCode _inKey => KeyCode.D;
     private KeyCode _outKey => KeyCode.Escape;
+    private KeyCode _LeftKey => KeyCode.A;
 
     private UIConnector uiconnector;
 
@@ -19,6 +20,8 @@ public class MenuController : MonoBehaviour
 
     // 지금 조작할 UI인지
     public bool _isSelect;
+    // 제목선택인지 설정조작을 하는 UIPanel인지
+    public bool _isSettingUI;
     
     //--------------------
 
@@ -72,6 +75,17 @@ public class MenuController : MonoBehaviour
                 Out();
             }
         }
+        if(_isSettingUI)
+        {
+            if (Input.GetKeyDown(_inKey))
+            {
+                SetCurrentUI(1);
+            }
+            if (Input.GetKeyDown(_LeftKey))
+            {
+                SetCurrentUI(-1);
+            }
+        }
     }
 
     private void Up()
@@ -112,10 +126,14 @@ public class MenuController : MonoBehaviour
 
     private void In()
     {
-        uiconnector.ChildUI.gameObject.GetComponentInChildren<MenuController>()._isSelect = true;
-        uiconnector.ChildUI.gameObject.GetComponentInChildren<MenuController>()._prevMenu = gameObject.GetComponent<MenuController>();
-        SceneManagerA.Instance._isSelectNow = true;
-        _isSelect = false;
+        if (!_isSettingUI)
+        {
+            uiconnector.ChildUI.gameObject.GetComponentInChildren<MenuController>()._isSettingUI = true;
+            uiconnector.ChildUI.gameObject.GetComponentInChildren<MenuController>()._isSelect = true;
+            uiconnector.ChildUI.gameObject.GetComponentInChildren<MenuController>()._prevMenu = gameObject.GetComponent<MenuController>();
+            SceneManagerA.Instance._isSelectNow = true;
+            _isSelect = false;            
+        }
     }
 
     private void Out()
@@ -123,5 +141,17 @@ public class MenuController : MonoBehaviour
         SceneManagerA.Instance._isSelectNow = false;
         _isSelect = false;
         _prevMenu._isSelect = true;
+    }
+
+    private void SetCurrentUI(int value)
+    {
+        if (_panel[_currenNum].transform.Find("Slider"))
+        {
+            _panel[_currenNum].transform.Find("Slider").GetComponent<Slider>().value += (10 * value);
+        }
+        else if()
+        {
+
+        }
     }
 }

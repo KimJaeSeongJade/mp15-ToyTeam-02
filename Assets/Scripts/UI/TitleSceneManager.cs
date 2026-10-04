@@ -47,6 +47,7 @@ public class TitleSceneManager : MonoBehaviour
         SceneManagerA.Instance.Pause();
         _settingUI.SetActive(true);
         _settingUI.gameObject.GetComponent<MenuController>()._isSelect = true;
+        _settingUI.gameObject.GetComponent<MenuController>()._isSettingUI = false;
     }
 
     private void CloseSetting()
