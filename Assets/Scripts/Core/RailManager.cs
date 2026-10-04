@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -8,10 +9,13 @@ public class RailManager : MonoBehaviour
 
     [SerializeField] private SplineManager _splineManager;
 
+    public event Action OnRailwayConnected;
+
     // 마지막 레일 판단을 쉽게하기위해 링크드 리스트형태로 구현
     public LinkedList<Rail> Rails = new LinkedList<Rail>();
 
     private Vector2Int _endRailCoord = new Vector2Int(-1, -1);
+    private List<Vector2Int> _endRails = new();
 
     private void Awake()
     {
@@ -84,6 +88,11 @@ public class RailManager : MonoBehaviour
         Rails.AddLast(newRail);
 
         UpdateRailwayShape();
+
+        if (_endRails.Count != 0)
+        {
+            CheckConnectedWithEndRailway(coord);
+        }
     }
 
     private void UpdateRailwayShape()
@@ -220,9 +229,22 @@ public class RailManager : MonoBehaviour
         {
             _endRailCoord = coord;
         }
+        _endRails.Add(coord);
 
-        Debug.Log(_endRailCoord);
+        Debug.Log(coord);
     }
 
-    // TODO: Railway가 _endRailCoord에 배치되면 나머지 railway도 spline에 추가하도록 list 구현
+    private void CheckConnectedWithEndRailway(Vector2Int coord)
+    {
+        if (coord.x == _endRailCoord.x && Mathf.Abs(coord.y - _endRailCoord.y) == 1 ||
+            coord.y == _endRailCoord.y && Mathf.Abs(coord.x - _endRailCoord.x) == 1)
+        {
+            OnRailwayConnected?.Invoke();
+
+            foreach (Vector2Int endRailCoord in _endRails)
+            {
+                _splineManager.AddSplineKnot(endRailCoord);
+            }
+        }
+    }
 }

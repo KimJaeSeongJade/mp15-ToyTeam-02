@@ -27,7 +27,6 @@ public class Chunk : MonoBehaviour
 
         _meshBuilder.CreateChunkMesh(chunkIndex, worldMap, material, textureSize, atlasSize);
         SpawnPoolObjects();
-        SpawnTrain();
     }
 
     private void SpawnPoolObjects()
@@ -74,11 +73,6 @@ public class Chunk : MonoBehaviour
                 }
             }
         }
-    }
-
-    private void SpawnTrain()
-    {
-        // TODO: Instantiate train
     }
 
     private void CacheComponents()
