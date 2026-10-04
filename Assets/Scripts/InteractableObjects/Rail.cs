@@ -141,6 +141,15 @@ public class Rail : MonoBehaviour, IInteractable, IStackable, IPoolable
             if (inPlayerHand != null && inPlayerHand.BlockType != BlockType.Rail)
                 return inPlayerHand;
 
+            // 플레이어가 손에 이미 레일을 최대치 들고 있는 경우 손에 든 오브젝트 반환
+            if (inPlayerHand != null && inPlayerHand.BlockType == BlockType.Rail)
+            {
+                Rail inPlayerRail = inPlayerHand as Rail;
+                if (inPlayerRail.Count == _maxStack)
+                {
+                    return inPlayerHand;
+                }
+            }
             if (RailManager.Instance.Rails.Last.Value == this)
             {
                 IsRailway = false;
