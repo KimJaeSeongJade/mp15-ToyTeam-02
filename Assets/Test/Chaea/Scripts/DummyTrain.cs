@@ -5,7 +5,7 @@ using UnityEngine.Splines;
 
 public class DummyTrain : MonoBehaviour
 {
-    [SerializeField] private SplineAnimate _splineAnimate;
+    [SerializeField] protected SplineAnimate _splineAnimate;
     private WaitForSeconds _wait = new WaitForSeconds(2f);
 
     // -----------------------------
@@ -18,12 +18,11 @@ public class DummyTrain : MonoBehaviour
     private void OnDisable() => UnbindSplineAnimateEvents();
     // -----------------------------
 
-    private void OnSplineUpdate(Vector3 vector, Quaternion quaternion)
+    protected virtual void OnSplineUpdate(Vector3 vector, Quaternion quaternion)
     {
         if (_splineAnimate.NormalizedTime >= 1.0f - _splineAnimate.StartOffset)
         {
             Destroy(gameObject);
-            Debug.Log("열차 끝에 도착");
         }
     }
 
