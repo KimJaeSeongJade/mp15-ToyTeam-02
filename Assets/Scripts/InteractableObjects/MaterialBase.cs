@@ -13,7 +13,7 @@ public abstract class MaterialBase : MonoBehaviour, IStackable, IPoolable, IInte
     public abstract BlockType BlockType { get; }
     public abstract Outline Outline { get; }
 
-    public int Count { get; protected set; }
+    [field: SerializeField] public int Count { get; protected set; }
     public int MaxStack => 3;
     
     
@@ -23,16 +23,16 @@ public abstract class MaterialBase : MonoBehaviour, IStackable, IPoolable, IInte
     {
         Outline.enabled = false;
         Count = 1;
-        UpdateVisuals();
+        UpdateStackVisuals();
     }
     
     public void AddCount(int amount)
     {
         Count += amount;
-        UpdateVisuals();
+        UpdateStackVisuals();
     }
 
-    private void UpdateVisuals()
+    private void UpdateStackVisuals()
     {
         switch (Count)
         {
@@ -57,6 +57,10 @@ public abstract class MaterialBase : MonoBehaviour, IStackable, IPoolable, IInte
         }
     }
 
+    /// <summary>
+    /// 플레이어가 raycast로 자동 상호작용 (재료 아이템 합쳐지기)
+    /// </summary>
+    /// <param name="interactable"> 플레이어가 손에 들고 있는 IInteractable </param>
     public void AutoInteract(IInteractable interactable)
     {
         if (interactable.BlockType == BlockType)
@@ -76,6 +80,10 @@ public abstract class MaterialBase : MonoBehaviour, IStackable, IPoolable, IInte
                 Count = 0;
                 ReturnToPool();
             }
+
+            MaterialBase materialBase = interactable as MaterialBase;
+            materialBase.UpdateStackVisuals();
+            UpdateStackVisuals();
         }
     }
 
