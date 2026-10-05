@@ -83,6 +83,26 @@ public class Map : MonoBehaviour
         _holdableMap = new IInteractable[mapData.GetLength(0), mapData.GetLength(1)];
     }
 
+    /// <summary>
+    /// Chunk의 로딩된 Poolable로 등록 (현재 Chunk에서 게임 화면이 멀어지면 풀로 되돌아감)
+    /// </summary>
+    /// <param name="poolable"></param>
+    public void AddLoadedPoolable(IPoolable poolable)
+    {
+        Chunk chunk = _chunkManager.GetChunk(poolable.GameObject.transform.position.WorldToCoord());
+        chunk.AddLoadedPoolable(poolable);
+    }
+
+    /// <summary>
+    /// Chunk의 로딩된 Poolable로 등록 해제 (현재 Chunk에서 게임 화면이 멀어져도 풀로 되돌아가지 않음)
+    /// </summary>
+    /// <param name="poolable"></param>
+    public void RemoveLoadedPoolable(IPoolable poolable)
+    {
+        Chunk chunk = _chunkManager.GetChunk(poolable.GameObject.transform.position.WorldToCoord());
+        chunk.RemoveLoadedPoolable(poolable);
+    }
+
     private int GetChunkIndex(Vector2Int worldCoord)
     {
         return worldCoord.x / ChunkManager.CHUNK_SIZE;

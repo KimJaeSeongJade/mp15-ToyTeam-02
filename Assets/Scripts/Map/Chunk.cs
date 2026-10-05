@@ -9,7 +9,8 @@ public class Chunk : MonoBehaviour
     private MeshBuilder _meshBuilder;
     private int _chunkIndex;
     private int[,] _chunkMap;
-    private IInteractable[,] _holdableMap;
+    private HashSet<IPoolable> _loadedPoolables = new();
+    private IInteractable[,] _holdableMap = new IInteractable[ChunkManager.CHUNK_SIZE, ChunkManager.CHUNK_SIZE];
 
     public int ChunkIndex => _chunkIndex;
     public int[,] ChunkMap => _chunkMap;
@@ -32,7 +33,8 @@ public class Chunk : MonoBehaviour
         _splineManager = splineManager;
         _chunkMap = chunkMap;
 
-        _holdableMap = new IInteractable[_chunkMap.GetLength(0), _chunkMap.GetLength(1)];
+        _loadedPoolables.Clear();
+        ResetHoldableMap();
 
         _meshBuilder.CreateChunkMesh(chunkIndex, chunkMap, material, textureSize, atlasSize);
         SpawnPoolObjects();
@@ -78,6 +80,10 @@ public class Chunk : MonoBehaviour
                         Map.Instance.SetHoldable(coord, newPoolable as IInteractable);
                     }
                 }
+                else
+                {
+                    AddLoadedPoolable(newPoolable);
+                }
             }
         }
     }
@@ -111,6 +117,46 @@ public class Chunk : MonoBehaviour
     public void SetHoldable(Vector2Int chunkCoord, IInteractable interactable)
     {
         _holdableMap[chunkCoord.x, chunkCoord.y] = interactable;
+    }
+
+    /// <summary>
+    /// 로드한 Poolable hashset에서 poolable 추가
+    /// </summary>
+    /// <param name="poolable"> IPoolable 오브젝트 </param>
+    public void AddLoadedPoolable(IPoolable poolable)
+    {
+        _loadedPoolables.Add(poolable);
+    }
+
+    /// <summary>
+    /// 로드한 Poolable hashset에서 poolable 제거
+    /// </summary>
+    /// <param name="poolable"> IPoolable 오브젝트 </param>
+    public void RemoveLoadedPoolable(IPoolable poolable)
+    {
+        _loadedPoolables.Remove(poolable);
+    }
+
+    /// <summary>
+    /// 청크 위 Poolable 오브젝트를 오브젝트 풀로 반환
+    /// </summary>
+    public void DespawnPoolables()
+    {
+        foreach (IPoolable poolable in _loadedPoolables)
+        {
+            poolable.ReturnToPool();
+        }
+    }
+
+    private void ResetHoldableMap()
+    {
+        for (int x = 0; x < ChunkManager.CHUNK_SIZE; x++)
+        {
+            for (int y = 0; y < ChunkManager.CHUNK_SIZE; y++)
+            {
+                _holdableMap[x, y] = null;
+            }
+        }
     }
 
     private void CacheComponents()

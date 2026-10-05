@@ -28,7 +28,6 @@ public class ChunkManager : MonoBehaviour
     private int[,] _worldMap => _mapLoader.WorldMap;
     private int _previousChunkIndex;
     private int _oldestChunkIndex;
-    private bool _isInitialLoad;
     private bool _canLoadMap => _mapLoader.CanLoadMap;
 
     public Dictionary<int, Chunk> Chunks => _chunks;
@@ -73,6 +72,8 @@ public class ChunkManager : MonoBehaviour
         if (!_chunks.ContainsKey(chunkIndex))
             _chunks.Add(chunkIndex, chunk);
 
+        if (chunkMap == null) return;
+
         chunk.SetChunkData(chunkIndex, _splineManager, WorldMapToChunkMap(chunkIndex), _material, _textureSize, _atlasSize);
         chunk.gameObject.SetActive(true);
 
@@ -99,6 +100,8 @@ public class ChunkManager : MonoBehaviour
     {
         Chunk chunk = _loadedChunks.Dequeue();
         _chunks.Remove(chunk.ChunkIndex);
+
+        chunk.DespawnPoolables();
 
         chunk.gameObject.SetActive(false);
         _chunkPool.Enqueue(chunk);
