@@ -54,7 +54,9 @@ MonoBehaviour:
   _offsetRate: 0
   _locomotiveCartOffsetRate: 6
   targetCargoCart: {fileID: 0}
-  fullCartVisual: {fileID: 8883200296924307527}
+  _railVisualTop: {fileID: 732763149330824658}
+  _railVisualMiddle: {fileID: 4670408381392240326}
+  _railVisualBottom: {fileID: 3439224045247891832}
   craftTime: 3
   maxRailStorage: 3
   currentCraftCount: 0
@@ -181,7 +183,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 00ef5c83317667348b704e620e0ec3ee, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.17999999
+      value: 0.28
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 00ef5c83317667348b704e620e0ec3ee, type: 3}
       propertyPath: m_LocalPosition.z
@@ -231,6 +233,11 @@ PrefabInstance:
 --- !u!4 &99251399303128936 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 00ef5c83317667348b704e620e0ec3ee, type: 3}
+  m_PrefabInstance: {fileID: 498252362718183555}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &732763149330824658 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 00ef5c83317667348b704e620e0ec3ee, type: 3}
   m_PrefabInstance: {fileID: 498252362718183555}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &2556916343319737385
@@ -309,6 +316,11 @@ PrefabInstance:
 --- !u!4 &2661984310974469058 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 00ef5c83317667348b704e620e0ec3ee, type: 3}
+  m_PrefabInstance: {fileID: 2556916343319737385}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &3439224045247891832 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 00ef5c83317667348b704e620e0ec3ee, type: 3}
   m_PrefabInstance: {fileID: 2556916343319737385}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &5062377905284076742
@@ -399,7 +411,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 00ef5c83317667348b704e620e0ec3ee, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.089999996
+      value: 0.14
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 00ef5c83317667348b704e620e0ec3ee, type: 3}
       propertyPath: m_LocalPosition.z
@@ -446,6 +458,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 00ef5c83317667348b704e620e0ec3ee, type: 3}
+--- !u!1 &4670408381392240326 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 00ef5c83317667348b704e620e0ec3ee, type: 3}
+  m_PrefabInstance: {fileID: 5481433235884409751}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &5448035040121611388 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 00ef5c83317667348b704e620e0ec3ee, type: 3}

@@ -8,8 +8,13 @@ public class CargoCart : Train, IInteractable
     [SerializeField] private CraftCart targetCraftCart;  // 자원을 전달할 제작칸
 
     [Header("상태에 따른 화물칸 메쉬")]
-    [SerializeField] private GameObject fullCartVisual;  // 자원이 있을 때 활성화할 메쉬
-    
+    [SerializeField] private GameObject _woodVisualTop;
+    [SerializeField] private GameObject _woodVisualMiddle;
+    [SerializeField] private GameObject _woodVisualBottom;
+    [SerializeField] private GameObject _ironVisualTop;
+    [SerializeField] private GameObject _ironVisualMiddle;
+    [SerializeField] private GameObject _ironVisualBottom;
+
     [Header("화물 보관 설정")]
     [SerializeField] private int maxResourceCount = 3;   // 각 자원별 최대 보관 가능 수량
     [SerializeField] private int currentWoodCount = 0;   // 현재 보관 중인 목재 수량
@@ -210,16 +215,54 @@ public class CargoCart : Train, IInteractable
     /// </summary>
     private void UpdateResourceVisual()
     {
-        int totalResourceCount = currentWoodCount + currentIronCount;
-        
-        if (totalResourceCount > 0)
+        switch(currentWoodCount)
         {
-            fullCartVisual.SetActive(true);
+            case 3:
+                _woodVisualTop.SetActive(true);
+                _woodVisualMiddle.SetActive(true);
+                _woodVisualBottom.SetActive(true);
+                break;
+            case 2:
+                _woodVisualTop.SetActive(false);
+                _woodVisualMiddle.SetActive(true);
+                _woodVisualBottom.SetActive(true);
+                break;
+            case 1:
+                _woodVisualTop.SetActive(false);
+                _woodVisualMiddle.SetActive(false);
+                _woodVisualBottom.SetActive(true);
+                break;
+            case 0:
+                _woodVisualTop.SetActive(false);
+                _woodVisualMiddle.SetActive(false);
+                _woodVisualBottom.SetActive(false);
+                break;
         }
-        else 
+
+        switch (currentIronCount)
         {
-            fullCartVisual.SetActive(false);
+            case 3:
+                _ironVisualTop.SetActive(true);
+                _ironVisualMiddle.SetActive(true);
+                _ironVisualBottom.SetActive(true);
+                break;
+            case 2:
+                _ironVisualTop.SetActive(false);
+                _ironVisualMiddle.SetActive(true);
+                _ironVisualBottom.SetActive(true);
+                break;
+            case 1:
+                _ironVisualTop.SetActive(false);
+                _ironVisualMiddle.SetActive(false);
+                _ironVisualBottom.SetActive(true);
+                break;
+            case 0:
+                _ironVisualTop.SetActive(false);
+                _ironVisualMiddle.SetActive(false);
+                _ironVisualBottom.SetActive(false);
+                break;
         }
+
     }
     
     public void Targeted()

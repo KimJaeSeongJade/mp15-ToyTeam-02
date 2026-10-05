@@ -8,7 +8,9 @@ public class CraftCart : Train, IInteractable
     [SerializeField] private CargoCart targetCargoCart;    // 자원을 가져올 화물칸
 
     [Header("상태에 따른 제작칸 메쉬")]
-    [SerializeField] private GameObject fullCartVisual;    // 레일 보유 시 활성화할 메쉬
+    [SerializeField] private GameObject _railVisualTop;
+    [SerializeField] private GameObject _railVisualMiddle;
+    [SerializeField] private GameObject _railVisualBottom;
 
     [Header("제작 설정")]
     [SerializeField] private float craftTime = 3.0f;       // 레일 1개 제작 소요 시간
@@ -196,13 +198,28 @@ public class CraftCart : Train, IInteractable
     /// </summary>
     private void UpdateCraftVisual()
     {
-        if (currentCraftCount > 0)
+        switch (CurrentCraftCount)
         {
-            fullCartVisual.SetActive(true);
-        }
-        else 
-        {
-            fullCartVisual.SetActive(false);
+            case 3:
+                _railVisualTop.SetActive(true);
+                _railVisualMiddle.SetActive(true);
+                _railVisualBottom.SetActive(true);
+                break;
+            case 2:
+                _railVisualTop.SetActive(false);
+                _railVisualMiddle.SetActive(true);
+                _railVisualBottom.SetActive(true);
+                break;
+            case 1:
+                _railVisualTop.SetActive(false);
+                _railVisualMiddle.SetActive(false);
+                _railVisualBottom.SetActive(true);
+                break;
+            case 0:
+                _railVisualTop.SetActive(false);
+                _railVisualMiddle.SetActive(false);
+                _railVisualBottom.SetActive(false);
+                break;
         }
     }
     
