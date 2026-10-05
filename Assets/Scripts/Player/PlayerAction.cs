@@ -118,7 +118,6 @@ public class PlayerAction : MonoBehaviour
         _animator.SetLayerWeight(1, 0f);
         _animator.SetBool(PARAM_IS_HOLDING_TOOL, false);
         _animator.SetBool(PARAM_IS_HOLDING, false);
-        Map.Instance.SetHoldable(position, _hand.Item);
 
         if (_hand.Item != null)
         {
