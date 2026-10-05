@@ -9,15 +9,31 @@ public class GameSceneManager : MonoBehaviour
 
     [SerializeField] private LocomotiveCart _locomotiveCart;
 
+    [SerializeField] private GameObject _pauseMenu;
+
+    private KeyCode _pauseKey => KeyCode.Escape;
+
     public event Action OnGameEnd;
 
     public bool IsGameEnd { get; private set; }
     public bool IsGameWin { get; private set; }
 
 
-    private void Awake() => SetSingleton();
+    private void Awake()
+    {
+        SetSingleton();
+        Init();
+    }
     private void Start() => BindGameEvents();
     private void OnDestroy() => UnbindGameEvents();
+
+    private void Update()
+    {
+        if(Input.GetKeyDown(_pauseKey))
+        {
+            OppenPause();
+        }
+    }
 
     // 다른 씬 로드하면 파괴되는 싱글톤
     private void SetSingleton()
@@ -30,6 +46,18 @@ public class GameSceneManager : MonoBehaviour
         {
             Instance = this;
         }
+    }
+
+    private void OppenPause()
+    {
+        SceneManagerA.Instance.Pause();
+        _pauseMenu.SetActive(true);
+        _pauseMenu.GetComponent<PMenuController>()._isSelect = true;
+    }
+
+    private void Init()
+    {
+        _pauseMenu.SetActive(false);
     }
 
     private void GameOver()

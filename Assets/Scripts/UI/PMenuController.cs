@@ -3,15 +3,19 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class MenuController : MonoBehaviour
+/// <summary>
+/// GameScene Pause Menu 컨트롤러
+/// </summary>
+public class PMenuController : MonoBehaviour
 {
     // 설정조작 MenuController에 지금 프리팹 부여
-    public MenuController _prevMenu;
+    public PMenuController _prevMenu;
     
     private KeyCode _upKey => KeyCode.W;
     private KeyCode _downKey => KeyCode.S;
-    private KeyCode _inKey => KeyCode.D;
+    private KeyCode _inKey => KeyCode.Space;
     private KeyCode _outKey => KeyCode.Escape;
+    private KeyCode _RightKey => KeyCode.D;
     private KeyCode _LeftKey => KeyCode.A;
 
     private UIConnector uiconnector;
@@ -83,7 +87,7 @@ public class MenuController : MonoBehaviour
 
             if (_isSettingUI)
             {
-                if (Input.GetKeyDown(_inKey))
+                if (Input.GetKeyDown(_RightKey))
                 {
                     SetCurrentUI(1);
                 }
@@ -139,10 +143,10 @@ public class MenuController : MonoBehaviour
         yield return null;
         if (!_isSettingUI)
         {
-            uiconnector.ChildUI.gameObject.GetComponentInChildren<MenuController>()._isSettingUI = true;
-            uiconnector.ChildUI.gameObject.GetComponentInChildren<MenuController>()._isSelect = true;
-            uiconnector.ChildUI.gameObject.GetComponentInChildren<MenuController>()._prevMenu = gameObject.GetComponent<MenuController>();
-            uiconnector.ChildUI.gameObject.GetComponentInChildren<MenuController>()._panel[0].transform.Find("Image").GetComponent<Image>().enabled = true;
+            uiconnector.ChildUI.gameObject.GetComponentInChildren<PMenuController>()._isSettingUI = true;
+            uiconnector.ChildUI.gameObject.GetComponentInChildren<PMenuController>()._isSelect = true;
+            uiconnector.ChildUI.gameObject.GetComponentInChildren<PMenuController>()._prevMenu = gameObject.GetComponent<PMenuController>();
+            uiconnector.ChildUI.gameObject.GetComponentInChildren<PMenuController>()._panel[0].transform.Find("Image").GetComponent<Image>().enabled = true;
             
             SceneManagerA.Instance._isSelectNow = true;
             _isSelect = false;
