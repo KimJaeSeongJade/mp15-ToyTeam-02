@@ -76,7 +76,7 @@ public class MapLoader : MonoBehaviour
                 int.TryParse(values[x], out _worldMap[x - columnStartIndex, y]);
             }
         }
-
+        CanLoadMap = true;
         // Debug.Log($"Map Data loaded! Row : {row}, Column = {column}");
     }
 
