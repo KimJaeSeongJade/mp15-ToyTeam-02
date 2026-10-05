@@ -3539,7 +3539,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _undoUI: {fileID: 282641357}
-  _quitUI: {fileID: 0}
+  _quitUI: {fileID: 2038469987}
   _settingUI: {fileID: 739022945}
 --- !u!4 &265411021
 Transform:
