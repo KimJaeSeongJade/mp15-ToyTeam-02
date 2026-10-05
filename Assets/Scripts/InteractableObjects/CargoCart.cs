@@ -2,40 +2,30 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CargoCart : Train
+public class CargoCart : Train, IInteractable
 {
     [Header("제작칸 연결")]
     [SerializeField] private CraftCart targetCraftCart;  // 자원을 전달할 제작칸
 
     [Header("상태에 따른 화물칸 메쉬")]
-    [SerializeField] private GameObject emptyCartVisual; // 비어있을 때 활성화할 메쉬
     [SerializeField] private GameObject fullCartVisual;  // 자원이 있을 때 활성화할 메쉬
     
     [Header("화물 보관 설정")]
     [SerializeField] private int maxResourceCount = 3;   // 각 자원별 최대 보관 가능 수량
     [SerializeField] private int currentWoodCount = 0;   // 현재 보관 중인 목재 수량
     [SerializeField] private int currentIronCount = 0;   // 현재 보관 중인 철 수량
-    
+    [SerializeField] private Outline _outline;
+
     // 외부 참조용 프로퍼티 
     public int CurrentWoodCount => currentWoodCount;
     public int CurrentIronCount => currentIronCount;
     public int MaxResourceCount => maxResourceCount;
-    
-    private Outline _outline;
 
-    private void Awake()
-    {
-        CacheComponents();
-    }
+    public GameObject GameObject => gameObject;
+    public BlockType BlockType => BlockType.None;
 
     public void Start()
     {
-        // 앞 열차칸이 있다면 연결하고 초기화
-        if (headCart != null)
-        {
-            Initialize(headCart);
-        }
-
         // 화물차의 비주얼 상태 초기화
         UpdateResourceVisual();
         
@@ -45,16 +35,11 @@ public class CargoCart : Train
             _outline.enabled = false;
         }
     }
-    
-    private void CacheComponents()
-    {
-        _outline = GetComponent<Outline>();
-    }
 
     /// <summary>
     /// 플레이어와 상호작용하여 재료를 화물칸에 투입하거나 빈손일 경우 재료를 꺼냅니다
     /// </summary>
-    public override IInteractable ButtonInteract(IInteractable inPlayerHand)
+    public IInteractable ButtonInteract(IInteractable inPlayerHand)
     {
         // 1. 플레이어가 손에 재료를 들고 있다면 아이템을 화물칸에 투입
         if (inPlayerHand != null)
@@ -229,16 +214,14 @@ public class CargoCart : Train
         if (totalResourceCount > 0)
         {
             fullCartVisual.SetActive(true);
-            emptyCartVisual.SetActive(false);
         }
         else 
         {
             fullCartVisual.SetActive(false);
-            emptyCartVisual.SetActive(true);
         }
     }
     
-    public override void Targeted()
+    public void Targeted()
     {
         if (_outline != null)
         {
@@ -246,7 +229,7 @@ public class CargoCart : Train
         }
     }
     
-    public override void Untargeted()
+    public void Untargeted()
     {
         if (_outline != null)
         {
@@ -272,5 +255,14 @@ public class CargoCart : Train
         }
 
         UpdateResourceVisual();
+    }
+
+    /// <summary>
+    /// 플레이어가 자동으로 상호작용 하는 경우
+    /// </summary>
+    /// <param name="interactable"> 플레이어가 손에 들고 있는 IInteractable </param>
+    public void AutoInteract(IInteractable interactable)
+    {
+
     }
 }

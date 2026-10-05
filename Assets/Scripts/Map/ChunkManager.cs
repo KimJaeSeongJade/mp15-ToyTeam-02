@@ -118,11 +118,6 @@ public class ChunkManager : MonoBehaviour
         Debug.Log("Map Loaded!");
     }
 
-    private void LoadTrain()
-    {
-
-    }
-
     private void CreateChunkPool()
     {
         for (int i = 0; i < _renderDistance * 2 + 1; i++)
