@@ -2,40 +2,31 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CraftCart : Train
+public class CraftCart : Train, IInteractable
 {
     [Header("화물칸 연결")]
     [SerializeField] private CargoCart targetCargoCart;    // 자원을 가져올 화물칸
 
     [Header("상태에 따른 제작칸 메쉬")]
-    [SerializeField] private GameObject emptyCartVisual;   // 대기 상태 시 활성화할 메쉬
     [SerializeField] private GameObject fullCartVisual;    // 레일 보유 시 활성화할 메쉬
 
     [Header("제작 설정")]
     [SerializeField] private float craftTime = 3.0f;       // 레일 1개 제작 소요 시간
     [SerializeField] private int maxRailStorage = 3;       // 최대 레일 보관 개수 
     [SerializeField] private int currentCraftCount = 0;    // 현재 보관중인 레일 개수
+    [SerializeField] private Outline _outline;
 
     // 외부 참조용 프로퍼티
     public int CurrentCraftCount => currentCraftCount;
     public bool IsCrafting => isCrafting;
 
-    private bool isCrafting = false;
-    private Outline _outline;
+    public GameObject GameObject => gameObject;
+    public BlockType BlockType => BlockType.None;
 
-    private void Awake()
-    {
-        CacheComponents();
-    }
+    private bool isCrafting = false;
 
     public void Start()
     {
-        // 앞 열차칸 연결 및 초기화
-        if (headCart != null)
-        {
-            Initialize(headCart);
-        }
-
         // 제작칸의 비주얼 상태 초기화
         UpdateCraftVisual();
 
@@ -47,11 +38,6 @@ public class CraftCart : Train
 
         // 게임시작시 자원을 갖고 시작할 경우 제작 시도
         TryCraft();
-    }
-
-    private void CacheComponents()
-    {
-        _outline = GetComponent<Outline>();
     }
 
     /// <summary>
@@ -108,7 +94,7 @@ public class CraftCart : Train
     /// </summary>
     /// <param name="inPlayerHand">플레이어가 손에 들고 있는 IInteractable 아이템</param>
     /// <returns>상호작용 후 플레이어가 손에 쥐게 될 IInteractable 레일</returns>
-    public override IInteractable ButtonInteract(IInteractable inPlayerHand)
+    public IInteractable ButtonInteract(IInteractable inPlayerHand)
     {
         // 제작칸에 완성된 레일이 없으면 그대로 반환
         if (currentCraftCount <= 0)
@@ -212,19 +198,17 @@ public class CraftCart : Train
         if (currentCraftCount > 0)
         {
             fullCartVisual.SetActive(true);
-            emptyCartVisual.SetActive(false);
         }
         else 
         {
             fullCartVisual.SetActive(false);
-            emptyCartVisual.SetActive(true);
         }
     }
     
     /// <summary>
     /// 플레이어가 접근하여 상호작용 가능한 경우 테두리 표시
     /// </summary>
-    public override void Targeted()
+    public void Targeted()
     {
         if (_outline != null)
         {
@@ -235,11 +219,20 @@ public class CraftCart : Train
     /// <summary>
     /// 플레이어의 타게팅에서 벗어날 경우 테두리 비활성화
     /// </summary>
-    public override void Untargeted()
+    public void Untargeted()
     {
         if (_outline != null)
         {
             _outline.enabled = false;
         }
+    }
+
+    /// <summary>
+    /// 플레이어가 자동으로 상호작용 하는 경우
+    /// </summary>
+    /// <param name="interactable"> 플레이어가 손에 들고 있는 IInteractable </param>
+    public void AutoInteract(IInteractable interactable)
+    {
+
     }
 }

@@ -18,7 +18,4 @@ public class TestRailConnect : MonoBehaviour
             Map.Instance.SetHoldable(coord, newRail);
         }
     }
-
-    // TODO: 게임 클리어 후 열차가 파괴되지 않고 멈추되도록
-    // TODO: railway를 놔도 열차 사이 간격이 벌어지지 않고 유지되도록
 }

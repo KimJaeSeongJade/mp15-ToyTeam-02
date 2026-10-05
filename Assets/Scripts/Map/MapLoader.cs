@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
+using UnityEngine.UIElements;
 
 public class MapLoader : MonoBehaviour
 {
@@ -18,14 +19,17 @@ public class MapLoader : MonoBehaviour
     /// 외부에서 맵 정보를 읽어와서 배열로 저장한 여부
     /// </summary>
     public bool CanLoadMap { get; private set; }
+    public event Action OnMapReady;
 
     private void Start()
     {
         string docId = "1aNNeM5KLbdZ4hOK1AM0-LkXCTkBRzoJswdcpBvjRjKI";
         string gid = "0";
         string testRailGid = "1935130282";
+        string testWFCGid = "1355842421";
         StartCoroutine(LoadMapDataRoutine(docId, gid));
         // StartCoroutine(LoadMapDataRoutine(docId, testRailGid));
+        // StartCoroutine(LoadMapDataRoutine(docId, testWFCGid));
     }
 
     private IEnumerator LoadMapDataRoutine(string docId, string gid)
@@ -42,7 +46,7 @@ public class MapLoader : MonoBehaviour
 
         ParseMapData(www.downloadHandler.text);
         Map.Instance.SetMapData(_worldMap);
-        CanLoadMap = true;
+        OnMapReady?.Invoke();
     }
 
     private void ParseMapData(string text)
@@ -59,18 +63,30 @@ public class MapLoader : MonoBehaviour
 
         _worldMap = new int[column, row];
 
+        
+
         for (int i = 0; i < row; i++)
         {
             string[] values = lines[i + rowStartIndex].Split('\t');
 
             int y = row - 1 - i;
 
-            for (int x = columnStartIndex; x < values.Length - columnStartIndex && x < column; x++)
+            for (int x = columnStartIndex; x < values.Length; x++)
             {
                 int.TryParse(values[x], out _worldMap[x - columnStartIndex, y]);
             }
         }
 
         // Debug.Log($"Map Data loaded! Row : {row}, Column = {column}");
+    }
+
+    /// <summary>
+    /// Wave Function이 collpase 끝나면 생성된 맵으로 월드맵 저장
+    /// </summary>
+    /// <param name="newWorldMap"></param>
+    public void SetWorldMap(int[,] newWorldMap)
+    {
+        _worldMap = newWorldMap;
+        CanLoadMap = true;
     }
 }
