@@ -1,4 +1,3 @@
-using Cysharp.Threading.Tasks;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -15,7 +14,6 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private PlayerAction _player;
     [SerializeField] private DetectRange _detectRange;
     private Vector3 _direction;
-    private bool _isDetecting;
     private List<IInteractable> _detecteds => _detectRange.Detecteds;
     private IInteractable _target;
     private KeyCode _moveUp = KeyCode.W;
@@ -37,7 +35,7 @@ public class PlayerController : MonoBehaviour
     {
         ReadMove();
         ReadDash();
-        Detect().Forget();
+        TryDetectInteractable();
         ReadInteract();
         AutoInteract();
     }
@@ -78,17 +76,7 @@ public class PlayerController : MonoBehaviour
 
         _player.Dash();
     }
-
-    private async UniTaskVoid Detect()
-    {
-        if (_isDetecting) return;
-
-        _isDetecting = true;
-        TryDetectInteractable();
-        await UniTask.Delay(TimeSpan.FromSeconds(0.2f));
-        _isDetecting = false;
-    }
-
+    
     private void TryDetectInteractable()
     {
         List<IInteractable> _canTargetList = new();
@@ -104,7 +92,7 @@ public class PlayerController : MonoBehaviour
             RaycastHit hit;
             if (!Physics.Raycast(ray, out hit, _detectRange.Range)) continue;
             
-            if (lookPercentage >= THRESHOLD && hit.transform.GetComponent<IInteractable>() == detected && detected != GetComponentInChildren<PlayerHand>().Item)
+            if (lookPercentage >= THRESHOLD && hit.transform.GetComponent<IInteractable>() == detected && detected != _playerHand.Item)
             {
                 if (!_canTargetList.Contains(detected)) _canTargetList.Add(detected);
                 _canTargetDict.TryAdd(detected, lookPercentage);
@@ -130,7 +118,7 @@ public class PlayerController : MonoBehaviour
 
 
         // 비활성화된 오브젝트를 타겟에서 제외
-        if (target != null && target.GameObject.activeSelf == false)
+        if (target == _playerHand.Item || target != null && target.GameObject.activeSelf == false)
         {
             target = null;
         }
