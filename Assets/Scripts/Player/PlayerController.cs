@@ -79,8 +79,8 @@ public class PlayerController : MonoBehaviour
     
     private void TryDetectInteractable()
     {
-        List<IInteractable> _canTargetList = new();
-        Dictionary<IInteractable, float> _canTargetDict = new();
+        List<IInteractable> canTargetList = new();
+        Dictionary<IInteractable, float> canTargetDict = new();
 
         foreach (IInteractable detected in _detecteds)
         {
@@ -96,21 +96,21 @@ public class PlayerController : MonoBehaviour
             
             if (lookPercentage >= THRESHOLD && hit.transform.GetComponent<IInteractable>() == detected && detected != _playerHand.Item)
             {
-                if (!_canTargetList.Contains(detected)) _canTargetList.Add(detected);
-                _canTargetDict.TryAdd(detected, lookPercentage);
+                if (!canTargetList.Contains(detected)) canTargetList.Add(detected);
+                canTargetDict.TryAdd(detected, lookPercentage);
             }
             else
             {
-                if (_canTargetList.Contains(detected)) _canTargetList.Remove(detected);
-                if (_canTargetDict.ContainsKey(detected)) _canTargetDict.Remove(detected);
+                if (canTargetList.Contains(detected)) canTargetList.Remove(detected);
+                if (canTargetDict.ContainsKey(detected)) canTargetDict.Remove(detected);
             }
         }
 
         IInteractable target = null;
         float targetLookPercentage = -1;
-        foreach(IInteractable canTarget in _canTargetList)
+        foreach(IInteractable canTarget in canTargetList)
         {
-            float canTargetLookPercentage = _canTargetDict[canTarget];
+            float canTargetLookPercentage = canTargetDict[canTarget];
             if(canTargetLookPercentage > targetLookPercentage)
             {
                 target = canTarget;
