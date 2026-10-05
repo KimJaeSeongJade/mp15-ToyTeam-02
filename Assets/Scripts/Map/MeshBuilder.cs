@@ -7,7 +7,7 @@ public class MeshBuilder : MonoBehaviour
 {
     private Mesh _mesh;
     private MeshRenderer _meshRenderer;
-    private int[,] _worldMap;
+    private int[,] _chunkMap;
     private int _chunkIndex;
     private float _textureSize;
     private float _atlasSize;
@@ -43,10 +43,10 @@ public class MeshBuilder : MonoBehaviour
     /// <param name="material"></param>
     /// <param name="textureSize"></param>
     /// <param name="atlasSize"></param>
-    public void CreateChunkMesh(int chunkIndex, int[,] worldMap, UnityEngine.Material material, float textureSize, float atlasSize)
+    public void CreateChunkMesh(int chunkIndex, int[,] chunkMap, UnityEngine.Material material, float textureSize, float atlasSize)
     {
         _chunkIndex = chunkIndex;
-        _worldMap = worldMap;
+        _chunkMap = chunkMap;
         _meshRenderer.material = material;
         _textureSize = textureSize;
         _atlasSize = atlasSize;
@@ -67,19 +67,13 @@ public class MeshBuilder : MonoBehaviour
         {
             for (int x = 0; x < ChunkManager.CHUNK_SIZE; x++)
             {
-                Vector2Int worldCoord = new Vector2Int(_chunkIndex * ChunkManager.CHUNK_SIZE + x, y);
-                if (worldCoord.x < 0 ||
-                    worldCoord.y < 0 ||
-                    worldCoord.x >= _worldMap.GetLength(0) ||
-                    worldCoord.y >= _worldMap.GetLength(1)) continue;
-
-                if (_worldMap[worldCoord.x, worldCoord.y] == 0) continue;
+                if (_chunkMap[x, y] == 0) continue;
 
                 Vector2Int localCoord = new Vector2Int(x, y);
 
-                NeighborFlags neighborFlags = GetNeighborFlags(worldCoord);
+                NeighborFlags neighborFlags = GetNeighborFlags(localCoord);
 
-                CreateBlockShape(worldCoord, localCoord, neighborFlags);
+                CreateBlockShape(localCoord, neighborFlags);
             }
         }
     }
@@ -87,28 +81,27 @@ public class MeshBuilder : MonoBehaviour
     /// <summary>
     /// Block 하나의 shape를 그리는 함수
     /// </summary>
-    /// <param name="worldCoord"> 청크의 절대 좌표 </param>
-    /// <param name="localCoord"> 청크의 상대 좌표 </param>
+    /// <param name="chunkCoord"> 청크의 상대 좌표 </param>
     /// <param name="neighborFlags"> 블록의 이웃 </param>
-    private void CreateBlockShape(Vector2Int worldCoord, Vector2Int localCoord, NeighborFlags neighborFlags)
+    private void CreateBlockShape(Vector2Int chunkCoord, NeighborFlags neighborFlags)
     {
-        BlockType blocktype = (BlockType)_worldMap[worldCoord.x, worldCoord.y];
+        BlockType blocktype = (BlockType)_chunkMap[chunkCoord.x, chunkCoord.y];
         if (blocktype == BlockType.Water)
         {
-            CreatePosYWater(localCoord, Vector3.one);
+            CreatePosYWater(chunkCoord, Vector3.one);
 
-            if (IsBorder(worldCoord))
-                CreateWaterFall(localCoord, neighborFlags);
+            if (IsBorder(chunkCoord))
+                CreateWaterFall(chunkCoord, neighborFlags);
             return;
         }
 
-        CreatePosYShape(localCoord, blocktype, Vector3.one);
-        CreateNegYShape(localCoord, blocktype, Vector3.one);
+        CreatePosYShape(chunkCoord, blocktype, Vector3.one);
+        CreateNegYShape(chunkCoord, blocktype, Vector3.one);
 
-        if ((neighborFlags & NeighborFlags.Right) == 0) CreatePosXShape(localCoord, blocktype, Vector3.one);
-        if ((neighborFlags & NeighborFlags.Left) == 0) CreateNegXShape(localCoord, blocktype, Vector3.one);
-        if ((neighborFlags & NeighborFlags.Forward) == 0) CreatePosZShape(localCoord, blocktype, Vector3.one);
-        if ((neighborFlags & NeighborFlags.Back) == 0) CreateNegZShape(localCoord, blocktype, Vector3.one);
+        if ((neighborFlags & NeighborFlags.Right) == 0) CreatePosXShape(chunkCoord, blocktype, Vector3.one);
+        if ((neighborFlags & NeighborFlags.Left) == 0) CreateNegXShape(chunkCoord, blocktype, Vector3.one);
+        if ((neighborFlags & NeighborFlags.Forward) == 0) CreatePosZShape(chunkCoord, blocktype, Vector3.one);
+        if ((neighborFlags & NeighborFlags.Back) == 0) CreateNegZShape(chunkCoord, blocktype, Vector3.one);
     }
 
     /// <summary>
@@ -157,8 +150,8 @@ public class MeshBuilder : MonoBehaviour
     {
         if (coord.x == 0 ||
             coord.y == 0 ||
-            coord.x == _worldMap.GetLength(0) - 1 ||
-            coord.y == _worldMap.GetLength(1) - 1)
+            coord.x == _chunkMap.GetLength(0) - 1 ||
+            coord.y == _chunkMap.GetLength(1) - 1)
             return true;
         else return false;
     }
@@ -180,7 +173,7 @@ public class MeshBuilder : MonoBehaviour
             CreateNegXShape(coord, BlockType.Water, new Vector3(1, -_waterFallHeight, 1), true);
         }
 
-        if (coord.y == _worldMap.GetLength(1) - 1)
+        if (coord.y == _chunkMap.GetLength(1) - 1)
         {
             CreatePosZShape(coord, BlockType.Water, new Vector3(1, _waterFallHeight, 1), true);
         }
@@ -354,23 +347,23 @@ public class MeshBuilder : MonoBehaviour
         _uvs.Add(new Vector2(x + size - padding, y + size - padding));
     }
 
-    private NeighborFlags GetNeighborFlags(Vector2Int worldCoord)
+    private NeighborFlags GetNeighborFlags(Vector2Int localCoord)
     {
         NeighborFlags flags = NeighborFlags.None;
 
         for (int i = 0; i < _neighbors.Length; i++)
         {
-            if ((worldCoord.y + _neighbors[i].y < 0) ||
-                (worldCoord.y + _neighbors[i].y >= _worldMap.GetLength(1)) ||
-                (worldCoord.x + _neighbors[i].x < 0) ||
-                (worldCoord.x + _neighbors[i].x >= _worldMap.GetLength(0)))
+            if ((localCoord.y + _neighbors[i].y < 0) ||
+                (localCoord.y + _neighbors[i].y >= _chunkMap.GetLength(1)) ||
+                (localCoord.x + _neighbors[i].x < 0) ||
+                (localCoord.x + _neighbors[i].x >= _chunkMap.GetLength(0)))
             {
                 continue;
             }
 
             // Neighbor가 있다면
-            if (_worldMap[worldCoord.x + _neighbors[i].x, worldCoord.y + _neighbors[i].y] != 0 &&
-                _worldMap[worldCoord.x + _neighbors[i].x, worldCoord.y + _neighbors[i].y] != 4)
+            if (_chunkMap[localCoord.x + _neighbors[i].x, localCoord.y + _neighbors[i].y] != 0 &&
+                _chunkMap[localCoord.x + _neighbors[i].x, localCoord.y + _neighbors[i].y] != 4)
             {
                 flags |= _neighborFlags[i];
             }

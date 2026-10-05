@@ -1,9 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using UnityEngine;
 
 public class Map : MonoBehaviour
 {
+    [SerializeField] private ChunkManager _chunkManager;
+
     /// <summary>
     /// 플레이어가 들 수 있는 오브젝트의 블록 종류 오프셋
     /// </summary>
@@ -41,7 +44,9 @@ public class Map : MonoBehaviour
     /// <returns></returns>
     public BlockType GetBlockType(Vector2Int coord)
     {
-        return (BlockType)_worldMap[coord.x, coord.y];
+        int chunkIndex = GetChunkIndex(coord);
+        Vector2Int chunkCoord = GetChunkCoord(coord);
+        return _chunkManager.Chunks[chunkIndex].GetBlockType(chunkCoord);
     }
 
     /// <summary>
@@ -51,8 +56,9 @@ public class Map : MonoBehaviour
     /// <returns></returns>
     public IInteractable GetHoldable(Vector2Int coord)
     {
-        if (_holdableMap == null) return null;
-        return _holdableMap[coord.x, coord.y];
+        int chunkIndex = GetChunkIndex(coord);
+        Vector2Int chunkCoord = GetChunkCoord(coord);
+        return _chunkManager.Chunks[chunkIndex].GetHoldable(chunkCoord);
     }
 
     /// <summary>
@@ -62,8 +68,9 @@ public class Map : MonoBehaviour
     /// <param name="interactable"> 플레이어가 들 수 있는 오브젝트 </param>
     public void SetHoldable(Vector2Int coord, IInteractable interactable)
     {
-        // Debug.Log($"SetHoldable {coord} {interactable?.GameObject.name}");
-        _holdableMap[coord.x, coord.y] = interactable;
+        int chunkIndex = GetChunkIndex(coord);
+        Vector2Int chunkCoord = GetChunkCoord(coord);
+        _chunkManager.Chunks[chunkIndex].SetHoldable(chunkCoord, interactable);
     }
 
     /// <summary>
@@ -74,5 +81,15 @@ public class Map : MonoBehaviour
     {
         _worldMap = mapData;
         _holdableMap = new IInteractable[mapData.GetLength(0), mapData.GetLength(1)];
+    }
+
+    private int GetChunkIndex(Vector2Int worldCoord)
+    {
+        return worldCoord.x / ChunkManager.CHUNK_SIZE;
+    }
+
+    private Vector2Int GetChunkCoord(Vector2Int worldCoord)
+    {
+        return new Vector2Int(worldCoord.x - ChunkManager.CHUNK_SIZE * GetChunkIndex(worldCoord), worldCoord.y);
     }
 }
