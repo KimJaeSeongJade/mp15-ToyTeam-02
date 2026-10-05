@@ -10,13 +10,25 @@ public class TitleSceneManager : MonoBehaviour
     private KeyCode _esc => KeyCode.Escape;
     [SerializeField] private GameObject _undoUI;
     [SerializeField] private GameObject _quitUI;
-    [SerializeField] private GameObject _settingUI;
+    [SerializeField] private GameObject _settingUI;      
+
     private bool _isSettingOpen;
 
     public Stack<(GameObject, GameObject)> StackUI = new ();
-
+    
     private void Update()
     {  
+        if(StackUI.Count == 0)
+        {
+            _quitUI.SetActive(true);
+            _undoUI.SetActive(false);
+        }
+        else
+        {
+            _quitUI.SetActive(false);
+            _undoUI.SetActive(true);
+        }
+
         if(_isSettingOpen && Input.GetKeyDown(_esc))
         {
             CloseSetting();
