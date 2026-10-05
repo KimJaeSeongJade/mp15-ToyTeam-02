@@ -20,8 +20,10 @@ public class UnityEventPauseUI : MonoBehaviour
                 CloseUI();
             }
             if (Input.GetKeyDown(KeyCode.Space))
-            {                
+            {
                 SceneManagerA.Instance._isPause = false;
+                SceneManagerA.Instance._isSelectNow = false;
+
                 OnUIPressed.Invoke();
             }
         }

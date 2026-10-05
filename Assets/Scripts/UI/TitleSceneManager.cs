@@ -72,32 +72,6 @@ public class TitleSceneManager : MonoBehaviour
         }
     }
 
-    public void LoadTitleScene()
-    {
-        SceneManagerA.Instance.LoadTitleScene();
-    }
-
-    public void LoadGameScene()
-    {
-        SceneManagerA.Instance.LoadGameScene();
-    }
-
-    public void LoadTutorialScene()
-    {
-        SceneManagerA.Instance.LoadTutorialScene();
-    }
-
-    public void ChangeScreenMode(int value)
-    {
-        SceneManagerA.Instance.ChangeScreenMode(value);
-    }
-
-    public void SetResolution(int value)
-    {
-        SceneManagerA.Instance.SetResolution(value);
-    }
-
-
     public void PlayerAdd()
     {
 
@@ -107,15 +81,4 @@ public class TitleSceneManager : MonoBehaviour
     {
 
     }
-
-    // 게임 종료
-    public void Quit()
-    {
-        #if UNITY_EDITOR
-            UnityEditor.EditorApplication.isPlaying = false;
-        #else
-            Application.Quit();
-        #endif
-    }
-
 }

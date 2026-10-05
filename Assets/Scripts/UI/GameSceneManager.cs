@@ -71,21 +71,6 @@ public class GameSceneManager : MonoBehaviour
         }
     }
 
-    public void LoadTitleScene()
-    {
-        SceneManagerA.Instance.LoadTitleScene();
-    }
-
-    public void LoadGameScene()
-    {
-        SceneManagerA.Instance.LoadGameScene();
-    }
-
-    public void LoadTutorialScene()
-    {
-        SceneManagerA.Instance.LoadTutorialScene();
-    }
-
     // 다른 씬 로드하면 파괴되는 싱글톤
     private void SetSingleton()
     {
