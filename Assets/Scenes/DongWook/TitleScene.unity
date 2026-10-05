@@ -5124,6 +5124,10 @@ PrefabInstance:
       propertyPath: m_HorizontalAlignment
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 9062166134899009182, guid: 72c45a8d642a16b4e826bb1f2405bf61, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 5f66b137e194dc44e8d17d4b9124cde2, type: 3}
     m_RemovedComponents:
     - {fileID: 8894182952471623155, guid: 72c45a8d642a16b4e826bb1f2405bf61, type: 3}
     m_RemovedGameObjects: []
@@ -11647,6 +11651,10 @@ PrefabInstance:
       propertyPath: m_HorizontalAlignment
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 9062166134899009182, guid: 72c45a8d642a16b4e826bb1f2405bf61, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 5f66b137e194dc44e8d17d4b9124cde2, type: 3}
     m_RemovedComponents:
     - {fileID: 8894182952471623155, guid: 72c45a8d642a16b4e826bb1f2405bf61, type: 3}
     m_RemovedGameObjects: []
@@ -11795,6 +11803,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c39c40ab2e301de46873960ee56ba76c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _isPause: 0
   _isSelectNow: 0
 --- !u!4 &1290161806
 Transform:

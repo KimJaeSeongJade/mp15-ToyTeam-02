@@ -124,36 +124,38 @@ public class PMenuController : MonoBehaviour
     private IEnumerator In()
     {
         yield return null;
-        Debug.Log($"현재 컨트롤러: {gameObject.name}");
 
-        if(_panel[_currenNum].GetComponent<UnityEventInteractUI>())
+        GameObject currentPanel = _panel[_currenNum];
+
+        if (currentPanel.TryGetComponent<UnityEventInteractUI>(out UnityEventInteractUI eventUI))
         {
-            _panel[_currenNum].GetComponent<UnityEventInteractUI>().OnUIPressed.Invoke();
+            _isSelect = false;
+            eventUI.OnUIPressed.Invoke();
             yield break;
         }
 
         if (!_isSettingUI)
         {
-            uiconnector.ChildUI.gameObject.GetComponentInChildren<PMenuController>()._isSettingUI = true;
-            uiconnector.ChildUI.gameObject.GetComponentInChildren<PMenuController>()._isSelect = true;
-            uiconnector.ChildUI.gameObject.GetComponentInChildren<PMenuController>()._prevMenu = gameObject.GetComponent<PMenuController>();
-            uiconnector.ChildUI.gameObject.GetComponentInChildren<PMenuController>()._panel[0].transform.Find("Image").GetComponent<Image>().enabled = true;
-
-            if (_panel[_currenNum].TryGetComponent<UIConnector>(out uiconnector))
+            if (currentPanel.TryGetComponent<UIConnector>(out uiconnector))
             {
                 uiconnector.ChildUI.gameObject.SetActive(true);
-            }
 
-            SceneManagerA.Instance._isSelectNow = true;
-            _isSelect = false;
-            Debug.Log($"넘어간 컨트롤러: {gameObject.name}");
+                PMenuController childController = uiconnector.ChildUI.gameObject.GetComponentInChildren<PMenuController>();
+                               
+                childController._isSettingUI = true;
+                childController._isSelect = true;
+                childController._prevMenu = this;
+                childController._panel[0].transform.Find("Image").GetComponent<Image>().enabled = true;
+
+                SceneManagerA.Instance._isSelectNow = true;                    
+                _isSelect = false;
+            }
         }
     }
 
     // 설정조작UI에서 나옴
     private void Out()
     {
-        Debug.Log($"현재 컨트롤러: {gameObject.name}");
         SceneManagerA.Instance._isSelectNow = false;
         _panel[_currenNum].transform.Find("Image").GetComponent<Image>().enabled = false;
         if (_panel[_currenNum].TryGetComponent<UIConnector>(out uiconnector))
@@ -161,8 +163,8 @@ public class PMenuController : MonoBehaviour
             uiconnector.ChildUI.gameObject.SetActive(false);
         }
         _isSelect = false;
+        gameObject.SetActive(false);
         _prevMenu._isSelect = true;
-        Debug.Log($"넘어간 컨트롤러: {gameObject.name}");
     }
 
     // Silder면 value조절, LRUI면 좌우 넘기기
