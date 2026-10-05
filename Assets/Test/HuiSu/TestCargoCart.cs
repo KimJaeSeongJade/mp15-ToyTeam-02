@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TestCargoCart : Train
+public class TestCargoCart : Train, IInteractable
 {
     [Header("제작칸 연결")]
     [SerializeField] private TestCraftCart targetCraftCart; // 자원을 전달할 제작칸 
@@ -20,7 +20,11 @@ public class TestCargoCart : Train
     public int CurrentWoodCount => currentWoodCount;
     public int CurrentIronCount => currentIronCount;
     public int MaxResourceCount => maxResourceCount;
-    
+
+    public GameObject GameObject => gameObject;
+
+    public BlockType BlockType => BlockType.None;
+
     private Outline _outline;
 
     private void Awake()
@@ -30,12 +34,6 @@ public class TestCargoCart : Train
 
     public void Start()
     {
-        // 앞 열차칸이 있다면 연결하고 초기화
-        if (headCart != null)
-        {
-            Initialize(headCart);
-        }
-
         // 화물차의 비주얼 상태 초기화
         UpdateResourceVisual();
         
@@ -56,7 +54,7 @@ public class TestCargoCart : Train
     /// </summary>
     /// <param name="inPlayerHand">플레이어가 손에 들고 있는 아이템 </param>
     /// <returns>상호작용 후 플레이어의 손으로 넘겨줄 아이템</returns>
-    public override IInteractable ButtonInteract(IInteractable inPlayerHand)
+    public IInteractable ButtonInteract(IInteractable inPlayerHand)
     {
         // 1. 플레이어가 손에 재료를 들고 있다면 아이템을 화물칸에 투입
         if (inPlayerHand != null)
@@ -244,7 +242,7 @@ public class TestCargoCart : Train
     /// <summary>
     /// 플레이어가 접근하여 상호작용 가능한 경우 테두리 표시
     /// </summary>
-    public override void Targeted()
+    public void Targeted()
     {
         if (_outline != null)
         {
@@ -252,11 +250,16 @@ public class TestCargoCart : Train
         }
     }
     
-    public override void Untargeted()
+    public void Untargeted()
     {
         if (_outline != null)
         {
             _outline.enabled = false;
         }
+    }
+
+    public void AutoInteract(IInteractable interactable)
+    {
+        throw new System.NotImplementedException();
     }
 }

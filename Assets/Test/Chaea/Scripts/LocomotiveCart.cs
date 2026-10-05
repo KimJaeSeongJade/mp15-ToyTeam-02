@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Splines;
 
-public class LocomotiveCart : DummyTrain
+public class LocomotiveCart : Train
 {
     public event Action OnTrainArrived;
 

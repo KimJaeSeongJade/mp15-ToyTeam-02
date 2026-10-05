@@ -23,7 +23,7 @@ public class SplineTest : MonoBehaviour
         {
             foreach (GameObject gameObject in _trains)
             {
-                DummyTrain train = gameObject.GetComponent<DummyTrain>();
+                Train train = gameObject.GetComponent<Train>();
 
                 if (train.gameObject.activeSelf == false)
                 {

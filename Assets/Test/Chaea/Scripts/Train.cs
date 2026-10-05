@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Splines;
 
-public class DummyTrain : MonoBehaviour
+public class Train : MonoBehaviour
 {
     [SerializeField] private SplineManager _splineManager;
     [SerializeField] protected SplineAnimate _splineAnimate;
@@ -14,7 +14,7 @@ public class DummyTrain : MonoBehaviour
     /// <summary>
     /// 열차 속도
     /// </summary>
-    public static float MaxTrainSpeed = 1f;
+    public static float MaxTrainSpeed = 0.1f;
 
     private WaitForSeconds _wait = new WaitForSeconds(2f);
     private bool _isRailwayConnected;
@@ -40,7 +40,7 @@ public class DummyTrain : MonoBehaviour
         {
             if (_splineAnimate.NormalizedTime >= 1.0f - _splineAnimate.StartOffset)
             {
-                Destroy(gameObject);
+                gameObject.SetActive(false);
             }
         }
     }
