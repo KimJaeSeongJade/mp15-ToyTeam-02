@@ -189,6 +189,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: LocomotiveCart
       objectReference: {fileID: 0}
+    - target: {fileID: 1257369285723835655, guid: af4fc58f54beefe49b4b149decbbead1, type: 3}
+      propertyPath: _splineManager
+      value: 
+      objectReference: {fileID: 1195103906}
     - target: {fileID: 3112271626309469024, guid: af4fc58f54beefe49b4b149decbbead1, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -425,6 +429,53 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &533941144
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 533941146}
+  - component: {fileID: 533941145}
+  m_Layer: 0
+  m_Name: WFCGenerator
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &533941145
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 533941144}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ff8665e948e38874f9f9e2339ce8377b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _mapLoader: {fileID: 1794199087}
+  _neighborBonus: 3
+  Iterations: 0
+--- !u!4 &533941146
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 533941144}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &614927958
 GameObject:
   m_ObjectHideFlags: 0
@@ -591,6 +642,10 @@ PrefabInstance:
       propertyPath: m_PlayOnAwake
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5670198294436298962, guid: be303c68ac4519843b28a366df901aa7, type: 3}
+      propertyPath: _splineManager
+      value: 
+      objectReference: {fileID: 1195103906}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -625,6 +680,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1233168719208085447, guid: 21c8a6009ff8cff48b20039b48b95c9b, type: 3}
+      propertyPath: _splineManager
+      value: 
+      objectReference: {fileID: 1195103906}
     - target: {fileID: 4064652543926026422, guid: 21c8a6009ff8cff48b20039b48b95c9b, type: 3}
       propertyPath: m_Name
       value: CargoCart
@@ -838,6 +897,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2607123211334316190, guid: 806845fe282837243bbbba6fa121578b, type: 3}
+      propertyPath: _splineManager
+      value: 
+      objectReference: {fileID: 1195103906}
     - target: {fileID: 4801280456084019704, guid: 806845fe282837243bbbba6fa121578b, type: 3}
       propertyPath: m_Name
       value: EngineCart
@@ -1179,3 +1242,4 @@ SceneRoots:
   - {fileID: 1408545518}
   - {fileID: 177335331}
   - {fileID: 211969454}
+  - {fileID: 533941146}

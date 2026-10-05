@@ -3,18 +3,17 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Unity.Mathematics;
-using UnityEditorInternal;
 using UnityEngine;
-using static UnityEditor.Progress;
 
 public class WaveFunction : MonoBehaviour
 {
+    [SerializeField] private MapLoader _mapLoader;
+    [SerializeField] private float _neighborBonus = 3.0f;
+
     public int Dimensions => ChunkManager.CHUNK_SIZE;
     public List<Cell> GridComponents;
-    public Cell CellObj;
-
     public int Iterations = 0;
-
+    public event Action<int[,]> OnWaveFunctionEnd;
     private Dictionary<int, Tile> _tiles = new();
 
     private Vector2Int[] _directions = new[]
@@ -25,16 +24,20 @@ public class WaveFunction : MonoBehaviour
         new Vector2Int(-1, 0)
     };
 
-    private void Awake()
+    private void Awake() => BindMapLoaderEvents();
+    private void OnDestroy() => UnbindMapLoaderEvents();
+
+    private void StartWaveFunctionCollapse()
     {
-        int[,] sampleMapData = new int[20, 40];
+        Debug.Log("WaveFunctionCollapse started");
+        int[,] sampleMapData = _mapLoader.WorldMap;
 
         LoadMapData(sampleMapData);
-
         GridComponents = new List<Cell>();
         InitializeGrid();
     }
 
+    // 샘플 맵 데이터로 Weight, Rules 설정
     private void LoadMapData(int[,] mapData)
     {
         _tiles.Clear();
@@ -71,7 +74,7 @@ public class WaveFunction : MonoBehaviour
 
                     if (nx >= 0 && nx < mapData.GetLength(0) && ny >= 0 && ny < mapData.GetLength(1))
                     {
-                        int neighborType = mapData[ny, nx];
+                        int neighborType = mapData[nx, ny];
                         currentTile.AddNeighbor((Direction)i, neighborType);
                     }
                 }
@@ -133,30 +136,67 @@ public class WaveFunction : MonoBehaviour
 
         cellToCollapse.Collapsed = true;
 
-        Tile selectedTile = SelectTile(cellToCollapse.TileOptions);
+        int gridIndex = GridComponents.IndexOf(cellToCollapse);
+        int cellX = gridIndex % Dimensions;
+        int cellY = gridIndex / Dimensions;
+
+        Tile selectedTile = SelectTile(cellToCollapse, cellX, cellY);
         cellToCollapse.TileOptions = new Tile[] { selectedTile };
 
         UpdateGeneration();
     }
 
-    private Tile SelectTile(Tile[] tileOptions)
+    private Tile SelectTile(Cell targetCell, int cellX, int cellY)
     {
         float totalWeight = 0f;
-        foreach (Tile tile in tileOptions)
+        Dictionary<Tile, float> adjustedWeights = new Dictionary<Tile, float>();
+
+
+        foreach (Tile tile in targetCell.TileOptions)
         {
-            totalWeight += tile.Weight;
+            float currentWeight = tile.Weight;
+            int matchCount = 0;
+
+            // 4방향 이웃 검사
+            for (int i = 0; i < _directions.Length; i++)
+            {
+                int nx = cellX + _directions[i].x;
+                int ny = cellY + _directions[i].y;
+
+                if (nx >= 0 && nx < Dimensions && ny >= 0 && ny < Dimensions)
+                {
+                    Cell neighbor = GridComponents[nx + ny * Dimensions];
+
+                    if (neighbor.Collapsed && neighbor.TileOptions.Length > 0)
+                    {
+                        if (neighbor.TileOptions[0].BlockType == tile.BlockType)
+                        {
+                            matchCount++;
+                        }
+                    }
+                }
+            }
+
+            if (matchCount > 0)
+            {
+                currentWeight *= Mathf.Pow(_neighborBonus, matchCount);
+            }
+
+            adjustedWeights[tile] = currentWeight;
+            totalWeight += currentWeight;
         }
 
+        // 가중치 선택
         float roll = UnityEngine.Random.Range(0f, totalWeight);
         float cumulative = 0f;
 
-        foreach (Tile tile in tileOptions)
+        foreach (var pair in adjustedWeights)
         {
-            cumulative += tile.Weight;
-            if (roll <= cumulative) return tile;
+            cumulative += pair.Value;
+            if (roll <= cumulative) return pair.Key;
         }
 
-        return tileOptions[0];
+        return targetCell.TileOptions[0];
     }
 
     private void UpdateGeneration()
@@ -170,7 +210,7 @@ public class WaveFunction : MonoBehaviour
                 var index = x + y * Dimensions;
                 if (GridComponents[index].Collapsed)
                 {
-                    Debug.Log("called");
+                    // Debug.Log("called");
                     newGenerationCell[index] = GridComponents[index];
                 }
                 else
@@ -192,7 +232,7 @@ public class WaveFunction : MonoBehaviour
                     }
 
                     // Down
-                    if (y < Dimensions - 1)
+                    if (y > 0)
                     {
                         Cell down = GridComponents[x + (y - 1) * Dimensions];
                         CheckValidity(options, down.TileOptions, Direction.Up);
@@ -217,7 +257,11 @@ public class WaveFunction : MonoBehaviour
         {
             StartCoroutine(CheckEntropy());
         }
-
+        else
+        {
+            Debug.Log("WFC Finished");
+            _mapLoader.SetWorldMap(GetGeneratedMapData());
+        }
     }
 
     private void CheckValidity(List<Tile> currentOptions, Tile[] neighborTileOptions, Direction oppositeDirection)
@@ -245,5 +289,42 @@ public class WaveFunction : MonoBehaviour
 
         currentOptions.Clear();
         currentOptions.AddRange(validOptions);
+    }
+
+    private int[,] GetGeneratedMapData()
+    {
+        int size = Dimensions;
+        int[,] resultMap = new int[size, size];
+
+        for (int y = 0; y < size; y++)
+        {
+            for (int x = 0; x < size; x++)
+            {
+                int index = x + y * size;
+                Cell cell = GridComponents[index];
+
+                if (cell.Collapsed && cell.TileOptions != null && cell.TileOptions.Length > 0)
+                {
+                    resultMap[x, y] = cell.TileOptions[0].BlockType;
+                }
+                else
+                {
+                    Debug.Log("Collapsed failed");
+                    resultMap[x, y] = 1;
+                }
+            }
+        }
+
+        return resultMap;
+    }
+
+    private void BindMapLoaderEvents()
+    {
+        _mapLoader.OnMapReady += StartWaveFunctionCollapse;
+    }
+
+    private void UnbindMapLoaderEvents()
+    {
+        _mapLoader.OnMapReady -= StartWaveFunctionCollapse;
     }
 }
