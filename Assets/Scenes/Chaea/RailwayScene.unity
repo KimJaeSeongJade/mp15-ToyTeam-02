@@ -714,7 +714,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _trains:
   - {fileID: 1412287184}
-  - {fileID: 0}
+  - {fileID: 1341623102}
   - {fileID: 1166436890}
   - {fileID: 1001737492}
   _splineContainer: {fileID: 1195103907}
@@ -773,6 +773,11 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1341623102 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1682531037008639311, guid: 0a337133de3acc84ba0374c331784891, type: 3}
+  m_PrefabInstance: {fileID: 982524307}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1408545518
 PrefabInstance:
   m_ObjectHideFlags: 0

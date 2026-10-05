@@ -256,6 +256,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: floor-stone (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 2ac6f8414ad83fd44b429be755b8b5c1, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -411,6 +415,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Log_stackThree (2)
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 32d758d7bffb0f84fa668d721da53b18, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -488,6 +496,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: 2ac6f8414ad83fd44b429be755b8b5c1, type: 3}
       propertyPath: m_Name
       value: floor-stone (2)
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 2ac6f8414ad83fd44b429be755b8b5c1, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -567,6 +579,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: floor-stone
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 2ac6f8414ad83fd44b429be755b8b5c1, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -645,6 +661,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Log_stackThree
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 32d758d7bffb0f84fa668d721da53b18, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -722,6 +742,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: 32d758d7bffb0f84fa668d721da53b18, type: 3}
       propertyPath: m_Name
       value: Log_stackThree (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 32d758d7bffb0f84fa668d721da53b18, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
