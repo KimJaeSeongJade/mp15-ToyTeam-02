@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class TestCargoCart : Train
 {
+    [Header("제작칸 연결")]
+    [SerializeField] private TestCraftCart targetCraftCart; // 자원을 전달할 제작칸 
+
     [Header("재료 보관량에 따른 카트 비주얼")]
     [SerializeField] private GameObject emptyCartVisual; // 비어있을 때 활성화할 메쉬
     [SerializeField] private GameObject fullCartVisual;  // 자원이 있을 때 활성화할 메쉬
@@ -72,18 +75,11 @@ public class TestCargoCart : Train
     /// <returns>수납 성공 시 null(빈손), 수납 실패 시 원래 들고 있던 아이템 유지</returns>
     private IInteractable PushResource(IInteractable inPlayerHand)
     {
-        /* [테스트용 주석처리]
-        // 손에든 IInteractable 구현 객체를 재료 클래스로 전환해 변수에 담음
-        MaterialBase material = inPlayerHand as MaterialBase;
-        if (material == null) return inPlayerHand;
-        */
-        
         // [테스트용 임시 재료] 
         TestHandData material = inPlayerHand as TestHandData;
         
         if (material == null)
         {
-            
             return inPlayerHand;
         }
         
@@ -105,6 +101,9 @@ public class TestCargoCart : Train
                     material.AddCount(-remainCount);
                     UpdateResourceVisual();
 
+                    // 자원이 투입되었으므로 제작칸에 제작 시도
+                    CallCraftCart();
+
                     // 남은 재료 아이템을 플레이어 손에 돌려줌
                     return material;
                 }
@@ -114,8 +113,9 @@ public class TestCargoCart : Train
                     currentWoodCount += material.Count;
                     UpdateResourceVisual();
 
-                    // [테스트용 주석처리] 오브젝트 풀 반납 제외
-                    // material.ReturnToPool();
+                    // 자원이 투입되었으므로 제작칸에서 제작 시도
+                    CallCraftCart();
+
                     return null;
                 }
             }
@@ -137,6 +137,9 @@ public class TestCargoCart : Train
                     // 화물칸을 채우고 남은 갯수만큼 플레이어가 소지한 재료 갯수 차감 
                     material.AddCount(-remainSpace);
                     UpdateResourceVisual();
+
+                    // 자원이 투입되었으므로 제작칸에 제작 시도
+                    CallCraftCart();
                     
                     // 남은 재료 아이템을 플레이어 손에 돌려줌
                     return material; 
@@ -146,9 +149,10 @@ public class TestCargoCart : Train
                 {
                     currentIronCount += material.Count;
                     UpdateResourceVisual();
+
+                    // 자원이 투입되었으므로 제작칸에 제작 시도
+                    CallCraftCart();
                     
-                    // [테스트용 주석처리] 오브젝트 풀 반납 제외
-                    // material.ReturnToPool();
                     return null;
                 }
             }
@@ -158,11 +162,10 @@ public class TestCargoCart : Train
         return inPlayerHand;
     }
 
-
     /// <summary>
     /// 빈손인 플레이어에게 화물칸의 재료를 꺼내어 전달
     /// </summary>
-    /// <returns>꺼낸 자원 아이템 (오브젝트 풀 제외 테스트로 null 반환)</returns>
+    /// <returns>꺼낸 자원 아이템</returns>
     private IInteractable GiveResource()
     {
         BlockType resourceToGive = BlockType.None;
@@ -188,37 +191,34 @@ public class TestCargoCart : Train
 
         UpdateResourceVisual();
 
-        // [테스트용 수정] 오브젝트 풀을 사용하지 않으므로 SpawnResourceItem 호출 없이 인출 수량만 차감 후 null 반환
-        Debug.Log($"[화물칸에서 꺼내기]: {resourceToGive} ({popCount}개)");
+        Debug.Log($"[TestCargoCart] 화물칸에서 자원 인출: {resourceToGive} ({popCount}개)");
         return new TestHandData(resourceToGive, popCount);
-        
-        // [테스트용 주석처리]
-        // return SpawnResourceItem(resourceToGive, popCount);
     }
-  
+
     /// <summary>
-    /// [오브젝트 풀 미사용으로 테스트용 주석 처리]
+    /// 제작칸에서 레일 제작 시 자원을 차감할 때 직접 호출합니다.
     /// </summary>
-    private IInteractable SpawnResourceItem(BlockType type, int amount)
+    public void ConsumeResources(int woodAmount, int ironAmount)
     {
-        /*
-        IPoolable poolable = ObjectPool.Instance.Take(type);
-        MaterialBase material = poolable as MaterialBase;
+        currentWoodCount -= woodAmount;
+        if (currentWoodCount < 0) currentWoodCount = 0;
 
-        if (material != null)
+        currentIronCount -= ironAmount;
+        if (currentIronCount < 0) currentIronCount = 0;
+
+        Debug.Log($"[TestCargoCart] 자원 소모 완료 - 남은 목재: {currentWoodCount}, 남은 철: {currentIronCount}");
+        UpdateResourceVisual();
+    }
+
+    /// <summary>
+    /// 연결된 제작칸이 있는 경우 레일 제작 프로세스를 시도합니다.
+    /// </summary>
+    private void CallCraftCart()
+    {
+        if (targetCraftCart != null)
         {
-            material.transform.position = transform.position;
-            material.gameObject.SetActive(true);
-
-            if (amount > 1)
-            {
-                material.AddCount(amount - 1);
-            }
-
-            return material;
+            targetCraftCart.TryCraft();
         }
-        */
-        return null;
     }
     
     /// <summary>
@@ -246,7 +246,6 @@ public class TestCargoCart : Train
     /// </summary>
     public override void Targeted()
     {
-        // _outline 컴포넌트 null 가드 적용
         if (_outline != null)
         {
             _outline.enabled = true;

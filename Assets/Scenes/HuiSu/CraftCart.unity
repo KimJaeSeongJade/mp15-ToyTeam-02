@@ -571,8 +571,81 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   moveSpeed: 5
   interactKey: 101
-  holdingBlockType: 8
-  holdingCount: 1
+  holdingBlockType: 7
+  handCount: 1
+  playerMaxCount: 3
+--- !u!1001 &733383121166803375
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 2044209737002983442, guid: 29492005fa1f7114eb4017d095a871bf, type: 3}
+      propertyPath: m_Name
+      value: CraftCart
+      objectReference: {fileID: 0}
+    - target: {fileID: 3620357043840171837, guid: 29492005fa1f7114eb4017d095a871bf, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 3.95
+      objectReference: {fileID: 0}
+    - target: {fileID: 3620357043840171837, guid: 29492005fa1f7114eb4017d095a871bf, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3620357043840171837, guid: 29492005fa1f7114eb4017d095a871bf, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -3.09
+      objectReference: {fileID: 0}
+    - target: {fileID: 3620357043840171837, guid: 29492005fa1f7114eb4017d095a871bf, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3620357043840171837, guid: 29492005fa1f7114eb4017d095a871bf, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3620357043840171837, guid: 29492005fa1f7114eb4017d095a871bf, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3620357043840171837, guid: 29492005fa1f7114eb4017d095a871bf, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3620357043840171837, guid: 29492005fa1f7114eb4017d095a871bf, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3620357043840171837, guid: 29492005fa1f7114eb4017d095a871bf, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3620357043840171837, guid: 29492005fa1f7114eb4017d095a871bf, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4397831450695486704, guid: 29492005fa1f7114eb4017d095a871bf, type: 3}
+      propertyPath: targetCargoCart
+      value: 
+      objectReference: {fileID: 2058291042268522704}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 29492005fa1f7114eb4017d095a871bf, type: 3}
+--- !u!114 &733383121166803379 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4397831450695486704, guid: 29492005fa1f7114eb4017d095a871bf, type: 3}
+  m_PrefabInstance: {fileID: 733383121166803375}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 253be2e3052227b46949f877b730ab46, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &2058291042268522697
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -587,7 +660,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2679854936753814354, guid: a8d698dfd5ef4c8499e7d53c6432e869, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: 3.81
       objectReference: {fileID: 0}
     - target: {fileID: 2679854936753814354, guid: a8d698dfd5ef4c8499e7d53c6432e869, type: 3}
       propertyPath: m_LocalPosition.y
@@ -679,17 +752,19 @@ MonoBehaviour:
   tailCart: {fileID: 0}
   followDistance: 1
   moveSpeed: 5
+  targetCraftCart: {fileID: 733383121166803379}
   emptyCartVisual: {fileID: 1588219619}
   fullCartVisual: {fileID: 1478631803}
   maxResourceCount: 3
-  currentWoodCount: 1
-  currentIronCount: 1
+  currentWoodCount: 2
+  currentIronCount: 2
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
   - {fileID: 1263135677}
   - {fileID: 1553469571}
-  - {fileID: 2058291042268522697}
-  - {fileID: 1439340481}
   - {fileID: 1612492333}
+  - {fileID: 1439340481}
+  - {fileID: 2058291042268522697}
+  - {fileID: 733383121166803375}

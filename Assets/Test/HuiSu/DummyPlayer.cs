@@ -9,11 +9,13 @@ public class DummyPlayer : MonoBehaviour
     [Header("상호작용 키")]
     [SerializeField] private KeyCode interactKey = KeyCode.E;
 
-    [Header("플레이어 소지 자원 (인스펙터 조절)")]
+    [Header("[더미 상태] 플레이어 소지 자원 설정")]
     [SerializeField] private BlockType holdingBlockType = BlockType.Wood;
     [SerializeField] private int handCount = 1;
+    [SerializeField] private int playerMaxCount = 3; // 플레이어가 최대 소지 가능한 수량
 
     private IInteractable currentTarget;
+    private TestCraftCart targetCraftCart; // 제작칸 전용 참조
     private Rigidbody _rb;
 
     private void Awake()
@@ -47,55 +49,102 @@ public class DummyPlayer : MonoBehaviour
 
     private void TestInteraction()
     {
-        if (currentTarget != null && Input.GetKeyDown(interactKey))
+        if (Input.GetKeyDown(interactKey))
         {
-            // 플레이어 손에 자원이 있는 경우 -> 화물칸에 자원 투입 (Push)
-            if (handCount > 0 && holdingBlockType != BlockType.None)
+            // 1. 타겟이 제작칸(TestCraftCart)인 경우
+            if (targetCraftCart != null)
             {
-                Debug.Log($"[재료 넣기 시도] 손에 든 자원: {holdingBlockType} ({handCount}개)");
-
-                // 1. 손에 든 자원 정보를 전달할 데이터 객체 생성
-                TestHandData handItem = new TestHandData(holdingBlockType, handCount);
-
-                // 2. 화물칸에 전달하고 결과(남은 자원) 받아오기
-                IInteractable result = currentTarget.ButtonInteract(handItem);
-
-                // 3. 결과 확인: 화물칸 용량이 모자라 손에 자원이 남은 경우 (result != null)
-                TestHandData remainItem = result as TestHandData;
-                if (remainItem != null)
+                // 1.1) 플레이어 손에 아이템이 들어있는 경우
+                if (handCount > 0 && holdingBlockType != BlockType.None)
                 {
-                    holdingBlockType = remainItem.BlockType;
-                    handCount = remainItem.Count;
-                    Debug.Log($"[재료 넣기] 손에 자원이 남았습니다: {holdingBlockType} ({handCount}개)");
+                    // 플레이어가 손에 들고 있는 아이템 더미 데이터 생성
+                    TestHandData handData = new TestHandData(holdingBlockType, handCount, playerMaxCount);
+
+                    // 제작칸에 손 데이터를 넘겨주고 상호작용 결과 받기
+                    IInteractable result = targetCraftCart.ButtonInteract(handData);
+                    TestHandData resultData = result as TestHandData;
+
+                    // 제작칸에서 처리 후 반환된 아이템 정보로 플레이어 손 데이터 갱신
+                    if (resultData != null)
+                    {
+                        holdingBlockType = resultData.BlockType;
+                        handCount = resultData.Count;
+                        Debug.Log($"[DummyPlayer] 플레이어 아이템 보유: {holdingBlockType} ({handCount}/{playerMaxCount}개)");
+                    }
                 }
-                
-                // 4. 전부 수납되어서 빈손이 된 경우 (result == null)
+                // 1.2) 플레이어가 빈손인 경우
                 else
                 {
-                    handCount = 0;
-                    Debug.Log("[재료 넣기] 화물칸에 모두 넣었습니다. (handCount = 0)");
+                    // 제작칸에 빈손(null)을 전달하여 레일을 받아옴
+                    IInteractable result = targetCraftCart.ButtonInteract(null);
+                    TestHandData resultData = result as TestHandData;
+
+                    // 제작칸에서 전달받은 레일 데이터가 있는 경우
+                    if (resultData != null)
+                    {
+                        holdingBlockType = resultData.BlockType;
+                        handCount = resultData.Count;
+                        Debug.Log($"[DummyPlayer] 레일 획득 성공: {holdingBlockType} ({handCount}/{playerMaxCount}개)");
+                    }
+                    else
+                    {
+                        Debug.Log("[DummyPlayer] 제작칸에 완성된 레일이 없습니다.");
+                    }
                 }
             }
-           
-            // [플레이어 손이 비어있는 경우 -> 화물칸에서 자원 회수 (Give)
-            else
+            
+            // 2. 타겟이 화물칸(TestCargoCart 등)인 경우
+            else if (currentTarget != null)
             {
-                Debug.Log("[재료 꺼내기 시도] 빈손 상태에서 재료를 꺼냅니다.");
-
-                // 1. 빈손(null)을 전달하여 화물칸 자원을 가져옴
-                IInteractable result = currentTarget.ButtonInteract(null);
-
-                // 2. 화물칸에서 꺼내온 자원이 있는 경우
-                TestHandData takenItem = result as TestHandData;
-                if (takenItem != null)
+                // 2.1) 플레이어가 손에 재료를 들고 있는 경우 -> 화물칸에 자원 투입(Push)
+                if (handCount > 0 && holdingBlockType != BlockType.None)
                 {
-                    holdingBlockType = takenItem.BlockType;
-                    handCount = takenItem.Count;
-                    Debug.Log($"[재료 꺼내기 성공] 화물칸에서 자원을 가져왔습니다: {holdingBlockType} ({handCount}개)");
+                    // 플레이어가 손에 들고 있는 아이템 더미 데이터 생성
+                    TestHandData handItem = new TestHandData(holdingBlockType, handCount, playerMaxCount);
+                    
+                    // 화물칸에 손 데이터를 넘겨주고 상호작용 결과 받기
+                    IInteractable result = currentTarget.ButtonInteract(handItem);
+                    TestHandData remainItem = result as TestHandData;
+                    
+                    // 화물칸 용량이 가득 차서 손에 자원이 일부 남은 경우
+                    if (remainItem != null)
+                    {
+                        holdingBlockType = remainItem.BlockType;
+                        handCount = remainItem.Count;
+                        Debug.Log($"[DummyPlayer] 화물칸에 공간이 부족해 재료가 남았습니다: {holdingBlockType} ({handCount}개)");
+                    }
+                    
+                    // 자원이 화물칸에 모두 전부 투입된 경우
+                    else
+                    {
+                        handCount = 0;
+                        holdingBlockType = BlockType.None;
+                        Debug.Log("[DummyPlayer] 화물칸에 모든 재료를 투입하여 빈손이 되었습니다.");
+                    }
                 }
+                
+                // 2.2) 플레이어 손이 비어있는 경우 -> 화물칸에서 자원 꺼내기 (Give)]
                 else
                 {
-                    Debug.Log("[꺼내기 실패] 화물칸이 비어있습니다.");
+                    // 버튼 상호작용을 null로 호출하여 전달하여 화물칸 자원 꺼내기 요청
+                    IInteractable result = currentTarget.ButtonInteract(null);
+                    // 화물칸에서 건네준 재료르 더미 데이터로 변환
+                    
+                    TestHandData takenItem = result as TestHandData;
+
+                    // 화물칸에서 재료를 꺼내온 경우
+                    if (takenItem != null)
+                    {
+                        // 화물칸에서 꺼낸 재료를 플레이어 손으로 전달
+                        holdingBlockType = takenItem.BlockType;
+                        handCount = takenItem.Count;
+                        Debug.Log($"[DummyPlayer] 화물칸에서 재료를 가져왔습니다: {holdingBlockType} ({handCount}개)");
+                    }
+                    // 화물칸에 재료가 없는 경우
+                    else
+                    {
+                        Debug.Log("[DummyPlayer] 화물칸에 보관된 자원이 없습니다.");
+                    }
                 }
             }
         }
@@ -103,41 +152,47 @@ public class DummyPlayer : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
+       
         IInteractable interactable = other.GetComponentInParent<IInteractable>();
 
         if (interactable != null)
         {
             currentTarget = interactable;
-            currentTarget.Targeted(); // 테두리 ON
-            Debug.Log($"[감지 범위 진입] {other.name} - 테두리 ON");
+            
+            currentTarget.Targeted(); 
+            
+            Debug.Log($"[DummyPlayer] {other.name} 감지");
         }
     }
-
     private void OnTriggerExit(Collider other)
     {
         IInteractable interactable = other.GetComponentInParent<IInteractable>();
 
+        
         if (interactable != null && interactable == currentTarget)
         {
-            currentTarget.Untargeted(); // 테두리 OFF
-            Debug.Log($"[감지 범위 이탈] {other.name} - 테두리 OFF");
+            currentTarget.Untargeted(); 
+            
+            Debug.Log($"[DummyPlayer] {other.name} 감지 범위 벗어남");
             currentTarget = null;
         }
     }
 }
 
 /// <summary>
-/// TestCargoCart의 PushResource에서 테스트용으로 인식시키기 위한 더미 데이터
+/// 테스트 환경 전용 아이템 전달용 데이터 클래스
 /// </summary>
 public class TestHandData : IInteractable
 {
     public BlockType BlockType { get; set; }
     public int Count { get; set; }
+    public int MaxCount { get; set; }
 
-    public TestHandData(BlockType type, int count)
+    public TestHandData(BlockType type, int count, int maxCount = 3)
     {
         BlockType = type;
         Count = count;
+        MaxCount = maxCount;
     }
 
     public void AddCount(int amount)
@@ -145,7 +200,6 @@ public class TestHandData : IInteractable
         Count += amount;
     }
 
-    // IInteractable 인터페이스 구현
     public GameObject GameObject => null;
     public void AutoInteract(IInteractable interactable) { }
     public IInteractable ButtonInteract(IInteractable interactable) => null;
