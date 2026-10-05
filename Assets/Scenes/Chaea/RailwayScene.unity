@@ -339,6 +339,17 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 4064652543926026422, guid: 21c8a6009ff8cff48b20039b48b95c9b, type: 3}
   m_PrefabInstance: {fileID: 1052790299}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &210943192 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6613565141411257461, guid: 21c8a6009ff8cff48b20039b48b95c9b, type: 3}
+  m_PrefabInstance: {fileID: 1052790299}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 210943188}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2e2909330fbe278458742546c6edfa1a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &211969452
 GameObject:
   m_ObjectHideFlags: 0
@@ -586,7 +597,7 @@ PrefabInstance:
     - target: {fileID: 5748123833252116884, guid: be303c68ac4519843b28a366df901aa7, type: 3}
       propertyPath: targetCargoCart
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 210943192}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -681,6 +692,14 @@ PrefabInstance:
       propertyPath: targetCraftCart
       value: 
       objectReference: {fileID: 1412287188}
+    - target: {fileID: 6613565141411257461, guid: 21c8a6009ff8cff48b20039b48b95c9b, type: 3}
+      propertyPath: currentIronCount
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6613565141411257461, guid: 21c8a6009ff8cff48b20039b48b95c9b, type: 3}
+      propertyPath: currentWoodCount
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7988488213466278496, guid: 21c8a6009ff8cff48b20039b48b95c9b, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
