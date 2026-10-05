@@ -25,8 +25,9 @@ public class CraftCart : Train, IInteractable
 
     private bool isCrafting = false;
 
-    public void Start()
+    protected override void OnEnable()
     {
+        Debug.Log("CraftCart : OnEnable");
         // 제작칸의 비주얼 상태 초기화
         UpdateCraftVisual();
 
@@ -38,6 +39,7 @@ public class CraftCart : Train, IInteractable
 
         // 게임시작시 자원을 갖고 시작할 경우 제작 시도
         TryCraft();
+        base.OnEnable();
     }
 
     /// <summary>
@@ -45,19 +47,37 @@ public class CraftCart : Train, IInteractable
     /// </summary>
     public void TryCraft()
     {
+        Debug.Log("TryCraft");
         // 1. 이미 제작 중이면 진행 안 함
-        if (isCrafting) return;
+        if (isCrafting)
+        {
+            Debug.Log("isCrafting");
+            return;
+        }
 
         // 2. 제작칸 보관함이 가득 차 있으면 진행 안 함
-        if (currentCraftCount >= maxRailStorage) return;
+        if (currentCraftCount >= maxRailStorage) 
+        {
+            Debug.Log("2. 제작칸 보관함이 가득 차 있으면 진행 안 함");
+            return;
+        }
 
         // 3. 연결된 화물칸이 없으면 진행 안 함
-        if (targetCargoCart == null) return;
+        if (targetCargoCart == null)
+        {
+            Debug.Log("3. 연결된 화물칸이 없으면 진행 안 함");
+            return;
+        }
 
         // 4. 자원 부족 시 진행 안 함 
-        if (targetCargoCart.CurrentWoodCount < 1 || targetCargoCart.CurrentIronCount < 1) return;
+        if (targetCargoCart.CurrentWoodCount < 1 || targetCargoCart.CurrentIronCount < 1)
+        {
+            Debug.Log("4. 자원 부족 시 진행 안 함 ");
+            return;
+        }
 
         // 조건을 만족하면 자원 소모 후 제작 코루틴 시작
+        Debug.Log("조건을 만족하면 자원 소모 후 제작 코루틴 시작");
         targetCargoCart.ConsumeResources(1, 1);
         StartCoroutine(CraftRoutine());
     }
@@ -195,6 +215,7 @@ public class CraftCart : Train, IInteractable
     /// </summary>
     private void UpdateCraftVisual()
     {
+        Debug.Log("UpdateCraftVisual");
         if (currentCraftCount > 0)
         {
             fullCartVisual.SetActive(true);

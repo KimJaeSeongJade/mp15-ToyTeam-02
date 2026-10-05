@@ -24,11 +24,12 @@ public class CargoCart : Train, IInteractable
     public GameObject GameObject => gameObject;
     public BlockType BlockType => BlockType.None;
 
-    public void Start()
+    protected override void OnEnable()
     {
+        base.OnEnable();
         // 화물차의 비주얼 상태 초기화
         UpdateResourceVisual();
-        
+        TryStartTargetCraft();
         // 테두리 끄기
         if (_outline != null)
         {
@@ -44,16 +45,17 @@ public class CargoCart : Train, IInteractable
         // 1. 플레이어가 손에 재료를 들고 있다면 아이템을 화물칸에 투입
         if (inPlayerHand != null)
         {
+            Debug.Log("상호작용 로직 들어옴");
             return PushResource(inPlayerHand);
         }
 
-        // 2. 플레이어가 빈손인 경우 화물칸에서 아이템을 꺼냄
-        return GiveResource();
+        return null;
     }
     
     /// <summary>
     /// 손에 든 아이템을 화물칸에 수납하고, 상호작용 후 플레이어 손에 남아있어야 할 재료를 반환합니다.
     /// </summary>
+    /// <returns> 상호작용 이후 플레이어가 들어야 할 IInteractable </returns>
     private IInteractable PushResource(IInteractable inPlayerHand)
     {
         // 손에 든 아이템이 MaterialBase 타입이 아니면 그대로 반환 (예외 방지)
@@ -200,6 +202,7 @@ public class CargoCart : Train, IInteractable
     {
         if (targetCraftCart != null)
         {
+            Debug.Log("TryStartTargetCraft");
             targetCraftCart.TryCraft();
         }
     }

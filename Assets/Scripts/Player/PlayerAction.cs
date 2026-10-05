@@ -80,17 +80,28 @@ public class PlayerAction : MonoBehaviour
 
         Vector2Int targetCoord = target.GameObject.transform.position.WorldToCoord();
 
-        bool canInteract = target.ButtonInteract(_hand.Item) != _hand.Item;
+
+        IInteractable newTarget = target.ButtonInteract(_hand.Item);
+        bool canInteract = newTarget != _hand.Item;
 
         if (canInteract)
         {
-            DropItem(targetCoord);
-            PickUpItem(target);
+            if (newTarget != target)
+            {
+                PickUpItem((newTarget));
+            }
+            else
+            {
+                DropItem(targetCoord);
+                PickUpItem(target);
+            }
         }
     }
 
     private void PickUpItem(IInteractable newInteractable)
     {
+        if (newInteractable == null) return;
+        
         _animator.SetLayerWeight(1, 1f);
         _hand.Item = newInteractable;
         _hand.Item.GameObject.transform.rotation = transform.rotation;
