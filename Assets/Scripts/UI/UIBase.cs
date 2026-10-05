@@ -13,6 +13,8 @@ public abstract class UIBase : MonoBehaviour
     // 비활성화시 UI이미지
     private Image _offImage;
 
+    private bool _isAllExist;
+
     protected virtual void Awake()
     {
         Init();
@@ -20,17 +22,28 @@ public abstract class UIBase : MonoBehaviour
 
     private void Init()
     {
-        _onImage = GetComponentsInChildren<Image>()[0];
-        _offImage = GetComponentsInChildren<Image>()[1];
-        
-        _onImage.gameObject.SetActive(false);
+        _isAllExist = false;
+        if (GetComponentsInChildren<Image>().Length > 1)
+        {
+            _onImage = GetComponentsInChildren<Image>()[0];
+            _offImage = GetComponentsInChildren<Image>()[1];
+            _isAllExist = true;
+            _onImage.gameObject.SetActive(false);
+        }
+        else if(GetComponentsInChildren<Image>().Length == 1)
+        {
+            _offImage = GetComponentsInChildren<Image>()[0];
+        }
     }
     // UI에 Enter시 OnImage활성화
     protected virtual void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.layer == 6)
+        if (other.gameObject.layer == 6 && _isAllExist)
         {
-            _onImage.gameObject.SetActive(true);
+            if (_isAllExist)
+            {
+                _onImage.gameObject.SetActive(true);
+            }
             _offImage.gameObject.SetActive(false);
         }
     }
@@ -41,14 +54,20 @@ public abstract class UIBase : MonoBehaviour
         if (other.gameObject.layer == 6)
         {
             _offImage.gameObject.SetActive(true);
-            _onImage.gameObject.SetActive(false);
+            if (_isAllExist)
+            {
+                _onImage.gameObject.SetActive(false);
+            }
         }
     }
 
     protected virtual void OnDisable()
     {
         _offImage.gameObject.SetActive(true);
-        _onImage.gameObject.SetActive(false);
+        if (_isAllExist)
+        {            
+            _onImage.gameObject.SetActive(false);
+        }
     }
 
     // 각 UI별 기능 작동
