@@ -17,6 +17,7 @@ public class MenuController : MonoBehaviour
     private UIConnector uiconnector;
 
     [SerializeField] private List<GameObject> _panel = new();
+
     private int _currenNum;
 
     // 지금 조작할 UI인지
