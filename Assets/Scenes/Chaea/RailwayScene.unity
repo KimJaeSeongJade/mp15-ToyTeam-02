@@ -581,7 +581,7 @@ PrefabInstance:
     - target: {fileID: 5748123833252116884, guid: be303c68ac4519843b28a366df901aa7, type: 3}
       propertyPath: targetCargoCart
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 1341623106}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -778,6 +778,17 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 1682531037008639311, guid: 0a337133de3acc84ba0374c331784891, type: 3}
   m_PrefabInstance: {fileID: 982524307}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1341623106 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8428799586173725068, guid: 0a337133de3acc84ba0374c331784891, type: 3}
+  m_PrefabInstance: {fileID: 982524307}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1341623102}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2e2909330fbe278458742546c6edfa1a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1408545518
 PrefabInstance:
   m_ObjectHideFlags: 0
