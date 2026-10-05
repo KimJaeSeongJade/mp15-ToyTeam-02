@@ -27,9 +27,9 @@ public class MapLoader : MonoBehaviour
         string gid = "0";
         string testRailGid = "1935130282";
         string testWFCGid = "1355842421";
-        // StartCoroutine(LoadMapDataRoutine(docId, gid));
+        StartCoroutine(LoadMapDataRoutine(docId, gid));
         // StartCoroutine(LoadMapDataRoutine(docId, testRailGid));
-        StartCoroutine(LoadMapDataRoutine(docId, testWFCGid));
+        // StartCoroutine(LoadMapDataRoutine(docId, testWFCGid));
     }
 
     private IEnumerator LoadMapDataRoutine(string docId, string gid)
