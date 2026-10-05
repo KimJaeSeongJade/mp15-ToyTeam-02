@@ -31,14 +31,11 @@ public class GameSceneManager : MonoBehaviour
     {
         if(!SceneManagerA.Instance._isPause && Input.GetKeyDown(_pauseKey))
         {
-            Debug.Log("멈춤");
-            StartCoroutine(OppenPause());
-            
+            StartCoroutine(OppenPause());            
         }
 
         //if(SceneManagerA.Instance._isPause && Input.GetKeyDown(_pauseKey))
         //{
-        //    Debug.Log("움직임");
         //    StartCoroutine(ClosePause());
         //}
     }
@@ -72,6 +69,21 @@ public class GameSceneManager : MonoBehaviour
             SceneManagerA.Instance.Continue();
             _pauseMenu.SetActive(false);           
         }
+    }
+
+    public void LoadTitleScene()
+    {
+        SceneManagerA.Instance.LoadTitleScene();
+    }
+
+    public void LoadGameScene()
+    {
+        SceneManagerA.Instance.LoadGameScene();
+    }
+
+    public void LoadTutorialScene()
+    {
+        SceneManagerA.Instance.LoadTutorialScene();
     }
 
     // 다른 씬 로드하면 파괴되는 싱글톤

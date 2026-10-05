@@ -42,7 +42,7 @@ public class PMenuController : MonoBehaviour
             }
         }
         _currenNum = 0;
-        _isSelect = false;
+        _isSelect = true;
         if (!_isSettingUI)
         {
             _panel[_currenNum].transform.Find("Image").GetComponent<Image>().enabled = true;            
@@ -127,9 +127,8 @@ public class PMenuController : MonoBehaviour
 
         GameObject currentPanel = _panel[_currenNum];
 
-        if (currentPanel.TryGetComponent<UnityEventInteractUI>(out UnityEventInteractUI eventUI))
-        {
-            _isSelect = false;
+        if (currentPanel.TryGetComponent<UnityEventPauseUI>(out UnityEventPauseUI eventUI))
+        {            
             eventUI.OnUIPressed.Invoke();
             yield break;
         }
@@ -140,15 +139,32 @@ public class PMenuController : MonoBehaviour
             {
                 uiconnector.ChildUI.gameObject.SetActive(true);
 
-                PMenuController childController = uiconnector.ChildUI.gameObject.GetComponentInChildren<PMenuController>();
-                               
-                childController._isSettingUI = true;
-                childController._isSelect = true;
-                childController._prevMenu = this;
-                childController._panel[0].transform.Find("Image").GetComponent<Image>().enabled = true;
+                if (uiconnector.ChildUI.gameObject.GetComponentInChildren<PMenuController>())
+                {
+                    Debug.Log("피메뉴들어옴");
+                    PMenuController childController = uiconnector.ChildUI.gameObject.GetComponentInChildren<PMenuController>();
 
-                SceneManagerA.Instance._isSelectNow = true;                    
-                _isSelect = false;
+                    childController._isSettingUI = true;
+                    childController._isSelect = true;
+                    childController._prevMenu = this;
+                    childController._panel[0].transform.Find("Image").GetComponent<Image>().enabled = true;
+
+
+                    SceneManagerA.Instance._isSelectNow = true;
+                    _isSelect = false;
+                }
+
+                else if (uiconnector.ChildUI.gameObject.GetComponentInChildren<UnityEventPauseUI>(true))
+                {
+                    Debug.Log("이벤트들어옴");
+                    UnityEventPauseUI childUI = uiconnector.ChildUI.gameObject.GetComponentInChildren<UnityEventPauseUI>();
+                    childUI.gameObject.SetActive(true);
+                    childUI.SetPrevMenu(this);
+                    childUI.SetSelect(true);
+
+                    SceneManagerA.Instance._isSelectNow = true;
+                    _isSelect = false;
+                }
             }
         }
     }

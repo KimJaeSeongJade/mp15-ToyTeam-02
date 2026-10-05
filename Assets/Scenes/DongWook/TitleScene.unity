@@ -11687,8 +11687,8 @@ MonoBehaviour:
   _onUIPressed:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1290161805}
-        m_TargetAssemblyTypeName: SceneManagerA, Assembly-CSharp
+      - m_Target: {fileID: 265411020}
+        m_TargetAssemblyTypeName: TitleSceneManager, Assembly-CSharp
         m_MethodName: LoadGameScene
         m_Mode: 1
         m_Arguments:
@@ -16729,8 +16729,8 @@ MonoBehaviour:
   _onUIPressed:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1290161805}
-        m_TargetAssemblyTypeName: SceneManagerA, Assembly-CSharp
+      - m_Target: {fileID: 265411020}
+        m_TargetAssemblyTypeName: TitleSceneManager, Assembly-CSharp
         m_MethodName: LoadTutorialScene
         m_Mode: 1
         m_Arguments:

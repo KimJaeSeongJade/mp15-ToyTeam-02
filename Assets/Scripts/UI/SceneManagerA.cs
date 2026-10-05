@@ -48,16 +48,19 @@ public class SceneManagerA : MonoBehaviour
 
     public void LoadTitleScene()
     {
+        Continue();
         SceneManager.LoadScene(1);
     }
 
     public void LoadGameScene()
     {
+        Continue();
         SceneManager.LoadScene(2);
     }
 
     public void LoadTutorialScene()
     {
+        Continue();
         SceneManager.LoadScene(3);
     }
 

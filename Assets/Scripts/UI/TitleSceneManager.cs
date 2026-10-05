@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 /// <summary>
 /// TitleScene관리 매니저
@@ -70,7 +71,22 @@ public class TitleSceneManager : MonoBehaviour
             _settingUI.SetActive(false);
         }
     }
-        
+
+    public void LoadTitleScene()
+    {
+        SceneManagerA.Instance.LoadTitleScene();
+    }
+
+    public void LoadGameScene()
+    {
+        SceneManagerA.Instance.LoadGameScene();
+    }
+
+    public void LoadTutorialScene()
+    {
+        SceneManagerA.Instance.LoadTutorialScene();
+    }
+
     public void ChangeScreenMode(int value)
     {
         SceneManagerA.Instance.ChangeScreenMode(value);
