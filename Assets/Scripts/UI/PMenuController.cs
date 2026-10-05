@@ -45,11 +45,7 @@ public class PMenuController : MonoBehaviour
         _isSelect = false;
         if (!_isSettingUI)
         {
-            _panel[_currenNum].transform.Find("Image").GetComponent<Image>().enabled = true;
-            if (_panel[_currenNum].TryGetComponent<UIConnector>(out uiconnector))
-            {
-                uiconnector.ChildUI.gameObject.SetActive(true);
-            }
+            _panel[_currenNum].transform.Find("Image").GetComponent<Image>().enabled = true;            
         }
     }
 
@@ -63,8 +59,7 @@ public class PMenuController : MonoBehaviour
     }
 
     private void Update()
-    {
-        
+    {        
         if (_isSelect)
         {
             if (Input.GetKeyDown(_upKey))
@@ -105,16 +100,10 @@ public class PMenuController : MonoBehaviour
         if (_currenNum > 0)
         {
             _panel[_currenNum].transform.Find("Image").GetComponent<Image>().enabled = false;
-            if(_panel[_currenNum].TryGetComponent<UIConnector>(out uiconnector))
-            {
-                uiconnector.ChildUI.gameObject.SetActive(false);
-            }
+           
             _currenNum--;
             _panel[_currenNum].transform.Find("Image").GetComponent<Image>().enabled = true;
-            if (_panel[_currenNum].TryGetComponent<UIConnector>(out uiconnector))
-            {
-                uiconnector.ChildUI.gameObject.SetActive(true);
-            }
+            
         }
     }
 
@@ -123,16 +112,10 @@ public class PMenuController : MonoBehaviour
         if (_currenNum < _panel.Count - 1)
         {
             _panel[_currenNum].transform.Find("Image").GetComponent<Image>().enabled = false;
-            if (_panel[_currenNum].TryGetComponent<UIConnector>(out uiconnector))
-            {
-                uiconnector.ChildUI.gameObject.SetActive(false);
-            }
+            
             _currenNum++;
             _panel[_currenNum].transform.Find("Image").GetComponent<Image>().enabled = true;
-            if (_panel[_currenNum].TryGetComponent<UIConnector>(out uiconnector))
-            {
-                uiconnector.ChildUI.gameObject.SetActive(true);
-            }
+          
         }
     }
 
@@ -141,25 +124,45 @@ public class PMenuController : MonoBehaviour
     private IEnumerator In()
     {
         yield return null;
+        Debug.Log($"현재 컨트롤러: {gameObject.name}");
+
+        if(_panel[_currenNum].GetComponent<UnityEventInteractUI>())
+        {
+            _panel[_currenNum].GetComponent<UnityEventInteractUI>().OnUIPressed.Invoke();
+            yield break;
+        }
+
         if (!_isSettingUI)
         {
             uiconnector.ChildUI.gameObject.GetComponentInChildren<PMenuController>()._isSettingUI = true;
             uiconnector.ChildUI.gameObject.GetComponentInChildren<PMenuController>()._isSelect = true;
             uiconnector.ChildUI.gameObject.GetComponentInChildren<PMenuController>()._prevMenu = gameObject.GetComponent<PMenuController>();
             uiconnector.ChildUI.gameObject.GetComponentInChildren<PMenuController>()._panel[0].transform.Find("Image").GetComponent<Image>().enabled = true;
-            
+
+            if (_panel[_currenNum].TryGetComponent<UIConnector>(out uiconnector))
+            {
+                uiconnector.ChildUI.gameObject.SetActive(true);
+            }
+
             SceneManagerA.Instance._isSelectNow = true;
             _isSelect = false;
+            Debug.Log($"넘어간 컨트롤러: {gameObject.name}");
         }
     }
 
     // 설정조작UI에서 나옴
     private void Out()
     {
+        Debug.Log($"현재 컨트롤러: {gameObject.name}");
         SceneManagerA.Instance._isSelectNow = false;
         _panel[_currenNum].transform.Find("Image").GetComponent<Image>().enabled = false;
+        if (_panel[_currenNum].TryGetComponent<UIConnector>(out uiconnector))
+        {
+            uiconnector.ChildUI.gameObject.SetActive(false);
+        }
         _isSelect = false;
         _prevMenu._isSelect = true;
+        Debug.Log($"넘어간 컨트롤러: {gameObject.name}");
     }
 
     // Silder면 value조절, LRUI면 좌우 넘기기

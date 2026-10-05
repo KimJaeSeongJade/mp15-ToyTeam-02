@@ -26,6 +26,9 @@ public class SceneManagerA : MonoBehaviour
     private int _screenModeNum;
     private int _resolutionNum;
 
+    // 게임이 멈춰있는지
+    public bool _isPause;
+
     //TitleScene
     public bool _isSelectNow;
 
@@ -33,6 +36,12 @@ public class SceneManagerA : MonoBehaviour
     private void Awake()
     {
         SetSingleton();
+        Init();
+    }
+
+    private void Init()
+    {
+        _isPause = false;
         _screenModeNum = 1;
         _resolutionNum = 1;
     }

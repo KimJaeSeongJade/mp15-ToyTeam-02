@@ -29,9 +29,48 @@ public class GameSceneManager : MonoBehaviour
 
     private void Update()
     {
-        if(Input.GetKeyDown(_pauseKey))
+        if(!SceneManagerA.Instance._isPause && Input.GetKeyDown(_pauseKey))
         {
-            OppenPause();
+            Debug.Log("멈춤");
+            StartCoroutine(OppenPause());
+            
+        }
+
+        if(SceneManagerA.Instance._isPause && Input.GetKeyDown(_pauseKey))
+        {
+            Debug.Log("움직임");
+            StartCoroutine(ClosePause());
+        }
+    }
+
+    // ClosePause와 키가 동시에 눌려 코루틴으로 사용
+    private IEnumerator OppenPause()
+    {
+        yield return null;
+        SceneManagerA.Instance.Pause();
+        SceneManagerA.Instance._isPause = true;
+        _pauseMenu.SetActive(true);
+        _pauseMenu.GetComponent<PMenuController>()._isSelect = true;
+    }
+
+    private IEnumerator ClosePause()
+    {
+        if (!SceneManagerA.Instance._isSelectNow)
+        {
+            SceneManagerA.Instance._isPause = false;
+            SceneManagerA.Instance.Continue();
+            _pauseMenu.SetActive(false);
+            yield return null;
+        }
+    }
+
+    public void ClosePause2()
+    {
+        if (!SceneManagerA.Instance._isSelectNow)
+        {
+            SceneManagerA.Instance._isPause = false;
+            SceneManagerA.Instance.Continue();
+            _pauseMenu.SetActive(false);           
         }
     }
 
@@ -46,14 +85,7 @@ public class GameSceneManager : MonoBehaviour
         {
             Instance = this;
         }
-    }
-
-    private void OppenPause()
-    {
-        SceneManagerA.Instance.Pause();
-        _pauseMenu.SetActive(true);
-        _pauseMenu.GetComponent<PMenuController>()._isSelect = true;
-    }
+    }    
 
     private void Init()
     {

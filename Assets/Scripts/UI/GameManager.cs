@@ -59,7 +59,7 @@ public class GameManager : MonoBehaviour
     private void PlayStart()
     {
         _playTime += Time.deltaTime;
-        Debug.Log(_playTime);
+        //Debug.Log(_playTime);
     }
 
     private void Init()
