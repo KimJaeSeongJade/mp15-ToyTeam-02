@@ -24,7 +24,6 @@ public class Train : MonoBehaviour
 
     protected virtual void OnEnable()
     {
-        Debug.Log("Train : OnEnable");
         StartCoroutine(TrainDepartRoutine());
     }
     
@@ -53,7 +52,6 @@ public class Train : MonoBehaviour
 
     private void Init()
     {
-        Debug.Log("Train : Init");
         _splineAnimate.enabled = false;
         BindRailEvents();
     }

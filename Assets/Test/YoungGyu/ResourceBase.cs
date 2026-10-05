@@ -53,7 +53,6 @@ public abstract class ResourceBase : MonoBehaviour, IInteractable, IPoolable
     {
         if (interactable.BlockType == ToolType)
         {
-            Debug.Log("RockResource : AutoInteract");
             ProcessMining();
         }
     }
@@ -61,7 +60,6 @@ public abstract class ResourceBase : MonoBehaviour, IInteractable, IPoolable
     private void ProcessMining()
     {
         _isMining = true;
-        Debug.Log("Resource : ProcessMining");
         
     }
 

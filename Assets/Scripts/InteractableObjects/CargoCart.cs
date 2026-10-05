@@ -45,7 +45,6 @@ public class CargoCart : Train, IInteractable
         // 1. 플레이어가 손에 재료를 들고 있다면 아이템을 화물칸에 투입
         if (inPlayerHand != null)
         {
-            Debug.Log("상호작용 로직 들어옴");
             return PushResource(inPlayerHand);
         }
 
@@ -202,7 +201,6 @@ public class CargoCart : Train, IInteractable
     {
         if (targetCraftCart != null)
         {
-            Debug.Log("TryStartTargetCraft");
             targetCraftCart.TryCraft();
         }
     }
