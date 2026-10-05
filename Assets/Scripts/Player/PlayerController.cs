@@ -17,8 +17,6 @@ public class PlayerController : MonoBehaviour
     private Vector3 _direction;
     private bool _isDetecting;
     private List<IInteractable> _detecteds => _detectRange.Detecteds;
-    private List<IInteractable> _canTargetList;
-    private Dictionary<IInteractable, float> _canTargetDict;
     private IInteractable _target;
     private KeyCode _moveUp = KeyCode.W;
     private KeyCode _moveDown = KeyCode.S;
@@ -31,7 +29,6 @@ public class PlayerController : MonoBehaviour
     private bool _isPressedInteractKey => Input.GetKeyDown(_interactKey);
 
     // ------------------------------
-    private void Start() => Init();
     private void FixedUpdate()
     {
         _player.Move(_direction);
@@ -94,7 +91,9 @@ public class PlayerController : MonoBehaviour
 
     private void TryDetectInteractable()
     {
-        Debug.Log("tryDetect");
+        List<IInteractable> _canTargetList = new();
+        Dictionary<IInteractable, float> _canTargetDict = new();
+
         foreach (IInteractable detected in _detecteds)
         {
             Vector3 playerDirection = transform.forward;
@@ -130,8 +129,8 @@ public class PlayerController : MonoBehaviour
         }
 
 
-        // 이미 손에 든 오브젝트, 비활성화된 오브젝트를 타겟에서 제외
-        if (_playerHand.Item == target || target != null && target.GameObject.activeSelf == false)
+        // 비활성화된 오브젝트를 타겟에서 제외
+        if (target != null && target.GameObject.activeSelf == false)
         {
             target = null;
         }
@@ -160,11 +159,5 @@ public class PlayerController : MonoBehaviour
     private void AutoInteract()
     {
         _player.TryAutoInteract(_target);
-    }
-
-    private void Init()
-    {
-        _canTargetList = new();
-        _canTargetDict = new();
     }
 }
