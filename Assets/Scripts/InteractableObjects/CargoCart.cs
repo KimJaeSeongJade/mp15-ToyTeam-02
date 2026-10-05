@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class CargoCart : Train
 {
-    [Header("연결할 제작칸")]
+    [Header("제작칸 연결")]
     [SerializeField] private CraftCart targetCraftCart;  // 자원을 전달할 제작칸
 
     [Header("상태에 따른 화물칸 메쉬")]

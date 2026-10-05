@@ -9,7 +9,7 @@ public class CraftCart : Train
 
     [Header("상태에 따른 제작칸 메쉬")]
     [SerializeField] private GameObject emptyCartVisual;   // 대기 상태 시 활성화할 메쉬
-    [SerializeField] private GameObject craftingCartVisual;// 제작 중일 때 활성화할 메쉬
+    [SerializeField] private GameObject fullCartVisual;    // 레일 보유 시 활성화할 메쉬
 
     [Header("제작 설정")]
     [SerializeField] private float craftTime = 3.0f;       // 레일 1개 제작 소요 시간
@@ -209,15 +209,15 @@ public class CraftCart : Train
     /// </summary>
     private void UpdateCraftVisual()
     {
-        if (isCrafting)
+        if (currentCraftCount > 0)
         {
-            if (craftingCartVisual != null) craftingCartVisual.SetActive(true);
-            if (emptyCartVisual != null) emptyCartVisual.SetActive(false);
+            fullCartVisual.SetActive(true);
+            emptyCartVisual.SetActive(false);
         }
-        else
+        else 
         {
-            if (craftingCartVisual != null) craftingCartVisual.SetActive(false);
-            if (emptyCartVisual != null) emptyCartVisual.SetActive(true);
+            fullCartVisual.SetActive(false);
+            emptyCartVisual.SetActive(true);
         }
     }
     
