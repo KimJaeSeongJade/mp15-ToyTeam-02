@@ -1,4 +1,3 @@
-using Cysharp.Threading.Tasks;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -15,10 +14,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private PlayerAction _player;
     [SerializeField] private DetectRange _detectRange;
     private Vector3 _direction;
-    private bool _isDetecting;
     private List<IInteractable> _detecteds => _detectRange.Detecteds;
-    private List<IInteractable> _canTargetList;
-    private Dictionary<IInteractable, float> _canTargetDict;
     private IInteractable _target;
     private KeyCode _moveUp = KeyCode.W;
     private KeyCode _moveDown = KeyCode.S;
@@ -31,7 +27,6 @@ public class PlayerController : MonoBehaviour
     private bool _isPressedInteractKey => Input.GetKeyDown(_interactKey);
 
     // ------------------------------
-    private void Start() => Init();
     private void FixedUpdate()
     {
         _player.Move(_direction);
@@ -40,7 +35,7 @@ public class PlayerController : MonoBehaviour
     {
         ReadMove();
         ReadDash();
-        Detect().Forget();
+        TryDetectInteractable();
         ReadInteract();
         AutoInteract();
     }
@@ -81,19 +76,12 @@ public class PlayerController : MonoBehaviour
 
         _player.Dash();
     }
-
-    private async UniTaskVoid Detect()
-    {
-        if (_isDetecting) return;
-
-        _isDetecting = true;
-        TryDetectInteractable();
-        await UniTask.Delay(TimeSpan.FromSeconds(0.2f));
-        _isDetecting = false;
-    }
-
+    
     private void TryDetectInteractable()
     {
+        List<IInteractable> canTargetList = new();
+        Dictionary<IInteractable, float> canTargetDict = new();
+
         foreach (IInteractable detected in _detecteds)
         {
             Vector3 playerDirection = transform.forward;
@@ -104,23 +92,23 @@ public class PlayerController : MonoBehaviour
             RaycastHit hit;
             if (!Physics.Raycast(ray, out hit, _detectRange.Range)) continue;
             
-            if (lookPercentage >= THRESHOLD && hit.transform.GetComponent<IInteractable>() == detected && detected != GetComponentInChildren<PlayerHand>().Item)
+            if (lookPercentage >= THRESHOLD && hit.transform.GetComponent<IInteractable>() == detected && detected != _playerHand.Item)
             {
-                if (!_canTargetList.Contains(detected)) _canTargetList.Add(detected);
-                _canTargetDict.TryAdd(detected, lookPercentage);
+                if (!canTargetList.Contains(detected)) canTargetList.Add(detected);
+                canTargetDict.TryAdd(detected, lookPercentage);
             }
             else
             {
-                if (_canTargetList.Contains(detected)) _canTargetList.Remove(detected);
-                if (_canTargetDict.ContainsKey(detected)) _canTargetDict.Remove(detected);
+                if (canTargetList.Contains(detected)) canTargetList.Remove(detected);
+                if (canTargetDict.ContainsKey(detected)) canTargetDict.Remove(detected);
             }
         }
 
         IInteractable target = null;
         float targetLookPercentage = -1;
-        foreach(IInteractable canTarget in _canTargetList)
+        foreach(IInteractable canTarget in canTargetList)
         {
-            float canTargetLookPercentage = _canTargetDict[canTarget];
+            float canTargetLookPercentage = canTargetDict[canTarget];
             if(canTargetLookPercentage > targetLookPercentage)
             {
                 target = canTarget;
@@ -129,8 +117,8 @@ public class PlayerController : MonoBehaviour
         }
 
 
-        // 이미 손에 든 오브젝트, 비활성화된 오브젝트를 타겟에서 제외
-        if (_playerHand.Item == target || target != null && target.GameObject.activeSelf == false)
+        // 비활성화된 오브젝트를 타겟에서 제외
+        if (target == _playerHand.Item || target != null && target.GameObject.activeSelf == false)
         {
             target = null;
         }
@@ -159,11 +147,5 @@ public class PlayerController : MonoBehaviour
     private void AutoInteract()
     {
         _player.TryAutoInteract(_target);
-    }
-
-    private void Init()
-    {
-        _canTargetList = new();
-        _canTargetDict = new();
     }
 }

@@ -148,6 +148,7 @@ public class PlayerAction : MonoBehaviour
                 }
             }
 
+            _hand.Item.GameObject.layer = 0;
             _hand.Item.GameObject.transform.rotation = Quaternion.identity;
             _hand.ItemPosition = position.CoordToWorld();
             _hand.ItemParent = null;
