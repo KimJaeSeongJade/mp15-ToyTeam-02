@@ -1,3 +1,5 @@
+using Cysharp.Threading.Tasks;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -13,6 +15,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private PlayerAction _player;
     [SerializeField] private DetectRange _detectRange;
     private Vector3 _direction;
+    private bool _isDetecting;
     private List<IInteractable> _detecteds => _detectRange.Detecteds;
     private List<IInteractable> _canTargetList;
     private Dictionary<IInteractable, float> _canTargetDict;
@@ -37,7 +40,7 @@ public class PlayerController : MonoBehaviour
     {
         ReadMove();
         ReadDash();
-        DetectInteractable();
+        Detect().Forget();
         ReadInteract();
         AutoInteract();
     }
@@ -79,8 +82,19 @@ public class PlayerController : MonoBehaviour
         _player.Dash();
     }
 
-    private void DetectInteractable()
+    private async UniTaskVoid Detect()
     {
+        if (_isDetecting) return;
+
+        _isDetecting = true;
+        TryDetectInteractable();
+        await UniTask.Delay(TimeSpan.FromSeconds(0.2f));
+        _isDetecting = false;
+    }
+
+    private void TryDetectInteractable()
+    {
+        Debug.Log("tryDetect");
         foreach (IInteractable detected in _detecteds)
         {
             Vector3 playerDirection = transform.forward;
