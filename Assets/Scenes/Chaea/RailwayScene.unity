@@ -339,35 +339,6 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 4064652543926026422, guid: 21c8a6009ff8cff48b20039b48b95c9b, type: 3}
   m_PrefabInstance: {fileID: 1052790299}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &210943192 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 7814855548972353627, guid: 21c8a6009ff8cff48b20039b48b95c9b, type: 3}
-  m_PrefabInstance: {fileID: 1052790299}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 210943188}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2e2909330fbe278458742546c6edfa1a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &210943194
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 210943188}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5fea29bb7c508c244a1f805a5fd3fc4d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  outlineMode: 0
-  outlineColor: {r: 1, g: 0, b: 0, a: 1}
-  outlineWidth: 10
-  precomputeOutline: 0
-  bakeKeys: []
-  bakeValues: []
 --- !u!1 &211969452
 GameObject:
   m_ObjectHideFlags: 0
@@ -615,7 +586,7 @@ PrefabInstance:
     - target: {fileID: 5748123833252116884, guid: be303c68ac4519843b28a366df901aa7, type: 3}
       propertyPath: targetCargoCart
       value: 
-      objectReference: {fileID: 210943192}
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -702,11 +673,11 @@ PrefabInstance:
       propertyPath: m_Target
       value: 
       objectReference: {fileID: 1195103907}
-    - target: {fileID: 7814855548972353627, guid: 21c8a6009ff8cff48b20039b48b95c9b, type: 3}
+    - target: {fileID: 6613565141411257461, guid: 21c8a6009ff8cff48b20039b48b95c9b, type: 3}
       propertyPath: _splineManager
       value: 
       objectReference: {fileID: 1195103906}
-    - target: {fileID: 7814855548972353627, guid: 21c8a6009ff8cff48b20039b48b95c9b, type: 3}
+    - target: {fileID: 6613565141411257461, guid: 21c8a6009ff8cff48b20039b48b95c9b, type: 3}
       propertyPath: targetCraftCart
       value: 
       objectReference: {fileID: 1412287188}
@@ -753,10 +724,7 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 4064652543926026422, guid: 21c8a6009ff8cff48b20039b48b95c9b, type: 3}
-      insertIndex: 3
-      addedObject: {fileID: 210943194}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 21c8a6009ff8cff48b20039b48b95c9b, type: 3}
 --- !u!1 &1166436890 stripped
 GameObject:

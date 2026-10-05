@@ -87,6 +87,7 @@ public class PlayerController : MonoBehaviour
             Vector3 playerDirection = transform.forward;
             Vector3 toDetectedDirection = (detected.GameObject.transform.position - transform.position).normalized;
             float lookPercentage = Vector3.Dot(toDetectedDirection, playerDirection);
+            Debug.Log(lookPercentage);
 
             Ray ray = new Ray(transform.position, toDetectedDirection);
             RaycastHit hit;
