@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TestCraftCart : Train
+public class TestCraftCart : Train, IInteractable
 {
     [Header("화물칸 연결")]
     [SerializeField] private TestCargoCart targetCargoCart;    // 자원을 가져올 화물칸 (테스트용)
@@ -19,6 +19,10 @@ public class TestCraftCart : Train
     // 외부 참조용 프로퍼티
     public int CurrentCraftCount => currentCraftCount;
     public bool IsCrafting => isCrafting;
+
+    public GameObject GameObject => gameObject;
+
+    public BlockType BlockType => BlockType.None;
 
     private bool isCrafting = false;
     
@@ -120,7 +124,7 @@ public class TestCraftCart : Train
     /// </summary>
     /// <param name="inPlayerHand">플레이어가 손에 들고 있는 아이템 데이터</param>
     /// <returns>상호작용 후 플레이어 손에 전달/누적될 데이터</returns>
-    public override IInteractable ButtonInteract(IInteractable inPlayerHand)
+    public IInteractable ButtonInteract(IInteractable inPlayerHand)
     {
         // 1. 제작칸에 완성된 레일이 없으면 그대로 반환
         if (currentCraftCount <= 0)
@@ -214,7 +218,7 @@ public class TestCraftCart : Train
     /// <summary>
     /// 플레이어가 접근하여 상호작용 가능한 경우 테두리 표시
     /// </summary>
-    public override void Targeted()
+    public void Targeted()
     {
         if (_outline != null)
         {
@@ -222,11 +226,16 @@ public class TestCraftCart : Train
         }
     }
     
-    public override void Untargeted()
+    public void Untargeted()
     {
         if (_outline != null)
         {
             _outline.enabled = false;
         }
+    }
+
+    public void AutoInteract(IInteractable interactable)
+    {
+        throw new System.NotImplementedException();
     }
 }

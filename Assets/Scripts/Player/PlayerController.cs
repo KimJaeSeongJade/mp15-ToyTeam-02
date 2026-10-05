@@ -83,6 +83,7 @@ public class PlayerController : MonoBehaviour
     {
         foreach (IInteractable detected in _detecteds)
         {
+            Debug.Log(detected.GameObject.name);
             Vector3 playerDirection = transform.forward;
             Vector3 toDetectedDirection = (detected.GameObject.transform.position - transform.position).normalized;
             float lookPercentage = Vector3.Dot(toDetectedDirection, playerDirection);
