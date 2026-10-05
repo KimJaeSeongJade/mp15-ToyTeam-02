@@ -17,9 +17,6 @@ public class Map : MonoBehaviour
     /// </summary>
     public static Map Instance;
 
-    private int[,] _worldMap;
-    private IInteractable[,] _holdableMap;
-
     private void Awake()
     {
         SetSingleton();
@@ -71,16 +68,6 @@ public class Map : MonoBehaviour
         int chunkIndex = GetChunkIndex(coord);
         Vector2Int chunkCoord = GetChunkCoord(coord);
         _chunkManager.Chunks[chunkIndex].SetHoldable(chunkCoord, interactable);
-    }
-
-    /// <summary>
-    /// 맵 데이터 저장
-    /// </summary>
-    /// <param name="mapData"> 맵 데이터 </param>
-    public void SetMapData(int[,] mapData)
-    {
-        _worldMap = mapData;
-        _holdableMap = new IInteractable[mapData.GetLength(0), mapData.GetLength(1)];
     }
 
     /// <summary>

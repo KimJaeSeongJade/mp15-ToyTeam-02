@@ -45,7 +45,6 @@ public class MapLoader : MonoBehaviour
         }
 
         ParseMapData(www.downloadHandler.text);
-        Map.Instance.SetMapData(_worldMap);
         OnMapReady?.Invoke();
         CanLoadMap = true;
     }
