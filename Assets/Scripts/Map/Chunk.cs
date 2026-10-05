@@ -28,7 +28,6 @@ public class Chunk : MonoBehaviour
     /// <param name="atlasSize"></param>
     public void SetChunkData(int chunkIndex, SplineManager splineManager, int[,] chunkMap, UnityEngine.Material material, float textureSize, float atlasSize)
     {
-        Debug.Log("Chunk : SetChunkData");
         _chunkIndex = chunkIndex;
         _splineManager = splineManager;
         _chunkMap = chunkMap;
@@ -80,10 +79,8 @@ public class Chunk : MonoBehaviour
                         Map.Instance.SetHoldable(coord, newPoolable as IInteractable);
                     }
                 }
-                else
-                {
-                    AddLoadedPoolable(newPoolable);
-                }
+
+                AddLoadedPoolable(newPoolable);
             }
         }
     }

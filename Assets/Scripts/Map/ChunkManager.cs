@@ -64,7 +64,8 @@ public class ChunkManager : MonoBehaviour
 
     private void LoadChunk(int chunkIndex)
     {
-        Debug.Log(chunkIndex);
+        if (_chunkPool.Count == 0) return;
+
         Chunk chunk = _chunkPool.Dequeue();
 
         int[,] chunkMap = WorldMapToChunkMap(chunkIndex);
@@ -82,6 +83,8 @@ public class ChunkManager : MonoBehaviour
 
     private void LoadInvisibleWall(int chunkIndex)
     {
+        if (_invisibleWallPool.Count == 0) return;
+
         GameObject invisibleWallTop = _invisibleWallPool.Dequeue();
         GameObject invisibleWallBottom = _invisibleWallPool.Dequeue();
 
@@ -98,6 +101,8 @@ public class ChunkManager : MonoBehaviour
 
     private void RemoveOldestChunk()
     {
+        if (_loadedChunks.Count == 0) return;
+
         Chunk chunk = _loadedChunks.Dequeue();
         _chunks.Remove(chunk.ChunkIndex);
 
@@ -109,6 +114,8 @@ public class ChunkManager : MonoBehaviour
 
     private void RemoveOldestInvisibleWalls()
     {
+        if (_loadedInvisibleWalls.Count == 0) return;
+
         GameObject invisibleWallTop = _loadedInvisibleWalls.Dequeue();
         GameObject invisibleWallBottom = _loadedInvisibleWalls.Dequeue();
 
@@ -177,7 +184,6 @@ public class ChunkManager : MonoBehaviour
                 }
             }
         }
-        Debug.Log(chunkMap);
         return chunkMap;
     }
 

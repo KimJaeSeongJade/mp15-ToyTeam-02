@@ -101,7 +101,10 @@ public class PlayerAction : MonoBehaviour
     private void PickUpItem(IInteractable newInteractable)
     {
         if (newInteractable == null) return;
-        
+
+        // 제거했으니 로드된 청크에서 제거
+        Map.Instance.RemoveLoadedPoolable(newInteractable as IPoolable);
+
         _animator.SetLayerWeight(1, 1f);
         _hand.Item = newInteractable;
         _hand.Item.GameObject.transform.rotation = transform.rotation;
@@ -152,9 +155,13 @@ public class PlayerAction : MonoBehaviour
             _hand.Item.GameObject.transform.rotation = Quaternion.identity;
             _hand.ItemPosition = position.CoordToWorld();
             _hand.ItemParent = null;
+
+            // 배치했으니 로드된 청크에 저장
+            Map.Instance.AddLoadedPoolable(_hand.Item as IPoolable);
         }
 
         Map.Instance.SetHoldable(position, _hand.Item);
+
         _hand.Item = null;
     }
 
