@@ -14,14 +14,20 @@ public class Train : MonoBehaviour
     /// <summary>
     /// 열차 속도
     /// </summary>
-    public static float MaxTrainSpeed = 0.1f;
+    public static float MaxTrainSpeed = 1f;
 
     private WaitForSeconds _wait = new WaitForSeconds(2f);
     private bool _isRailwayConnected;
 
     // -----------------------------
     private void Awake() => Init();
-    private void OnEnable() => StartCoroutine(TrainDepartRoutine());
+
+    protected virtual void OnEnable()
+    {
+        Debug.Log("Train : OnEnable");
+        StartCoroutine(TrainDepartRoutine());
+    }
+    
     private void OnDestroy() => UnbindRailEvents();
     // -----------------------------
 
@@ -47,6 +53,7 @@ public class Train : MonoBehaviour
 
     private void Init()
     {
+        Debug.Log("Train : Init");
         _splineAnimate.enabled = false;
         BindRailEvents();
     }
