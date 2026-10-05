@@ -572,7 +572,7 @@ MonoBehaviour:
   moveSpeed: 5
   interactKey: 101
   holdingBlockType: 8
-  holdingCount: 1
+  handCount: 1
 --- !u!1001 &2058291042268522697
 PrefabInstance:
   m_ObjectHideFlags: 0
