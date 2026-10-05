@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
-/// 좌우로 텍스트를 넘기는 UI
+/// 창모드 관리 LR UI
 /// </summary>
 public class LRScreenModeUI : MonoBehaviour
 {
@@ -15,13 +15,15 @@ public class LRScreenModeUI : MonoBehaviour
         _currentNum = SceneManagerA.Instance.ScreenModeNum;
         RefreshUI();
     }
-
+        
     public void ChangePage(int value)
     {
         int next = _currentNum + value;
 
         if (next < 0 || next >= _text.Length)
+        {
             return;
+        }
 
         _currentNum = next;
 
@@ -34,7 +36,14 @@ public class LRScreenModeUI : MonoBehaviour
     {
         for (int i = 0; i < _text.Length; i++)
         {
-            _text[i].SetActive(i == _currentNum);
+            if (i == _currentNum)
+            {
+                _text[i].SetActive(true);
+            }
+            else
+            {
+                _text[i].SetActive(false);
+            }
         }
     }
 }

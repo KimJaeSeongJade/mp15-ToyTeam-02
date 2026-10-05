@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
-/// 좌우로 텍스트를 넘기는 UI
+/// 해상도 관리 LR UI
 /// </summary>
 public class LRResolutionUI : MonoBehaviour
 {
@@ -21,7 +21,9 @@ public class LRResolutionUI : MonoBehaviour
         int next = _currentNum + value;
 
         if (next < 0 || next >= _text.Length)
+        {
             return;
+        }
 
         _currentNum = next;
 
@@ -34,7 +36,14 @@ public class LRResolutionUI : MonoBehaviour
     {
         for (int i = 0; i < _text.Length; i++)
         {
-            _text[i].SetActive(i == _currentNum);
+            if (i == _currentNum)
+            {
+                _text[i].SetActive(true);
+            }
+            else
+            {
+                _text[i].SetActive(false);
+            }
         }
     }
 }
