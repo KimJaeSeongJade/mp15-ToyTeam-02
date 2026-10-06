@@ -582,6 +582,14 @@ PrefabInstance:
       propertyPath: targetCargoCart
       value: 
       objectReference: {fileID: 1341623106}
+    - target: {fileID: 9090701098372693727, guid: be303c68ac4519843b28a366df901aa7, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9090701098372693727, guid: be303c68ac4519843b28a366df901aa7, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

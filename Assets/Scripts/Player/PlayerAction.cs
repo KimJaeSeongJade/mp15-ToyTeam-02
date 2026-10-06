@@ -17,7 +17,6 @@ public class PlayerAction : MonoBehaviour
     [SerializeField] private Rigidbody _playerBody;
     [SerializeField] private PlayerHand _hand;
     [SerializeField] private Animator _animator;
-
     private float _moveSpeed;
     private WaitForSeconds _waitDashDuration = new WaitForSeconds(0.3f);
     private WaitForSeconds _waitDashCooldown = new WaitForSeconds(1f);
@@ -112,6 +111,7 @@ public class PlayerAction : MonoBehaviour
         {
             _animator.SetBool(PARAM_IS_HOLDING_TOOL, true);
             _hand.Item.GameObject.transform.Rotate(-45f, -90f, 0);
+            tool.ToolUI(false);
         }
         else
         {
@@ -147,11 +147,18 @@ public class PlayerAction : MonoBehaviour
                     return;
                 }
             }
+            
 
             _hand.Item.GameObject.layer = 0;
             _hand.Item.GameObject.transform.rotation = Quaternion.identity;
             _hand.ItemPosition = position.CoordToWorld();
             _hand.ItemParent = null;
+            
+            ToolBase tool = _hand.Item as ToolBase;
+            if (tool != null)
+            {
+                tool.ToolUI(true);
+            }
         }
 
         Map.Instance.SetHoldable(position, _hand.Item);
@@ -185,4 +192,5 @@ public class PlayerAction : MonoBehaviour
         _moveSpeed = BASE_MOVE_SPEED;
         _canDash = true;
     }
+    
 }
