@@ -89,6 +89,9 @@ public class PlayerAction : MonoBehaviour
             if (newTarget != target)
             {
                 PickUpItem((newTarget));
+                _animator.SetLayerWeight(1, 0f);
+                _animator.SetBool(PARAM_IS_HOLDING_TOOL, false);
+                _animator.SetBool(PARAM_IS_HOLDING, false);
             }
             else
             {
@@ -100,13 +103,14 @@ public class PlayerAction : MonoBehaviour
 
     private void PickUpItem(IInteractable newInteractable)
     {
-        if (newInteractable == null) return;
-
         // 제거했으니 로드된 청크에서 제거
         Map.Instance.RemoveLoadedPoolable(newInteractable as IPoolable);
 
-        _animator.SetLayerWeight(1, 1f);
         _hand.Item = newInteractable;
+        if (newInteractable == null) return;
+
+        _animator.SetLayerWeight(1, 1f);
+       
         _hand.Item.GameObject.transform.rotation = transform.rotation;
 
         // 도구면 회전
