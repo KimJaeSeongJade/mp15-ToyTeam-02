@@ -15,16 +15,10 @@ public class TutorailUIManager : MonoBehaviour
     [SerializeField] private string mainMenuSceneName = "MainMenu";
     [SerializeField] private string mainStageSceneName = "MainStage";
     
-    [Header("테스트용 ")]
-    [SerializeField] private bool enableTestKeys = true;
-    
     /// <summary>
     /// 팝업이 닫힐 때 TutorialManager에 알릴 이벤트
     /// </summary>
     public event Action<int> onPopupClosed;
-    
-    // 현재 열려 있는 팝업 번호를 기억하는 테스트용 변수
-    private int testCurrentPopupIndex = -1;
     
     // 팝업 관리
     
@@ -94,7 +88,7 @@ public class TutorailUIManager : MonoBehaviour
     }
 
     /// <summary>
-    /// 화면에 떠 있는 모든 HUD를 끕니다.
+    /// 화면에 떠 있는 모든 HUD 끄기
     /// </summary>
     public void HideAllHUDs()
     {
@@ -102,7 +96,7 @@ public class TutorailUIManager : MonoBehaviour
     }
 
     /// <summary>
-    /// 모든 팝업과 HUD를 한꺼번에 끕니다.
+    /// 모든 팝업과 HUD를 한꺼번에 끄기
     /// </summary>
     public void CloseAllUI()
     {
@@ -121,46 +115,5 @@ public class TutorailUIManager : MonoBehaviour
     {
         SceneManager.LoadScene(mainStageSceneName);
     }
-    
-    private void Update()
-    {
-        if (!enableTestKeys) return;
-
-        // 키보드 숫자키 1 ~ 8 누를 때: 순서대로 팝업 호출
-        for (int i = 0; i < popupList.Count; i++)
-        {
-            if (Input.GetKeyDown(KeyCode.Alpha1 + i))
-            {
-                OpenPopup(i);
-            }
-        }
-
-        // 키보드 F1 ~ F4 키 누를 때: 순서대로 HUD 호출
-        for (int i = 0; i < hudList.Count; i++)
-        {
-            if (Input.GetKeyDown(KeyCode.F1 + i))
-            {
-                ShowHUD(i);
-            }
-        }
-
-        if (Input.GetKeyDown(KeyCode.Escape))
-        {
-            // 다음 팝업 번호로 1 증가
-            testCurrentPopupIndex++;
-
-            // 만약 팝업 개수(8개)를 초과하면(7번 다음인 8이 되면), 다시 처음(0번)으로 돌리거나 다 닫습니다.
-            if (testCurrentPopupIndex >= popupList.Count)
-            {
-                testCurrentPopupIndex = -1; // -1로 초기화하여 모든 팝업 닫기
-                CloseAllPopups();
-                Debug.Log("[테스트] 마지막 팝업입니다");
-            }
-            else
-            {
-                OpenPopup(testCurrentPopupIndex);
-                Debug.Log($"[테스트] ESC키 눌러 다음으로 진행");
-            }
-        }
-    }
+ 
 }
