@@ -66,6 +66,7 @@ public class SceneManagerA : MonoBehaviour
     public void LoadGameScene()
     {
         ResetScene();
+        GameManager.Instance.ResetPlayTime();
         SceneManager.LoadScene(2);
     }
 
@@ -87,13 +88,13 @@ public class SceneManagerA : MonoBehaviour
     public void Pause()
     {
         Time.timeScale = 0f;
-        GameManager.Instance.IsPause = true;
+        GameManager.Instance.IsPause(true);
     }
     // 게임 Pause해제
     public void Continue()
     {
         Time.timeScale = 1f;
-        GameManager.Instance.IsPause = false;
+        GameManager.Instance.IsPause(false);
     }
 
     // 게임 창모드 변경

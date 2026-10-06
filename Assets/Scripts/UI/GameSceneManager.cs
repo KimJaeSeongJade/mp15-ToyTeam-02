@@ -20,7 +20,6 @@ public class GameSceneManager : MonoBehaviour
     public bool IsGameEnd { get; private set; }
     public bool IsGameWin { get; private set; }
 
-
     private void Awake()
     {
         SetSingleton();
