@@ -7,29 +7,46 @@ using UnityEngine.UIElements;
 
 public class MapLoader : MonoBehaviour
 {
-    /// <summary>
-    /// 저장한 월드맵
-    /// </summary>
-    public int[,] WorldMap => _worldMap;
+    [SerializeField] private GameMode _gameMode;
 
-    // _worldMap <청크의 인덱스, 청크의 로컬맵>
-    private int[,] _worldMap; 
+    /// <summary>
+    /// 저장한 맵 / 샘플 맵
+    /// </summary>
+    public int[,] Map => _map;
+
+    /// <summary>
+    /// 저장한 초기 무한모드 맵
+    /// </summary>
+    public int[,] InfiniteInitialMap => _infiniteInitialMap;
+
+    private int[,] _map;
+    private int[,] _infiniteInitialMap;
+    private string _docId = "1aNNeM5KLbdZ4hOK1AM0-LkXCTkBRzoJswdcpBvjRjKI";
+    private Dictionary<GameMode, string> _docGids = new Dictionary<GameMode, string> {
+        { GameMode.Quick, "0" },
+        { GameMode.Infinite, "1355842421" },
+        { GameMode.Tutorial, "1277891633" },
+        { GameMode.Test, "1935130282" }
+        };
 
     /// <summary>
     /// 외부에서 맵 정보를 읽어와서 배열로 저장한 여부
     /// </summary>
     public bool CanLoadMap { get; private set; }
-    public event Action OnMapReady;
+
+    /// <summary>
+    /// 현재 게임 모드
+    /// </summary>
+    public GameMode GameMode => _gameMode;
+
+    /// <summary>
+    /// 외부에서 맵 불러와서 MapLoader Map에 저장 완료
+    /// </summary>
+    public event Action OnMapSaved;
 
     private void Start()
     {
-        string docId = "1aNNeM5KLbdZ4hOK1AM0-LkXCTkBRzoJswdcpBvjRjKI";
-        string gid = "0";
-        string testRailGid = "1935130282";
-        string testWFCGid = "1355842421";
-        // StartCoroutine(LoadMapDataRoutine(docId, gid));
-        StartCoroutine(LoadMapDataRoutine(docId, testRailGid));
-        // StartCoroutine(LoadMapDataRoutine(docId, testWFCGid));
+        StartCoroutine(LoadMapDataRoutine(_docId, _docGids[_gameMode]));
     }
 
     private IEnumerator LoadMapDataRoutine(string docId, string gid)
@@ -45,8 +62,9 @@ public class MapLoader : MonoBehaviour
         }
 
         ParseMapData(www.downloadHandler.text);
-        OnMapReady?.Invoke();
-        CanLoadMap = true;
+        OnMapSaved?.Invoke();
+
+        if (_gameMode != GameMode.Infinite) CanLoadMap = true;
     }
 
     private void ParseMapData(string text)
@@ -56,12 +74,16 @@ public class MapLoader : MonoBehaviour
         int columnStartIndex = 1;
         int rowStartIndex = 2;
 
+        Debug.Log($"lines length : {lines.Length}");
+
         int row = lines.Length - rowStartIndex;
         int column = lines[0].Split('\t').Length - columnStartIndex;
+        Debug.Log($"row : {row}");
+        Debug.Log($"column : {column}");
 
         int totalChunk = (column - 1) % ChunkManager.CHUNK_SIZE;
 
-        _worldMap = new int[column, row];
+        _map = new int[column, row];
 
 
         for (int i = 0; i < row; i++)
@@ -72,19 +94,44 @@ public class MapLoader : MonoBehaviour
 
             for (int x = columnStartIndex; x < values.Length; x++)
             {
-                int.TryParse(values[x], out _worldMap[x - columnStartIndex, y]);
+                int.TryParse(values[x], out _map[x - columnStartIndex, y]);
             }
         }
-        // Debug.Log($"Map Data loaded! Row : {row}, Column = {column}");
+
+        // 무한 모드 초기 맵
+        rowStartIndex = ChunkManager.CHUNK_SIZE + rowStartIndex * 2 + 1;
+
+        if (lines.Length < rowStartIndex) return;
+
+        _infiniteInitialMap = new int[ChunkManager.CHUNK_SIZE, row];
+
+        for (int i = 0; i < ChunkManager.CHUNK_SIZE; i++)
+        {
+            string[] values = lines[i + rowStartIndex].Split('\t');
+
+            Debug.Log(values.Length);
+            int y = row - 1 - i;
+
+            for (int x = columnStartIndex; x < columnStartIndex + ChunkManager.CHUNK_SIZE; x++)
+            {
+                int.TryParse(values[x], out _infiniteInitialMap[x - columnStartIndex, y]);
+            }
+        }
+        PrintMapData(_infiniteInitialMap);
     }
 
-    /// <summary>
-    /// Wave Function이 collpase 끝나면 생성된 맵으로 월드맵 저장
-    /// </summary>
-    /// <param name="newWorldMap"></param>
-    public void SetWorldMap(int[,] newWorldMap)
+    // 디버깅용
+    private void PrintMapData(int[,] map)
     {
-        _worldMap = newWorldMap;
-        CanLoadMap = true;
+        Debug.Log("WorldMap");
+        for (int j = map.GetLength(1) - 1; j >= 0; j--)
+        {
+            string a = "";
+            for (int i = 0; i < map.GetLength(0); i++)
+            {
+                a += $"{map[i, j]} ";
+            }
+            Debug.Log(a);
+        }
     }
 }
