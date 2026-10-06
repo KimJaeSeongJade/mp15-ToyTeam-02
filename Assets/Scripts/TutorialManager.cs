@@ -1,0 +1,181 @@
+using UnityEngine;
+
+public class TutorialManager : MonoBehaviour
+{
+    [Header("UI Manager 연결")]
+    [SerializeField] private TutorialUIManager uiManager;
+
+    private int currentStep = 0; // 튜토리얼 진행 단계
+
+    private void OnEnable()
+    {
+        // UIManager의 ClosePopup 연결(팝업이 닫힐 때 이벤트)
+        if (uiManager != null)
+        {
+            uiManager.onPopupClosed += HandlePopupClosed;
+        }
+    }
+
+    private void OnDisable()
+    {
+        // 이벤트 해제
+        if (uiManager != null)
+        {
+            uiManager.onPopupClosed -= HandlePopupClosed;
+        }
+    }
+
+    private void Start()
+    {
+        // 씬 시작과 동시에 0번 단계(게임안내 1 팝업) 실행
+        StartStep(0);
+    }
+
+
+    
+    // 튜토리얼 행동 단계별 실행 로직
+
+    public void StartStep(int stepIndex)
+    {
+        currentStep = stepIndex;
+
+        switch (currentStep)
+        {
+            // [단계 0] 게임안내 1 팝업 + 게임 정지
+            case 0:
+                PauseGame();
+                uiManager.OpenPopup(0);
+                break;
+
+            // [단계 1] 게임안내 2 팝업 + 게임 정지
+            case 1:
+                PauseGame();
+                uiManager.OpenPopup(1);
+                break;
+
+            // [단계 2] 목재 채집 안내 팝업 + 게임 정지
+            case 2:
+                PauseGame();
+                uiManager.OpenPopup(2);
+                break;
+
+            // [단계 3] 팝업창에서 ESC 입력 -> 팝업 닫히고 게임 재개
+            // 완료 조건은 플레이어가 목재 생성
+            case 3:
+                uiManager.CloseAllPopups();
+                ResumeGame();
+                uiManager.ShowHUD(0);
+                break;
+
+            // [단계 4] 목재(BlockType.Wood) 생성 감지! ➔ 광석 채집 안내 팝업 + 게임 정지
+            case 4:
+                PauseGame();
+                uiManager.OpenPopup(3);
+                
+                break;
+
+            // [단계 5] ESC 입력 ➔ 팝업 닫힘 & 게임 재개 (철 생성 대기)
+            case 5:
+                uiManager.CloseAllPopups();
+                uiManager.ShowHUD(1);
+                ResumeGame();
+                break;
+
+            // [단계 6] 철(BlockType.Iron) 생성 감지! ➔ 레일 제작 안내 팝업 + 게임 정지
+            case 6:
+                PauseGame();
+                uiManager.OpenPopup(4);
+                break;
+
+            // [단계 7] ESC 입력 ➔ 팝업 닫힘 & 게임 재개 (레일 제작 실습)
+            case 7:
+                uiManager.CloseAllPopups();
+                uiManager.ShowHUD(2);
+                ResumeGame();
+                break;
+
+            // [단계 8] 레일 제작 완료 감지! ➔ 레일 설치 안내 팝업 + 게임 정지
+            case 8:
+                PauseGame();
+                uiManager.OpenPopup(5); // 5번 팝업: 레일 설치 안내 팝업
+                
+                break;
+
+            // [단계 9] ESC 입력 ➔ 팝업 닫힘 & 게임 재개 (레일 설치 실습 및 기차 출발 대기)
+            case 9:
+                uiManager.CloseAllPopups();
+                uiManager.ShowHUD(3);
+                ResumeGame();
+                break;
+
+            // [단계 10] TODO 조건을 만족하면 최종 클리어 팝업 호출 + 게임 정지
+            case 10:
+                PauseGame();
+                uiManager.OpenPopup(6); // 6번(마지막) 팝업: 튜토리얼 클리어 팝업
+                uiManager.ShowHUD(0);
+                Debug.Log("[TutorialManager] 튜토리얼 전체 클리어!");
+                break;
+        }
+    }
+
+    
+    // 다음 단계로 진행되는 조건(트리거) 모음
+
+    /// <summary>
+    /// UIManager에서 ESC 입력 으로 팝업이 닫힐 때호출
+    /// </summary>
+    private void HandlePopupClosed(int closedPopupIndex)
+    {
+        if (currentStep == 0 && closedPopupIndex == 0) StartStep(1);
+        else if (currentStep == 1 && closedPopupIndex == 1) StartStep(2);
+        else if (currentStep == 2 && closedPopupIndex == 2) StartStep(3); // 목재 채집 실습 시작
+        else if (currentStep == 4 && closedPopupIndex == 3) StartStep(5); // 광석 채집 실습 시작
+        else if (currentStep == 6 && closedPopupIndex == 4) StartStep(7); // 레일 제작 실습 시작
+        else if (currentStep == 8 && closedPopupIndex == 5) StartStep(9); // 레일 설치 실습 시작
+    }
+
+    /// <summary>
+    /// SpawnTrigger에서 자원 드롭 시 호출
+    /// </summary>
+    public void OnBlockSpawned(BlockType type)
+    {
+        if (currentStep == 3 && type == BlockType.Wood)
+        {
+            StartStep(4);
+        }
+        else if (currentStep == 5 && type == BlockType.Iron)
+        {
+            StartStep(6);
+        }
+    }
+
+    /// <summary>
+    /// 제작칸에서 부착된 추가 스크립트를 통해 제작칸의 레일 보유수 검사하고 호출 
+    /// </summary>
+    public void OnRailCrafted()
+    {
+        if (currentStep == 7)
+        {
+            
+            StartStep(8);
+        }
+    }
+
+    /// <summary>
+    /// TODO: 기차 출발 감지 또는 정거장 도착 이벤트 트리거
+    /// </summary>
+    public void OnTrainMoved()
+    {
+        // TODO: 클리어 조건 정해지면 이 홈수를 호출해야함
+        if (currentStep == 9)
+        {
+            Debug.Log("튜토리얼 클리어 팝업 조건 달성");
+            StartStep(10); // 최종 클리어 팝업 호출
+        }
+    }
+    
+    // 팝업 닫고 켜질떄 시간 제어
+
+    public void PauseGame() => Time.timeScale = 0f;
+    public void ResumeGame() => Time.timeScale = 1f;
+}
