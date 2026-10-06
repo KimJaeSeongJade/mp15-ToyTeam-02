@@ -1,3 +1,4 @@
+using Cysharp.Threading.Tasks;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -16,6 +17,8 @@ public class WaveFunction : MonoBehaviour
     public event Action<int[,]> OnWaveFunctionEnd;
 
     private Dictionary<int, Tile> _tiles = new();
+    private Dictionary<Tile, float> _adjustedWeights = new();
+    private List<Tile> _validOptions = new();
     private bool _isInitialLoad = true;
     private int[,] _initialMap;
 
@@ -127,10 +130,10 @@ public class WaveFunction : MonoBehaviour
             }
         }
 
-        StartCoroutine(CheckEntropy());
+        CheckEntropy().Forget();
     }
 
-    private IEnumerator CheckEntropy()
+    private async UniTask CheckEntropy()
     {
         List<Cell> tempGrid = new List<Cell>(GridComponents);
 
@@ -155,7 +158,7 @@ public class WaveFunction : MonoBehaviour
             tempGrid.RemoveRange(stopIndex, tempGrid.Count - stopIndex);
         }
 
-        yield return new WaitForSeconds(0.01f);
+        await UniTask.Delay(10);
 
         CollapseCell(tempGrid);
     }
@@ -181,7 +184,7 @@ public class WaveFunction : MonoBehaviour
     private Tile SelectTile(Cell targetCell, int cellX, int cellY)
     {
         float totalWeight = 0f;
-        Dictionary<Tile, float> adjustedWeights = new Dictionary<Tile, float>();
+        _adjustedWeights.Clear();
 
 
         foreach (Tile tile in targetCell.TileOptions)
@@ -214,7 +217,7 @@ public class WaveFunction : MonoBehaviour
                 currentWeight *= Mathf.Pow(_neighborBonus, matchCount);
             }
 
-            adjustedWeights[tile] = currentWeight;
+            _adjustedWeights[tile] = currentWeight;
             totalWeight += currentWeight;
         }
 
@@ -222,7 +225,7 @@ public class WaveFunction : MonoBehaviour
         float roll = UnityEngine.Random.Range(0f, totalWeight);
         float cumulative = 0f;
 
-        foreach (var pair in adjustedWeights)
+        foreach (var pair in _adjustedWeights)
         {
             cumulative += pair.Value;
             if (roll <= cumulative) return pair.Key;
@@ -242,7 +245,6 @@ public class WaveFunction : MonoBehaviour
                 var index = x + y * Dimensions;
                 if (GridComponents[index].Collapsed)
                 {
-                    // Debug.Log("called");
                     newGenerationCell[index] = GridComponents[index];
                 }
                 else
@@ -287,7 +289,7 @@ public class WaveFunction : MonoBehaviour
 
         if (Iterations < Dimensions * Dimensions)
         {
-            StartCoroutine(CheckEntropy());
+            CheckEntropy().Forget();
         }
         else
         {
@@ -298,7 +300,7 @@ public class WaveFunction : MonoBehaviour
 
     private void CheckValidity(List<Tile> currentOptions, Tile[] neighborTileOptions, Direction oppositeDirection)
     {
-        List<Tile> validOptions = new List<Tile>();
+        _validOptions.Clear();
 
         foreach (Tile myTile in currentOptions)
         {
@@ -315,12 +317,12 @@ public class WaveFunction : MonoBehaviour
 
             if (isValid)
             {
-                validOptions.Add(myTile);
+                _validOptions.Add(myTile);
             }
         }
 
         currentOptions.Clear();
-        currentOptions.AddRange(validOptions);
+        currentOptions.AddRange(_validOptions);
     }
 
     private int[,] GetGeneratedMapData()
