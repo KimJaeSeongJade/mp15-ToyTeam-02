@@ -46,6 +46,11 @@ public class GameManager : MonoBehaviour
     {        
         SetSingleton();
         Init();
+       
+    }
+
+    private void Start()
+    {
         SetTrainSpeed(TrainSpeed);
     }
 

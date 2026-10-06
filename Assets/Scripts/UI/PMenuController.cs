@@ -178,7 +178,15 @@ public class PMenuController : MonoBehaviour
         }
         _isSelect = false;
         gameObject.SetActive(false);
-        _prevMenu._isSelect = true;
+        if (_prevMenu != null)
+        {
+            _prevMenu._isSelect = true;
+        }
+        else
+        {
+            SceneManagerA.Instance._isPause = false;
+            SceneManagerA.Instance.Continue();            
+        }
     }
 
     // Silder면 value조절, LRUI면 좌우 넘기기
