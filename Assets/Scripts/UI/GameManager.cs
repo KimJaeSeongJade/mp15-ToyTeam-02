@@ -30,7 +30,9 @@ public class GameManager : MonoBehaviour
         set { _playTime = value; }
     }
     // 열차의 속도
-    private float _trainSpeed;
+    public float _trainSpeed { get; private set; }
+    [SerializeField] private float TrainSpeed;
+
     //게임이 Pasue상태인지
     private bool _isPause;
     public bool IsPause
@@ -41,10 +43,12 @@ public class GameManager : MonoBehaviour
 
     //--------------------
     private void Awake()
-    {
-        Init();
+    {        
         SetSingleton();
+        Init();
+        SetTrainSpeed(TrainSpeed);
     }
+
 
     private void Update()
     {
@@ -60,6 +64,12 @@ public class GameManager : MonoBehaviour
     {
         _playTime += Time.deltaTime;
         //Debug.Log(_playTime);
+    }
+
+    // 열차 속도
+    private void SetTrainSpeed(float value)
+    {
+        _trainSpeed += value;
     }
 
     private void Init()

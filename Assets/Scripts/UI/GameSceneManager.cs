@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class GameSceneManager : MonoBehaviour
@@ -10,6 +11,7 @@ public class GameSceneManager : MonoBehaviour
     [SerializeField] private LocomotiveCart _locomotiveCart;
 
     [SerializeField] private GameObject _pauseMenu;
+    [SerializeField] private TextMeshProUGUI _trainSpeedUI;
 
     private KeyCode _pauseKey => KeyCode.Escape;
 
@@ -24,7 +26,10 @@ public class GameSceneManager : MonoBehaviour
         SetSingleton();
         Init();
     }
-    private void Start() => BindGameEvents();
+    private void Start()
+    {
+        BindGameEvents();       
+    }
     private void OnDestroy() => UnbindGameEvents();
 
     private void Update()
@@ -33,8 +38,13 @@ public class GameSceneManager : MonoBehaviour
         {
             StartCoroutine(OppenPause());            
         }
+        SetTrainSpeed();
+    }
 
-
+    private void SetTrainSpeed()
+    {
+        float speed = GameManager.Instance._trainSpeed;
+        _trainSpeedUI.GetComponent<TextNumChanger>().ChangeNum(speed);
     }
 
     // ClosePause와 키가 동시에 눌려 코루틴으로 사용
@@ -57,7 +67,7 @@ public class GameSceneManager : MonoBehaviour
             yield return null;
         }
     }
-
+        
     public void ClosePause2()
     {
         if (!SceneManagerA.Instance._isSelectNow)
