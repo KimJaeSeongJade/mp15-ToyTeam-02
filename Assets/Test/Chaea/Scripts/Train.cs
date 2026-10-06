@@ -14,7 +14,7 @@ public class Train : MonoBehaviour
     /// <summary>
     /// 열차 속도
     /// </summary>
-    public static float MaxTrainSpeed = 0.01f;
+    public static float MaxTrainSpeed = 0.1f;
 
     private WaitForSeconds _wait = new WaitForSeconds(2f);
     private bool _isRailwayConnected;
