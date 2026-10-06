@@ -292,6 +292,7 @@ public class RailManager : MonoBehaviour
         // 레일이 하나도 없는 경우는 예외 처리
         if (Rails.Count == 0) return;
 
+        Map.Instance.RemoveLoadedPoolable(Rails.Last.Value);
         _splineManager.RemoveLastSplineKnot();
         // 링크드 리스트에서 마지막 레일 노드 제거
         Rails.RemoveLast();

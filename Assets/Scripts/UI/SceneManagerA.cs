@@ -26,6 +26,18 @@ public class SceneManagerA : MonoBehaviour
     private int _screenModeNum;
     private int _resolutionNum;
 
+    private float _bgmVolume;
+    private float _sfxVolume;
+
+    public int ScreenModeNum => _screenModeNum;
+    public int ResolutionNum => _resolutionNum;
+
+    public float BgmVolume => _bgmVolume;
+    public float SfxVolume => _sfxVolume;
+
+    // 게임이 멈춰있는지
+    public bool _isPause;
+
     //TitleScene
     public bool _isSelectNow;
 
@@ -33,23 +45,42 @@ public class SceneManagerA : MonoBehaviour
     private void Awake()
     {
         SetSingleton();
+        Init();
+    }
+
+    private void Init()
+    {
+        _isPause = false;
         _screenModeNum = 1;
         _resolutionNum = 1;
+        _bgmVolume = 100f;
+        _sfxVolume = 100f;
     }
 
     public void LoadTitleScene()
     {
+        ResetScene();
         SceneManager.LoadScene(1);
     }
 
     public void LoadGameScene()
     {
+        ResetScene();
         SceneManager.LoadScene(2);
     }
 
     public void LoadTutorialScene()
     {
+        ResetScene();
         SceneManager.LoadScene(3);
+    }
+
+    private void ResetScene()
+    {
+        _isPause = false;
+        _isSelectNow = false;
+
+        Continue();
     }
 
     // 게임 정지
@@ -68,8 +99,7 @@ public class SceneManagerA : MonoBehaviour
     // 게임 창모드 변경
     public void ChangeScreenMode(int value)
     {
-        _screenModeNum += value;
-        _screenModeNum = Math.Clamp(_screenModeNum, 0, 2);
+        _screenModeNum = Mathf.Clamp(value, 0, 2);
         Debug.Log($"ResolutionNum: {_screenModeNum}");
         switch (_screenModeNum)
         {
@@ -82,14 +112,15 @@ public class SceneManagerA : MonoBehaviour
             case 2:
                 Screen.fullScreenMode = FullScreenMode.ExclusiveFullScreen;
                 break;
+            default:
+                break;
         }
     }
 
     // 게임 해상도 변경
     public void SetResolution(int value)
     {        
-        _resolutionNum += value;
-        _resolutionNum = Math.Clamp(_resolutionNum, 0, 2);
+        _resolutionNum = Mathf.Clamp(value, 0, 2);
         Debug.Log($"ResolutionNum: {_resolutionNum}");
         switch (_resolutionNum)
         {
@@ -108,6 +139,17 @@ public class SceneManagerA : MonoBehaviour
             default:
                 break;
         }
+    }
+
+    // 오디오 크기 저장
+    public void SetBgmVolume(float value)
+    {
+        _bgmVolume = value;
+    }
+
+    public void SetSfxVolume(float value)
+    {
+        _sfxVolume = value;
     }
 
     private void SetSingleton()

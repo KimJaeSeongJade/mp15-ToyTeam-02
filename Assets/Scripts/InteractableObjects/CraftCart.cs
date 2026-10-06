@@ -118,6 +118,9 @@ public class CraftCart : Train, IInteractable
         // 2.플레이어가 빈손인 경우(최대 소지량만큼 플레이어게 전달 가능)
         else
         {
+            // 플레이어 손에 든 게 레일이 아닌 경우 반환
+            if (inPlayerHand != null) return inPlayerHand;
+
             remainSpace = maxRailStorage;
         }
 
@@ -167,7 +170,7 @@ public class CraftCart : Train, IInteractable
         }
         
         // 2. 플레이어가 빈 손이 아닌경우
-        // 기존 Rail 클래스의 줒첩 로직 활용 > AutoInteract() 메서드 활용
+        // 기존 Rail 클래스의 중첩 로직 활용 > AutoInteract() 메서드 활용
         // 나머지 전달 수량만큼 임시 레일을 소환하여 handRail에 합치기
         
         // 2개 이상을 한꺼번에 건네주는 경우, 부족한 개수만큼 루프를 돌며 처리
@@ -185,6 +188,8 @@ public class CraftCart : Train, IInteractable
                 tempRail.AutoInteract(handRail);
             }
         }
+
+        UpdateCraftVisual();
 
         // 제작 공간이 생겼으므로 추가 제작 시도
         TryCraft();

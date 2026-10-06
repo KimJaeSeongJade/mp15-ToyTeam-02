@@ -3,15 +3,19 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class MenuController : MonoBehaviour
+/// <summary>
+/// GameScene Pause Menu 컨트롤러
+/// </summary>
+public class PMenuController : MonoBehaviour
 {
     // 설정조작 MenuController에 지금 프리팹 부여
-    public MenuController _prevMenu;
+    public PMenuController _prevMenu;
     
     private KeyCode _upKey => KeyCode.W;
     private KeyCode _downKey => KeyCode.S;
-    private KeyCode _inKey => KeyCode.D;
+    private KeyCode _inKey => KeyCode.Space;
     private KeyCode _outKey => KeyCode.Escape;
+    private KeyCode _RightKey => KeyCode.D;
     private KeyCode _LeftKey => KeyCode.A;
 
     private UIConnector uiconnector;
@@ -38,14 +42,10 @@ public class MenuController : MonoBehaviour
             }
         }
         _currenNum = 0;
-        _isSelect = false;
+        _isSelect = true;
         if (!_isSettingUI)
         {
-            _panel[_currenNum].transform.Find("Image").GetComponent<Image>().enabled = true;
-            if (_panel[_currenNum].TryGetComponent<UIConnector>(out uiconnector))
-            {
-                uiconnector.ChildUI.gameObject.SetActive(true);
-            }
+            _panel[_currenNum].transform.Find("Image").GetComponent<Image>().enabled = true;            
         }
     }
 
@@ -59,8 +59,7 @@ public class MenuController : MonoBehaviour
     }
 
     private void Update()
-    {
-        
+    {        
         if (_isSelect)
         {
             if (Input.GetKeyDown(_upKey))
@@ -83,7 +82,7 @@ public class MenuController : MonoBehaviour
 
             if (_isSettingUI)
             {
-                if (Input.GetKeyDown(_inKey))
+                if (Input.GetKeyDown(_RightKey))
                 {
                     SetCurrentUI(1);
                 }
@@ -101,16 +100,10 @@ public class MenuController : MonoBehaviour
         if (_currenNum > 0)
         {
             _panel[_currenNum].transform.Find("Image").GetComponent<Image>().enabled = false;
-            if(_panel[_currenNum].TryGetComponent<UIConnector>(out uiconnector))
-            {
-                uiconnector.ChildUI.gameObject.SetActive(false);
-            }
+           
             _currenNum--;
             _panel[_currenNum].transform.Find("Image").GetComponent<Image>().enabled = true;
-            if (_panel[_currenNum].TryGetComponent<UIConnector>(out uiconnector))
-            {
-                uiconnector.ChildUI.gameObject.SetActive(true);
-            }
+            
         }
     }
 
@@ -119,16 +112,10 @@ public class MenuController : MonoBehaviour
         if (_currenNum < _panel.Count - 1)
         {
             _panel[_currenNum].transform.Find("Image").GetComponent<Image>().enabled = false;
-            if (_panel[_currenNum].TryGetComponent<UIConnector>(out uiconnector))
-            {
-                uiconnector.ChildUI.gameObject.SetActive(false);
-            }
+            
             _currenNum++;
             _panel[_currenNum].transform.Find("Image").GetComponent<Image>().enabled = true;
-            if (_panel[_currenNum].TryGetComponent<UIConnector>(out uiconnector))
-            {
-                uiconnector.ChildUI.gameObject.SetActive(true);
-            }
+          
         }
     }
 
@@ -137,15 +124,46 @@ public class MenuController : MonoBehaviour
     private IEnumerator In()
     {
         yield return null;
+
+        GameObject currentPanel = _panel[_currenNum];
+
+        if (currentPanel.TryGetComponent<UnityEventPauseUI>(out UnityEventPauseUI eventUI))
+        {            
+            eventUI.OnUIPressed.Invoke();
+            yield break;
+        }
+
         if (!_isSettingUI)
         {
-            uiconnector.ChildUI.gameObject.GetComponentInChildren<MenuController>()._isSettingUI = true;
-            uiconnector.ChildUI.gameObject.GetComponentInChildren<MenuController>()._isSelect = true;
-            uiconnector.ChildUI.gameObject.GetComponentInChildren<MenuController>()._prevMenu = gameObject.GetComponent<MenuController>();
-            uiconnector.ChildUI.gameObject.GetComponentInChildren<MenuController>()._panel[0].transform.Find("Image").GetComponent<Image>().enabled = true;
-            
-            SceneManagerA.Instance._isSelectNow = true;
-            _isSelect = false;
+            if (currentPanel.TryGetComponent<UIConnector>(out uiconnector))
+            {
+                uiconnector.ChildUI.gameObject.SetActive(true);
+
+                if (uiconnector.ChildUI.gameObject.GetComponentInChildren<PMenuController>())
+                {
+                    PMenuController childController = uiconnector.ChildUI.gameObject.GetComponentInChildren<PMenuController>();
+
+                    childController._isSettingUI = true;
+                    childController._isSelect = true;
+                    childController._prevMenu = this;
+                    childController._panel[0].transform.Find("Image").GetComponent<Image>().enabled = true;
+
+
+                    SceneManagerA.Instance._isSelectNow = true;
+                    _isSelect = false;
+                }
+
+                else if (uiconnector.ChildUI.gameObject.GetComponentInChildren<UnityEventPauseUI>(true))
+                {
+                    UnityEventPauseUI childUI = uiconnector.ChildUI.gameObject.GetComponentInChildren<UnityEventPauseUI>();
+                    childUI.gameObject.SetActive(true);
+                    childUI.SetPrevMenu(this);
+                    childUI.SetSelect(true);
+
+                    SceneManagerA.Instance._isSelectNow = true;
+                    _isSelect = false;
+                }
+            }
         }
     }
 
@@ -154,8 +172,21 @@ public class MenuController : MonoBehaviour
     {
         SceneManagerA.Instance._isSelectNow = false;
         _panel[_currenNum].transform.Find("Image").GetComponent<Image>().enabled = false;
+        if (_panel[_currenNum].TryGetComponent<UIConnector>(out uiconnector))
+        {
+            uiconnector.ChildUI.gameObject.SetActive(false);
+        }
         _isSelect = false;
-        _prevMenu._isSelect = true;
+        gameObject.SetActive(false);
+        if (_prevMenu != null)
+        {
+            _prevMenu._isSelect = true;
+        }
+        else
+        {
+            SceneManagerA.Instance._isPause = false;
+            SceneManagerA.Instance.Continue();            
+        }
     }
 
     // Silder면 value조절, LRUI면 좌우 넘기기

@@ -201,6 +201,9 @@ public class Rail : MonoBehaviour, IInteractable, IStackable, IPoolable
         // 맵에 설치되었으므로 레일타일로 상태변경
         IsRailway = true;
         _currentCount = 1;
+
+        // 설치한 레일이므로 로드된 청크에 저장
+        Map.Instance.AddLoadedPoolable(this);
     }
 
     /// <summary>

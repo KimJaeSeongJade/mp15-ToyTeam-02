@@ -27,8 +27,8 @@ public class MapLoader : MonoBehaviour
         string gid = "0";
         string testRailGid = "1935130282";
         string testWFCGid = "1355842421";
-        StartCoroutine(LoadMapDataRoutine(docId, gid));
-        // StartCoroutine(LoadMapDataRoutine(docId, testRailGid));
+        // StartCoroutine(LoadMapDataRoutine(docId, gid));
+        StartCoroutine(LoadMapDataRoutine(docId, testRailGid));
         // StartCoroutine(LoadMapDataRoutine(docId, testWFCGid));
     }
 
@@ -45,7 +45,6 @@ public class MapLoader : MonoBehaviour
         }
 
         ParseMapData(www.downloadHandler.text);
-        Map.Instance.SetMapData(_worldMap);
         OnMapReady?.Invoke();
         CanLoadMap = true;
     }
@@ -64,7 +63,6 @@ public class MapLoader : MonoBehaviour
 
         _worldMap = new int[column, row];
 
-        
 
         for (int i = 0; i < row; i++)
         {
