@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Mathematics;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -13,11 +14,11 @@ public class ObjectPool : MonoBehaviour
 
     [SerializeField] private List<GameObject> _prefabList;
     private Dictionary<BlockType, Stack<IPoolable>> _objectPoolDict = new();
-    private Dictionary<BlockType, GameObject> _prefabDict = new();
+    private Dictionary<BlockType, List<GameObject>> _prefabDict = new();
     private Dictionary<BlockType, GameObject> _poolParent = new();
     private Dictionary<BlockType, int> _poolCount = new();
 
-    private const int INITIAL_POOL_SIZE = 5;
+    private const int INITIAL_POOL_SIZE = 1;
 
     private void Awake() => SetSingleton();
     private void Start() => CreatePool();
@@ -36,18 +37,16 @@ public class ObjectPool : MonoBehaviour
             if (stack.Count > 0)
             {
                 IPoolable poolable = _objectPoolDict[blockType].Pop();
-                if(blockType == BlockType.Rock || blockType == BlockType.Iron)
-                {
-                    Debug.Log($"Take : {poolable.GameObject.name} / Count : {_objectPoolDict[blockType].Count}");
-                }
                 return poolable;
             }
             else
             {
-                GameObject newPoolable = Instantiate(_prefabDict[blockType], _poolParent[blockType].transform);
+                System.Random rand = new System.Random();
+                int randIndex = rand.Next(0, _prefabDict[blockType].Count);
+
+                GameObject newPoolable = Instantiate(_prefabDict[blockType][randIndex], _poolParent[blockType].transform);
                 _poolCount[blockType] = _poolCount[blockType] + 1;
                 newPoolable.gameObject.name = $"{newPoolable.gameObject.name} {_poolCount[blockType]}";
-                if (blockType == BlockType.Rock || blockType == BlockType.Iron) Debug.Log($"Take new : {newPoolable.gameObject.name} / Count : {_objectPoolDict[blockType].Count}");
                 newPoolable.SetActive(false);
                 return newPoolable.GetComponent<IPoolable>();
             }
@@ -79,7 +78,13 @@ public class ObjectPool : MonoBehaviour
             IPoolable poolable = prefab.GetComponent<IPoolable>();
 
             _objectPoolDict[poolable.BlockType] = objectPoolStack;
-            _prefabDict[poolable.BlockType] = prefab;
+
+            if (!_prefabDict.ContainsKey(poolable.BlockType))
+            {
+                _prefabDict[poolable.BlockType] = new();
+            }
+
+            _prefabDict[poolable.BlockType].Add(prefab);
 
             GameObject newPoolParent = new GameObject();
             newPoolParent.name = $"{prefab.name} Pool";

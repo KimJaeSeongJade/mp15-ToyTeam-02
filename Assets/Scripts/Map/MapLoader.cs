@@ -75,8 +75,6 @@ public class MapLoader : MonoBehaviour
         int columnStartIndex = 1;
         int rowStartIndex = 2;
 
-        Debug.Log($"lines length : {lines.Length}");
-
         int row;
 
         if (lines.Length - rowStartIndex > ChunkManager.CHUNK_SIZE)
@@ -89,8 +87,6 @@ public class MapLoader : MonoBehaviour
         }
 
         int column = lines[0].Split('\t').Length - columnStartIndex;
-        Debug.Log($"row : {row}");
-        Debug.Log($"column : {column}");
 
         int totalChunk = (column - 1) % ChunkManager.CHUNK_SIZE;
 

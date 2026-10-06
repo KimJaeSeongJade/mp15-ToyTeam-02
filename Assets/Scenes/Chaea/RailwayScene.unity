@@ -165,8 +165,17 @@ MonoBehaviour:
   _prefabList:
   - {fileID: 4339693152574486085, guid: 100438cbfd31dab42ac2aec2f29b353e, type: 3}
   - {fileID: 7351844012991224437, guid: eb8fd59a3f43e884e9822c3a2ca12307, type: 3}
+  - {fileID: 8980350440352654297, guid: eab9730d8511a6847b716a76ab11851a, type: 3}
+  - {fileID: 494853464552137942, guid: 400bd7af5c0c9fd469b0026ba02197db, type: 3}
+  - {fileID: 3267890329728865150, guid: 856a042ed9063b94cb67e0101544fbf8, type: 3}
+  - {fileID: 5657911952476030955, guid: 902a7be71a05f354eab206eeafa130b8, type: 3}
   - {fileID: 5677033974025641742, guid: 92bc91f87f9f7814d880b885a720103e, type: 3}
+  - {fileID: 4381599569743975301, guid: dee7e6d05eddb754a852065bbf3dd6fb, type: 3}
+  - {fileID: 655306149813716800, guid: ad31d9e72b66a5e4fa0b559b6d1e480b, type: 3}
   - {fileID: 4339693152574486085, guid: 8aef924cce514194da2bed70e14d8af6, type: 3}
+  - {fileID: 5867049558676211974, guid: 65750721d657a694aaa1f266383fe4f6, type: 3}
+  - {fileID: 8378844707150751968, guid: f8ddd3735c6976940b18b3e2d0a0f767, type: 3}
+  - {fileID: 7202379829672311287, guid: 9a320a33a33ef9f45b37cd6db75eecfc, type: 3}
   - {fileID: 5610440037511451557, guid: 2648ad47bb935134ca166ee029b9057c, type: 3}
   - {fileID: 54620538346265904, guid: af15cfee04f858d498f63c953455ee22, type: 3}
   - {fileID: 9025798772099955022, guid: 5b2d08e2a9dfa1b409080693a1e4ee7f, type: 3}
@@ -1051,17 +1060,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: faf2cce35e66fc742b87db7067d241da, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &2014817428 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 2645267134450389917, guid: 8e2a7a1f4ab52d34c9a0159957517f92, type: 3}
-  m_PrefabInstance: {fileID: 1667553554}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6aa7a8bd1ec55a442b68ac34dc81ee1a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &2069039949 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 9048470894506848985, guid: 8e2a7a1f4ab52d34c9a0159957517f92, type: 3}
@@ -1201,11 +1199,11 @@ PrefabInstance:
     - target: {fileID: 6005875126264289165, guid: 1f8371cfca8168c4b98781dfc31b5a3e, type: 3}
       propertyPath: _targetTransform
       value: 
-      objectReference: {fileID: 1001737499}
+      objectReference: {fileID: 1001737495}
     - target: {fileID: 6005875126264289165, guid: 1f8371cfca8168c4b98781dfc31b5a3e, type: 3}
       propertyPath: _playerController
       value: 
-      objectReference: {fileID: 2014817428}
+      objectReference: {fileID: 1579397568}
     - target: {fileID: 6005875126264289165, guid: 1f8371cfca8168c4b98781dfc31b5a3e, type: 3}
       propertyPath: _invisibleWallPrefab
       value: 
