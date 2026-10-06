@@ -5,16 +5,19 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-  - enabled: 0
+  - enabled: 1
     path: Assets/Scenes/DongWook/IntroScene.unity
     guid: 7e1d73bd965e04e4bb9b4db2328327d7
   - enabled: 1
     path: Assets/Scenes/DongWook/TitleScene.unity
     guid: 58f9f5eaf5933ae40ae98ad18694df04
-  - enabled: 0
-    path: Assets/Scenes/DongWook/GameScene.unity
-    guid: 3a55819144ca6824ab1671ff47e6a1e9
-  - enabled: 0
+  - enabled: 1
     path: Assets/Scenes/DongWook/TutorialScene.unity
     guid: 00bb77b34d9194941b4feaefdb0ea8db
+  - enabled: 1
+    path: Assets/Scenes/DongWook/EndScene.unity
+    guid: e43c5e15cfe510045997386072dfe9b5
+  - enabled: 1
+    path: Assets/Scenes/DongWook/GameScene.unity
+    guid: 3a55819144ca6824ab1671ff47e6a1e9
   m_configObjects: {}

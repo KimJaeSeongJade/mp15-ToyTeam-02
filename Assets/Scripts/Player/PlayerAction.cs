@@ -90,6 +90,9 @@ public class PlayerAction : MonoBehaviour
             if (newTarget != target)
             {
                 PickUpItem((newTarget));
+                _animator.SetLayerWeight(1, 0f);
+                _animator.SetBool(PARAM_IS_HOLDING_TOOL, false);
+                _animator.SetBool(PARAM_IS_HOLDING, false);
             }
             else
             {
@@ -101,13 +104,14 @@ public class PlayerAction : MonoBehaviour
 
     private void PickUpItem(IInteractable newInteractable)
     {
-        if (newInteractable == null) return;
-
         // 제거했으니 로드된 청크에서 제거
         Map.Instance.RemoveLoadedPoolable(newInteractable as IPoolable);
 
-        _animator.SetLayerWeight(1, 1f);
         _hand.Item = newInteractable;
+        if (newInteractable == null) return;
+
+        _animator.SetLayerWeight(1, 1f);
+       
         _hand.Item.GameObject.transform.rotation = transform.rotation;
 
         // 도구면 회전
@@ -116,6 +120,7 @@ public class PlayerAction : MonoBehaviour
         {
             _animator.SetBool(PARAM_IS_HOLDING_TOOL, true);
             _hand.Item.GameObject.transform.Rotate(-45f, -90f, 0);
+            tool.ToolUI(false);
         }
         else
         {
@@ -152,6 +157,7 @@ public class PlayerAction : MonoBehaviour
                     return;
                 }
             }
+            
 
             _hand.Item.GameObject.layer = 0;
             _hand.Item.GameObject.transform.rotation = Quaternion.identity;
@@ -196,4 +202,5 @@ public class PlayerAction : MonoBehaviour
         _moveSpeed = BASE_MOVE_SPEED;
         _canDash = true;
     }
+    
 }
