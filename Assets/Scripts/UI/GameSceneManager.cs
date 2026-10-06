@@ -33,13 +33,13 @@ public class GameSceneManager : MonoBehaviour
 
     private void Update()
     {
-        /*
+        
         if(!SceneManagerA.Instance._isPause && Input.GetKeyDown(_pauseKey))
         {
             StartCoroutine(OppenPause());            
         }
         SetTrainSpeed();
-        */
+        
     }
 
     private void SetTrainSpeed()
@@ -51,9 +51,9 @@ public class GameSceneManager : MonoBehaviour
     // ClosePause와 키가 동시에 눌려 코루틴으로 사용
     private IEnumerator OppenPause()
     {
-        yield return null;
-        SceneManagerA.Instance.Pause();
+        yield return null;        
         SceneManagerA.Instance._isPause = true;
+        SceneManagerA.Instance.Pause();
         _pauseMenu.SetActive(true);
         _pauseMenu.GetComponent<PMenuController>()._isSelect = true;
     }
@@ -94,7 +94,7 @@ public class GameSceneManager : MonoBehaviour
 
     private void Init()
     {
-        // _pauseMenu.SetActive(false);
+        _pauseMenu.SetActive(false);
     }
 
     private void GameOver()

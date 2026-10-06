@@ -184,7 +184,7 @@ MonoBehaviour:
   m_text: "- \uC544\uBB34 \uD0A4\uB098 \uB204\uB974\uC138\uC694!! -"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 918b9cd3dd3d91547b1f8b9bdf511c11, type: 2}
-  m_sharedMaterial: {fileID: 2100000, guid: eca53e3739c4d8c43931a58e999ae346, type: 2}
+  m_sharedMaterial: {fileID: 2100000, guid: 15556b859f83c4d488f24fe126c0b3d3, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []

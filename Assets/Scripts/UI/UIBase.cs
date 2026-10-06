@@ -33,12 +33,14 @@ public abstract class UIBase : MonoBehaviour
 
             _isAllExist = true;
 
-            _onImage.enabled = false;
-            _offImage.enabled = true;
+            _onImage.gameObject.SetActive(false);
+            _offImage.gameObject.SetActive(true);
         }
-        else if(images.Length == 1)
+        else if (images.Length == 1)
         {
             _offImage = images[0];
+
+            _offImage.gameObject.SetActive(true);
         }
     }
     // UI에 Enter시 OnImage활성화
@@ -46,10 +48,7 @@ public abstract class UIBase : MonoBehaviour
     {
         if (other.gameObject.layer == 6 && _isAllExist)
         {
-            if (_isAllExist)
-            {
-                _onImage.gameObject.SetActive(true);
-            }
+            _onImage.gameObject.SetActive(true);
             _offImage.gameObject.SetActive(false);
         }
     }
@@ -60,6 +59,7 @@ public abstract class UIBase : MonoBehaviour
         if (other.gameObject.layer == 6)
         {
             _offImage.gameObject.SetActive(true);
+
             if (_isAllExist)
             {
                 _onImage.gameObject.SetActive(false);
@@ -69,9 +69,13 @@ public abstract class UIBase : MonoBehaviour
 
     protected virtual void OnDisable()
     {
-        _offImage.gameObject.SetActive(true);
-        if (_isAllExist)
-        {            
+        if (_offImage != null)
+        {
+            _offImage.gameObject.SetActive(true);
+        }
+
+        if (_isAllExist && _onImage != null)
+        {
             _onImage.gameObject.SetActive(false);
         }
     }
