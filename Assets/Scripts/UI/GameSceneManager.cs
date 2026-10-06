@@ -34,11 +34,13 @@ public class GameSceneManager : MonoBehaviour
 
     private void Update()
     {
+        /*
         if(!SceneManagerA.Instance._isPause && Input.GetKeyDown(_pauseKey))
         {
             StartCoroutine(OppenPause());            
         }
         SetTrainSpeed();
+        */
     }
 
     private void SetTrainSpeed()
@@ -93,7 +95,7 @@ public class GameSceneManager : MonoBehaviour
 
     private void Init()
     {
-        _pauseMenu.SetActive(false);
+        // _pauseMenu.SetActive(false);
     }
 
     private void GameOver()
