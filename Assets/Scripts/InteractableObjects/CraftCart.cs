@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class CraftCart : Train, IInteractable
 {
@@ -17,7 +18,12 @@ public class CraftCart : Train, IInteractable
     [SerializeField] private int maxRailStorage = 3;       // 최대 레일 보관 개수 
     [SerializeField] private int currentCraftCount = 0;    // 현재 보관중인 레일 개수
     [SerializeField] private Outline _outline;
+    [SerializeField] private Image _progressBar;
+    [SerializeField] private Image _progressBarBackground;
 
+    [SerializeField] private GameObject _progressBarUI;
+
+    
     // 외부 참조용 프로퍼티
     public int CurrentCraftCount => currentCraftCount;
     public bool IsCrafting => isCrafting;
@@ -36,7 +42,12 @@ public class CraftCart : Train, IInteractable
         if (_outline != null)
         {
             _outline.enabled = false;
+            
+
         }
+        
+        if(_progressBarUI != null)
+            _progressBarUI.SetActive(false);
 
         // 게임시작시 자원을 갖고 시작할 경우 제작 시도
         TryCraft();
@@ -70,15 +81,35 @@ public class CraftCart : Train, IInteractable
     /// </summary>
     private IEnumerator CraftRoutine()
     {
+        
         // 제작 상태 시작 및 비주얼 갱신
         isCrafting = true;
+        _progressBar.fillAmount = 0;
+        
         UpdateCraftVisual();
+        _progressBarUI.SetActive(true);
+        
+        if (_progressBar != null)
+        {
+            float currentTime = 0f;
 
-        yield return new WaitForSeconds(craftTime);
+            while (currentTime < craftTime)
+            {
+                currentTime += Time.deltaTime;
+                float currentProgress = currentTime / craftTime;
+                _progressBar.fillAmount = currentProgress;
+                _progressBarBackground.fillAmount = currentProgress;
+                yield return  null;
+            }
+            currentTime = 0;
+        }
+        
+        //yield return new WaitForSeconds(craftTime);
 
         // 레일 1개 생산 및 수량 제한 처리
         currentCraftCount++;
-       
+       _progressBarUI.SetActive(false);
+        
         // 레일 최대 소지수 이상이면 제작 중단
         if (currentCraftCount > maxRailStorage)
         {
