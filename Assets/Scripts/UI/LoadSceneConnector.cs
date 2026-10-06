@@ -8,15 +8,19 @@ public class LoadSceneConnector : MonoBehaviour
     {
         SceneManagerA.Instance.LoadTitleScene();
     }
+        public void LoadTutorialScene()
+    {
+        SceneManagerA.Instance.LoadTutorialScene();
+    }
+
+    public void LoadEndScene()
+    {
+        SceneManagerA.Instance.LoadEndScene();
+    }
 
     public void LoadGameScene()
     {
         SceneManagerA.Instance.LoadGameScene();
-    }
-
-    public void LoadTutorialScene()
-    {
-        SceneManagerA.Instance.LoadTutorialScene();
     }
 
     // 게임 종료

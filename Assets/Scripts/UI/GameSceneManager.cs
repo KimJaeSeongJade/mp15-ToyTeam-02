@@ -20,7 +20,6 @@ public class GameSceneManager : MonoBehaviour
     public bool IsGameEnd { get; private set; }
     public bool IsGameWin { get; private set; }
 
-
     private void Awake()
     {
         SetSingleton();
@@ -104,6 +103,7 @@ public class GameSceneManager : MonoBehaviour
         // OnGameEnd?.Invoke();
         IsGameEnd = true;
         IsGameWin = false;
+        GameManager.Instance.SetIsGameWin(IsGameWin);
     }
 
     private void GameClear()
@@ -112,6 +112,7 @@ public class GameSceneManager : MonoBehaviour
         // OnGameEnd?.Invoke();
         IsGameEnd = true;
         IsGameWin = true;
+        GameManager.Instance.SetIsGameWin(IsGameWin);
     }
 
     private void BindGameEvents()
