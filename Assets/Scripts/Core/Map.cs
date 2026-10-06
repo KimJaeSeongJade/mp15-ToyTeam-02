@@ -55,6 +55,9 @@ public class Map : MonoBehaviour
     {
         int chunkIndex = GetChunkIndex(coord);
         Vector2Int chunkCoord = GetChunkCoord(coord);
+
+        if (!_chunkManager.Chunks.ContainsKey(chunkIndex)) return null;
+
         return _chunkManager.Chunks[chunkIndex].GetHoldable(chunkCoord);
     }
 

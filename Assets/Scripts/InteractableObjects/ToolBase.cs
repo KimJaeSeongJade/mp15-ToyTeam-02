@@ -8,6 +8,7 @@ public abstract class ToolBase : MonoBehaviour, IInteractable, IPoolable
     public GameObject GameObject => gameObject;
     public abstract BlockType BlockType { get; }
     public abstract Outline Outline { get; }
+    [SerializeField] private GameObject _myUI;
 
     private void OnEnable() => Init();
 
@@ -49,5 +50,10 @@ public abstract class ToolBase : MonoBehaviour, IInteractable, IPoolable
         Debug.Log($"{gameObject.name} returned to pool");
         ObjectPool.Instance.Return(this);
         gameObject.SetActive(false);
+    }
+
+    public void ToolUI(bool active)
+    {
+       _myUI.SetActive(active);
     }
 }
