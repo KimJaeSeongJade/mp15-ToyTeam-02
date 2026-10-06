@@ -95,7 +95,6 @@ public abstract class ResourceBase : MonoBehaviour, IInteractable, IPoolable
 
     private void BreakResource()
     {
-        Debug.Log("Rock Break");
         _dropItem = ObjectPool.Instance.Take(DropMaterialType);
         _dropItem.GameObject.transform.position = transform.position;
         _dropItem.GameObject.SetActive(true);

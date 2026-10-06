@@ -226,7 +226,6 @@ public class ChunkManager : MonoBehaviour
     {
         _chunkMap = chunkMap;
         _isWaveFunctionEnd = true;
-        Debug.Log($"OnWaveFunctionEnd : {_isWaveFunctionEnd}");
     }
 
     private void OnMapSaved()

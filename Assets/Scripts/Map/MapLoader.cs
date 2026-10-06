@@ -131,7 +131,6 @@ public class MapLoader : MonoBehaviour
         {
             string[] values = lines[i + rowStartIndex].Split('\t');
 
-            Debug.Log(values.Length);
             int y = row - 1 - i;
 
             for (int x = columnStartIndex; x < columnStartIndex + infinityInitialMapColumn; x++)

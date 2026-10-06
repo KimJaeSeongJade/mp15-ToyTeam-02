@@ -273,6 +273,7 @@ GameObject:
   - component: {fileID: 206574365}
   - component: {fileID: 206574364}
   - component: {fileID: 206574363}
+  - component: {fileID: 206574366}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -354,6 +355,19 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &206574366
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 206574362}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5d498da2ee939a04db59396fd61ffebc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _targetTransform: {fileID: 1001737495}
 --- !u!1 &211969452
 GameObject:
   m_ObjectHideFlags: 0
@@ -455,7 +469,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 365146496}
-  - component: {fileID: 365146495}
+  - component: {fileID: 365146497}
   m_Layer: 0
   m_Name: WaveFunction
   m_TagString: Untagged
@@ -463,21 +477,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &365146495
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 365146494}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ff8665e948e38874f9f9e2339ce8377b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _mapLoader: {fileID: 1794199087}
-  _neighborBonus: 3
-  Iterations: 0
 --- !u!4 &365146496
 Transform:
   m_ObjectHideFlags: 0
@@ -493,6 +492,21 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &365146497
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 365146494}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bb0675725905a1c43aa731841ee8670d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _mapLoader: {fileID: 1794199087}
+  _neighborBonus: 3
+  Iterations: 0
 --- !u!1 &614927958
 GameObject:
   m_ObjectHideFlags: 0
@@ -1242,7 +1256,7 @@ PrefabInstance:
     - target: {fileID: 6005875126264289165, guid: 1f8371cfca8168c4b98781dfc31b5a3e, type: 3}
       propertyPath: _waveFunction
       value: 
-      objectReference: {fileID: 365146495}
+      objectReference: {fileID: 365146497}
     - target: {fileID: 6005875126264289165, guid: 1f8371cfca8168c4b98781dfc31b5a3e, type: 3}
       propertyPath: _splineManager
       value: 

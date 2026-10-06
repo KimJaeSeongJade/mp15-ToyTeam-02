@@ -66,7 +66,6 @@ public class ObjectPool : MonoBehaviour
         _objectPoolDict[poolable.BlockType].Push(poolable);
 
         poolable.GameObject.transform.SetParent(_poolParent[poolable.BlockType].transform);
-        if (poolable.BlockType == BlockType.Rock || poolable.BlockType == BlockType.Iron) Debug.Log($"Return : {poolable.GameObject.name} / Count : {_objectPoolDict[poolable.BlockType].Count}");
     }
 
     private void CreatePool()

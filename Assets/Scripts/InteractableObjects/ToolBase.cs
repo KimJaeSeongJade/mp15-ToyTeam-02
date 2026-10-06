@@ -47,7 +47,6 @@ public abstract class ToolBase : MonoBehaviour, IInteractable, IPoolable
     /// </summary>
     public void ReturnToPool()
     {
-        Debug.Log($"{gameObject.name} returned to pool");
         ObjectPool.Instance.Return(this);
         gameObject.SetActive(false);
     }
