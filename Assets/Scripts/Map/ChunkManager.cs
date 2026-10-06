@@ -155,10 +155,8 @@ public class ChunkManager : MonoBehaviour
     {
         _isInitialLoading = true;
 
-        Debug.Log("InitialLoad");
         for (int i = 0; i <= _renderDistance; i++)
         {
-            Debug.Log(i);
             StartCoroutine(LoadChunkRoutine(i));
             yield return new WaitUntil(() => _isChunkMapSaved);
             LoadInvisibleWall(i);
