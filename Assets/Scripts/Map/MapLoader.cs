@@ -102,6 +102,8 @@ public class MapLoader : MonoBehaviour
 
         if (lines.Length < rowStartIndex) return;
 
+        _infiniteInitialMap = new int[ChunkManager.CHUNK_SIZE, row];
+
         for (int i = 0; i < row; i++)
         {
             string[] values = lines[i + rowStartIndex].Split('\t');
@@ -109,10 +111,26 @@ public class MapLoader : MonoBehaviour
             Debug.Log(values.Length);
             int y = row - 1 - i;
 
-            for (int x = columnStartIndex; x < values.Length; x++)
+            for (int x = columnStartIndex; x < columnStartIndex + ChunkManager.CHUNK_SIZE; x++)
             {
                 int.TryParse(values[x], out _infiniteInitialMap[x - columnStartIndex, y]);
             }
+        }
+        PrintMapData(_infiniteInitialMap);
+    }
+
+    // 디버깅용
+    private void PrintMapData(int[,] map)
+    {
+        Debug.Log("WorldMap");
+        for (int j = map.GetLength(1) - 1; j >= 0; j--)
+        {
+            string a = "";
+            for (int i = 0; i < map.GetLength(0); i++)
+            {
+                a += $"{map[i, j]} ";
+            }
+            Debug.Log(a);
         }
     }
 }
