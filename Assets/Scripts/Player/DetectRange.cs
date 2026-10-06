@@ -37,11 +37,7 @@ public class DetectRange : MonoBehaviour
 
     private void OnTriggerExit(Collider other)
     {
-        IInteractable interactable = other.GetComponent<IInteractable>();
-        if (interactable != null)
-        {
-            _detecteds.Remove(interactable);
-        }
+        _detecteds.Remove(other.GetComponent<IInteractable>());
     }
 
     private void CacheComponents()

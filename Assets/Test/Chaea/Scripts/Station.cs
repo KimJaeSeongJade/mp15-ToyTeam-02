@@ -10,7 +10,7 @@ public class Station : MonoBehaviour, IPoolable
 
     public void ReturnToPool()
     {
-        ObjectPool.Instance.Return(GetComponent<IPoolable>());
+        ObjectPool.Instance.Return(this);
         gameObject.SetActive(false);
     }
 }

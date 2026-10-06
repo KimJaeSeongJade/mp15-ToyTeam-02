@@ -51,9 +51,6 @@ public abstract class MaterialBase : MonoBehaviour, IStackable, IPoolable, IInte
                 _visualMiddle.SetActive(false);
                 _visualBottom.SetActive(true);
                 break;
-            case 0:
-                ReturnToPool();
-                break;
         }
     }
 
