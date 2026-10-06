@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class ObjectPool : MonoBehaviour
@@ -14,6 +15,7 @@ public class ObjectPool : MonoBehaviour
     private Dictionary<BlockType, Stack<IPoolable>> _objectPoolDict = new();
     private Dictionary<BlockType, GameObject> _prefabDict = new();
     private Dictionary<BlockType, GameObject> _poolParent = new();
+    private Dictionary<BlockType, int> _poolCount = new();
 
     private const int INITIAL_POOL_SIZE = 5;
 
@@ -38,6 +40,8 @@ public class ObjectPool : MonoBehaviour
             else
             {
                 GameObject newPoolable = Instantiate(_prefabDict[blockType], _poolParent[blockType].transform);
+                _poolCount[blockType] = _poolCount[blockType] + 1;
+                newPoolable.gameObject.name = $"{newPoolable.gameObject.name} {_poolCount[blockType]}";
                 newPoolable.SetActive(false);
                 return newPoolable.GetComponent<IPoolable>();
             }
@@ -79,9 +83,10 @@ public class ObjectPool : MonoBehaviour
             {
                 GameObject newObject = Instantiate(prefab, newPoolParent.transform);
                 newObject.SetActive(false);
-
+                newObject.name = $"{newObject.name} {i + 1}";
                 objectPoolStack.Push(newObject.GetComponent<IPoolable>());
             }
+            _poolCount[poolable.BlockType] = INITIAL_POOL_SIZE;
         }
     }
 
