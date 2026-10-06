@@ -22,17 +22,23 @@ public abstract class UIBase : MonoBehaviour
 
     private void Init()
     {
+        Image[] images = GetComponentsInChildren<Image>();
+
         _isAllExist = false;
-        if (GetComponentsInChildren<Image>().Length > 1)
+
+        if (images.Length > 1)
         {
-            _onImage = GetComponentsInChildren<Image>()[0];
-            _offImage = GetComponentsInChildren<Image>()[1];
+            _onImage = images[0];
+            _offImage = images[1];
+
             _isAllExist = true;
-            _onImage.gameObject.SetActive(false);
+
+            _onImage.enabled = false;
+            _offImage.enabled = true;
         }
-        else if(GetComponentsInChildren<Image>().Length == 1)
+        else if(images.Length == 1)
         {
-            _offImage = GetComponentsInChildren<Image>()[0];
+            _offImage = images[0];
         }
     }
     // UI에 Enter시 OnImage활성화
