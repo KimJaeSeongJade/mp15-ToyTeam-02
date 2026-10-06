@@ -34,10 +34,7 @@ public class GameSceneManager : MonoBehaviour
             StartCoroutine(OppenPause());            
         }
 
-        //if(SceneManagerA.Instance._isPause && Input.GetKeyDown(_pauseKey))
-        //{
-        //    StartCoroutine(ClosePause());
-        //}
+
     }
 
     // ClosePause와 키가 동시에 눌려 코루틴으로 사용

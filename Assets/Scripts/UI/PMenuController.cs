@@ -141,7 +141,6 @@ public class PMenuController : MonoBehaviour
 
                 if (uiconnector.ChildUI.gameObject.GetComponentInChildren<PMenuController>())
                 {
-                    Debug.Log("피메뉴들어옴");
                     PMenuController childController = uiconnector.ChildUI.gameObject.GetComponentInChildren<PMenuController>();
 
                     childController._isSettingUI = true;
@@ -156,7 +155,6 @@ public class PMenuController : MonoBehaviour
 
                 else if (uiconnector.ChildUI.gameObject.GetComponentInChildren<UnityEventPauseUI>(true))
                 {
-                    Debug.Log("이벤트들어옴");
                     UnityEventPauseUI childUI = uiconnector.ChildUI.gameObject.GetComponentInChildren<UnityEventPauseUI>();
                     childUI.gameObject.SetActive(true);
                     childUI.SetPrevMenu(this);
