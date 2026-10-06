@@ -17,6 +17,7 @@ public class PlayerAction : MonoBehaviour
     [SerializeField] private Rigidbody _playerBody;
     [SerializeField] private PlayerHand _hand;
     [SerializeField] private Animator _animator;
+    [SerializeField] private DetectRange _detectRange;
 
     private float _moveSpeed;
     private WaitForSeconds _waitDashDuration = new WaitForSeconds(0.3f);
@@ -89,6 +90,9 @@ public class PlayerAction : MonoBehaviour
             if (newTarget != target)
             {
                 PickUpItem((newTarget));
+                _animator.SetLayerWeight(1, 0f);
+                _animator.SetBool(PARAM_IS_HOLDING_TOOL, false);
+                _animator.SetBool(PARAM_IS_HOLDING, false);
             }
             else
             {
@@ -100,10 +104,14 @@ public class PlayerAction : MonoBehaviour
 
     private void PickUpItem(IInteractable newInteractable)
     {
-        if (newInteractable == null) return;
-        
-        _animator.SetLayerWeight(1, 1f);
+        // 제거했으니 로드된 청크에서 제거
+        Map.Instance.RemoveLoadedPoolable(newInteractable as IPoolable);
+
         _hand.Item = newInteractable;
+        if (newInteractable == null) return;
+
+        _animator.SetLayerWeight(1, 1f);
+       
         _hand.Item.GameObject.transform.rotation = transform.rotation;
 
         // 도구면 회전
@@ -112,6 +120,7 @@ public class PlayerAction : MonoBehaviour
         {
             _animator.SetBool(PARAM_IS_HOLDING_TOOL, true);
             _hand.Item.GameObject.transform.Rotate(-45f, -90f, 0);
+            tool.ToolUI(false);
         }
         else
         {
@@ -121,6 +130,7 @@ public class PlayerAction : MonoBehaviour
         _hand.Item.GameObject.layer = 2;
         _hand.ItemPosition = _hand.transform.position;
         _hand.ItemParent = _hand.transform;
+        _detectRange.Detecteds.Clear();
     }
 
     
@@ -147,14 +157,20 @@ public class PlayerAction : MonoBehaviour
                     return;
                 }
             }
+            
 
             _hand.Item.GameObject.layer = 0;
             _hand.Item.GameObject.transform.rotation = Quaternion.identity;
             _hand.ItemPosition = position.CoordToWorld();
             _hand.ItemParent = null;
+            _detectRange.Detecteds.Clear();
+
+            // 배치했으니 로드된 청크에 저장
+            Map.Instance.AddLoadedPoolable(_hand.Item as IPoolable);
         }
 
         Map.Instance.SetHoldable(position, _hand.Item);
+
         _hand.Item = null;
     }
 
@@ -177,6 +193,7 @@ public class PlayerAction : MonoBehaviour
         {
             _animator.SetBool(PARAM_IS_USING, false);
         }
+
         target.AutoInteract(_hand.Item);
     }
 
@@ -185,4 +202,5 @@ public class PlayerAction : MonoBehaviour
         _moveSpeed = BASE_MOVE_SPEED;
         _canDash = true;
     }
+    
 }

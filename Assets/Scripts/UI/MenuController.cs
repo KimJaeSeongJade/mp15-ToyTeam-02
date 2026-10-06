@@ -7,7 +7,7 @@ public class MenuController : MonoBehaviour
 {
     // 설정조작 MenuController에 지금 프리팹 부여
     public MenuController _prevMenu;
-
+    
     private KeyCode _upKey => KeyCode.W;
     private KeyCode _downKey => KeyCode.S;
     private KeyCode _inKey => KeyCode.D;

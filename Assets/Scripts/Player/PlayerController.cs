@@ -8,7 +8,7 @@ using UnityEngine;
 /// </summary>
 public class PlayerController : MonoBehaviour
 {
-    private const float THRESHOLD = 0.7f;
+    private const float THRESHOLD = 0.3f;
 
     [SerializeField] private PlayerHand _playerHand;
     [SerializeField] private PlayerAction _player;
@@ -87,12 +87,14 @@ public class PlayerController : MonoBehaviour
             Vector3 playerDirection = transform.forward;
             Vector3 toDetectedDirection = (detected.GameObject.transform.position - transform.position).normalized;
             float lookPercentage = Vector3.Dot(toDetectedDirection, playerDirection);
-
-            Ray ray = new Ray(transform.position, toDetectedDirection);
-            RaycastHit hit;
-            if (!Physics.Raycast(ray, out hit, _detectRange.Range)) continue;
             
-            if (lookPercentage >= THRESHOLD && hit.transform.GetComponent<IInteractable>() == detected && detected != _playerHand.Item)
+            bool canLook = lookPercentage >= THRESHOLD;
+            bool isHandItem = detected == _playerHand.Item;
+            bool isActive = detected.GameObject.activeSelf;
+            bool canUseItem = (!(_playerHand.Item is ToolBase) && !(detected is ResourceBase)) ||
+                ((_playerHand.Item is ToolAxe) && !(detected is ResourceRock)) ||
+                ((_playerHand.Item is ToolPickaxe) && !(detected is ResourceTree));
+            if (canLook && !isHandItem && isActive && canUseItem)
             {
                 if (!canTargetList.Contains(detected)) canTargetList.Add(detected);
                 canTargetDict.TryAdd(detected, lookPercentage);
@@ -106,21 +108,50 @@ public class PlayerController : MonoBehaviour
 
         IInteractable target = null;
         float targetLookPercentage = -1;
-        foreach(IInteractable canTarget in canTargetList)
+        foreach (IInteractable canTarget in canTargetList)
         {
             float canTargetLookPercentage = canTargetDict[canTarget];
-            if(canTargetLookPercentage > targetLookPercentage)
+            if (canTargetLookPercentage > targetLookPercentage)
             {
                 target = canTarget;
                 targetLookPercentage = canTargetLookPercentage;
             }
         }
 
-
-        // 비활성화된 오브젝트를 타겟에서 제외
-        if (target == _playerHand.Item || target != null && target.GameObject.activeSelf == false)
+        // 플레이어가 도구를 들고 있을 때
+        if (_playerHand.Item is ToolBase)
         {
-            target = null;
+            foreach (IInteractable canTarget in canTargetList)
+            {
+                if (!(canTarget is ResourceBase)) continue;
+
+                float canTargetLookPercentage = canTargetDict[canTarget];
+                if (target != null && !(target is ResourceBase))
+                {
+                    target = canTarget;
+                    targetLookPercentage = canTargetLookPercentage;
+                    continue;
+                }
+
+                if (canTargetLookPercentage > targetLookPercentage)
+                {
+                    target = canTarget;
+                    targetLookPercentage = canTargetLookPercentage;
+                }
+            }
+
+            if(target == null)
+            {
+                foreach (IInteractable canTarget in canTargetList)
+                {
+                    float canTargetLookPercentage = canTargetDict[canTarget];
+                    if (canTargetLookPercentage > targetLookPercentage)
+                    {
+                        target = canTarget;
+                        targetLookPercentage = canTargetLookPercentage;
+                    }
+                }
+            }
         }
 
         if (target == null)

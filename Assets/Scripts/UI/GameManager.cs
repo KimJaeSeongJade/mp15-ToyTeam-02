@@ -23,48 +23,73 @@ public class GameManager : MonoBehaviour
         } 
     }
     // 플레이 시간
-    private float _playTime;
-    public float PlayTime
-    {
-        get { return _playTime; }
-        set { _playTime = value; }
-    }
+    public float PlayTime { get; private set; }
+    
     // 열차의 속도
-    private float _trainSpeed;
-    //게임이 Pasue상태인지
-    private bool _isPause;
-    public bool IsPause
-    {
-        get { return _isPause; }
-        set { _isPause = value; }
-    }
+    public float _trainSpeed { get; private set; }
+    [SerializeField] private float TrainSpeed;
+
+    // 게임이 Pasue상태인지 
+    public bool IsPaused { get; private set; }
+
+    // 게임을 클리어 했는지
+    public bool IsGameWin; //{ get; private set; }
 
     //--------------------
     private void Awake()
-    {
-        Init();
+    {        
         SetSingleton();
+        Init();
+       
     }
+
+    private void Start()
+    {
+        SetTrainSpeed(TrainSpeed);
+    }
+
 
     private void Update()
     {
         //게임씬이고 게임 진행중일 때
-        if (SceneManager.GetActiveScene().buildIndex == 2 && !_isPause)
+        if (SceneManager.GetActiveScene().buildIndex == 2 && !IsPaused)
         {
             PlayStart();
         }
     } 
+    
+    public void IsPause(bool value)
+    {
+        IsPaused = value;
+    }
+
+    public void SetIsGameWin(bool value)
+    {
+        IsGameWin = value;
+    }
+
+    // 플레이 시간 리셋
+    public void ResetPlayTime()
+    {
+        PlayTime = 0f;
+    }
 
     // 플레이 시간 계산
     private void PlayStart()
     {
-        _playTime += Time.deltaTime;
-        Debug.Log(_playTime);
+        PlayTime += Time.deltaTime;
+        //Debug.Log(PlayTime);
+    }
+
+    // 열차 속도
+    private void SetTrainSpeed(float value)
+    {
+        _trainSpeed += value;
     }
 
     private void Init()
     {
-        _isPause = false;
+        IsPause(false);
     }
 
     private void SetSingleton()

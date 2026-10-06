@@ -1,9 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using UnityEngine;
 
 public class Map : MonoBehaviour
 {
+    [SerializeField] private ChunkManager _chunkManager;
+
     /// <summary>
     /// 플레이어가 들 수 있는 오브젝트의 블록 종류 오프셋
     /// </summary>
@@ -13,9 +16,6 @@ public class Map : MonoBehaviour
     /// 맵 싱글톤
     /// </summary>
     public static Map Instance;
-
-    private int[,] _worldMap;
-    private IInteractable[,] _holdableMap;
 
     private void Awake()
     {
@@ -41,7 +41,9 @@ public class Map : MonoBehaviour
     /// <returns></returns>
     public BlockType GetBlockType(Vector2Int coord)
     {
-        return (BlockType)_worldMap[coord.x, coord.y];
+        int chunkIndex = GetChunkIndex(coord);
+        Vector2Int chunkCoord = GetChunkCoord(coord);
+        return _chunkManager.Chunks[chunkIndex].GetBlockType(chunkCoord);
     }
 
     /// <summary>
@@ -51,8 +53,12 @@ public class Map : MonoBehaviour
     /// <returns></returns>
     public IInteractable GetHoldable(Vector2Int coord)
     {
-        if (_holdableMap == null) return null;
-        return _holdableMap[coord.x, coord.y];
+        int chunkIndex = GetChunkIndex(coord);
+        Vector2Int chunkCoord = GetChunkCoord(coord);
+
+        if (!_chunkManager.Chunks.ContainsKey(chunkIndex)) return null;
+
+        return _chunkManager.Chunks[chunkIndex].GetHoldable(chunkCoord);
     }
 
     /// <summary>
@@ -62,17 +68,39 @@ public class Map : MonoBehaviour
     /// <param name="interactable"> 플레이어가 들 수 있는 오브젝트 </param>
     public void SetHoldable(Vector2Int coord, IInteractable interactable)
     {
-        // Debug.Log($"SetHoldable {coord} {interactable?.GameObject.name}");
-        _holdableMap[coord.x, coord.y] = interactable;
+        int chunkIndex = GetChunkIndex(coord);
+        Vector2Int chunkCoord = GetChunkCoord(coord);
+        _chunkManager.Chunks[chunkIndex].SetHoldable(chunkCoord, interactable);
     }
 
     /// <summary>
-    /// 맵 데이터 저장
+    /// Chunk의 로딩된 Poolable로 등록 (현재 Chunk에서 게임 화면이 멀어지면 풀로 되돌아감)
     /// </summary>
-    /// <param name="mapData"> 맵 데이터 </param>
-    public void SetMapData(int[,] mapData)
+    /// <param name="poolable"></param>
+    public void AddLoadedPoolable(IPoolable poolable)
     {
-        _worldMap = mapData;
-        _holdableMap = new IInteractable[mapData.GetLength(0), mapData.GetLength(1)];
+        Chunk chunk = _chunkManager.GetChunk(poolable.GameObject.transform.position.WorldToCoord());
+        chunk.AddLoadedPoolable(poolable);
+    }
+
+    /// <summary>
+    /// Chunk의 로딩된 Poolable로 등록 해제 (현재 Chunk에서 게임 화면이 멀어져도 풀로 되돌아가지 않음)
+    /// </summary>
+    /// <param name="poolable"></param>
+    public void RemoveLoadedPoolable(IPoolable poolable)
+    {
+        if (poolable == null) return;
+        Chunk chunk = _chunkManager.GetChunk(poolable.GameObject.transform.position.WorldToCoord());
+        chunk.RemoveLoadedPoolable(poolable);
+    }
+
+    private int GetChunkIndex(Vector2Int worldCoord)
+    {
+        return worldCoord.x / ChunkManager.CHUNK_SIZE;
+    }
+
+    private Vector2Int GetChunkCoord(Vector2Int worldCoord)
+    {
+        return new Vector2Int(worldCoord.x - ChunkManager.CHUNK_SIZE * GetChunkIndex(worldCoord), worldCoord.y);
     }
 }
