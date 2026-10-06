@@ -22,6 +22,7 @@ public class MapLoader : MonoBehaviour
     private int[,] _map;
     private int[,] _infiniteInitialMap;
     private string _docId = "1aNNeM5KLbdZ4hOK1AM0-LkXCTkBRzoJswdcpBvjRjKI";
+
     private Dictionary<GameMode, string> _docGids = new Dictionary<GameMode, string> {
         { GameMode.Quick, "0" },
         { GameMode.Infinite, "1355842421" },
@@ -76,7 +77,17 @@ public class MapLoader : MonoBehaviour
 
         Debug.Log($"lines length : {lines.Length}");
 
-        int row = lines.Length - rowStartIndex;
+        int row;
+
+        if (lines.Length - rowStartIndex > ChunkManager.CHUNK_SIZE)
+        {
+            row = ChunkManager.CHUNK_SIZE;
+        }
+        else
+        {
+            row = lines.Length - rowStartIndex;
+        }
+
         int column = lines[0].Split('\t').Length - columnStartIndex;
         Debug.Log($"row : {row}");
         Debug.Log($"column : {column}");
@@ -103,7 +114,22 @@ public class MapLoader : MonoBehaviour
 
         if (lines.Length < rowStartIndex) return;
 
-        _infiniteInitialMap = new int[ChunkManager.CHUNK_SIZE, row];
+        int infinityInitialMapColumn = 0;
+
+        string[] indices = lines[rowStartIndex - 1].Split('\t');
+
+        for (int x = columnStartIndex; x < columnStartIndex + ChunkManager.CHUNK_SIZE; x++)
+        {
+            int value;
+            int.TryParse(indices[x], out value);
+
+            if (infinityInitialMapColumn < value) infinityInitialMapColumn = value;
+        }
+
+        // index이므로 실제 개수는 1 추가
+        infinityInitialMapColumn++;
+
+        _infiniteInitialMap = new int[infinityInitialMapColumn, ChunkManager.CHUNK_SIZE];
 
         for (int i = 0; i < ChunkManager.CHUNK_SIZE; i++)
         {
@@ -112,18 +138,18 @@ public class MapLoader : MonoBehaviour
             Debug.Log(values.Length);
             int y = row - 1 - i;
 
-            for (int x = columnStartIndex; x < columnStartIndex + ChunkManager.CHUNK_SIZE; x++)
+            for (int x = columnStartIndex; x < columnStartIndex + infinityInitialMapColumn; x++)
             {
                 int.TryParse(values[x], out _infiniteInitialMap[x - columnStartIndex, y]);
             }
         }
-        PrintMapData(_infiniteInitialMap);
+
+        // PrintMapData(_infiniteInitialMap);
     }
 
     // 디버깅용
     private void PrintMapData(int[,] map)
     {
-        Debug.Log("WorldMap");
         for (int j = map.GetLength(1) - 1; j >= 0; j--)
         {
             string a = "";

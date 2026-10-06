@@ -16,7 +16,8 @@ public class WaveFunction : MonoBehaviour
     public event Action<int[,]> OnWaveFunctionEnd;
 
     private Dictionary<int, Tile> _tiles = new();
-    private bool _isSampleMapLoaded;
+    private bool _isInitialLoad = true;
+    private int[,] _initialMap;
 
     private Vector2Int[] _directions = new[]
     {
@@ -34,7 +35,7 @@ public class WaveFunction : MonoBehaviour
         Debug.Log("WaveFunctionCollapse started");
         int[,] sampleMapData = _mapLoader.Map;
 
-        if (!_isSampleMapLoaded) LoadMapData(sampleMapData);
+        if (_isInitialLoad) LoadMapData(sampleMapData);
         GridComponents = new List<Cell>();
         InitializeGrid();
     }
@@ -82,22 +83,47 @@ public class WaveFunction : MonoBehaviour
                 }
             }
         }
-
-        _isSampleMapLoaded = true;
     }
 
     private void InitializeGrid()
     {
         GridComponents.Clear();
-        Iterations = 0;
+
+
+        if (_isInitialLoad)
+        {
+            _initialMap = _mapLoader.InfiniteInitialMap;
+            Iterations = _initialMap.GetLength(0) * _initialMap.GetLength(1);
+        }
+        else
+        {
+            Iterations = 0;
+        }
 
         for (int y = 0; y < Dimensions; y++)
         {
             for (int x = 0; x < Dimensions; x++)
             {
-                Cell newCell = new Cell();
-                newCell.CreateCell(false, _tiles.Values.ToArray());
-                GridComponents.Add(newCell);
+                if (_isInitialLoad &&
+                    _initialMap != null &&
+                    x < _initialMap.GetLength(0) &&
+                    y < _initialMap.GetLength(1)
+                    )
+                {
+                    // 1, 2, 3, 4, 5를 제외한 경우는 샘플 맵에 입력하지 않았으므로 제거
+                    int mapIndex = _initialMap[x, y];
+                    if (mapIndex == 0 || mapIndex > 5) mapIndex = 1;
+
+                    Cell newCell = new Cell();
+                    newCell.CreateCell(true, new Tile[] { _tiles[mapIndex] });
+                    GridComponents.Add(newCell);
+                }
+                else
+                {
+                    Cell newCell = new Cell();
+                    newCell.CreateCell(false, _tiles.Values.ToArray());
+                    GridComponents.Add(newCell);
+                }
             }
         }
 
@@ -309,18 +335,31 @@ public class WaveFunction : MonoBehaviour
                 int index = x + y * size;
                 Cell cell = GridComponents[index];
 
-                if (cell.Collapsed && cell.TileOptions != null && cell.TileOptions.Length > 0)
+                if (_isInitialLoad &&
+                    _initialMap != null &&
+                    x < _initialMap.GetLength(0) &&
+                    y < _initialMap.GetLength(1)
+                    )
                 {
-                    resultMap[x, y] = cell.TileOptions[0].BlockType;
+                    resultMap[x, y] = _initialMap[x, y];
                 }
+
                 else
                 {
-                    Debug.Log("Collapsed failed");
-                    resultMap[x, y] = 1;
+                    if (cell.Collapsed && cell.TileOptions != null && cell.TileOptions.Length > 0)
+                    {
+                        resultMap[x, y] = cell.TileOptions[0].BlockType;
+                    }
+                    else
+                    {
+                        Debug.Log("Collapsed failed");
+                        resultMap[x, y] = 1;
+                    }
                 }
             }
         }
 
+        _isInitialLoad = false;
         return resultMap;
     }
 }
