@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
 /// <summary>
@@ -17,7 +18,7 @@ public class SceneManagerA : MonoBehaviour
         {
             if (_instance == null)
             {
-                _instance = _instance = FindObjectOfType<SceneManagerA>();
+                _instance = FindObjectOfType<SceneManagerA>();
                 DontDestroyOnLoad(_instance.gameObject);
             }
             return _instance;
@@ -34,6 +35,9 @@ public class SceneManagerA : MonoBehaviour
 
     public float BgmVolume => _bgmVolume;
     public float SfxVolume => _sfxVolume;
+
+    [SerializeField] [Range(0.01f, 10f)] private float _fadeTime;
+    [SerializeField] private Image _image;
 
     // 게임이 멈춰있는지
     public bool _isPause;
@@ -55,31 +59,39 @@ public class SceneManagerA : MonoBehaviour
         _resolutionNum = 1;
         _bgmVolume = 100f;
         _sfxVolume = 100f;
-    }
+    }       
 
     public void LoadTitleScene()
     {
+        FadeEffect.Instance.FadeOut();
         ResetScene();
         SceneManager.LoadScene(1);
+        FadeEffect.Instance.FadeIn();
     }    
 
     public void LoadTutorialScene()
     {
+        FadeEffect.Instance.FadeOut();
         ResetScene();
         SceneManager.LoadScene(2);
+        FadeEffect.Instance.FadeIn();
     }
     public void LoadEndScene()
     {
+        FadeEffect.Instance.FadeOut();
         ResetScene();
         GameManager.Instance.ResetPlayTime();
         SceneManager.LoadScene(3);
+        FadeEffect.Instance.FadeIn();
     }
 
     public void LoadGameScene()
     {
+        FadeEffect.Instance.FadeOut();
         ResetScene();
         GameManager.Instance.ResetPlayTime();
         SceneManager.LoadScene(4);
+        FadeEffect.Instance.FadeIn();
     }
 
     private void ResetScene()
