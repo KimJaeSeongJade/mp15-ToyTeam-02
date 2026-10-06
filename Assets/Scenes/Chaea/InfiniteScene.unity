@@ -347,7 +347,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5d498da2ee939a04db59396fd61ffebc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _targetTransform: {fileID: 1001737499}
+  _targetTransform: {fileID: 1579397570}
 --- !u!1 &211969452
 GameObject:
   m_ObjectHideFlags: 0
@@ -895,6 +895,53 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c07a9aac930522f4d8eaef06e5930bd8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &1570254135
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1570254137}
+  - component: {fileID: 1570254136}
+  m_Layer: 0
+  m_Name: WaveFunction
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1570254136
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1570254135}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ff8665e948e38874f9f9e2339ce8377b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _mapLoader: {fileID: 1794199087}
+  _neighborBonus: 3
+  Iterations: 0
+--- !u!4 &1570254137
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1570254135}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!95 &1579397564 stripped
 Animator:
   m_CorrespondingSourceObject: {fileID: 7514123127403698462, guid: 8e2a7a1f4ab52d34c9a0159957517f92, type: 3}
@@ -1129,7 +1176,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6972055260089688410, guid: fd9297e98be2efb4f8f0850fc9d19eee, type: 3}
       propertyPath: _gameMode
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 9127187142286411491, guid: fd9297e98be2efb4f8f0850fc9d19eee, type: 3}
       propertyPath: _chunkManager
@@ -1197,13 +1244,17 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1794199087}
     - target: {fileID: 6005875126264289165, guid: 1f8371cfca8168c4b98781dfc31b5a3e, type: 3}
+      propertyPath: _waveFunction
+      value: 
+      objectReference: {fileID: 1570254136}
+    - target: {fileID: 6005875126264289165, guid: 1f8371cfca8168c4b98781dfc31b5a3e, type: 3}
       propertyPath: _splineManager
       value: 
       objectReference: {fileID: 1195103906}
     - target: {fileID: 6005875126264289165, guid: 1f8371cfca8168c4b98781dfc31b5a3e, type: 3}
       propertyPath: _targetTransform
       value: 
-      objectReference: {fileID: 1579397570}
+      objectReference: {fileID: 1001737499}
     - target: {fileID: 6005875126264289165, guid: 1f8371cfca8168c4b98781dfc31b5a3e, type: 3}
       propertyPath: _playerController
       value: 
@@ -1234,3 +1285,4 @@ SceneRoots:
   - {fileID: 1408545518}
   - {fileID: 177335331}
   - {fileID: 211969454}
+  - {fileID: 1570254137}

@@ -14,7 +14,9 @@ public class WaveFunction : MonoBehaviour
     public List<Cell> GridComponents;
     public int Iterations = 0;
     public event Action<int[,]> OnWaveFunctionEnd;
+
     private Dictionary<int, Tile> _tiles = new();
+    private bool _isSampleMapLoaded;
 
     private Vector2Int[] _directions = new[]
     {
@@ -24,15 +26,15 @@ public class WaveFunction : MonoBehaviour
         new Vector2Int(-1, 0)
     };
 
-    private void Awake() => BindMapLoaderEvents();
-    private void OnDestroy() => UnbindMapLoaderEvents();
-
-    private void StartWaveFunctionCollapse()
+    /// <summary>
+    /// 파동 함수 붕괴 알고리즘을 실행하여 맵 생성 시작
+    /// </summary>
+    public void StartWaveFunctionCollapse()
     {
         Debug.Log("WaveFunctionCollapse started");
-        int[,] sampleMapData = _mapLoader.WorldMap;
+        int[,] sampleMapData = _mapLoader.Map;
 
-        LoadMapData(sampleMapData);
+        if (!_isSampleMapLoaded) LoadMapData(sampleMapData);
         GridComponents = new List<Cell>();
         InitializeGrid();
     }
@@ -80,10 +82,15 @@ public class WaveFunction : MonoBehaviour
                 }
             }
         }
+
+        _isSampleMapLoaded = true;
     }
 
     private void InitializeGrid()
     {
+        GridComponents.Clear();
+        Iterations = 0;
+
         for (int y = 0; y < Dimensions; y++)
         {
             for (int x = 0; x < Dimensions; x++)
@@ -96,7 +103,6 @@ public class WaveFunction : MonoBehaviour
 
         StartCoroutine(CheckEntropy());
     }
-
 
     private IEnumerator CheckEntropy()
     {
@@ -260,7 +266,7 @@ public class WaveFunction : MonoBehaviour
         else
         {
             Debug.Log("WFC Finished");
-            _mapLoader.SetWorldMap(GetGeneratedMapData());
+            OnWaveFunctionEnd?.Invoke(GetGeneratedMapData());
         }
     }
 
@@ -316,15 +322,5 @@ public class WaveFunction : MonoBehaviour
         }
 
         return resultMap;
-    }
-
-    private void BindMapLoaderEvents()
-    {
-        _mapLoader.OnMapReady += StartWaveFunctionCollapse;
-    }
-
-    private void UnbindMapLoaderEvents()
-    {
-        _mapLoader.OnMapReady -= StartWaveFunctionCollapse;
     }
 }
