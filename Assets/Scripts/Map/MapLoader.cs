@@ -7,29 +7,32 @@ using UnityEngine.UIElements;
 
 public class MapLoader : MonoBehaviour
 {
+    [SerializeField] private GameMode _gameMode;
+
     /// <summary>
     /// 저장한 월드맵
     /// </summary>
     public int[,] WorldMap => _worldMap;
 
     // _worldMap <청크의 인덱스, 청크의 로컬맵>
-    private int[,] _worldMap; 
+    private int[,] _worldMap;
+    private string _docId = "1aNNeM5KLbdZ4hOK1AM0-LkXCTkBRzoJswdcpBvjRjKI";
+    private Dictionary<GameMode, string> _docGids = new Dictionary<GameMode, string> {
+        { GameMode.Quick, "0" },
+        { GameMode.Infinite, "1355842421" },
+        { GameMode.Test, "1935130282" }
+        };
 
     /// <summary>
     /// 외부에서 맵 정보를 읽어와서 배열로 저장한 여부
     /// </summary>
     public bool CanLoadMap { get; private set; }
+    public GameMode GameMode => _gameMode;
     public event Action OnMapReady;
 
     private void Start()
     {
-        string docId = "1aNNeM5KLbdZ4hOK1AM0-LkXCTkBRzoJswdcpBvjRjKI";
-        string gid = "0";
-        string testRailGid = "1935130282";
-        string testWFCGid = "1355842421";
-        // StartCoroutine(LoadMapDataRoutine(docId, gid));
-        StartCoroutine(LoadMapDataRoutine(docId, testRailGid));
-        // StartCoroutine(LoadMapDataRoutine(docId, testWFCGid));
+        StartCoroutine(LoadMapDataRoutine(_docId, _docGids[_gameMode]));
     }
 
     private IEnumerator LoadMapDataRoutine(string docId, string gid)
@@ -46,7 +49,8 @@ public class MapLoader : MonoBehaviour
 
         ParseMapData(www.downloadHandler.text);
         OnMapReady?.Invoke();
-        CanLoadMap = true;
+
+        if (_gameMode != GameMode.Infinite) CanLoadMap = true;
     }
 
     private void ParseMapData(string text)

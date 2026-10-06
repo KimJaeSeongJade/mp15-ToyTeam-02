@@ -9,6 +9,7 @@ public class ChunkManager : MonoBehaviour
     /// </summary>
     public const int CHUNK_SIZE = 20;
 
+    [SerializeField] private WaveFunction _waveFunction;
     [SerializeField] private PlayerController _playerController;
     [SerializeField] private Transform _targetTransform; // 청크 스트리밍 기준 타켓의 transform
     [SerializeField] private Chunk _chunkPrefab;
@@ -28,6 +29,7 @@ public class ChunkManager : MonoBehaviour
     private int[,] _worldMap => _mapLoader.WorldMap;
     private int _previousChunkIndex;
     private int _oldestChunkIndex;
+    private GameMode _gameMode => _mapLoader.GameMode;
     private bool _canLoadMap => _mapLoader.CanLoadMap;
 
     public Dictionary<int, Chunk> Chunks => _chunks;
@@ -60,6 +62,11 @@ public class ChunkManager : MonoBehaviour
     private int GetChunkIndex(Vector3 position)
     {
         return (int)position.x / CHUNK_SIZE;
+    }
+
+    private void CreateChunkMap(int chunkIndex)
+    {
+        // _waveFunction
     }
 
     private void LoadChunk(int chunkIndex)
