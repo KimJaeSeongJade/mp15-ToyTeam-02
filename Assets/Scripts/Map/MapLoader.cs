@@ -25,6 +25,7 @@ public class MapLoader : MonoBehaviour
     private Dictionary<GameMode, string> _docGids = new Dictionary<GameMode, string> {
         { GameMode.Quick, "0" },
         { GameMode.Infinite, "1355842421" },
+        { GameMode.Tutorial, "1277891633" },
         { GameMode.Test, "1935130282" }
         };
 
@@ -75,7 +76,7 @@ public class MapLoader : MonoBehaviour
 
         Debug.Log($"lines length : {lines.Length}");
 
-        int row = ChunkManager.CHUNK_SIZE;
+        int row = lines.Length - rowStartIndex;
         int column = lines[0].Split('\t').Length - columnStartIndex;
         Debug.Log($"row : {row}");
         Debug.Log($"column : {column}");
@@ -104,7 +105,7 @@ public class MapLoader : MonoBehaviour
 
         _infiniteInitialMap = new int[ChunkManager.CHUNK_SIZE, row];
 
-        for (int i = 0; i < row; i++)
+        for (int i = 0; i < ChunkManager.CHUNK_SIZE; i++)
         {
             string[] values = lines[i + rowStartIndex].Split('\t');
 
