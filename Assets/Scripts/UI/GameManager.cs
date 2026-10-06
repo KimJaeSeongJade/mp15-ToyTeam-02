@@ -30,10 +30,10 @@ public class GameManager : MonoBehaviour
     [SerializeField] private float TrainSpeed;
 
     // 게임이 Pasue상태인지 
-    public bool IsPaused { get; private set; }    
+    public bool IsPaused { get; private set; }
 
     // 게임을 클리어 했는지
-    public bool IsGameWin { get; private set; }
+    public bool IsGameWin; //{ get; private set; }
 
     //--------------------
     private void Awake()
@@ -57,9 +57,15 @@ public class GameManager : MonoBehaviour
             PlayStart();
         }
     } 
+    
     public void IsPause(bool value)
     {
         IsPaused = value;
+    }
+
+    public void SetIsGameWin(bool value)
+    {
+        IsGameWin = value;
     }
 
     // 플레이 시간 리셋

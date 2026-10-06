@@ -61,19 +61,25 @@ public class SceneManagerA : MonoBehaviour
     {
         ResetScene();
         SceneManager.LoadScene(1);
+    }    
+
+    public void LoadTutorialScene()
+    {
+        ResetScene();
+        SceneManager.LoadScene(2);
+    }
+    public void LoadEndScene()
+    {
+        ResetScene();
+        GameManager.Instance.ResetPlayTime();
+        SceneManager.LoadScene(3);
     }
 
     public void LoadGameScene()
     {
         ResetScene();
         GameManager.Instance.ResetPlayTime();
-        SceneManager.LoadScene(2);
-    }
-
-    public void LoadTutorialScene()
-    {
-        ResetScene();
-        SceneManager.LoadScene(3);
+        SceneManager.LoadScene(4);
     }
 
     private void ResetScene()

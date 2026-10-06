@@ -101,6 +101,7 @@ public class GameSceneManager : MonoBehaviour
         // OnGameEnd?.Invoke();
         IsGameEnd = true;
         IsGameWin = false;
+        GameManager.Instance.SetIsGameWin(IsGameWin);
     }
 
     private void GameClear()
@@ -109,6 +110,7 @@ public class GameSceneManager : MonoBehaviour
         // OnGameEnd?.Invoke();
         IsGameEnd = true;
         IsGameWin = true;
+        GameManager.Instance.SetIsGameWin(IsGameWin);
     }
 
     private void BindGameEvents()
