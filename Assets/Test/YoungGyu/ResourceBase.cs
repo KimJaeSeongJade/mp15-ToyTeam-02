@@ -90,9 +90,6 @@ public abstract class ResourceBase : MonoBehaviour, IInteractable, IPoolable
                 _visualTop.SetActive(false);
                 _visualMiddle.SetActive(false);
                 break;
-            case 0:
-                ReturnToPool();
-                break;
         }
     }
 
