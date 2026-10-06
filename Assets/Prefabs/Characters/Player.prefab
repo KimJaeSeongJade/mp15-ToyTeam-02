@@ -161,6 +161,7 @@ MonoBehaviour:
   _playerBody: {fileID: 2906839907480694185}
   _hand: {fileID: 9048470894506848985}
   _animator: {fileID: 7514123127403698462}
+  _detectRange: {fileID: 783708373904727526}
 --- !u!95 &7514123127403698462
 Animator:
   serializedVersion: 5

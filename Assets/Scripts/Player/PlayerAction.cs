@@ -17,6 +17,7 @@ public class PlayerAction : MonoBehaviour
     [SerializeField] private Rigidbody _playerBody;
     [SerializeField] private PlayerHand _hand;
     [SerializeField] private Animator _animator;
+    [SerializeField] private DetectRange _detectRange;
 
     private float _moveSpeed;
     private WaitForSeconds _waitDashDuration = new WaitForSeconds(0.3f);
@@ -155,6 +156,7 @@ public class PlayerAction : MonoBehaviour
             _hand.Item.GameObject.transform.rotation = Quaternion.identity;
             _hand.ItemPosition = position.CoordToWorld();
             _hand.ItemParent = null;
+            _detectRange.Detecteds.Remove(_hand.Item);
 
             // 배치했으니 로드된 청크에 저장
             Map.Instance.AddLoadedPoolable(_hand.Item as IPoolable);
