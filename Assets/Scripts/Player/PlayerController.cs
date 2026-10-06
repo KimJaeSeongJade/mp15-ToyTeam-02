@@ -90,7 +90,7 @@ public class PlayerController : MonoBehaviour
             
             bool canLook = lookPercentage >= THRESHOLD;
             bool isHandItem = detected == _playerHand.Item;
-            bool isActive = detected.GameObject.activeSelf != false;
+            bool isActive = detected.GameObject.activeSelf;
             bool canUseItem = (!(_playerHand.Item is ToolBase) && !(detected is ResourceBase)) ||
                 ((_playerHand.Item is ToolAxe) && !(detected is ResourceRock)) ||
                 ((_playerHand.Item is ToolPickaxe) && !(detected is ResourceTree));

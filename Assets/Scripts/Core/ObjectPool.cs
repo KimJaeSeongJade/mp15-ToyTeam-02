@@ -35,13 +35,16 @@ public class ObjectPool : MonoBehaviour
 
             if (stack.Count > 0)
             {
-                return _objectPoolDict[blockType].Pop();
+                IPoolable poolable = _objectPoolDict[blockType].Pop();
+                Debug.Log($"Take : {poolable.GameObject.name} / Count : {_objectPoolDict[blockType].Count}");
+                return poolable;
             }
             else
             {
                 GameObject newPoolable = Instantiate(_prefabDict[blockType], _poolParent[blockType].transform);
                 _poolCount[blockType] = _poolCount[blockType] + 1;
                 newPoolable.gameObject.name = $"{newPoolable.gameObject.name} {_poolCount[blockType]}";
+                Debug.Log($"Take new : {newPoolable.gameObject.name} / Count : {_objectPoolDict[blockType].Count}");
                 newPoolable.SetActive(false);
                 return newPoolable.GetComponent<IPoolable>();
             }
@@ -61,6 +64,7 @@ public class ObjectPool : MonoBehaviour
         _objectPoolDict[poolable.BlockType].Push(poolable);
 
         poolable.GameObject.transform.SetParent(_poolParent[poolable.BlockType].transform);
+        Debug.Log($"Return : {poolable.GameObject.name} / Count : {_objectPoolDict[poolable.BlockType].Count}");
     }
 
     private void CreatePool()

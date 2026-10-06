@@ -125,6 +125,7 @@ public class PlayerAction : MonoBehaviour
         _hand.Item.GameObject.layer = 2;
         _hand.ItemPosition = _hand.transform.position;
         _hand.ItemParent = _hand.transform;
+        _detectRange.Detecteds.Clear();
     }
 
     
@@ -156,7 +157,7 @@ public class PlayerAction : MonoBehaviour
             _hand.Item.GameObject.transform.rotation = Quaternion.identity;
             _hand.ItemPosition = position.CoordToWorld();
             _hand.ItemParent = null;
-            _detectRange.Detecteds.Remove(_hand.Item);
+            _detectRange.Detecteds.Clear();
 
             // 배치했으니 로드된 청크에 저장
             Map.Instance.AddLoadedPoolable(_hand.Item as IPoolable);
@@ -186,6 +187,7 @@ public class PlayerAction : MonoBehaviour
         {
             _animator.SetBool(PARAM_IS_USING, false);
         }
+
         target.AutoInteract(_hand.Item);
     }
 
