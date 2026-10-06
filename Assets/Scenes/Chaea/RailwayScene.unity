@@ -1051,17 +1051,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: faf2cce35e66fc742b87db7067d241da, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &2014817428 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 2645267134450389917, guid: 8e2a7a1f4ab52d34c9a0159957517f92, type: 3}
-  m_PrefabInstance: {fileID: 1667553554}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6aa7a8bd1ec55a442b68ac34dc81ee1a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &2069039949 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 9048470894506848985, guid: 8e2a7a1f4ab52d34c9a0159957517f92, type: 3}
@@ -1201,11 +1190,11 @@ PrefabInstance:
     - target: {fileID: 6005875126264289165, guid: 1f8371cfca8168c4b98781dfc31b5a3e, type: 3}
       propertyPath: _targetTransform
       value: 
-      objectReference: {fileID: 1001737499}
+      objectReference: {fileID: 1001737495}
     - target: {fileID: 6005875126264289165, guid: 1f8371cfca8168c4b98781dfc31b5a3e, type: 3}
       propertyPath: _playerController
       value: 
-      objectReference: {fileID: 2014817428}
+      objectReference: {fileID: 1579397568}
     - target: {fileID: 6005875126264289165, guid: 1f8371cfca8168c4b98781dfc31b5a3e, type: 3}
       propertyPath: _invisibleWallPrefab
       value: 
