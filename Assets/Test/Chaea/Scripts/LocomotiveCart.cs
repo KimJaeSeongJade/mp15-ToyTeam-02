@@ -14,7 +14,7 @@ public class LocomotiveCart : Train
         if (_splineAnimate.NormalizedTime >= 1.0f - _splineAnimate.StartOffset)
         {
             OnTrainArrived?.Invoke();
-            Destroy(gameObject);
+            gameObject.SetActive(false);
         }
     }
 }
