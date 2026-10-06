@@ -55,6 +55,9 @@ public class Map : MonoBehaviour
     {
         int chunkIndex = GetChunkIndex(coord);
         Vector2Int chunkCoord = GetChunkCoord(coord);
+
+        if (!_chunkManager.Chunks.ContainsKey(chunkIndex)) return null;
+
         return _chunkManager.Chunks[chunkIndex].GetHoldable(chunkCoord);
     }
 
@@ -86,6 +89,7 @@ public class Map : MonoBehaviour
     /// <param name="poolable"></param>
     public void RemoveLoadedPoolable(IPoolable poolable)
     {
+        if (poolable == null) return;
         Chunk chunk = _chunkManager.GetChunk(poolable.GameObject.transform.position.WorldToCoord());
         chunk.RemoveLoadedPoolable(poolable);
     }

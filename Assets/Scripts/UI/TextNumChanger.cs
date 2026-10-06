@@ -15,6 +15,6 @@ public class TextNumChanger : MonoBehaviour
 
     public void ChangeNum(float value)
     {
-        _text.text = value.ToString();
+        _text.text = value.ToString("0.##");
     }
 }

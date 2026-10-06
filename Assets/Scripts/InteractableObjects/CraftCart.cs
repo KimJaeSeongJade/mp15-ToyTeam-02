@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class CraftCart : Train, IInteractable
 {
@@ -17,7 +18,12 @@ public class CraftCart : Train, IInteractable
     [SerializeField] private int maxRailStorage = 3;       // 최대 레일 보관 개수 
     [SerializeField] private int currentCraftCount = 0;    // 현재 보관중인 레일 개수
     [SerializeField] private Outline _outline;
+    [SerializeField] private Image _progressBar;
+    [SerializeField] private Image _progressBarBackground;
 
+    [SerializeField] private GameObject _progressBarUI;
+
+    
     // 외부 참조용 프로퍼티
     public int CurrentCraftCount => currentCraftCount;
     public bool IsCrafting => isCrafting;
@@ -36,7 +42,12 @@ public class CraftCart : Train, IInteractable
         if (_outline != null)
         {
             _outline.enabled = false;
+            
+
         }
+        
+        if(_progressBarUI != null)
+            _progressBarUI.SetActive(false);
 
         // 게임시작시 자원을 갖고 시작할 경우 제작 시도
         TryCraft();
@@ -70,15 +81,35 @@ public class CraftCart : Train, IInteractable
     /// </summary>
     private IEnumerator CraftRoutine()
     {
+        
         // 제작 상태 시작 및 비주얼 갱신
         isCrafting = true;
+        _progressBar.fillAmount = 0;
+        
         UpdateCraftVisual();
+        _progressBarUI.SetActive(true);
+        
+        if (_progressBar != null)
+        {
+            float currentTime = 0f;
 
-        yield return new WaitForSeconds(craftTime);
+            while (currentTime < craftTime)
+            {
+                currentTime += Time.deltaTime;
+                float currentProgress = currentTime / craftTime;
+                _progressBar.fillAmount = currentProgress;
+                _progressBarBackground.fillAmount = currentProgress;
+                yield return  null;
+            }
+            currentTime = 0;
+        }
+        
+        //yield return new WaitForSeconds(craftTime);
 
         // 레일 1개 생산 및 수량 제한 처리
         currentCraftCount++;
-       
+       _progressBarUI.SetActive(false);
+        
         // 레일 최대 소지수 이상이면 제작 중단
         if (currentCraftCount > maxRailStorage)
         {
@@ -118,6 +149,9 @@ public class CraftCart : Train, IInteractable
         // 2.플레이어가 빈손인 경우(최대 소지량만큼 플레이어게 전달 가능)
         else
         {
+            // 플레이어 손에 든 게 레일이 아닌 경우 반환
+            if (inPlayerHand != null) return inPlayerHand;
+
             remainSpace = maxRailStorage;
         }
 
@@ -167,7 +201,7 @@ public class CraftCart : Train, IInteractable
         }
         
         // 2. 플레이어가 빈 손이 아닌경우
-        // 기존 Rail 클래스의 줒첩 로직 활용 > AutoInteract() 메서드 활용
+        // 기존 Rail 클래스의 중첩 로직 활용 > AutoInteract() 메서드 활용
         // 나머지 전달 수량만큼 임시 레일을 소환하여 handRail에 합치기
         
         // 2개 이상을 한꺼번에 건네주는 경우, 부족한 개수만큼 루프를 돌며 처리
@@ -185,6 +219,8 @@ public class CraftCart : Train, IInteractable
                 tempRail.AutoInteract(handRail);
             }
         }
+
+        UpdateCraftVisual();
 
         // 제작 공간이 생겼으므로 추가 제작 시도
         TryCraft();
