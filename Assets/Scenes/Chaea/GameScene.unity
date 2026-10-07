@@ -2136,7 +2136,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5d498da2ee939a04db59396fd61ffebc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _targetTransform: {fileID: 1303746836}
+  _targetTransform: {fileID: 700653269}
 --- !u!81 &353505479
 AudioListener:
   m_ObjectHideFlags: 0
@@ -4306,6 +4306,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: af4fc58f54beefe49b4b149decbbead1, type: 3}
+--- !u!4 &700653269 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 3112271626309469024, guid: af4fc58f54beefe49b4b149decbbead1, type: 3}
+  m_PrefabInstance: {fileID: 700653268}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &700653270 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 753107907683446346, guid: af4fc58f54beefe49b4b149decbbead1, type: 3}
@@ -5294,7 +5299,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6972055260089688410, guid: fd9297e98be2efb4f8f0850fc9d19eee, type: 3}
       propertyPath: _gameMode
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 9127187142286411491, guid: fd9297e98be2efb4f8f0850fc9d19eee, type: 3}
       propertyPath: _chunkManager
@@ -6522,11 +6527,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1286939867}
   m_CullTransparentMesh: 1
---- !u!4 &1303746836 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 708077115733675161, guid: 8e2a7a1f4ab52d34c9a0159957517f92, type: 3}
-  m_PrefabInstance: {fileID: 669603175}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1307865699
 GameObject:
   m_ObjectHideFlags: 0
@@ -9040,7 +9040,7 @@ PrefabInstance:
     - target: {fileID: 6005875126264289165, guid: 1f8371cfca8168c4b98781dfc31b5a3e, type: 3}
       propertyPath: _targetTransform
       value: 
-      objectReference: {fileID: 1303746836}
+      objectReference: {fileID: 700653269}
     - target: {fileID: 6005875126264289165, guid: 1f8371cfca8168c4b98781dfc31b5a3e, type: 3}
       propertyPath: _playerController
       value: 
