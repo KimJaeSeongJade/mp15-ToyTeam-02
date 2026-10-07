@@ -1,19 +1,33 @@
+using Cysharp.Threading.Tasks;
+using System;
 using UnityEngine;
 
 public class SpawnTrigger : MonoBehaviour
 {
-    private void Start()
-    {
-        MaterialBase material = GetComponent<MaterialBase>();
+    private MaterialBase _material;
 
-        if (material != null)
-        {
-            // TutorialManager를 찾아 BlockType 전달
-            TutorialManager manager = FindObjectOfType<TutorialManager>();
-            if (manager != null)
-            {
-                manager.OnBlockSpawned(material.BlockType);
-            }
-        }
+    // ------------------------------
+    private void Awake() => CacheComponent();
+    private void OnEnable()
+    {
+        Spawned().Forget();
+    }
+    // ------------------------------
+
+    private async UniTaskVoid Spawned()
+    {
+        await UniTask.Delay(TimeSpan.FromSeconds(0.3f));
+        OnBlockSpawned();
+    }
+
+    private void OnBlockSpawned()
+    {
+        TutorialManager manager = FindObjectOfType<TutorialManager>();
+        manager.OnBlockSpawned(_material.BlockType);
+    }
+
+    private void CacheComponent()
+    {
+        _material = GetComponent<MaterialBase>();
     }
 }
