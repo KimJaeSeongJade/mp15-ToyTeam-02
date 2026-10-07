@@ -15,7 +15,7 @@ public class LocomotiveCart : Train
         GameManager.Instance.SetTrainSpeed(0f);
     }
 
-    protected override void TrainDepart()
+    public override void TrainDepart()
     {
         base.TrainDepart();
         GameManager.Instance.SetTrainSpeed(MaxTrainSpeed * TRAIN_SPEED_SCALE);
