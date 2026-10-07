@@ -149,7 +149,7 @@ public class WaveFunction : MonoBehaviour
                     {
                         newCell.CreateCell(false, _tiles.Values.ToArray());
                     }
-                    Debug.Log($"{x}, {y} options: {newCell.TileOptions.Length}");
+                    // Debug.Log($"{x}, {y} options: {newCell.TileOptions.Length}");
                     GridComponents.Add(newCell);
                 }
             }
