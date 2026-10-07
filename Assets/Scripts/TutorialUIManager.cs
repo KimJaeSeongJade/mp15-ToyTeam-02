@@ -148,9 +148,11 @@ public class TutorialUIManager : MonoBehaviour
     }
     
     // 4. 튜토리얼 클리어 팝업 버튼 연동
+    // TODO: 씬매니저 활용해서 로드씬 메서드 활용으로 변경 예정
     
     public void OnClickGoToMainMenu()
     {
+        // SceneManagerA.Instance.LoadTitleScene();
         SceneManager.LoadScene(1);
     }
 

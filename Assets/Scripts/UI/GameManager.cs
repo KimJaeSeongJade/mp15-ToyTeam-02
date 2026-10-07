@@ -30,7 +30,7 @@ public class GameManager : MonoBehaviour
     public float PlayTime { get; private set; }
     
     // 열차의 속도
-    public float _trainSpeed { get; private set; }
+    public float TrainSpeed { get; private set; }
 
     //[SerializeField] private float TrainSpeed;
 
@@ -45,7 +45,6 @@ public class GameManager : MonoBehaviour
     {        
         SetSingleton();
         Init();
-       
     }
 
     //private void Start()
@@ -94,7 +93,7 @@ public class GameManager : MonoBehaviour
     // 열차 속도
     public void SetTrainSpeed(float value)
     {
-        _trainSpeed = value;
+        TrainSpeed = value;
     }
 
     private void Init()

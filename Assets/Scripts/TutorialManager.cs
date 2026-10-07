@@ -1,21 +1,37 @@
 using UnityEngine;
+using System;
 
 public class TutorialManager : MonoBehaviour
 {
     [Header("UI Manager")]
     [SerializeField] private TutorialUIManager uiManager;
+    [SerializeField] private FilledBarUI _filledBarUI;
 
     private int currentStep = 0; // 튜토리얼 진행 단계
+    
+    public static event Action<BlockType> OnResourceDropped;
+
+    public static void CallOnResourceDropped(BlockType type)
+    {
+        OnResourceDropped?.Invoke(type);
+    }
 
     // 1. 이벤트 연결 및 해제
     
     private void OnEnable()
     {
+        // 튜토리얼로 게임 모드 설정 안 하면 GameMode가 Quick으로 변경
+        GameManager.Instance.SetGameMode(GameMode.Tutorial);
+        uiManager.CloseAllUI();
+
         // UIManager의 ClosePopup 연결(팝업이 닫힐 때 이벤트)
         if (uiManager != null)
         {
             uiManager.onPopupClosed += HandlePopupClosed;
+            
         }
+        _filledBarUI.OnBarLoaded += StartUIManager;
+        OnResourceDropped += OnBlockSpawned;
     }
 
     private void OnDisable()
@@ -24,14 +40,15 @@ public class TutorialManager : MonoBehaviour
         if (uiManager != null)
         {
             uiManager.onPopupClosed -= HandlePopupClosed;
+           
         }
+        _filledBarUI.OnBarLoaded -= StartUIManager;
+        OnResourceDropped -= OnBlockSpawned;
     }
 
-    private void Start()
+    private void StartUIManager()
     {
-        // 씬 시작과 동시에 0번 단계(게임안내 1 팝업) 실행
-        uiManager.HideAllHUDs();
-        uiManager.CloseAllPopups();
+        // 로딩 완료 후 0번 단계(게임안내 1 팝업) 실행
         StartStep(0);
     }
 
@@ -112,10 +129,11 @@ public class TutorialManager : MonoBehaviour
                 ResumeGame();
                 break;
 
-            // [단계 10] 레일 설치 완료 -> 게임 씬 매니저가 게임 클리어 트리거 발동
+            // [단계 10] TODO: 게임매니저가 게임오버 상태를 만듬
             case 10:
                 PauseGame();
                 uiManager.OpenPopup(6); // 6번(마지막) 팝업: 튜토리얼 클리어 팝업
+                Debug.Log("[TutorialManager] 튜토리얼 전체 클리어!");
                 break;
         }
     }
@@ -149,13 +167,28 @@ public class TutorialManager : MonoBehaviour
     /// </summary>
     public void OnBlockSpawned(BlockType type)
     {
+        
+        
         if (currentStep == 3 && type == BlockType.Wood)
         {
             StartStep(4);
+            Debug.Log(" 목재 나옴!!");
+            IPoolable pickaxe = ObjectPool.Instance.Take(BlockType.Pickaxe);
+            
+            pickaxe.GameObject.transform.position = new Vector3(17, 0, 6);
+            pickaxe.GameObject.SetActive(true);
+            
+            IPoolable rock = ObjectPool.Instance.Take(BlockType.Rock);
+            
+            rock.GameObject.transform.position = new Vector3(17, 0, 9);
+            rock.GameObject.SetActive(true);
+
+            
         }
         else if (currentStep == 5 && type == BlockType.Iron)
         {
             StartStep(6);
+            Debug.Log(" 철 나옴!!");
         }
     }
 
@@ -172,13 +205,15 @@ public class TutorialManager : MonoBehaviour
     }
 
     /// <summary>
-    /// 게임씬 메니저에서 게임클러어 트리거를 발동하면 호출됨
+    /// TODO: 메인 게임매니저에서 게임오버 상태를 만들때 호출
     /// </summary>
-    public void OnGameClear()
+    public void OnTrainMoved()
     {
         
         if (currentStep == 9)
         {
+            // TODO: 게임 매니저의 게임오버 상태 판정 가져오기
+            Debug.Log("튜토리얼 클리어 팝업 조건 달성");
             StartStep(10); // 최종 클리어 팝업 호출
         }
     }

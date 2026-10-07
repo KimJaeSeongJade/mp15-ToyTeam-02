@@ -20,7 +20,7 @@ public class Train : MonoBehaviour
     private bool _isRailwayConnected;
 
     // -----------------------------
-    private void Awake() => Init();
+    private void Start() => Init();
 
     protected virtual void OnEnable()
     {
@@ -52,7 +52,7 @@ public class Train : MonoBehaviour
 
     protected virtual void Init()
     {
-        MaxTrainSpeed = GameManager.Instance._trainSpeed;
+        MaxTrainSpeed = GameManager.Instance.TrainSpeed;
         _splineAnimate.enabled = false;
         BindRailEvents();
     }
