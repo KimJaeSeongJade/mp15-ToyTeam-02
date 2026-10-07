@@ -9,6 +9,9 @@
   <component name="ChangeListManager">
     <list default="true" id="c113a3ea-7e34-43e0-85c5-87c81daf3e8e" name="변경" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.mp15-ToyTeam-02/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.mp15-ToyTeam-02/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scenes/HuiSu/TestTutorial.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/HuiSu/TestTutorial.unity" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Test/HuiSu/TestTutorailUIManager.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Test/HuiSu/TestTutorailUIManager.cs.meta" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Test/HuiSu/TutorialUIManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Test/HuiSu/TutorialUIManager.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -19,15 +22,102 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
+  <component name="HighlightingSettingsPerFile">
+    <setting file="file://$PROJECT_DIR$/Assets/Test/HuiSu/TutorialManager1.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.splines@2.8.4/Runtime/SplineAnimate.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/ProjectSettings/Packages/com.unity.testtools.codecoverage/Settings.json" root0="FORCE_HIGHLIGHTING" />
+  </component>
   <component name="McpProjectServerCommands">
     <commands />
     <urls />
   </component>
+  <component name="NextEditCompletionFeaturesState">
+    <decayedCancelled>
+      <entry key="MS100" value="1.0" />
+      <entry key="MS500" value="1.0" />
+      <entry key="S2" value="1.0" />
+      <entry key="S5" value="1.0" />
+      <entry key="S10" value="1.0" />
+      <entry key="S30" value="1.0000144753691982" />
+      <entry key="S60" value="1.0137139386464535" />
+      <entry key="M2" value="1.4222032596735752" />
+      <entry key="M5" value="4.300404288578907" />
+      <entry key="M10" value="7.550191485029094" />
+      <entry key="M15" value="9.231585686826138" />
+      <entry key="M30" value="11.344590150170035" />
+      <entry key="H1" value="12.596536138517981" />
+      <entry key="H2" value="13.278231296225059" />
+      <entry key="H4" value="13.633962373415343" />
+      <entry key="D1" value="13.938265429408583" />
+      <entry key="W1" value="13.991162773528691" />
+    </decayedCancelled>
+    <decayedSelected>
+      <entry key="MS100" value="0.0" />
+      <entry key="MS500" value="0.0" />
+      <entry key="S2" value="0.0" />
+      <entry key="S5" value="0.0" />
+      <entry key="S10" value="0.0" />
+      <entry key="S30" value="0.0" />
+      <entry key="S60" value="0.0" />
+      <entry key="M2" value="0.0" />
+      <entry key="M5" value="0.0" />
+      <entry key="M10" value="0.0" />
+      <entry key="M15" value="0.0" />
+      <entry key="M30" value="0.0" />
+      <entry key="H1" value="0.0" />
+      <entry key="H2" value="0.0" />
+      <entry key="H4" value="0.0" />
+      <entry key="D1" value="0.0" />
+      <entry key="W1" value="0.0" />
+    </decayedSelected>
+    <decayedShown>
+      <entry key="MS100" value="1.27254121196426E-4" />
+      <entry key="MS500" value="0.16631613013508575" />
+      <entry key="S2" value="0.6386068795976949" />
+      <entry key="S5" value="0.8357828149914915" />
+      <entry key="S10" value="0.914211581085851" />
+      <entry key="S30" value="0.9705591902375373" />
+      <entry key="S60" value="0.9988499631444235" />
+      <entry key="M2" value="1.414344272432828" />
+      <entry key="M5" value="4.29611448666801" />
+      <entry key="M10" value="7.547398253745631" />
+      <entry key="M15" value="9.22949951747329" />
+      <entry key="M30" value="11.343406158145552" />
+      <entry key="H1" value="12.59590236559169" />
+      <entry key="H2" value="13.277903031126385" />
+      <entry key="H4" value="13.633795271370461" />
+      <entry key="D1" value="13.938237155647183" />
+      <entry key="W1" value="13.991158723904386" />
+    </decayedShown>
+  </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
-    "git-widget-placeholder": "HuiSu__Tutorial__ClearButton"
+    "git-widget-placeholder": "HuiSu__CraftTutorial",
+    "node.js.selected.package.tslint": "(autodetect)"
   }
 }]]></component>
+  <component name="RunManager">
+    <configuration name="유닛 테스트(배치 모드)" type="RunUnityExe" factoryName="Unity Executable">
+      <option name="EXE_PATH" value="C:\Program Files\Unity\Hub\Editor\2022.3.62f3\Editor\Unity.exe" />
+      <option name="PROGRAM_PARAMETERS" value="-runTests -batchmode -projectPath C:\Users\user\Documents\GitHub\mp15-ToyTeam-02 -testResults Logs/results.xml -logFile Logs/Editor.log -testPlatform EditMode -debugCodeOptimization" />
+      <option name="WORKING_DIRECTORY" value="C:\Users\user\Documents\GitHub\mp15-ToyTeam-02" />
+      <option name="PASS_PARENT_ENVS" value="1" />
+      <option name="ENV_FILE_PATHS" value="" />
+      <option name="REDIRECT_INPUT_PATH" value="" />
+      <option name="MIXED_MODE_DEBUG" value="0" />
+      <method v="2" />
+    </configuration>
+    <configuration name="Unity 시작" type="RunUnityExe" factoryName="Unity Executable">
+      <option name="EXE_PATH" value="C:\Program Files\Unity\Hub\Editor\2022.3.62f3\Editor\Unity.exe" />
+      <option name="PROGRAM_PARAMETERS" value="-projectPath C:\Users\user\Documents\GitHub\mp15-ToyTeam-02 -debugCodeOptimization" />
+      <option name="WORKING_DIRECTORY" value="C:\Users\user\Documents\GitHub\mp15-ToyTeam-02" />
+      <option name="PASS_PARENT_ENVS" value="1" />
+      <option name="ENV_FILE_PATHS" value="" />
+      <option name="REDIRECT_INPUT_PATH" value="" />
+      <option name="MIXED_MODE_DEBUG" value="0" />
+      <method v="2" />
+    </configuration>
+  </component>
   <component name="TaskManager">
     <servers />
   </component>
