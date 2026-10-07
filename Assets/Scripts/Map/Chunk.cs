@@ -11,6 +11,7 @@ public class Chunk : MonoBehaviour
     private int[,] _chunkMap;
     private HashSet<IPoolable> _loadedPoolables = new();
     private IInteractable[,] _holdableMap = new IInteractable[ChunkManager.CHUNK_SIZE, ChunkManager.CHUNK_SIZE];
+    private Dictionary<BlockType, BlockTypeColor> _blockTypeColors;
 
     public int ChunkIndex => _chunkIndex;
     public int[,] ChunkMap => _chunkMap;
@@ -26,16 +27,18 @@ public class Chunk : MonoBehaviour
     /// <param name="material"></param>
     /// <param name="textureSize"></param>
     /// <param name="atlasSize"></param>
-    public void SetChunkData(int chunkIndex, SplineManager splineManager, int[,] chunkMap, UnityEngine.Material material, float textureSize, float atlasSize)
+    public void SetChunkData(int chunkIndex, SplineManager splineManager, int[,] chunkMap,
+        Dictionary<BlockType, BlockTypeColor> blockTypeColors, UnityEngine.Material material, float textureSize, float atlasSize)
     {
         _chunkIndex = chunkIndex;
         _splineManager = splineManager;
         _chunkMap = chunkMap;
+        _blockTypeColors = blockTypeColors;
 
         _loadedPoolables.Clear();
         ResetHoldableMap();
 
-        _meshBuilder.CreateChunkMesh(chunkIndex, chunkMap, material, textureSize, atlasSize);
+        _meshBuilder.CreateChunkMesh(chunkIndex, chunkMap, blockTypeColors, material, textureSize, atlasSize);
         SpawnPoolObjects();
     }
 

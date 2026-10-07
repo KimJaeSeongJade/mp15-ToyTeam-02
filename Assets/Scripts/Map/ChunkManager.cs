@@ -26,6 +26,7 @@ public class ChunkManager : MonoBehaviour
     private Dictionary<int, Chunk> _chunks = new();
     private Queue<Chunk> _chunkPool = new();
     private Queue<Chunk> _loadedChunks = new();
+    private Dictionary<BlockType, BlockTypeColor> _blockTypeColors = new();
 
     private int[,] _map;
     private int[,] _chunkMap;
@@ -99,7 +100,7 @@ public class ChunkManager : MonoBehaviour
         _isWaveFunctionEnd = false;
         _isChunkMapSaved = true;
 
-        chunk.SetChunkData(chunkIndex, _splineManager, _chunkMap, _material, _textureSize, _atlasSize);
+        chunk.SetChunkData(chunkIndex, _splineManager, _chunkMap, _blockTypeColors, _material, _textureSize, _atlasSize);
         chunk.gameObject.SetActive(true);
 
         _chunkMap = null;
@@ -248,9 +249,31 @@ public class ChunkManager : MonoBehaviour
         _mapLoader.OnMapSaved -= OnMapSaved;
     }
 
+    private void AddBlockColors()
+    {
+        _blockTypeColors[BlockType.Grass] = new BlockTypeColor(BlockType.Grass, new Dictionary<Vector2Int, float>());
+        _blockTypeColors[BlockType.Grass].BlockColors.Add(new Vector2Int(0, 3), 0.1f);
+        _blockTypeColors[BlockType.Grass].BlockColors.Add(new Vector2Int(1, 3), 0.9f);
+
+        _blockTypeColors[BlockType.Tree] = new BlockTypeColor(BlockType.Tree, new Dictionary<Vector2Int, float>());
+        _blockTypeColors[BlockType.Tree].BlockColors.Add(new Vector2Int(3, 3), 0.5f);
+        _blockTypeColors[BlockType.Tree].BlockColors.Add(new Vector2Int(0, 2), 0.5f);
+
+        _blockTypeColors[BlockType.Rock] = new BlockTypeColor(BlockType.Rock, new Dictionary<Vector2Int, float>());
+        _blockTypeColors[BlockType.Rock].BlockColors.Add(new Vector2Int(1, 2), 0.5f);
+        _blockTypeColors[BlockType.Rock].BlockColors.Add(new Vector2Int(2, 2), 0.5f);
+
+        _blockTypeColors[BlockType.Water] = new BlockTypeColor(BlockType.Water, new Dictionary<Vector2Int, float>());
+        _blockTypeColors[BlockType.Water].BlockColors.Add(new Vector2Int(3, 2), 1f);
+
+        _blockTypeColors[BlockType.Obstacle] = new BlockTypeColor(BlockType.Obstacle, new Dictionary<Vector2Int, float>());
+        _blockTypeColors[BlockType.Obstacle].BlockColors.Add(new Vector2Int(0, 1), 1f);
+    }
+
     private void Init()
     {
         BindMapEvents();
+        AddBlockColors();
         CreateChunkPool();
         CreateInvisibleWallPool();
     }

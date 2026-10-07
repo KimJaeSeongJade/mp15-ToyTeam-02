@@ -15,7 +15,8 @@ public class MeshBuilder : MonoBehaviour
     private List<Vector3> _vertices = new();
     private List<int> _triangles = new();
     private List<Vector2> _uvs = new();
-
+    private Dictionary<BlockType, BlockTypeColor> _blockTypeColors;
+    private Vector2Int _color;
     private float _waterHeight = 0.7f;
     private float _waterFallHeight = 10f;
 
@@ -43,10 +44,12 @@ public class MeshBuilder : MonoBehaviour
     /// <param name="material"></param>
     /// <param name="textureSize"></param>
     /// <param name="atlasSize"></param>
-    public void CreateChunkMesh(int chunkIndex, int[,] chunkMap, UnityEngine.Material material, float textureSize, float atlasSize)
+    public void CreateChunkMesh(int chunkIndex, int[,] chunkMap,
+        Dictionary<BlockType, BlockTypeColor> blockTypeColors, UnityEngine.Material material, float textureSize, float atlasSize)
     {
         _chunkIndex = chunkIndex;
         _chunkMap = chunkMap;
+        _blockTypeColors = blockTypeColors;
         _meshRenderer.material = material;
         _textureSize = textureSize;
         _atlasSize = atlasSize;
@@ -86,6 +89,8 @@ public class MeshBuilder : MonoBehaviour
     private void CreateBlockShape(Vector2Int chunkCoord, NeighborFlags neighborFlags)
     {
         BlockType blocktype = (BlockType)_chunkMap[chunkCoord.x, chunkCoord.y];
+        _color = Vector2Int.zero;
+
         if (blocktype == BlockType.Water)
         {
             CreatePosYWater(chunkCoord, Vector3.one);
@@ -143,7 +148,8 @@ public class MeshBuilder : MonoBehaviour
         else
             AddTriangles(verticesOffset, true);
 
-        AddUVs(BlockTypeToColor(BlockType.Water));
+        if (_color == Vector2Int.zero) _color = BlockTypeToColor(BlockType.Water);
+            AddUVs(_color);
     }
 
     private bool IsBorder(Vector2Int coord)
@@ -199,7 +205,7 @@ public class MeshBuilder : MonoBehaviour
         else
             AddTriangles(verticesOffset, true);
 
-        AddUVs(BlockTypeToColor(blockType));
+        AddUVs(_color);
     }
 
     private void CreateNegXShape(Vector2Int coord, BlockType blockType, Vector3 size, bool reverse = false)
@@ -217,7 +223,7 @@ public class MeshBuilder : MonoBehaviour
         else
             AddTriangles(verticesOffset, false);
 
-        AddUVs(BlockTypeToColor(blockType));
+        AddUVs(_color);
     }
 
     private void CreatePosYShape(Vector2Int coord, BlockType blockType, Vector3 size, bool reverse = false)
@@ -235,7 +241,8 @@ public class MeshBuilder : MonoBehaviour
         else
             AddTriangles(verticesOffset, true);
 
-        AddUVs(BlockTypeToColor(blockType));
+        if (_color == Vector2Int.zero) _color = BlockTypeToColor(blockType);
+        AddUVs(_color);
     }
 
     private void CreateNegYShape(Vector2Int coord, BlockType blockType, Vector3 size, bool reverse = false)
@@ -252,7 +259,7 @@ public class MeshBuilder : MonoBehaviour
         else
             AddTriangles(verticesOffset, false);
 
-        AddUVs(BlockTypeToColor(blockType));
+        AddUVs(_color);
     }
 
     private void CreatePosZShape(Vector2Int coord, BlockType blockType, Vector3 size, bool reverse = false)
@@ -270,7 +277,7 @@ public class MeshBuilder : MonoBehaviour
         else
             AddTriangles(verticesOffset, true);
 
-        AddUVs(BlockTypeToColor(blockType));
+        AddUVs(_color);
     }
 
     private void CreateNegZShape(Vector2Int coord, BlockType blockType, Vector3 size, bool reverse = false)
@@ -288,26 +295,30 @@ public class MeshBuilder : MonoBehaviour
         else
             AddTriangles(verticesOffset, false);
 
-        AddUVs(BlockTypeToColor(blockType));
+        AddUVs(_color);
     }
 
-    private Vector2 BlockTypeToColor(BlockType blockType)
+    private Vector2Int BlockTypeToColor(BlockType blockType)
     {
-        switch (blockType)
+        BlockTypeColor blockTypeColor;
+
+        if (!_blockTypeColors.ContainsKey(blockType)) blockTypeColor = _blockTypeColors[BlockType.Grass];
+        else blockTypeColor = _blockTypeColors[blockType];
+
+        float roll = UnityEngine.Random.Range(0f, 1f);
+        float cumulative = 0f;
+
+
+        Vector2Int defaultColor = Vector2Int.zero;
+
+        foreach(KeyValuePair<Vector2Int, float> pair in blockTypeColor.BlockColors)
         {
-            case BlockType.Grass:
-                return new Vector2(0, 3);
-            case BlockType.Tree:
-                return new Vector2(2, 3);
-            case BlockType.Rock:
-                return new Vector2(1, 3);
-            case BlockType.Water:
-                return new Vector2(3, 3);
-            case BlockType.Obstacle:
-                return new Vector2(0, 2);
-            default:
-                return new Vector2(0, 3);
+            defaultColor = pair.Key;
+            cumulative += pair.Value;
+            if (roll <= cumulative) return pair.Key;
         }
+
+        return defaultColor;
     }
 
     private void AddTriangles(int verticesOffset, bool isClockwise)
