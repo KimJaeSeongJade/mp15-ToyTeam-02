@@ -170,7 +170,8 @@ public class PlayerController : MonoBehaviour
         if (target == null)
         {
             Vector2Int playerCoord = transform.position.WorldToCoord();
-            target = Map.Instance.GetHoldable(playerCoord);
+            IInteractable cantarget = Map.Instance.GetHoldable(playerCoord);
+            if (cantarget != null && cantarget.GameObject.activeSelf) target = cantarget;
         }
 
         if (_target != target)
