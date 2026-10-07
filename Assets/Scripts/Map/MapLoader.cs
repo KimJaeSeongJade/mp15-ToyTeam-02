@@ -47,8 +47,9 @@ public class MapLoader : MonoBehaviour
 
     private void Start()
     {
+        _gameMode = GameManager.Instance.GMode;
         StartCoroutine(LoadMapDataRoutine(_docId, _docGids[_gameMode]));
-    }
+    }    
 
     private IEnumerator LoadMapDataRoutine(string docId, string gid)
     {

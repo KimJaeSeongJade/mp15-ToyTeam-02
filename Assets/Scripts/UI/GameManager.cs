@@ -22,12 +22,17 @@ public class GameManager : MonoBehaviour
             return _instance;
         } 
     }
+
+    // 게임 모드
+    public GameMode GMode { get; private set; }
+
     // 플레이 시간
     public float PlayTime { get; private set; }
     
     // 열차의 속도
     public float _trainSpeed { get; private set; }
-    [SerializeField] private float TrainSpeed;
+
+    //[SerializeField] private float TrainSpeed;
 
     // 게임이 Pasue상태인지 
     public bool IsPaused { get; private set; }
@@ -43,10 +48,10 @@ public class GameManager : MonoBehaviour
        
     }
 
-    private void Start()
-    {
-        SetTrainSpeed(TrainSpeed);
-    }
+    //private void Start()
+    //{
+    //    SetTrainSpeed(TrainSpeed);
+    //}
 
 
     private void Update()
@@ -58,6 +63,11 @@ public class GameManager : MonoBehaviour
         //}
     } 
     
+    public void SetGameMode(GameMode gMode)
+    {
+        GMode = gMode;
+    }
+
     public void IsPause(bool value)
     {
         IsPaused = value;
