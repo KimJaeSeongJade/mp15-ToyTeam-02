@@ -3,14 +3,14 @@
   <component name="AutoImportSettings">
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
-  <component name="CMakeProjectFlavorService">
-    <option name="flavorId" value="CMakePlainProjectFlavor" />
-  </component>
   <component name="CMakeSettings">
     <configurations />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="2f893ae6-9721-4960-956d-cb16e1060b0a" name="변경" comment="" />
+    <list default="true" id="c113a3ea-7e34-43e0-85c5-87c81daf3e8e" name="변경" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.mp15-ToyTeam-02/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.mp15-ToyTeam-02/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Test/HuiSu/TutorialUIManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Test/HuiSu/TutorialUIManager.cs" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -19,215 +19,18 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
-  <component name="HighlightingSettingsPerFile">
-    <setting file="file://$PROJECT_DIR$/Assets/Scripts/TutorailUIManager.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/Assets/Scripts/TutorialCraftTrigger.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/Assets/Scripts/lSpawnTrigger.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/Assets/Test/HuiSu/DummyPlayer.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.splines@2.8.4/Runtime/SplineAnimate.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/ProjectSettings/Packages/com.unity.testtools.codecoverage/Settings.json" root0="FORCE_HIGHLIGHTING" />
-  </component>
   <component name="McpProjectServerCommands">
     <commands />
     <urls />
   </component>
-  <component name="NextEditCompletionFeaturesState">
-    <decayedCancelled>
-      <entry key="MS100" value="3.464263229109349E-48" />
-      <entry key="MS500" value="3.272586363815309E-10" />
-      <entry key="S2" value="0.005747010133485776" />
-      <entry key="S5" value="0.18682494087227963" />
-      <entry key="S10" value="0.6080681516516465" />
-      <entry key="S30" value="1.3432634024480663" />
-      <entry key="S60" value="1.6424186430408179" />
-      <entry key="M2" value="1.8951585746528983" />
-      <entry key="M5" value="2.486671079758364" />
-      <entry key="M10" value="3.037167625946917" />
-      <entry key="M15" value="3.456317599873408" />
-      <entry key="M30" value="7.118629770074342" />
-      <entry key="H1" value="24.55841043462539" />
-      <entry key="H2" value="59.059025801371995" />
-      <entry key="H4" value="96.18325629165" />
-      <entry key="D1" value="147.49231763081232" />
-      <entry key="W1" value="158.99047050418292" />
-    </decayedCancelled>
-    <decayedSelected>
-      <entry key="MS100" value="1.0000000000000016" />
-      <entry key="MS500" value="1.0010956479302062" />
-      <entry key="S2" value="1.182095012361141" />
-      <entry key="S5" value="1.5407605741840502" />
-      <entry key="S10" value="2.0014385904788945" />
-      <entry key="S30" value="3.4609845043679752" />
-      <entry key="S60" value="4.431648087708246" />
-      <entry key="M2" value="5.120566814230517" />
-      <entry key="M5" value="5.622090005586838" />
-      <entry key="M10" value="5.824637038607621" />
-      <entry key="M15" value="6.03813446636642" />
-      <entry key="M30" value="7.992084123914751" />
-      <entry key="H1" value="14.86484508308609" />
-      <entry key="H2" value="26.107794863683004" />
-      <entry key="H4" value="37.07709779059947" />
-      <entry key="D1" value="51.35223932653488" />
-      <entry key="W1" value="54.459664590469075" />
-    </decayedSelected>
-    <decayedShown>
-      <entry key="MS100" value="7.60902909824707E-4" />
-      <entry key="MS500" value="0.2378295703032027" />
-      <entry key="S2" value="0.7073853479126391" />
-      <entry key="S5" value="1.138379440047631" />
-      <entry key="S10" value="1.9651236783116863" />
-      <entry key="S30" value="4.312014865399736" />
-      <entry key="S60" value="5.753102958067372" />
-      <entry key="M2" value="6.830609477919874" />
-      <entry key="M5" value="8.027808062351067" />
-      <entry key="M10" value="8.820015464375151" />
-      <entry key="M15" value="9.465950587799178" />
-      <entry key="M30" value="15.093564631691452" />
-      <entry key="H1" value="39.40840909472608" />
-      <entry key="H2" value="85.15352879763044" />
-      <entry key="H4" value="133.25064791256344" />
-      <entry key="D1" value="198.84224922160487" />
-      <entry key="W1" value="213.44978356814622" />
-    </decayedShown>
-  </component>
-  <component name="ProjectColorInfo">{
-  &quot;customColor&quot;: &quot;&quot;,
-  &quot;associatedIndex&quot;: 3
-}</component>
-  <component name="ProjectId" id="3K58kYlO7lhM4tZcv8EJUc1TNR4" />
-  <component name="ProjectViewState">
-    <option name="hideEmptyMiddlePackages" value="true" />
-    <option name="showLibraryContents" value="true" />
-  </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;RunOnceActivity.MCP Project settings loaded&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.cidr.known.project.marker&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.readMode.enableVisualFormatting&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.typescript.service.memoryLimit.init&quot;: &quot;true&quot;,
-    &quot;cidr.known.project.marker&quot;: &quot;true&quot;,
-    &quot;codeWithMe.voiceChat.enabledByDefault&quot;: &quot;false&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;HuiSu__Tutorial__Input&amp;&amp;Scene__Change&quot;,
-    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "git-widget-placeholder": "HuiSu__Tutorial__ClearButton"
   }
 }]]></component>
-  <component name="RunManager" selected="Unity 에디터에 연결.Attach to Unity Editor">
-    <configuration name="유닛 테스트(배치 모드)" type="RunUnityExe" factoryName="Unity Executable">
-      <option name="EXE_PATH" value="C:\Program Files\Unity\Hub\Editor\2022.3.62f3\Editor\Unity.exe" />
-      <option name="PROGRAM_PARAMETERS" value="-runTests -batchmode -projectPath C:\Users\user\Documents\GitHub\mp15-ToyTeam-02 -testResults Logs/results.xml -logFile Logs/Editor.log -testPlatform EditMode -debugCodeOptimization" />
-      <option name="WORKING_DIRECTORY" value="C:\Users\user\Documents\GitHub\mp15-ToyTeam-02" />
-      <option name="PASS_PARENT_ENVS" value="1" />
-      <option name="ENV_FILE_PATHS" value="" />
-      <option name="REDIRECT_INPUT_PATH" value="" />
-      <option name="MIXED_MODE_DEBUG" value="0" />
-      <method v="2" />
-    </configuration>
-    <configuration name="Start Unity" type="RunUnityExe" factoryName="Unity Executable">
-      <option name="EXE_PATH" value="C:\Program Files\Unity\Hub\Editor\2022.3.62f3\Editor\Unity.exe" />
-      <option name="PROGRAM_PARAMETERS" value="-projectPath C:\mp15-ToyTeam-02 -debugCodeOptimization" />
-      <option name="WORKING_DIRECTORY" value="C:\mp15-ToyTeam-02" />
-      <option name="PASS_PARENT_ENVS" value="1" />
-      <option name="ENV_FILE_PATHS" value="" />
-      <option name="REDIRECT_INPUT_PATH" value="" />
-      <option name="MIXED_MODE_DEBUG" value="0" />
-      <method v="2" />
-    </configuration>
-    <configuration name="Unit Tests (batch mode)" type="RunUnityExe" factoryName="Unity Executable">
-      <option name="EXE_PATH" value="C:\Program Files\Unity\Hub\Editor\2022.3.62f3\Editor\Unity.exe" />
-      <option name="PROGRAM_PARAMETERS" value="-runTests -batchmode -projectPath C:\mp15-ToyTeam-02 -testResults Logs/results.xml -logFile Logs/Editor.log -testPlatform EditMode -debugCodeOptimization" />
-      <option name="WORKING_DIRECTORY" value="C:\mp15-ToyTeam-02" />
-      <option name="PASS_PARENT_ENVS" value="1" />
-      <option name="ENV_FILE_PATHS" value="" />
-      <option name="REDIRECT_INPUT_PATH" value="" />
-      <option name="MIXED_MODE_DEBUG" value="0" />
-      <method v="2" />
-    </configuration>
-    <configuration name="Unity 시작" type="RunUnityExe" factoryName="Unity Executable">
-      <option name="EXE_PATH" value="C:\Program Files\Unity\Hub\Editor\2022.3.62f3\Editor\Unity.exe" />
-      <option name="PROGRAM_PARAMETERS" value="-projectPath C:\Users\user\Documents\GitHub\mp15-ToyTeam-02 -debugCodeOptimization" />
-      <option name="WORKING_DIRECTORY" value="C:\Users\user\Documents\GitHub\mp15-ToyTeam-02" />
-      <option name="PASS_PARENT_ENVS" value="1" />
-      <option name="ENV_FILE_PATHS" value="" />
-      <option name="REDIRECT_INPUT_PATH" value="" />
-      <option name="MIXED_MODE_DEBUG" value="0" />
-      <method v="2" />
-    </configuration>
-    <configuration name="Attach to Unity Editor" type="UNITY_DEBUG_RUN_CONFIGURATION" factoryName="Unity Debug" show_console_on_std_err="false" show_console_on_std_out="false" port="50000" address="localhost" useMixedMode="false">
-      <option name="allowRunningInParallel" value="false" />
-      <option name="listenPortForConnections" value="false" />
-      <option name="pid" />
-      <option name="projectPathOnTarget" />
-      <option name="runtimes">
-        <list />
-      </option>
-      <option name="selectedOptions">
-        <list />
-      </option>
-      <method v="2" />
-    </configuration>
-    <configuration name="Unity 에디터에 연결" type="UNITY_DEBUG_RUN_CONFIGURATION" factoryName="Unity Debug" show_console_on_std_err="false" show_console_on_std_out="false" port="50000" address="localhost" useMixedMode="false">
-      <option name="allowRunningInParallel" value="false" />
-      <option name="listenPortForConnections" value="false" />
-      <option name="pid" />
-      <option name="projectPathOnTarget" />
-      <option name="runtimes">
-        <list />
-      </option>
-      <option name="selectedOptions">
-        <list />
-      </option>
-      <method v="2" />
-    </configuration>
-    <configuration name="연결 대상" type="UnityDevicePlayer" factoryName="UnityAttachToDevicePlayer">
-      <method v="2" />
-    </configuration>
-  </component>
   <component name="TaskManager">
-    <task active="true" id="Default" summary="디폴트 작업">
-      <changelist id="2f893ae6-9721-4960-956d-cb16e1060b0a" name="변경" comment="" />
-      <created>1790836220375</created>
-      <option name="number" value="Default" />
-      <option name="presentableId" value="Default" />
-      <updated>1790836220375</updated>
-    </task>
     <servers />
   </component>
-  <component name="TypeScriptGeneratedFilesManager">
-    <option name="version" value="3" />
-  </component>
   <component name="UnityProjectConfiguration" hasMinimizedUI="true" />
-  <component name="UnityProjectDiscoverer">
-    <option name="hasUnityReference" value="true" />
-    <option name="unityProject" value="true" />
-    <option name="unityProjectFolder" value="true" />
-  </component>
   <component name="UnityUnitTestConfiguration" currentTestLauncher="Both" />
-  <component name="VcsManagerConfiguration">
-    <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
-  </component>
-  <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <breakpoint enabled="true" type="DotNet_Exception_Breakpoints">
-          <properties exception="System.OperationCanceledException" breakIfHandledByOtherCode="false" displayValue="System.OperationCanceledException" />
-          <option name="timeStamp" value="1" />
-        </breakpoint>
-        <breakpoint enabled="true" type="DotNet_Exception_Breakpoints">
-          <properties exception="System.Threading.Tasks.TaskCanceledException" breakIfHandledByOtherCode="false" displayValue="System.Threading.Tasks.TaskCanceledException" />
-          <option name="timeStamp" value="2" />
-        </breakpoint>
-        <breakpoint enabled="true" type="DotNet_Exception_Breakpoints">
-          <properties exception="System.Threading.ThreadAbortException" breakIfHandledByOtherCode="false" displayValue="System.Threading.ThreadAbortException" />
-          <option name="timeStamp" value="3" />
-        </breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
-  </component>
 </project>

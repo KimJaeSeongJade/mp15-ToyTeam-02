@@ -156,8 +156,4 @@ public class TutorialUIManager : MonoBehaviour
         SceneManager.LoadScene(1);
     }
 
-    public void OnClickGoToMainStage()
-    {
-        SceneManager.LoadScene(1);
-    }
 }
