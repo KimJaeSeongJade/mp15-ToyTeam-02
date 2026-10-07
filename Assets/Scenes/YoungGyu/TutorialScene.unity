@@ -6283,6 +6283,14 @@ PrefabInstance:
       propertyPath: targetCraftCart
       value: 
       objectReference: {fileID: 690327866}
+    - target: {fileID: 8428799586173725068, guid: 0a337133de3acc84ba0374c331784891, type: 3}
+      propertyPath: currentIronCount
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8428799586173725068, guid: 0a337133de3acc84ba0374c331784891, type: 3}
+      propertyPath: currentWoodCount
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

@@ -69,6 +69,9 @@ public class SplineManager : MonoBehaviour
             if (train.gameObject.activeSelf == false)
             {
                 train.gameObject.SetActive(true);
+
+                if (GameManager.Instance.GMode != GameMode.Tutorial)
+                    train.StartTrainDepartRoutine();
             }
             else
             {

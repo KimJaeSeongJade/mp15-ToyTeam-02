@@ -43,7 +43,6 @@ public class LRGLevelUI : MonoBehaviour
         _currentNum = next;
 
         SetLevel(_currentNum);
-        Debug.Log(GameManager.Instance.TrainSpeed);
         RefreshUI();
     }
 

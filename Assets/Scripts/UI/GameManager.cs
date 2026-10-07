@@ -99,6 +99,7 @@ public class GameManager : MonoBehaviour
     private void Init()
     {
         IsPause(false);
+        TrainSpeed = 0.1f;
     }
 
     private void SetSingleton()

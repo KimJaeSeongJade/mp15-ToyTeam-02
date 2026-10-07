@@ -60,18 +60,18 @@ public class TutorialManager : MonoBehaviour
 
         switch (currentStep)
         {
-            // [단계 0] 게임안내 1 팝업 + 게임 정지
+            // [단계 0] 게임안내 1 팝업
             case 0:
                 uiManager.HideAllHUDs();
                 uiManager.OpenPopup(0);
                 break;
 
-            // [단계 1] 게임안내 2 팝업 + 게임 정지
+            // [단계 1] 게임안내 2 팝업
             case 1:
                 uiManager.OpenPopup(1);
                 break;
 
-            // [단계 2] 목재 채집 안내 팝업 + 게임 정지
+            // [단계 2] 목재 채집 안내 팝업
             case 2:
                 uiManager.OpenPopup(2);
                 break;

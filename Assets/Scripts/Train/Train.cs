@@ -16,17 +16,20 @@ public class Train : MonoBehaviour
     /// </summary>
     public static float MaxTrainSpeed = 0.1f;
 
-    private WaitForSeconds _wait = new WaitForSeconds(2f);
+    private WaitForSeconds _wait = new WaitForSeconds(5f);
     private bool _isRailwayConnected;
 
     // -----------------------------
-    private void Start() => Init();
+    private void Awake() => Init();
 
     protected virtual void OnEnable()
     {
-        StartCoroutine(TrainDepartRoutine());
+        _splineAnimate.StartOffset = _offsetRate / _splineManager.SplineCount;
+        _splineAnimate.enabled = true;
+        _splineAnimate.Restart(true);
+        _splineAnimate.MaxSpeed = 0f;
     }
-    
+
     private void OnDestroy() => UnbindRailEvents();
     // -----------------------------
 
@@ -52,23 +55,29 @@ public class Train : MonoBehaviour
 
     protected virtual void Init()
     {
-        MaxTrainSpeed = GameManager.Instance.TrainSpeed;
+        if (GameManager.Instance.TrainSpeed != 0) MaxTrainSpeed = GameManager.Instance.TrainSpeed;
         _splineAnimate.enabled = false;
         BindRailEvents();
     }
 
+    /// <summary>
+    /// 열차가 5초 기다렸다가 출발
+    /// </summary>
+    public void StartTrainDepartRoutine()
+    {
+        StartCoroutine(TrainDepartRoutine());
+    }
+
     private IEnumerator TrainDepartRoutine()
     {
-        _splineAnimate.StartOffset = _offsetRate / _splineManager.SplineCount;
-        _splineAnimate.enabled = true;
-        _splineAnimate.Restart(true);
-        _splineAnimate.MaxSpeed = 0f;
-
         yield return _wait;
         TrainDepart();
     }
 
-    protected virtual void TrainDepart()
+    /// <summary>
+    /// 열차가 최고 속도로 출발
+    /// </summary>
+    public virtual void TrainDepart()
     {
         _splineAnimate.MaxSpeed = MaxTrainSpeed;
         _splineAnimate.Restart(true);
