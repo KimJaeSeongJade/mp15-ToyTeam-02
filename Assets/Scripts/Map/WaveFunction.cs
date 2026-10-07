@@ -4,10 +4,12 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Unity.Mathematics;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class WaveFunction : MonoBehaviour
 {
+    [SerializeField] private ChunkManager _chunkManager;
     [SerializeField] private MapLoader _mapLoader;
     [SerializeField] private float _neighborBonus = 3.0f;
 
@@ -21,6 +23,10 @@ public class WaveFunction : MonoBehaviour
     private List<Tile> _validOptions = new();
     private bool _isInitialLoad = true;
     private int[,] _initialMap;
+    private int[,] _previousMap;
+    private int _chunkIndex;
+
+    public int ChunkIndex => _chunkIndex;
 
     private Vector2Int[] _directions = new[]
     {
@@ -33,10 +39,11 @@ public class WaveFunction : MonoBehaviour
     /// <summary>
     /// 파동 함수 붕괴 알고리즘을 실행하여 맵 생성 시작
     /// </summary>
-    public void StartWaveFunctionCollapse()
+    public void StartWaveFunctionCollapse(int chunkIndex)
     {
         Debug.Log("WaveFunctionCollapse started");
         int[,] sampleMapData = _mapLoader.Map;
+        _chunkIndex = chunkIndex;
 
         if (_isInitialLoad) LoadMapData(sampleMapData);
         GridComponents = new List<Cell>();
@@ -100,6 +107,8 @@ public class WaveFunction : MonoBehaviour
         }
         else
         {
+            Debug.Log(_chunkIndex);
+            _previousMap = _chunkManager.Chunks[_chunkIndex - 1].ChunkMap;
             Iterations = 0;
         }
 
@@ -124,7 +133,23 @@ public class WaveFunction : MonoBehaviour
                 else
                 {
                     Cell newCell = new Cell();
-                    newCell.CreateCell(false, _tiles.Values.ToArray());
+                    if (x == 0 && _chunkIndex != 0)
+                    {
+                        int blockType = _previousMap[Dimensions - 1, y];
+                        List<Tile> options = new();
+                        // Debug.Log($"{x}, {y}의 이전 blocktype : {_previousMap[Dimensions - 1, y]}");
+                        foreach (int blocktype in _tiles[blockType].Rules[Direction.Right])
+                        {
+                            // Debug.Log($"new options : {blocktype}");
+                            options.Add(_tiles[blocktype]);
+                        }
+                        newCell.CreateCell(false, options.ToArray());
+                    }
+                    else
+                    {
+                        newCell.CreateCell(false, _tiles.Values.ToArray());
+                    }
+                    Debug.Log($"{x}, {y} options: {newCell.TileOptions.Length}");
                     GridComponents.Add(newCell);
                 }
             }
