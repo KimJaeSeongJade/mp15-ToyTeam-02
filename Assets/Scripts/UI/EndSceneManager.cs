@@ -5,8 +5,8 @@ using UnityEngine;
 
 public class EndSceneManager : MonoBehaviour
 {
-    [SerializeField] private TextMeshProUGUI _clear;
-    [SerializeField] private TextMeshProUGUI _over;
+    //[SerializeField] private TextMeshProUGUI _clear;
+    //[SerializeField] private TextMeshProUGUI _over;
     [SerializeField] private GameObject _clearObj;
     [SerializeField] private GameObject _overObj;
 
@@ -32,16 +32,16 @@ public class EndSceneManager : MonoBehaviour
     {
         if(_isGameWin)
         {
-            _clear.gameObject.SetActive(true);
-            _over.gameObject.SetActive(false);
+            //_clear.gameObject.SetActive(true);
+            //_over.gameObject.SetActive(false);
 
             _clearObj.SetActive(true);
             _overObj.SetActive(false);
         }
         else
         {
-            _clear.gameObject.SetActive(false);
-            _over.gameObject.SetActive(true);
+            //_clear.gameObject.SetActive(false);
+            //_over.gameObject.SetActive(true);
 
             _clearObj.SetActive(false);
             _overObj.SetActive(true);
