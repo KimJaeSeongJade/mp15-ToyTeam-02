@@ -24,6 +24,7 @@ public class PlayerAction : MonoBehaviour
     private WaitForSeconds _waitDashDuration = new WaitForSeconds(0.3f);
     private WaitForSeconds _waitDashCooldown = new WaitForSeconds(1f);
     private bool _canDash;
+    private IInteractable _target;
 
     // ------------------------------
     private void Start() => Init();
@@ -187,20 +188,28 @@ public class PlayerAction : MonoBehaviour
     {
         if (_hand.Item == null || target == null || _hand.Item == target)
         {
+            _target = null;
             _animator.SetBool(PARAM_IS_USING, false);
             return;
         }
 
-        if((target is ResourceTree && _hand.Item is ToolAxe) || (target is ResourceRock && _hand.Item is ToolPickaxe))
+        if ((target is ResourceTree && _hand.Item is ToolAxe) || (target is ResourceRock && _hand.Item is ToolPickaxe))
         {
+            _target = target;
             _animator.SetBool(PARAM_IS_USING, true);
         }
         else
         {
+            _target = null;
             _animator.SetBool(PARAM_IS_USING, false);
         }
 
-        target.AutoInteract(_hand.Item);
+        if (!(target is ResourceBase)) target.AutoInteract(_hand.Item);
+    }
+
+    public void OnMine()
+    {
+        _target.AutoInteract(_hand.Item);
     }
 
     public void CameraFollow()

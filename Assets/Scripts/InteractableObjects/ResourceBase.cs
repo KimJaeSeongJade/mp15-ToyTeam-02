@@ -5,8 +5,6 @@ using UnityEngine.UI;
 
 public abstract class ResourceBase : MonoBehaviour, IInteractable, IPoolable
 {
-    private const float COOLDOWN = 0.5f;
-
     [Header("Material Settings")]
     [SerializeField] private GameObject _visualTop;
     [SerializeField] private GameObject _visualMiddle;
@@ -18,49 +16,25 @@ public abstract class ResourceBase : MonoBehaviour, IInteractable, IPoolable
     public abstract BlockType DropMaterialType { get; }
     public abstract Outline Outline { get; }
 
-    private bool _isMining = false;
-    private float _cooldownTimer = 0f;
     private IPoolable _dropItem;
 
     protected int Health = 3;
 
     private void OnEnable() => Init();
-    private void Update() => Mining();
-
-    private void Mining()
-    {
-        if (!_isMining)
-        {
-            return;
-        }
-        _cooldownTimer += Time.deltaTime;
-        if (_cooldownTimer >= COOLDOWN)
-        {
-            _cooldownTimer = 0f;
-            OnMined();
-        }
-    }
 
     private void Init()
     {
         Outline.enabled = false;
         Health = 3;
-        _cooldownTimer = 0f;
         UpdateVisuals();
     }
-
+    
     public void AutoInteract(IInteractable interactable)
     {
         if (interactable.BlockType == ToolType)
         {
-            ProcessMining();
+            OnMined();
         }
-    }
-
-    private void ProcessMining()
-    {
-        _isMining = true;
-        
     }
 
     private void OnMined()
@@ -126,8 +100,6 @@ public abstract class ResourceBase : MonoBehaviour, IInteractable, IPoolable
     public void Untargeted()
     {
         Outline.enabled = false;
-        _isMining = false;
-        _cooldownTimer = 0f;
     }
 
     /// <summary>
