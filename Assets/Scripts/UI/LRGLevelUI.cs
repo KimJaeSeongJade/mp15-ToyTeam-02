@@ -21,6 +21,7 @@ public class LRGLevelUI : MonoBehaviour
         _easy = 0.05f;
         _normal = 0.075f;
         _hard = 0.1f;
+        SetLevel(1);
     }
 
     private void OnEnable()
@@ -42,7 +43,6 @@ public class LRGLevelUI : MonoBehaviour
         _currentNum = next;
 
         SetLevel(_currentNum);
-        Debug.Log(GameManager.Instance._trainSpeed);
         RefreshUI();
     }
 

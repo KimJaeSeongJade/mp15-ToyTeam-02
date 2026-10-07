@@ -44,7 +44,7 @@ public class GameSceneManager : MonoBehaviour
 
     private void SetTrainSpeed()
     {
-        float speed = GameManager.Instance._trainSpeed;
+        float speed = GameManager.Instance.TrainSpeed;
         _trainSpeedUI.GetComponent<TextNumChanger>().ChangeNum(speed);
     }
 
