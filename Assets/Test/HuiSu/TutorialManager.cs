@@ -1,4 +1,5 @@
 using UnityEngine;
+using System;
 
 public class TutorialManager : MonoBehaviour
 {
@@ -6,6 +7,14 @@ public class TutorialManager : MonoBehaviour
     [SerializeField] private TutorialUIManager uiManager;
 
     private int currentStep = 0; // 튜토리얼 진행 단계
+    
+    public static event Action<BlockType> OnResourceDropped;
+
+    public static void CallOnResourceDropped(BlockType type)
+    {
+        OnResourceDropped?.Invoke(type);
+    }
+    
 
     // 1. 이벤트 연결 및 해제
     
@@ -15,7 +24,9 @@ public class TutorialManager : MonoBehaviour
         if (uiManager != null)
         {
             uiManager.onPopupClosed += HandlePopupClosed;
+            
         }
+        OnResourceDropped += OnBlockSpawned;
     }
 
     private void OnDisable()
@@ -24,7 +35,9 @@ public class TutorialManager : MonoBehaviour
         if (uiManager != null)
         {
             uiManager.onPopupClosed -= HandlePopupClosed;
+           
         }
+        OnResourceDropped -= OnBlockSpawned;
     }
 
     private void Start()
@@ -148,6 +161,8 @@ public class TutorialManager : MonoBehaviour
     /// </summary>
     public void OnBlockSpawned(BlockType type)
     {
+        
+        
         if (currentStep == 3 && type == BlockType.Wood)
         {
             StartStep(4);

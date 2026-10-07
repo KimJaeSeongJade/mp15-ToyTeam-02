@@ -98,7 +98,7 @@ public abstract class ResourceBase : MonoBehaviour, IInteractable, IPoolable
         _dropItem = ObjectPool.Instance.Take(DropMaterialType);
         _dropItem.GameObject.transform.position = transform.position;
         _dropItem.GameObject.SetActive(true);
-
+        TutorialManager.CallOnResourceDropped(DropMaterialType); 
         ReturnToPool();
     }
 
