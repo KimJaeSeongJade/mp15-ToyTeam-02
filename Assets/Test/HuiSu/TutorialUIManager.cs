@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class TutorialUIManager : MonoBehaviour
 {
@@ -9,6 +10,9 @@ public class TutorialUIManager : MonoBehaviour
     
     [Header("가이드 HUD 목록")]
     [SerializeField] private List<GameObject> hudList;
+    
+    [SerializeField] private string mainMenuSceneName = "TitleScene";
+    [SerializeField] private string mainStageSceneName = "GameScene";
     
     /// <summary>
     /// 팝업이 닫힐 때 TutorialManager에 알릴 이벤트 (닫힌 팝업의 index 전달)
@@ -150,11 +154,11 @@ public class TutorialUIManager : MonoBehaviour
     
     public void OnClickGoToMainMenu()
     {
-        SceneManagerA.Instance.LoadTitleScene();
+        SceneManager.LoadScene(mainMenuSceneName);
     }
 
     public void OnClickGoToMainStage()
     {
-        SceneManagerA.Instance.LoadGameScene();
+        SceneManager.LoadScene(mainStageSceneName);
     }
 }
