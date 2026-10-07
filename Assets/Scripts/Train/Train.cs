@@ -50,7 +50,7 @@ public class Train : MonoBehaviour
         }
     }
 
-    private void Init()
+    protected virtual void Init()
     {
         _splineAnimate.enabled = false;
         BindRailEvents();
@@ -67,7 +67,7 @@ public class Train : MonoBehaviour
         TrainDepart();
     }
 
-    private void TrainDepart()
+    protected virtual void TrainDepart()
     {
         _splineAnimate.MaxSpeed = MaxTrainSpeed;
         _splineAnimate.Restart(true);

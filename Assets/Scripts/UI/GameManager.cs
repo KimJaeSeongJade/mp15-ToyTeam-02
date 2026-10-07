@@ -82,9 +82,9 @@ public class GameManager : MonoBehaviour
     }
 
     // 열차 속도
-    private void SetTrainSpeed(float value)
+    public void SetTrainSpeed(float value)
     {
-        _trainSpeed += value;
+        _trainSpeed = value;
     }
 
     private void Init()
