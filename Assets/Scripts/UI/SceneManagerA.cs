@@ -36,9 +36,6 @@ public class SceneManagerA : MonoBehaviour
     public float BgmVolume => _bgmVolume;
     public float SfxVolume => _sfxVolume;
 
-    [SerializeField] [Range(0.01f, 10f)] private float _fadeTime;
-    [SerializeField] private Image _image;
-
     // 게임이 멈춰있는지
     public bool _isPause;
 

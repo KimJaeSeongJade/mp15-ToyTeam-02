@@ -52,10 +52,10 @@ public class GameManager : MonoBehaviour
     private void Update()
     {
         //게임씬이고 게임 진행중일 때
-        if (SceneManager.GetActiveScene().buildIndex == 2 && !IsPaused)
-        {
-            PlayStart();
-        }
+        //if (SceneManager.GetActiveScene().buildIndex == 2 && !IsPaused)
+        //{
+        //    PlayStart();
+        //}
     } 
     
     public void IsPause(bool value)
