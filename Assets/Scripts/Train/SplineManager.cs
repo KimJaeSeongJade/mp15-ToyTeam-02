@@ -9,6 +9,7 @@ public class SplineManager : MonoBehaviour
 {
     [SerializeField] private GameObject[] _trains;
     [SerializeField] private SplineContainer _splineContainer;
+    [SerializeField] private PlayerController _playerController;
     [SerializeField] private FilledBarUI _filledBarUI;
 
     public event Action<int> OnRailwayChanged;
@@ -74,6 +75,8 @@ public class SplineManager : MonoBehaviour
                 train.gameObject.SetActive(false);
             }
         }
+
+        _playerController.gameObject.SetActive(true);
         FadeEffect.Instance.FadeIn();
     }
 

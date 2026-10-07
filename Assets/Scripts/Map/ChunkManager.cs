@@ -12,7 +12,6 @@ public class ChunkManager : MonoBehaviour
     public const int RENDER_DISTANCE = 2;
 
     [SerializeField] private WaveFunction _waveFunction;
-    [SerializeField] private PlayerController _playerController;
     [SerializeField] private Transform _targetTransform; // 청크 스트리밍 기준 타켓의 transform
     [SerializeField] private Chunk _chunkPrefab;
     [SerializeField] private GameObject _invisibleWallPrefab;
@@ -168,7 +167,6 @@ public class ChunkManager : MonoBehaviour
         }
 
         _oldestChunkIndex = 0;
-        _playerController.gameObject.SetActive(true);
         OnInitialMapLoaded?.Invoke();
     }
 

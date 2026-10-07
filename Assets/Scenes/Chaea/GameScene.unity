@@ -968,6 +968,7 @@ MonoBehaviour:
   - {fileID: 413206856}
   - {fileID: 700653270}
   _splineContainer: {fileID: 130247685}
+  _playerController: {fileID: 669603176}
   _filledBarUI: {fileID: 356166747}
 --- !u!114 &130247685
 MonoBehaviour:
@@ -4062,7 +4063,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4242710414527726677, guid: 8e2a7a1f4ab52d34c9a0159957517f92, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
