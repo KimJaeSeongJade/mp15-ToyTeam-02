@@ -2834,8 +2834,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: "\uC18D\uB3C4"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: eac359423cb64f9428179e4973d3b96e, type: 2}
-  m_sharedMaterial: {fileID: 1730547459746497368, guid: eac359423cb64f9428179e4973d3b96e, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -5299,7 +5299,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6972055260089688410, guid: fd9297e98be2efb4f8f0850fc9d19eee, type: 3}
       propertyPath: _gameMode
-      value: 0
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 9127187142286411491, guid: fd9297e98be2efb4f8f0850fc9d19eee, type: 3}
       propertyPath: _chunkManager

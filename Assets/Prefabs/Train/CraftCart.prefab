@@ -139,6 +139,7 @@ GameObject:
   - component: {fileID: 7555014631935818700}
   - component: {fileID: 2042415680471983914}
   - component: {fileID: 5809691758447775196}
+  - component: {fileID: 9063875862029927110}
   m_Layer: 5
   m_Name: Canvas
   m_TagString: Untagged
@@ -163,7 +164,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: -90, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0.5, y: 1.5}
+  m_AnchoredPosition: {x: 0, y: 1.5}
   m_SizeDelta: {x: 1, y: 1}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!223 &7555014631935818700
@@ -229,6 +230,19 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
+--- !u!114 &9063875862029927110
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 473107942683786163}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fcb1c61f5261b2b448656ba4eb4743f2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _carftTransform: {fileID: 4370236941069797492}
 --- !u!1 &2889585861696384458
 GameObject:
   m_ObjectHideFlags: 0
