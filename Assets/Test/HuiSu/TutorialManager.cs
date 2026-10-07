@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class TutorialManager : MonoBehaviour
 {
-    [Header("UI Manager 연결")]
+    [Header("UI Manager")]
     [SerializeField] private TutorialUIManager uiManager;
 
     private int currentStep = 0; // 튜토리얼 진행 단계
@@ -44,6 +44,7 @@ public class TutorialManager : MonoBehaviour
             // [단계 0] 게임안내 1 팝업 + 게임 정지
             case 0:
                 PauseGame();
+                uiManager.HideAllHUDs();
                 uiManager.OpenPopup(0);
                 break;
 
@@ -108,11 +109,10 @@ public class TutorialManager : MonoBehaviour
                 ResumeGame();
                 break;
 
-            // [단계 10] TODO 조건을 만족하면 최종 클리어 팝업 호출 + 게임 정지
+            // [단계 10] TODO: 게임매니저가 게임오버 상태를 만듬
             case 10:
                 PauseGame();
                 uiManager.OpenPopup(6); // 6번(마지막) 팝업: 튜토리얼 클리어 팝업
-                uiManager.ShowHUD(0);
                 Debug.Log("[TutorialManager] 튜토리얼 전체 클리어!");
                 break;
         }
@@ -126,12 +126,15 @@ public class TutorialManager : MonoBehaviour
     /// </summary>
     private void HandlePopupClosed(int closedPopupIndex)
     {
-        if (currentStep == 0 && closedPopupIndex == 0) StartStep(1);
-        else if (currentStep == 1 && closedPopupIndex == 1) StartStep(2);
-        else if (currentStep == 2 && closedPopupIndex == 2) StartStep(3); // 목재 채집 실습 시작
-        else if (currentStep == 4 && closedPopupIndex == 3) StartStep(5); // 광석 채집 실습 시작
-        else if (currentStep == 6 && closedPopupIndex == 4) StartStep(7); // 레일 제작 실습 시작
-        else if (currentStep == 8 && closedPopupIndex == 5) StartStep(9); // 레일 설치 실습 시작
+        if (currentStep == 0 && closedPopupIndex == 0) StartStep(1);    // 게임안내 팝업2 열린상태(게임정지)
+        else if (currentStep == 1 && closedPopupIndex == 1) StartStep(2);   // 목재 채집 팝업 열린상태(게임정지)
+        else if (currentStep == 2 && closedPopupIndex == 2) StartStep(3);   // 플레이어 목재 채집 실습 시작
+                                                                            // 목재 생성 감지트리거 -> 철 재집  팝업 열린상태(게임정지)
+        else if (currentStep == 4 && closedPopupIndex == 3) StartStep(5);   // 플레이어 광석 채집 실습 시작
+                                                                            // 철 생성 감지트리거 -> 레일 제작 팝업 열린상태(게임정지)
+        else if (currentStep == 6 && closedPopupIndex == 4) StartStep(7);   // 레일 제작 실습 시작
+        
+        else if (currentStep == 8 && closedPopupIndex == 5) StartStep(9);   // 레일 설치 실습 시작
     }
 
     /// <summary>
@@ -162,13 +165,14 @@ public class TutorialManager : MonoBehaviour
     }
 
     /// <summary>
-    /// TODO: 기차 출발 감지 또는 정거장 도착 이벤트 트리거
+    /// TODO: 메인 게임매니저에서 게임오버 상태를 만들때 호출
     /// </summary>
     public void OnTrainMoved()
     {
-        // TODO: 클리어 조건 정해지면 이 홈수를 호출해야함
+        
         if (currentStep == 9)
         {
+            // TODO: 게임 매니저의 게임오버 상태 판정 가져오기
             Debug.Log("튜토리얼 클리어 팝업 조건 달성");
             StartStep(10); // 최종 클리어 팝업 호출
         }
