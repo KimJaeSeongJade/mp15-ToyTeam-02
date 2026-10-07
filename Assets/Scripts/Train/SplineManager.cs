@@ -83,6 +83,19 @@ public class SplineManager : MonoBehaviour
         FadeEffect.Instance.FadeIn();
     }
 
+    /// <summary>
+    /// 열차를 전부 출발
+    /// </summary>
+    public void TrainDepart()
+    {
+        foreach (GameObject gameObject in _trains)
+        {
+            Train train = gameObject.GetComponent<Train>();
+
+            train.TrainDepart();
+        }
+    }
+
     private void BindBarLoadingEvents()
     {
         _filledBarUI.OnBarLoaded += LoadTrain;
