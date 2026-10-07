@@ -1654,6 +1654,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: TutorialPopUps
       objectReference: {fileID: 0}
+    - target: {fileID: 6788800529451308764, guid: e1730979b6ba5694784f5e005fcae6ff, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6966058955758966857, guid: e1730979b6ba5694784f5e005fcae6ff, type: 3}
       propertyPath: m_IsActive
       value: 1
@@ -2562,6 +2566,10 @@ PrefabInstance:
     - target: {fileID: 442378668165596356, guid: dfae08021ff14254eb34f46e6775e702, type: 3}
       propertyPath: m_Name
       value: TutorialGuideUIs
+      objectReference: {fileID: 0}
+    - target: {fileID: 442378668165596356, guid: dfae08021ff14254eb34f46e6775e702, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1004552124357619742, guid: dfae08021ff14254eb34f46e6775e702, type: 3}
       propertyPath: m_AnchorMax.y
@@ -4499,7 +4507,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 708077115733675161, guid: 8e2a7a1f4ab52d34c9a0159957517f92, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 8.16
+      value: 15.6
       objectReference: {fileID: 0}
     - target: {fileID: 708077115733675161, guid: 8e2a7a1f4ab52d34c9a0159957517f92, type: 3}
       propertyPath: m_LocalPosition.y
@@ -4507,7 +4515,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 708077115733675161, guid: 8e2a7a1f4ab52d34c9a0159957517f92, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 5.82
+      value: 6.6
       objectReference: {fileID: 0}
     - target: {fileID: 708077115733675161, guid: 8e2a7a1f4ab52d34c9a0159957517f92, type: 3}
       propertyPath: m_LocalRotation.w
@@ -7470,6 +7478,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   uiManager: {fileID: 1100862222}
+  _filledBarUI: {fileID: 260590868}
 --- !u!4 &1406009510
 Transform:
   m_ObjectHideFlags: 0

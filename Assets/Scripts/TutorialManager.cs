@@ -52,8 +52,6 @@ public class TutorialManager : MonoBehaviour
         StartStep(0);
     }
 
-
-    
     // 2, 튜토리얼 행동 단계별 UI상황 설정
 
     public void StartStep(int stepIndex)
@@ -64,20 +62,17 @@ public class TutorialManager : MonoBehaviour
         {
             // [단계 0] 게임안내 1 팝업 + 게임 정지
             case 0:
-                PauseGame();
                 uiManager.HideAllHUDs();
                 uiManager.OpenPopup(0);
                 break;
 
             // [단계 1] 게임안내 2 팝업 + 게임 정지
             case 1:
-                PauseGame();
                 uiManager.OpenPopup(1);
                 break;
 
             // [단계 2] 목재 채집 안내 팝업 + 게임 정지
             case 2:
-                PauseGame();
                 uiManager.OpenPopup(2);
                 break;
 
