@@ -14,7 +14,7 @@ public class FadeEffect : MonoBehaviour
         {
             if (_instance == null)
             {
-                _instance = _instance = FindObjectOfType<FadeEffect>();
+                _instance =  FindObjectOfType<FadeEffect>();
                 DontDestroyOnLoad(_instance.gameObject);
             }
             return _instance;
