@@ -166,10 +166,12 @@ public class TutorialManager : MonoBehaviour
         if (currentStep == 3 && type == BlockType.Wood)
         {
             StartStep(4);
+            Debug.Log(" 목재 나옴!!");
         }
         else if (currentStep == 5 && type == BlockType.Iron)
         {
             StartStep(6);
+            Debug.Log(" 철 나옴!!");
         }
     }
 
