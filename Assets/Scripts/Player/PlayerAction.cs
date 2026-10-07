@@ -157,6 +157,11 @@ public class PlayerAction : MonoBehaviour
                     return;
                 }
             }
+            ToolBase tool = _hand.Item as ToolBase;
+            if (tool != null)
+            {
+                tool.ToolUI(true);
+            }
             
 
             _hand.Item.GameObject.layer = 0;
