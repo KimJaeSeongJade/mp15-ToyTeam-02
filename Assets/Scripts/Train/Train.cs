@@ -52,6 +52,7 @@ public class Train : MonoBehaviour
 
     protected virtual void Init()
     {
+        MaxTrainSpeed = GameManager.Instance._trainSpeed;
         _splineAnimate.enabled = false;
         BindRailEvents();
     }
