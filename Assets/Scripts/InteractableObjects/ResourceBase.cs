@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public abstract class ResourceBase : MonoBehaviour, IInteractable, IPoolable
 {
-    private const float COOLDOWN = 1f;
+    private const float COOLDOWN = 0.5f;
 
     [Header("Material Settings")]
     [SerializeField] private GameObject _visualTop;
