@@ -133,23 +133,7 @@ public class WaveFunction : MonoBehaviour
                 else
                 {
                     Cell newCell = new Cell();
-                    if (x == 0 && _chunkIndex != 0)
-                    {
-                        int blockType = _previousMap[Dimensions - 1, y];
-                        List<Tile> options = new();
-                        // Debug.Log($"{x}, {y}의 이전 blocktype : {_previousMap[Dimensions - 1, y]}");
-                        foreach (int blocktype in _tiles[blockType].Rules[Direction.Right])
-                        {
-                            // Debug.Log($"new options : {blocktype}");
-                            options.Add(_tiles[blocktype]);
-                        }
-                        newCell.CreateCell(false, options.ToArray());
-                    }
-                    else
-                    {
-                        newCell.CreateCell(false, _tiles.Values.ToArray());
-                    }
-                    // Debug.Log($"{x}, {y} options: {newCell.TileOptions.Length}");
+                     newCell.CreateCell(false, _tiles.Values.ToArray());
                     GridComponents.Add(newCell);
                 }
             }
@@ -235,6 +219,16 @@ public class WaveFunction : MonoBehaviour
                         }
                     }
                 }
+                else if (nx < 0 && _chunkIndex != 0)
+                {
+                    int previousBlockType =
+                    _previousMap[Dimensions - 1, ny];
+
+                    if (previousBlockType == tile.BlockType)
+                    {
+                        matchCount++;
+                    }
+                }
             }
 
             if (matchCount > 0)
@@ -303,7 +297,13 @@ public class WaveFunction : MonoBehaviour
                         Cell left = GridComponents[x - 1 + y * Dimensions];
                         CheckValidity(options, left.TileOptions, Direction.Right);
                     }
+                    else if (!_isInitialLoad && _chunkIndex > 0 && _previousMap != null)
+                    {
+                        int previousBlockType = _previousMap[Dimensions - 1, y];
+                        Tile previousTile = _tiles[previousBlockType];
 
+                        CheckValidity(options, new Tile[] { previousTile }, Direction.Right);
+                    }
                     newGenerationCell[index].RecreateCell(options.ToArray());
                 }
             }
