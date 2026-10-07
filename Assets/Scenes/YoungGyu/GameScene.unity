@@ -2260,13 +2260,7 @@ MonoBehaviour:
   _prefabList:
   - {fileID: 4339693152574486085, guid: 100438cbfd31dab42ac2aec2f29b353e, type: 3}
   - {fileID: 7351844012991224437, guid: eb8fd59a3f43e884e9822c3a2ca12307, type: 3}
-  - {fileID: 8980350440352654297, guid: eab9730d8511a6847b716a76ab11851a, type: 3}
-  - {fileID: 494853464552137942, guid: 400bd7af5c0c9fd469b0026ba02197db, type: 3}
-  - {fileID: 3267890329728865150, guid: 856a042ed9063b94cb67e0101544fbf8, type: 3}
-  - {fileID: 5657911952476030955, guid: 902a7be71a05f354eab206eeafa130b8, type: 3}
   - {fileID: 5677033974025641742, guid: 92bc91f87f9f7814d880b885a720103e, type: 3}
-  - {fileID: 4381599569743975301, guid: dee7e6d05eddb754a852065bbf3dd6fb, type: 3}
-  - {fileID: 655306149813716800, guid: ad31d9e72b66a5e4fa0b559b6d1e480b, type: 3}
   - {fileID: 4339693152574486085, guid: 8aef924cce514194da2bed70e14d8af6, type: 3}
   - {fileID: 5867049558676211974, guid: 65750721d657a694aaa1f266383fe4f6, type: 3}
   - {fileID: 8378844707150751968, guid: f8ddd3735c6976940b18b3e2d0a0f767, type: 3}
@@ -2277,6 +2271,8 @@ MonoBehaviour:
   - {fileID: 4433544116379349673, guid: 409928497ea3a6a44babee278443737c, type: 3}
   - {fileID: 8075207914761090021, guid: 651f7a2daa9e86744ab8da949e1ce31c, type: 3}
   - {fileID: 2658246067215033228, guid: 0297f2ed4fcfd8949b91dc2e977fc67e, type: 3}
+  - {fileID: 7351844012991224437, guid: eb8fd59a3f43e884e9822c3a2ca12307, type: 3}
+  - {fileID: 5677033974025641742, guid: 15d8338b03ce0424b9c24019f820563e, type: 3}
 --- !u!4 &369143281
 Transform:
   m_ObjectHideFlags: 0

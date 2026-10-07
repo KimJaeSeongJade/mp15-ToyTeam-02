@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public abstract class ResourceBase : MonoBehaviour, IInteractable, IPoolable
+public abstract class ResourceBaseTutorial : MonoBehaviour, IInteractable, IPoolable
 {
     private const float COOLDOWN = 0.5f;
 
@@ -98,6 +98,8 @@ public abstract class ResourceBase : MonoBehaviour, IInteractable, IPoolable
         _dropItem = ObjectPool.Instance.Take(DropMaterialType);
         _dropItem.GameObject.transform.position = transform.position;
         _dropItem.GameObject.SetActive(true);
+        TutorialManager.CallOnResourceDropped(DropMaterialType);
+        Debug.Log($"드랍 아이템 {DropMaterialType}");
         ReturnToPool();
     }
 
