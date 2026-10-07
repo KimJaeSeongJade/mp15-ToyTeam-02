@@ -2139,7 +2139,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5d498da2ee939a04db59396fd61ffebc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _targetTransform: {fileID: 700653269}
+  _trainTransform: {fileID: 700653269}
+  _playerTransform: {fileID: 1623388723}
 --- !u!81 &353505479
 AudioListener:
   m_ObjectHideFlags: 0
@@ -4045,6 +4046,10 @@ PrefabInstance:
       propertyPath: _playerBody
       value: 
       objectReference: {fileID: 669603181}
+    - target: {fileID: 2122204386168999431, guid: 8e2a7a1f4ab52d34c9a0159957517f92, type: 3}
+      propertyPath: _cameraFollow
+      value: 
+      objectReference: {fileID: 353505478}
     - target: {fileID: 2645267134450389917, guid: 8e2a7a1f4ab52d34c9a0159957517f92, type: 3}
       propertyPath: _player
       value: 
@@ -7471,6 +7476,11 @@ RectTransform:
   m_AnchoredPosition: {x: -5, y: 0}
   m_SizeDelta: {x: -20, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!4 &1623388723 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 708077115733675161, guid: 8e2a7a1f4ab52d34c9a0159957517f92, type: 3}
+  m_PrefabInstance: {fileID: 669603175}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1631510009
 PrefabInstance:
   m_ObjectHideFlags: 0

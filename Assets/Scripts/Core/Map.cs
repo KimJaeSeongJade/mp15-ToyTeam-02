@@ -58,12 +58,6 @@ public class Map : MonoBehaviour
 
         if (!_chunkManager.Chunks.ContainsKey(chunkIndex)) return null;
 
-        if (_chunkManager.Chunks[chunkIndex].GetHoldable(chunkCoord) == null)
-        {
-            Debug.Log($"Get : {coord.x}, {coord.y} / null");
-        }
-        else
-            Debug.Log($"Get : {coord.x}, {coord.y} / {_chunkManager.Chunks[chunkIndex].GetHoldable(chunkCoord).GameObject.name}");
         return _chunkManager.Chunks[chunkIndex].GetHoldable(chunkCoord);
     }
 
@@ -77,12 +71,6 @@ public class Map : MonoBehaviour
         int chunkIndex = GetChunkIndex(coord);
         Vector2Int chunkCoord = GetChunkCoord(coord);
         _chunkManager.Chunks[chunkIndex].SetHoldable(chunkCoord, interactable);
-        if (_chunkManager.Chunks[chunkIndex].GetHoldable(chunkCoord) == null)
-        {
-            Debug.Log($"Set : {coord.x}, {coord.y} / null");
-        }
-        else
-            Debug.Log($"Set : {coord.x}, {coord.y} / {_chunkManager.Chunks[chunkIndex].GetHoldable(chunkCoord).GameObject.name}");
     }
 
     /// <summary>
