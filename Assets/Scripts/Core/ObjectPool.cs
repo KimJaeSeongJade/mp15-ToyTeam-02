@@ -64,6 +64,7 @@ public class ObjectPool : MonoBehaviour
         if (!_objectPoolDict.ContainsKey(poolable.BlockType)) return;
 
         _objectPoolDict[poolable.BlockType].Push(poolable);
+        Debug.Log($"{_objectPoolDict[poolable.BlockType].Count}");
 
         poolable.GameObject.transform.SetParent(_poolParent[poolable.BlockType].transform);
     }

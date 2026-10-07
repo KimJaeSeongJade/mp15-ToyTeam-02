@@ -1,3 +1,4 @@
+using Cysharp.Threading.Tasks;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -14,6 +15,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private PlayerAction _player;
     [SerializeField] private DetectRange _detectRange;
     private Vector3 _direction;
+    private bool _isDetecting;
     private List<IInteractable> _detecteds => _detectRange.Detecteds;
     private IInteractable _target;
     private KeyCode _moveUp = KeyCode.W;
@@ -35,9 +37,8 @@ public class PlayerController : MonoBehaviour
     {
         ReadMove();
         ReadDash();
-        TryDetectInteractable();
+        Detect().Forget();
         ReadInteract();
-        AutoInteract();
     }
     private void OnDrawGizmos()
     {
@@ -76,6 +77,17 @@ public class PlayerController : MonoBehaviour
 
         _player.Dash();
     }
+
+    private async UniTaskVoid Detect()
+    {
+        if (_isDetecting) return;
+
+        _isDetecting = true;
+        TryDetectInteractable();
+        AutoInteract();
+        await UniTask.Delay(TimeSpan.FromSeconds(0.2f));
+        _isDetecting = false;
+    }
     
     private void TryDetectInteractable()
     {
@@ -85,10 +97,11 @@ public class PlayerController : MonoBehaviour
         foreach (IInteractable detected in _detecteds)
         {
             Vector3 playerDirection = transform.forward;
-            Vector3 toDetectedDirection = (detected.GameObject.transform.position - transform.position).normalized;
-            float lookPercentage = Vector3.Dot(toDetectedDirection, playerDirection);
-            
-            bool canLook = lookPercentage >= THRESHOLD;
+            Vector3 toDetectedDirection = (detected.GameObject.transform.position - transform.position);
+            Vector3 toDetectedDirectionNormalized = toDetectedDirection.normalized;
+            float lookPercentage = Vector3.Dot(toDetectedDirectionNormalized, playerDirection);
+
+            bool canLook = (lookPercentage >= THRESHOLD) && (toDetectedDirection.magnitude <= playerDirection.magnitude * _detectRange.Range);
             bool isHandItem = detected == _playerHand.Item;
             bool isActive = detected.GameObject.activeSelf;
             bool canUseItem = (!(_playerHand.Item is ToolBase) && !(detected is ResourceBase)) ||

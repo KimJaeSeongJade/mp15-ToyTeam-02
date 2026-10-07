@@ -375,6 +375,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _locomotiveCart: {fileID: 1001737496}
+  _pauseMenu: {fileID: 0}
+  _trainSpeedUI: {fileID: 0}
 --- !u!4 &211969454
 Transform:
   m_ObjectHideFlags: 0
