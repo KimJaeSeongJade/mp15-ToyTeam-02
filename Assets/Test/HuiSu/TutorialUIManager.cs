@@ -11,6 +11,8 @@ public class TutorialUIManager : MonoBehaviour
     [Header("가이드 HUD 목록")]
     [SerializeField] private List<GameObject> hudList;
     
+    // SceneManager 활용하면 없어져도 됨
+    [Header("지정할 씬 목록")]
     [SerializeField] private string mainMenuSceneName = "TitleScene";
     [SerializeField] private string mainStageSceneName = "GameScene";
     
@@ -151,9 +153,11 @@ public class TutorialUIManager : MonoBehaviour
     }
     
     // 4. 튜토리얼 클리어 팝업 버튼 연동
+    // TODO: 씬매니저 활용해서 로드씬 메서드 활용으로 변경 예정
     
     public void OnClickGoToMainMenu()
     {
+        // SceneManagerA.Instance.LoadTitleScene();
         SceneManager.LoadScene(mainMenuSceneName);
     }
 
