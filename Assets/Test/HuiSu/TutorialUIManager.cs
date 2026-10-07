@@ -11,11 +11,6 @@ public class TutorialUIManager : MonoBehaviour
     [Header("가이드 HUD 목록")]
     [SerializeField] private List<GameObject> hudList;
     
-    // SceneManager 활용하면 없어져도 됨
-    [Header("지정할 씬 목록")]
-    [SerializeField] private string mainMenuSceneName = "TitleScene";
-    [SerializeField] private string mainStageSceneName = "GameScene";
-    
     /// <summary>
     /// 팝업이 닫힐 때 TutorialManager에 알릴 이벤트 (닫힌 팝업의 index 전달)
     /// </summary>
@@ -158,11 +153,11 @@ public class TutorialUIManager : MonoBehaviour
     public void OnClickGoToMainMenu()
     {
         // SceneManagerA.Instance.LoadTitleScene();
-        SceneManager.LoadScene(mainMenuSceneName);
+        SceneManager.LoadScene(1);
     }
 
     public void OnClickGoToMainStage()
     {
-        SceneManager.LoadScene(mainStageSceneName);
+        SceneManager.LoadScene(1);
     }
 }
