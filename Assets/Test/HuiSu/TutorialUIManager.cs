@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 public class TutorialUIManager : MonoBehaviour
 {
@@ -11,25 +10,21 @@ public class TutorialUIManager : MonoBehaviour
     [Header("가이드 HUD 목록")]
     [SerializeField] private List<GameObject> hudList;
     
-    [Header("씬 이름")]
-    [SerializeField] private string mainMenuSceneName = "MainMenu";
-    [SerializeField] private string mainStageSceneName = "MainStage";
-    
     /// <summary>
     /// 팝업이 닫힐 때 TutorialManager에 알릴 이벤트 (닫힌 팝업의 index 전달)
     /// </summary>
     public event Action<int> onPopupClosed;
-
     
-    private int currentActivePopupIndex = -1;   // 현재 화면에 실제로 열려 있는 팝업의 인덱스
-                                                // -1은 팝업이 아무것도 안열려 있는 상태
+    // 현재 화면에 실제로 열려 있는 팝업의 인덱스 (`-1`은 팝업이 아무것도 안열려 있는 상태)
+    private int currentActivePopupIndex = -1;  
 
     /// <summary>
     /// 외부 참조용 프로퍼티 (현재 활성화된 팝업 번호 확인)
     /// </summary>
     public int CurrentActivePopupIndex => currentActivePopupIndex;
     
-
+    // 1. 팝업 창 활성화 중 입력감지
+    
     private void Update()
     {
         // 화면에 해당 단계의 팝업이 실제로 열려 있을때만 엔터 입력 받음
@@ -43,7 +38,7 @@ public class TutorialUIManager : MonoBehaviour
     }
 
     
-    // 팝업 관리 메서드
+    // 2. 팝업 관리 메서드
 
     /// <summary>
     /// 지정한 번호의 팝업만 켜고, 현재 활성화된 팝업 번호 저장
@@ -71,7 +66,7 @@ public class TutorialUIManager : MonoBehaviour
     }
     
     /// <summary>
-    /// 특정 번호의 팝업을 닫고 / 팝업창 번호와 함께 팝업창 닫힘 이벤트를 전달
+    /// 특정 번호의 팝업을 닫기 + 팝업창 번호와 함께 팝업창 닫힘 이벤트를 전달
     /// </summary>
     public void ClosePopup(int index)
     {
@@ -94,7 +89,7 @@ public class TutorialUIManager : MonoBehaviour
     }
 
     /// <summary>
-    /// 화면의 모든 팝업을 비활성화합니다. (인게임 실습 모드 진입 시 호출)
+    /// 화면의 모든 팝업을 비활성화 하기 (인게임 실습 모드 진입 시 호출)
     /// </summary>
     public void CloseAllPopups()
     {
@@ -110,10 +105,10 @@ public class TutorialUIManager : MonoBehaviour
     }
 
     
-    // HUD 관리
+    // 3. HUD 관리
 
     /// <summary>
-    /// 지정한 번호(index)의 HUD 1개만 켜고, 나머지는 비활성화합니다.
+    /// 지정한 번호(index)의 HUD 1개만 켜고, 나머지는 모두 비활성화
     /// </summary>
     public void ShowHUD(int index)
     {
@@ -121,7 +116,14 @@ public class TutorialUIManager : MonoBehaviour
         {
             if (hudList[i] != null)
             {
-                hudList[i].SetActive(i == index);
+                if (i == index)
+                {
+                    hudList[i].SetActive(true);  // 선택한 팝업만 켜기
+                }
+                else
+                {
+                    hudList[i].SetActive(false); // 나머지는 끄기
+                }
             }
         }
     }
@@ -129,10 +131,14 @@ public class TutorialUIManager : MonoBehaviour
     /// <summary>
     /// 모든 HUD 비활성화
     /// </summary>
-    public void HideAllHUDs() => ShowHUD(-1);
+    public void HideAllHUDs()
+    {
+        ShowHUD(-1);   
+    }
 
     /// <summary>
     /// 모든 팝업과 HUD를 한꺼번에 비활성화
+    /// 최종 플레이어 실습끝나고 난 뒤 (튜토리얼 클리어 팝업으로 넘어가기전 까지) 호출
     /// </summary>
     public void CloseAllUI()
     {
@@ -140,18 +146,15 @@ public class TutorialUIManager : MonoBehaviour
         HideAllHUDs();
     }
     
-    
-    // ==========================================
     // 4. 튜토리얼 클리어 팝업 버튼 연동
-    // ==========================================
     
     public void OnClickGoToMainMenu()
     {
-        SceneManager.LoadScene(mainMenuSceneName);
+        SceneManagerA.Instance.LoadTitleScene();
     }
 
     public void OnClickGoToMainStage()
     {
-        SceneManager.LoadScene(mainStageSceneName);
+        SceneManagerA.Instance.LoadGameScene();
     }
 }

@@ -7,6 +7,8 @@ public class TutorialManager : MonoBehaviour
 
     private int currentStep = 0; // 튜토리얼 진행 단계
 
+    // 1. 이벤트 연결 및 해제
+    
     private void OnEnable()
     {
         // UIManager의 ClosePopup 연결(팝업이 닫힐 때 이벤트)
@@ -33,7 +35,7 @@ public class TutorialManager : MonoBehaviour
 
 
     
-    // 튜토리얼 행동 단계별 실행 로직
+    // 2, 튜토리얼 행동 단계별 UI상황 설정
 
     public void StartStep(int stepIndex)
     {
@@ -65,10 +67,10 @@ public class TutorialManager : MonoBehaviour
             case 3:
                 uiManager.CloseAllPopups();
                 ResumeGame();
-                uiManager.ShowHUD(0);
+                uiManager.ShowHUD(0); 
                 break;
 
-            // [단계 4] 목재(BlockType.Wood) 생성 감지! ➔ 광석 채집 안내 팝업 + 게임 정지
+            // [단계 4] 목재(BlockType.Wood) 생성 감지! -> 광석 채집 안내 팝업 + 게임 정지
             case 4:
                 PauseGame();
                 uiManager.OpenPopup(3);
@@ -82,7 +84,7 @@ public class TutorialManager : MonoBehaviour
                 ResumeGame();
                 break;
 
-            // [단계 6] 철(BlockType.Iron) 생성 감지! ➔ 레일 제작 안내 팝업 + 게임 정지
+            // [단계 6] 철(BlockType.Iron) 생성 감지! -> 레일 제작 안내 팝업 + 게임 정지
             case 6:
                 PauseGame();
                 uiManager.OpenPopup(4);
@@ -95,14 +97,13 @@ public class TutorialManager : MonoBehaviour
                 ResumeGame();
                 break;
 
-            // [단계 8] 레일 제작 완료 감지! ➔ 레일 설치 안내 팝업 + 게임 정지
+            // [단계 8] 레일 제작 완료 감지! -> 레일 설치 안내 팝업 + 게임 정지
             case 8:
                 PauseGame();
                 uiManager.OpenPopup(5); // 5번 팝업: 레일 설치 안내 팝업
-                
                 break;
 
-            // [단계 9] ESC 입력 ➔ 팝업 닫힘 & 게임 재개 (레일 설치 실습 및 기차 출발 대기)
+            // [단계 9] ESC 입력 -> 팝업 닫힘 & 게임 재개 (레일 설치 실습 및 기차 출발 대기)
             case 9:
                 uiManager.CloseAllPopups();
                 uiManager.ShowHUD(3);
@@ -126,12 +127,16 @@ public class TutorialManager : MonoBehaviour
     /// </summary>
     private void HandlePopupClosed(int closedPopupIndex)
     {
-        if (currentStep == 0 && closedPopupIndex == 0) StartStep(1);    // 게임안내 팝업2 열린상태(게임정지)
+        if (currentStep == 0 && closedPopupIndex == 0) StartStep(1);    // 게임안내 팝업2 열린상태 & 게임안내 팝업1 닫힌 상태(게임정지)
+        
         else if (currentStep == 1 && closedPopupIndex == 1) StartStep(2);   // 목재 채집 팝업 열린상태(게임정지)
+        
         else if (currentStep == 2 && closedPopupIndex == 2) StartStep(3);   // 플레이어 목재 채집 실습 시작
                                                                             // 목재 생성 감지트리거 -> 철 재집  팝업 열린상태(게임정지)
+        
         else if (currentStep == 4 && closedPopupIndex == 3) StartStep(5);   // 플레이어 광석 채집 실습 시작
                                                                             // 철 생성 감지트리거 -> 레일 제작 팝업 열린상태(게임정지)
+        
         else if (currentStep == 6 && closedPopupIndex == 4) StartStep(7);   // 레일 제작 실습 시작
         
         else if (currentStep == 8 && closedPopupIndex == 5) StartStep(9);   // 레일 설치 실습 시작
@@ -139,6 +144,7 @@ public class TutorialManager : MonoBehaviour
 
     /// <summary>
     /// SpawnTrigger에서 자원 드롭 시 호출
+    /// TODO: 플레이어가 자원을 손에들 때로 트리거 변경 필요
     /// </summary>
     public void OnBlockSpawned(BlockType type)
     {
