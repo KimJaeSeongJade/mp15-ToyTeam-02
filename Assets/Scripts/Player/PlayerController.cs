@@ -24,9 +24,11 @@ public class PlayerController : MonoBehaviour
     private KeyCode _moveRight = KeyCode.D;
     private KeyCode _dashKey = KeyCode.LeftShift;
     private KeyCode _interactKey = KeyCode.Space;
+    private KeyCode _cameraKey = KeyCode.Z;
     private bool _isPressedMoveKey => Input.GetKey(_moveUp) || Input.GetKey(_moveDown) || Input.GetKey(_moveLeft) || Input.GetKey(_moveRight);
     private bool _isPressedDashKey => Input.GetKeyDown(_dashKey);
     private bool _isPressedInteractKey => Input.GetKeyDown(_interactKey);
+    private bool _isPressedCameraKey => Input.GetKeyDown(_cameraKey);
 
     // ------------------------------
     private void FixedUpdate()
@@ -39,6 +41,7 @@ public class PlayerController : MonoBehaviour
         ReadDash();
         Detect().Forget();
         ReadInteract();
+        ReadCameraFollow();
     }
     private void OnDrawGizmos()
     {
@@ -192,5 +195,12 @@ public class PlayerController : MonoBehaviour
     private void AutoInteract()
     {
         _player.TryAutoInteract(_target);
+    }
+
+    private void ReadCameraFollow()
+    {
+        if (!_isPressedCameraKey) return;
+
+        _player.CameraFollow();
     }
 }

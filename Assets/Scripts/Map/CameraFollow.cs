@@ -4,8 +4,12 @@ using UnityEngine;
 
 public class CameraFollow : MonoBehaviour
 {
-    [SerializeField] private Transform _targetTransform;
+    [SerializeField] private Transform _trainTransform;
+    [SerializeField] private Transform _playerTransform;
 
+    private Transform _targetTransform;
+
+    private void Start() => Init();
     private void Update()
     {
         if (_targetTransform.gameObject.activeSelf == true)
@@ -16,5 +20,16 @@ public class CameraFollow : MonoBehaviour
             transform.position.z
             );
         }
+    }
+
+    public void ChangeTarget()
+    {
+        if (_targetTransform == _trainTransform) _targetTransform = _playerTransform;
+        else _targetTransform = _trainTransform;
+    }
+
+    private void Init()
+    {
+        _targetTransform = _trainTransform;
     }
 }
