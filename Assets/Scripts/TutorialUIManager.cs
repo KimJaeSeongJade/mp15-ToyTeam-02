@@ -151,7 +151,6 @@ public class TutorialUIManager : MonoBehaviour
     
     public void OnClickGoToMainMenu()
     {
-        // SceneManagerA.Instance.LoadTitleScene();
         SceneManager.LoadScene(1);
     }
 

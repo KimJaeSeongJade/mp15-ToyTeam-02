@@ -30,6 +30,8 @@ public class TutorialManager : MonoBehaviour
     private void Start()
     {
         // 씬 시작과 동시에 0번 단계(게임안내 1 팝업) 실행
+        uiManager.HideAllHUDs();
+        uiManager.CloseAllPopups();
         StartStep(0);
     }
 
@@ -110,11 +112,10 @@ public class TutorialManager : MonoBehaviour
                 ResumeGame();
                 break;
 
-            // [단계 10] TODO: 게임매니저가 게임오버 상태를 만듬
+            // [단계 10] 레일 설치 완료 -> 게임 씬 매니저가 게임 클리어 트리거 발동
             case 10:
                 PauseGame();
                 uiManager.OpenPopup(6); // 6번(마지막) 팝업: 튜토리얼 클리어 팝업
-                Debug.Log("[TutorialManager] 튜토리얼 전체 클리어!");
                 break;
         }
     }
@@ -171,15 +172,13 @@ public class TutorialManager : MonoBehaviour
     }
 
     /// <summary>
-    /// TODO: 메인 게임매니저에서 게임오버 상태를 만들때 호출
+    /// 게임씬 메니저에서 게임클러어 트리거를 발동하면 호출됨
     /// </summary>
-    public void OnTrainMoved()
+    public void OnGameClear()
     {
         
         if (currentStep == 9)
         {
-            // TODO: 게임 매니저의 게임오버 상태 판정 가져오기
-            Debug.Log("튜토리얼 클리어 팝업 조건 달성");
             StartStep(10); // 최종 클리어 팝업 호출
         }
     }
