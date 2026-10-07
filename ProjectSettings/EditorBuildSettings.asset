@@ -11,7 +11,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/DongWook/TitleScene.unity
     guid: 58f9f5eaf5933ae40ae98ad18694df04
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/HuiSu/TestTutorial.unity
     guid: ad30ae06b4184e3408a6a744ee4bd771
   - enabled: 1
