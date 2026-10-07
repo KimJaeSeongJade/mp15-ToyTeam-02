@@ -167,6 +167,17 @@ public class TutorialManager : MonoBehaviour
         {
             StartStep(4);
             Debug.Log(" 목재 나옴!!");
+            IPoolable pickaxe = ObjectPool.Instance.Take(BlockType.Pickaxe);
+            
+            pickaxe.GameObject.transform.position = new Vector3(17, 0, 6);
+            pickaxe.GameObject.SetActive(true);
+            
+            IPoolable rock = ObjectPool.Instance.Take(BlockType.Rock);
+            
+            rock.GameObject.transform.position = new Vector3(17, 0, 9);
+            rock.GameObject.SetActive(true);
+
+            
         }
         else if (currentStep == 5 && type == BlockType.Iron)
         {
