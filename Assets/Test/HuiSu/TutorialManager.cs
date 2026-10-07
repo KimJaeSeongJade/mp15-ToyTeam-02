@@ -43,7 +43,9 @@ public class TutorialManager : MonoBehaviour
     private void Start()
     {
         // 씬 시작과 동시에 0번 단계(게임안내 1 팝업) 실행
+        uiManager.CloseAllUI();
         StartStep(0);
+
     }
 
 
