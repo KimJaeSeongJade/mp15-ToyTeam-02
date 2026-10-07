@@ -10,7 +10,7 @@ public class Map : MonoBehaviour
     /// <summary>
     /// 플레이어가 들 수 있는 오브젝트의 블록 종류 오프셋
     /// </summary>
-    public const int HOLDABLE_BLOCKTYPE_OFFSET = 7;
+    public const int HOLDABLE_BLOCKTYPE_OFFSET = (int)BlockType.Rail;
 
     /// <summary>
     /// 맵 싱글톤
