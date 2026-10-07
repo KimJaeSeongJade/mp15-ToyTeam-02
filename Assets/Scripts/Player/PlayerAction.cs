@@ -18,6 +18,7 @@ public class PlayerAction : MonoBehaviour
     [SerializeField] private PlayerHand _hand;
     [SerializeField] private Animator _animator;
     [SerializeField] private DetectRange _detectRange;
+    [SerializeField] private CameraFollow _cameraFollow;
 
     private float _moveSpeed;
     private WaitForSeconds _waitDashDuration = new WaitForSeconds(0.3f);
@@ -202,10 +203,14 @@ public class PlayerAction : MonoBehaviour
         target.AutoInteract(_hand.Item);
     }
 
+    public void CameraFollow()
+    {
+        _cameraFollow.ChangeTarget();
+    }
+
     private void Init()
     {
         _moveSpeed = BASE_MOVE_SPEED;
         _canDash = true;
     }
-    
 }
