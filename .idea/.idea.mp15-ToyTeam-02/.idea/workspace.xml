@@ -7,10 +7,7 @@
     <configurations />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="c113a3ea-7e34-43e0-85c5-87c81daf3e8e" name="변경" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.mp15-ToyTeam-02/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.mp15-ToyTeam-02/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Test/HuiSu/TutorialUIManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Test/HuiSu/TutorialUIManager.cs" afterDir="false" />
-    </list>
+    <list default="true" id="c113a3ea-7e34-43e0-85c5-87c81daf3e8e" name="변경" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -19,15 +16,102 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
+  <component name="HighlightingSettingsPerFile">
+    <setting file="file://$PROJECT_DIR$/Assets/Test/HuiSu/TutorialManager1.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.splines@2.8.4/Runtime/SplineAnimate.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/ProjectSettings/Packages/com.unity.testtools.codecoverage/Settings.json" root0="FORCE_HIGHLIGHTING" />
+  </component>
   <component name="McpProjectServerCommands">
     <commands />
     <urls />
   </component>
+  <component name="NextEditCompletionFeaturesState">
+    <decayedCancelled>
+      <entry key="MS100" value="1.0" />
+      <entry key="MS500" value="1.0000396618354799" />
+      <entry key="S2" value="1.1002221518209327" />
+      <entry key="S5" value="1.8513035924095522" />
+      <entry key="S10" value="2.9999654274148755" />
+      <entry key="S30" value="4.663474892082347" />
+      <entry key="S60" value="5.317774941829996" />
+      <entry key="M2" value="5.912073755094085" />
+      <entry key="M5" value="8.119096582053634" />
+      <entry key="M10" value="11.411987705538847" />
+      <entry key="M15" value="13.412642714439288" />
+      <entry key="M30" value="16.175235503181177" />
+      <entry key="H1" value="17.93190825833515" />
+      <entry key="H2" value="18.92372323425304" />
+      <entry key="H4" value="19.4508601479698" />
+      <entry key="D1" value="19.906909518443374" />
+      <entry key="W1" value="19.986662458367995" />
+    </decayedCancelled>
+    <decayedSelected>
+      <entry key="MS100" value="5.286162975093391E-136" />
+      <entry key="MS500" value="8.849274123710565E-28" />
+      <entry key="S2" value="2.1864269273938067E-7" />
+      <entry key="S5" value="0.003135674598110749" />
+      <entry key="S10" value="0.07852671146422588" />
+      <entry key="S30" value="0.6784724246468187" />
+      <entry key="S60" value="1.1646015445068902" />
+      <entry key="M2" value="1.5260815212832266" />
+      <entry key="M5" value="1.7949107696967737" />
+      <entry key="M10" value="1.8946779094314359" />
+      <entry key="M15" value="1.929153102052525" />
+      <entry key="M30" value="1.9642566418250682" />
+      <entry key="H1" value="1.982047618509766" />
+      <entry key="H2" value="1.991003542296179" />
+      <entry key="H4" value="1.9954966929433424" />
+      <entry key="D1" value="1.999248742542446" />
+      <entry key="W1" value="1.9998926601966442" />
+    </decayedSelected>
+    <decayedShown>
+      <entry key="MS100" value="0.03419667816439811" />
+      <entry key="MS500" value="0.5091102525438421" />
+      <entry key="S2" value="0.9302887030976742" />
+      <entry key="S5" value="1.7592236725473112" />
+      <entry key="S10" value="3.008607757124745" />
+      <entry key="S30" value="5.284432020524724" />
+      <entry key="S60" value="6.440045973731689" />
+      <entry key="M2" value="7.410922349192908" />
+      <entry key="M5" value="9.90006976996727" />
+      <entry key="M10" value="13.298537657048662" />
+      <entry key="M15" value="15.33598393292617" />
+      <entry key="M30" value="18.13633424866816" />
+      <entry key="H1" value="19.91230049145663" />
+      <entry key="H2" value="20.91387795768827" />
+      <entry key="H4" value="21.445926873413107" />
+      <entry key="D1" value="21.906085803081098" />
+      <entry key="W1" value="21.986544747594774" />
+    </decayedShown>
+  </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
-    "git-widget-placeholder": "HuiSu__Tutorial__ClearButton"
+    "git-widget-placeholder": "HuiSu__CraftTutorial",
+    "node.js.selected.package.tslint": "(autodetect)"
   }
 }]]></component>
+  <component name="RunManager">
+    <configuration name="유닛 테스트(배치 모드)" type="RunUnityExe" factoryName="Unity Executable">
+      <option name="EXE_PATH" value="C:\Program Files\Unity\Hub\Editor\2022.3.62f3\Editor\Unity.exe" />
+      <option name="PROGRAM_PARAMETERS" value="-runTests -batchmode -projectPath C:\Users\user\Documents\GitHub\mp15-ToyTeam-02 -testResults Logs/results.xml -logFile Logs/Editor.log -testPlatform EditMode -debugCodeOptimization" />
+      <option name="WORKING_DIRECTORY" value="C:\Users\user\Documents\GitHub\mp15-ToyTeam-02" />
+      <option name="PASS_PARENT_ENVS" value="1" />
+      <option name="ENV_FILE_PATHS" value="" />
+      <option name="REDIRECT_INPUT_PATH" value="" />
+      <option name="MIXED_MODE_DEBUG" value="0" />
+      <method v="2" />
+    </configuration>
+    <configuration name="Unity 시작" type="RunUnityExe" factoryName="Unity Executable">
+      <option name="EXE_PATH" value="C:\Program Files\Unity\Hub\Editor\2022.3.62f3\Editor\Unity.exe" />
+      <option name="PROGRAM_PARAMETERS" value="-projectPath C:\Users\user\Documents\GitHub\mp15-ToyTeam-02 -debugCodeOptimization" />
+      <option name="WORKING_DIRECTORY" value="C:\Users\user\Documents\GitHub\mp15-ToyTeam-02" />
+      <option name="PASS_PARENT_ENVS" value="1" />
+      <option name="ENV_FILE_PATHS" value="" />
+      <option name="REDIRECT_INPUT_PATH" value="" />
+      <option name="MIXED_MODE_DEBUG" value="0" />
+      <method v="2" />
+    </configuration>
+  </component>
   <component name="TaskManager">
     <servers />
   </component>

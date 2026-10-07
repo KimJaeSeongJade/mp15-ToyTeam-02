@@ -16,7 +16,7 @@ public class CraftTrigger : MonoBehaviour
         if (craftCart.CurrentCraftCount >= 1)
         {
 
-            TutorialManager manager = FindObjectOfType<TutorialManager>();
+            TestManager manager = FindObjectOfType<TestManager>();
             if (manager != null)
             {
                 manager.OnRailCrafted();
