@@ -14,6 +14,13 @@ public class UIBlink : MonoBehaviour
 
     private void Start()
     {
-        _text.DOFade(0f, 1).SetLoops(-1, _loopType);
+        _text.alpha = 0f;
+        StartCoroutine(BlinkEffet());
+    }
+
+    private IEnumerator BlinkEffet()
+    {        
+        yield return new WaitForSeconds(1f);
+        _text.DOFade(1f, 1).SetLoops(-1, _loopType);
     }
 }
