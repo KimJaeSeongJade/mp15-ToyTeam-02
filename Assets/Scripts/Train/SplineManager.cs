@@ -9,6 +9,7 @@ public class SplineManager : MonoBehaviour
 {
     [SerializeField] private GameObject[] _trains;
     [SerializeField] private SplineContainer _splineContainer;
+    [SerializeField] private FilledBarUI _filledBarUI;
 
     public event Action<int> OnRailwayChanged;
     public int SplineCount => _spline.Count;
@@ -19,6 +20,9 @@ public class SplineManager : MonoBehaviour
     private Spline _spline;
 
     private void Awake() => InitSpline();
+    private void OnEnable() => BindBarLoadingEvents();
+    private void OnDisable() => UnbindBarLoadingEvents();
+
     /// <summary>
     /// 초기 rail을 추가하며 Spline 초기화
     /// </summary>
@@ -55,7 +59,7 @@ public class SplineManager : MonoBehaviour
         OnRailwayChanged?.Invoke(_spline.Count);
     }
 
-    public void LoadTrain()
+    private void LoadTrain()
     {
         foreach (GameObject gameObject in _trains)
         {
@@ -70,5 +74,16 @@ public class SplineManager : MonoBehaviour
                 train.gameObject.SetActive(false);
             }
         }
+        FadeEffect.Instance.FadeIn();
+    }
+
+    private void BindBarLoadingEvents()
+    {
+        _filledBarUI.OnBarLoaded += LoadTrain;
+    }
+
+    private void UnbindBarLoadingEvents()
+    {
+        _filledBarUI.OnBarLoaded -= LoadTrain;
     }
 }

@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -8,6 +9,7 @@ public class ChunkManager : MonoBehaviour
     /// 청크 한 변의 길이
     /// </summary>
     public const int CHUNK_SIZE = 20;
+    public const int RENDER_DISTANCE = 2;
 
     [SerializeField] private WaveFunction _waveFunction;
     [SerializeField] private PlayerController _playerController;
@@ -19,7 +21,6 @@ public class ChunkManager : MonoBehaviour
     [SerializeField] private UnityEngine.Material _material;
     [SerializeField] private float _textureSize = 32f;
     [SerializeField] private int _atlasSize = 4;
-    [SerializeField] private int _renderDistance = 2;
 
     private Queue<GameObject> _invisibleWallPool = new();
     private Queue<GameObject> _loadedInvisibleWalls = new();
@@ -39,6 +40,7 @@ public class ChunkManager : MonoBehaviour
     private bool _isWaveFunctionEnd;
 
     public Dictionary<int, Chunk> Chunks => _chunks;
+    public event Action OnInitialMapLoaded;
 
     private void Awake() => Init();
     private void Update() => UpdateStreaming();
@@ -54,7 +56,7 @@ public class ChunkManager : MonoBehaviour
 
         if (currentChunkIndex <= _previousChunkIndex) return;
 
-        if (currentChunkIndex - _renderDistance > _oldestChunkIndex)
+        if (currentChunkIndex - RENDER_DISTANCE > _oldestChunkIndex)
         {
             RemoveOldestChunk();
             RemoveOldestInvisibleWalls();
@@ -62,8 +64,8 @@ public class ChunkManager : MonoBehaviour
 
         _previousChunkIndex = currentChunkIndex;
 
-        StartCoroutine(LoadChunkRoutine(currentChunkIndex + _renderDistance));
-        LoadInvisibleWall(currentChunkIndex + _renderDistance);
+        StartCoroutine(LoadChunkRoutine(currentChunkIndex + RENDER_DISTANCE));
+        LoadInvisibleWall(currentChunkIndex + RENDER_DISTANCE);
     }
 
     private int GetChunkIndex(Vector3 position)
@@ -73,7 +75,7 @@ public class ChunkManager : MonoBehaviour
 
     private void CreateChunkMap(int chunkIndex)
     {
-        _waveFunction.StartWaveFunctionCollapse();
+        _waveFunction.StartWaveFunctionCollapse(chunkIndex);
     }
 
     private IEnumerator LoadChunkRoutine(int chunkIndex)
@@ -156,7 +158,7 @@ public class ChunkManager : MonoBehaviour
     {
         _isInitialLoading = true;
 
-        for (int i = 0; i <= _renderDistance; i++)
+        for (int i = 0; i <= RENDER_DISTANCE; i++)
         {
             StartCoroutine(LoadChunkRoutine(i));
             yield return new WaitUntil(() => _isChunkMapSaved);
@@ -165,15 +167,14 @@ public class ChunkManager : MonoBehaviour
             _isChunkMapSaved = false;
         }
 
-        _splineManager.LoadTrain();
         _oldestChunkIndex = 0;
         _playerController.gameObject.SetActive(true);
-        Debug.Log("Map Loaded!");
+        OnInitialMapLoaded?.Invoke();
     }
 
     private void CreateChunkPool()
     {
-        for (int i = 0; i < _renderDistance * 2 + 1; i++)
+        for (int i = 0; i < RENDER_DISTANCE * 2 + 1; i++)
         {
             Chunk newChunk = Instantiate(_chunkPrefab, transform);
 
