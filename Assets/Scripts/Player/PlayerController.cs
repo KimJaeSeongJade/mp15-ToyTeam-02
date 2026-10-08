@@ -11,13 +11,14 @@ public class PlayerController : MonoBehaviour
 {
     private const float THRESHOLD = 0.3f;
 
-    [SerializeField] private PlayerHand _playerHand;
     [SerializeField] private PlayerAction _player;
-    [SerializeField] private DetectRange _detectRange;
+    
     private Vector3 _direction;
     private bool _isDetecting;
+    private DetectRange _detectRange => _player.DetectRange;
     private List<IInteractable> _detecteds => _detectRange.Detecteds;
     private IInteractable _target;
+    private PlayerHand _playerHand => _player.Hand;
     private KeyCode _moveUp = KeyCode.W;
     private KeyCode _moveDown = KeyCode.S;
     private KeyCode _moveLeft = KeyCode.A;
