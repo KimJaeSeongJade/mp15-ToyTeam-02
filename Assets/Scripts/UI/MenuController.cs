@@ -139,10 +139,11 @@ public class MenuController : MonoBehaviour
         yield return null;
         if (!_isSettingUI)
         {
-            uiconnector.ChildUI.gameObject.GetComponentInChildren<MenuController>()._isSettingUI = true;
-            uiconnector.ChildUI.gameObject.GetComponentInChildren<MenuController>()._isSelect = true;
-            uiconnector.ChildUI.gameObject.GetComponentInChildren<MenuController>()._prevMenu = gameObject.GetComponent<MenuController>();
-            uiconnector.ChildUI.gameObject.GetComponentInChildren<MenuController>()._panel[0].transform.Find("Image").GetComponent<Image>().enabled = true;
+            MenuController _mController = uiconnector.ChildUI.gameObject.GetComponentInChildren<MenuController>();
+            _mController._isSettingUI = true;
+            _mController._isSelect = true;
+            _mController._prevMenu = gameObject.GetComponent<MenuController>();
+            _mController._panel[0].transform.Find("Image").GetComponent<Image>().enabled = true;
             
             SceneManagerA.Instance._isSelectNow = true;
             _isSelect = false;

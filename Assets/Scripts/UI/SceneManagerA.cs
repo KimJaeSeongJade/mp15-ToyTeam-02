@@ -39,7 +39,7 @@ public class SceneManagerA : MonoBehaviour
     // 게임이 멈춰있는지
     public bool _isPause;
 
-    //TitleScene
+    // TitleScene, GameScene Menu,PMenuController
     public bool _isSelectNow;
 
     //--------------------
