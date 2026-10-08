@@ -157,6 +157,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _splineManager: {fileID: 130247684}
+  _locomotiveCart: {fileID: 700653273}
 --- !u!4 &40536368
 Transform:
   m_ObjectHideFlags: 0

@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Splines;
 
 public class RailManager : MonoBehaviour
 {
@@ -9,6 +10,7 @@ public class RailManager : MonoBehaviour
     /// 열차가 움직일 경로를 생성/관리하는 매니저 클래스
     /// </summary>
     [SerializeField] private SplineManager _splineManager;
+    [SerializeField] private LocomotiveCart _locomotiveCart;
 
     /// <summary>
     /// 설치된 레일의 [이전 레일(Prev)]과 [다음 레일(Next)]에 빠르게 접근하기 위해 링크드 리스트 적용
@@ -27,11 +29,13 @@ public class RailManager : MonoBehaviour
 
     private Vector2Int _endRailCoord = new Vector2Int(-1, -1);
     private List<Vector2Int> _endRails = new();
-
     private void Awake()
     {
         SetSingleton();
     }
+
+    private void OnEnable() => BindGameEndEvents();
+    private void OnDisable() => UnbindGameEvents();
 
     // 싱글톤 설정
     private void SetSingleton()
@@ -331,11 +335,59 @@ public class RailManager : MonoBehaviour
             coord.y == _endRailCoord.y && Mathf.Abs(coord.x - _endRailCoord.x) == 1)
         {
             OnRailwayConnected?.Invoke();
+            SetTrainDistance(true);
 
             foreach (Vector2Int endRailCoord in _endRails)
             {
                 _splineManager.AddSplineKnot(endRailCoord);
             }
         }
+    }
+
+    private void OnGameEnd()
+    {
+        SetTrainDistance(false);
+    }
+
+    private void SetTrainDistance(bool isGameClear)
+    {
+        float initialPosition = 0;
+        float furthestPosition = 0;
+
+        LinkedListNode<Rail> railNode = Rails.First;
+
+        if (railNode != null)
+            initialPosition = railNode.Value.GameObject.transform.position.x;
+
+        railNode = railNode.Next;
+
+        while (railNode != null)
+        {
+            float nextPosition = railNode.Value.GameObject.transform.position.x;
+            if (nextPosition > furthestPosition)
+            {
+                furthestPosition = nextPosition;
+            }
+
+            railNode = railNode.Next;
+        }
+
+        if (isGameClear)
+            furthestPosition += _endRails.Count;
+
+        if (furthestPosition == 0 || initialPosition == 0)
+            GameManager.Instance.SetTrainDistance(0);
+        else
+            GameManager.Instance.SetTrainDistance((int)(furthestPosition - initialPosition));
+    }
+
+    private void BindGameEndEvents()
+    {
+        _locomotiveCart.OnTrainArrived += OnGameEnd;
+    }
+
+    private void UnbindGameEvents()
+    {
+        _locomotiveCart.OnTrainArrived -= OnGameEnd;
     }
 }

@@ -32,6 +32,9 @@ public class GameManager : MonoBehaviour
     // 열차의 속도
     public float TrainSpeed { get; private set; }
 
+    // 열차의 이동 거리
+    public int TrainDistance { get; private set; }
+
     //[SerializeField] private float TrainSpeed;
 
     // 게임이 Pasue상태인지 
@@ -94,6 +97,12 @@ public class GameManager : MonoBehaviour
     public void SetTrainSpeed(float value)
     {
         TrainSpeed = value;
+    }
+
+    public void SetTrainDistance(int value)
+    {
+        TrainDistance = value;
+        Debug.Log($"Train Distance is {value}");
     }
 
     private void Init()

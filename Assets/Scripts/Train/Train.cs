@@ -29,7 +29,6 @@ public class Train : MonoBehaviour
 
     protected virtual void OnEnable()
     {
-        Debug.Log("Train enabled");
         _splineAnimate.StartOffset = _offsetRate / _splineManager.SplineCount;
         _splineAnimate.enabled = true;
         _splineAnimate.Restart(true);
@@ -86,8 +85,6 @@ public class Train : MonoBehaviour
     public virtual void TrainDepart()
     {
         _splineAnimate.MaxSpeed = MaxTrainSpeed;
-        Debug.Log($"Train : TrainDepart train speed {_splineAnimate.MaxSpeed}");
-        Debug.Log($"{gameObject.name} position is {transform.position.y}");
         _splineAnimate.Restart(true);
     }
 
