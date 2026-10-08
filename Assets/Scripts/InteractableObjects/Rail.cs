@@ -57,6 +57,7 @@ public class Rail : MonoBehaviour, IInteractable, IStackable, IPoolable
     private void Awake()
     {
         CacheComponents();
+        UpdateStackVisuals();
     }
     
     // 오브젝트 풀에서 꺼내질 때 초기화
@@ -68,12 +69,12 @@ public class Rail : MonoBehaviour, IInteractable, IStackable, IPoolable
         }
 
         _currentCount = 1;
-        UpdateStackVisuals();
         ChangeRailShape(RailShape.HorizontalLine);
+        UpdateStackVisuals();
         _currentCount = 1;
     }
 
-    private void UpdateStackVisuals()
+    public void UpdateStackVisuals()
     {
         switch (Count)
         {
@@ -81,16 +82,25 @@ public class Rail : MonoBehaviour, IInteractable, IStackable, IPoolable
                 _lineRailPrefabTop.SetActive(true);
                 _lineRailPrefabMiddle.SetActive(true);
                 _lineRailPrefabBottom.SetActive(true);
+                _lineRailPrefabTop.transform.eulerAngles = new Vector3(0, 45, 0);
+                _lineRailPrefabMiddle.transform.eulerAngles = new Vector3(0, 45, 0);
+                _lineRailPrefabBottom.transform.eulerAngles = new Vector3(0, 45, 0);
                 break;
             case 2:
                 _lineRailPrefabTop.SetActive(false);
                 _lineRailPrefabMiddle.SetActive(true);
                 _lineRailPrefabBottom.SetActive(true);
+                _lineRailPrefabTop.transform.eulerAngles = new Vector3(0, 45, 0);
+                _lineRailPrefabMiddle.transform.eulerAngles = new Vector3(0, 45, 0);
+                _lineRailPrefabBottom.transform.eulerAngles = new Vector3(0, 45, 0);
                 break;
             case 1:
                 _lineRailPrefabTop.SetActive(false);
                 _lineRailPrefabMiddle.SetActive(false);
                 _lineRailPrefabBottom.SetActive(true);
+                _lineRailPrefabTop.transform.eulerAngles = new Vector3(0, 45, 0);
+                _lineRailPrefabMiddle.transform.eulerAngles = new Vector3(0, 45, 0);
+                _lineRailPrefabBottom.transform.eulerAngles = new Vector3(0, 45, 0);
                 break;
             case 0:
                 break;

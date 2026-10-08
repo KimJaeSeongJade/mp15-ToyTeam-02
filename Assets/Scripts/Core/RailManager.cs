@@ -137,6 +137,7 @@ public class RailManager : MonoBehaviour
         // -> 모양 계산 중단 
         if (prevRailNode == null)
         {
+            Rails.Last.Value.ChangeRailShape(RailShape.HorizontalLine);
             return;
         }
             

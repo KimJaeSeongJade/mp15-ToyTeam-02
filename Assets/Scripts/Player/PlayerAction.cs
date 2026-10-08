@@ -134,6 +134,12 @@ public class PlayerAction : MonoBehaviour
             _animator.SetBool(PARAM_IS_HOLDING, true);
         }
 
+        Rail rail = newInteractable as Rail;
+        if (rail != null)
+        {
+            rail.UpdateStackVisuals();
+        }
+
         _hand.Item.GameObject.layer = 2;
         _hand.ItemPosition = _hand.transform.position;
         _hand.ItemParent = _hand.transform;
@@ -152,9 +158,10 @@ public class PlayerAction : MonoBehaviour
             // 레일을 배치할 수 있는 경우에 개수를 하나 줄이고 배치
             if (_hand.Item.BlockType == BlockType.Rail)
             {   
+                Rail rail = _hand.Item as Rail;
+
                 if (RailManager.Instance.TryRailwayPlace(position))
                 {
-                    Rail rail = _hand.Item as Rail;
                     rail.ReduceStack();
 
                     if (rail.Count == 0)
@@ -162,6 +169,10 @@ public class PlayerAction : MonoBehaviour
                         _hand.Item = null;
                     }
                     return;
+                }
+                else
+                {
+                    rail.UpdateStackVisuals();
                 }
             }
             ToolBase tool = _hand.Item as ToolBase;
