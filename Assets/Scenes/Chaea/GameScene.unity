@@ -152,6 +152,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _splineManager: {fileID: 130247684}
+  _locomotiveCart: {fileID: 700653273}
 --- !u!4 &40536368
 Transform:
   m_ObjectHideFlags: 0
@@ -1293,6 +1294,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b25a07f882d2e7e49b6c0bbd964e09aa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _audioPlayerPrefab: {fileID: 0}
 --- !u!4 &196414705
 Transform:
   m_ObjectHideFlags: 0
