@@ -13,6 +13,7 @@ public class LocomotiveCart : Train
 
     protected override void Init()
     {
+        /*
         AudioPlayer Locomotive = AudioManager.Instance.Take();
 
         Locomotive
@@ -26,7 +27,7 @@ public class LocomotiveCart : Train
             .SetClip(_locomotiveHontClip)
             .SetPriority(50)
             .SetPlayOnAwake(true);
-        
+        */
         base.Init();
         GameManager.Instance.SetTrainSpeed(0f);
     }
