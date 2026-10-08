@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 3359941314331060717}
   - component: {fileID: 3373755673694664070}
   m_Layer: 5
-  m_Name: Guide4(LinkRail)
+  m_Name: Guide3(LinkRail)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -142,7 +142,7 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 442378668165596356}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -442,7 +442,7 @@ GameObject:
   - component: {fileID: 8389618669223795678}
   - component: {fileID: 8869213420880818623}
   m_Layer: 5
-  m_Name: Guide3(Craft)
+  m_Name: Guide2(Craft)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -846,7 +846,7 @@ GameObject:
   - component: {fileID: 2505504359269859936}
   - component: {fileID: 6910097247038427671}
   m_Layer: 5
-  m_Name: Guide2(Iron)
+  m_Name: Guide1(Iron)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1040,7 +1040,7 @@ GameObject:
   - component: {fileID: 3763874393537555083}
   - component: {fileID: 7035520037371895978}
   m_Layer: 5
-  m_Name: Guide1(Wood)
+  m_Name: Guide0(Wood)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

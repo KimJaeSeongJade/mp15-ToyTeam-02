@@ -1,4 +1,5 @@
 using UnityEngine;
+using System.Collections;
 using System;
 
 public class TutorialManager : MonoBehaviour
@@ -12,6 +13,9 @@ public class TutorialManager : MonoBehaviour
 
     private int currentStep = 0; // 튜토리얼 진행 단계
 
+    // 0.5초 대기용 코루틴 재사용을 위한 변수 선언
+    private readonly WaitForSeconds delaySecond = new WaitForSeconds(0.7f);
+    
     // 튜토리얼 씬에서만 존재하는 싱글톤
     private void Awake() => SetSingleton();
     // 1. 이벤트 연결 및 해제
@@ -59,76 +63,93 @@ public class TutorialManager : MonoBehaviour
 
         switch (currentStep)
         {
-            // [단계 0] 게임안내 1 팝업
+            // [단계 0] 팝업0: 게임안내 1 팝업
             case 0:
                 uiManager.HideAllHUDs();
                 uiManager.OpenPopup(0);
                 
                 break;
 
-            // [단계 1] 게임안내 2 팝업
+            // [단계 1] 팝업1: 게임안내 2 팝업
             case 1:
                 uiManager.OpenPopup(1);
                 break;
-
-            // [단계 2] 목재 채집 안내 팝업
+            
+            // [단계 2] 팝업2: 클리어 및 게임 오버 안내 팝업
             case 2:
-                SpawnBlock(BlockType.Wood);
                 uiManager.OpenPopup(2);
                 break;
-
-            // [단계 3] 팝업창에서 ESC 입력 -> 팝업 닫히고 게임 재개
-            // 완료 조건은 플레이어가 목재 생성
+            
+            // [단계 3] 팝업3: 조작방식 안내 팝업
             case 3:
+                uiManager.OpenPopup(3);
+                break;
+
+
+            // [단계 4] 팝업4: 목재 채집 안내 팝업
+            case 4:
+                SpawnBlock(BlockType.Wood);
+                uiManager.OpenPopup(4);
+                break;
+
+            // [단계 5] 팝업창에서 엔터 입력 -> 팝업 닫히고 게임 재개
+            // 완료 조건은 플레이어가 목재 생성
+            case 5:
                 uiManager.CloseAllPopups();
                 ResumeGame();
                 uiManager.ShowHUD(0); 
                 break;
 
-            // [단계 4] 목재(BlockType.Wood) 생성 감지! -> 광석 채집 안내 팝업 + 게임 정지
-            case 4:
+            // [단계 6] 목재(BlockType.Wood) 생성 감지! -> 팝업5: 광석 채집 안내 팝업 + 게임 정지
+            case 6:
                 SpawnBlock(BlockType.Rock);
                 PauseGame();
-                uiManager.OpenPopup(3);
+                uiManager.OpenPopup(5);
                 
                 break;
 
-            // [단계 5] ESC 입력 ➔ 팝업 닫힘 & 게임 재개 (철 생성 대기)
-            case 5:
+            // [단계 7] 엔터 입력 -> 팝업 닫힘 & 게임 재개 (철 생성 대기)
+            case 7:
                 uiManager.CloseAllPopups();
                 uiManager.ShowHUD(1);
                 ResumeGame();
                 break;
 
-            // [단계 6] 철(BlockType.Iron) 생성 감지! -> 레일 제작 안내 팝업 + 게임 정지
-            case 6:
+            // [단계 8] 철(BlockType.Iron) 생성 감지! -> 팝업6: 레일 제작 안내 팝업 + 게임 정지
+            case 8:
                 PauseGame();
-                uiManager.OpenPopup(4);
+                uiManager.OpenPopup(6);
                 break;
 
-            // [단계 7] ESC 입력 ➔ 팝업 닫힘 & 게임 재개 (레일 제작 실습)
-            case 7:
+            // [단계 9] 엔터 입력 -> 팝업 닫힘 & 게임 재개 (레일 제작 실습)
+            case 9:
                 uiManager.CloseAllPopups();
                 uiManager.ShowHUD(2);
                 ResumeGame();
                 break;
 
-            // [단계 8] 레일 제작 완료 감지! -> 레일 설치 안내 팝업 + 게임 정지
-            case 8:
+            // [단계 10] 레일 제작 완료 감지! -> 팝업7: 레일 설치 안내 팝업 + 게임 정지
+            case 10:
                 PauseGame();
-                uiManager.OpenPopup(5); // 5번 팝업: 레일 설치 안내 팝업
+                uiManager.OpenPopup(7); // 5번 팝업: 레일 설치 안내 팝업
                 break;
 
-            // [단계 9] ESC 입력 -> 팝업 닫힘 & 게임 재개 (레일 설치 실습 및 기차 출발 대기)
-            case 9:
+            // [단계 11] 엔터 입력 -> 팝업 닫힘 & 게임 재개 (레일 설치 실습 및 기차 출발 대기)
+            case 11:
                 uiManager.CloseAllPopups();
                 uiManager.ShowHUD(3);
                 ResumeGame();
                 break;
+            
+            // [단계 12] 게임매니저가 게임오버 상태를 만듬 -> 팝업8: 레일 재설치 안내 팝업 + 게임 정지
+            case 12:
+                PauseGame();
+                uiManager.OpenPopup(8); // 5번 팝업: 레일 설치 안내 팝업
+                break;
 
-            // [단계 10] TODO: 게임매니저가 게임오버 상태를 만듬
-            case 10:
-                uiManager.OpenPopup(6); // 6번(마지막) 팝업: 튜토리얼 클리어 팝업
+            // [단계 13] 엔터 입력 -> 튜토리얼 클리어 팝업 호출
+            case 13:
+                uiManager.OpenPopup(9); // 6번(마지막) 팝업: 튜토리얼 클리어 팝업
                 break;
         }
     }
@@ -141,19 +162,51 @@ public class TutorialManager : MonoBehaviour
     /// </summary>
     private void HandlePopupClosed(int closedPopupIndex)
     {
-        if (currentStep == 0 && closedPopupIndex == 0) StartStep(1);    // 게임안내 팝업2 열린상태 & 게임안내 팝업1 닫힌 상태(게임정지)
-        
-        else if (currentStep == 1 && closedPopupIndex == 1) StartStep(2);   // 목재 채집 팝업 열린상태(게임정지)
-        
-        else if (currentStep == 2 && closedPopupIndex == 2) StartStep(3);   // 플레이어 목재 채집 실습 시작
-                                                                            // 목재 생성 감지트리거 -> 철 재집  팝업 열린상태(게임정지)
-        
-        else if (currentStep == 4 && closedPopupIndex == 3) StartStep(5);   // 플레이어 광석 채집 실습 시작
-                                                                            // 철 생성 감지트리거 -> 레일 제작 팝업 열린상태(게임정지)
-        
-        else if (currentStep == 6 && closedPopupIndex == 4) StartStep(7);   // 레일 제작 실습 시작
-        
-        else if (currentStep == 8 && closedPopupIndex == 5) StartStep(9);   // 레일 설치 실습 시작
+        // [Step 0] 팝업0(게임안내1) 닫힘 -> Step 1(게임안내2) 진행
+        if (currentStep == 0 && closedPopupIndex == 0)
+        {
+            StartStep(1);
+        }
+        // [Step 1] 팝업1(게임안내2) 닫힘 -> Step 2(클리어&오버 안내) 진행
+        else if (currentStep == 1 && closedPopupIndex == 1)
+        {
+            StartStep(2);
+        }
+        // [Step 2] 팝업2(게임 클리어&오버 안내) 닫힘 -> Step 3(조작방식 안내) 진행
+        else if (currentStep == 2 && closedPopupIndex == 2)
+        {
+            StartStep(3);
+        }
+        // [Step 3] 팝업3(조작방식 안내) 닫힘 -> Step 4(목재 채집 안내) 진행
+        else if (currentStep == 3 && closedPopupIndex == 3)
+        {
+            StartStep(4);
+        }
+        // [Step 4] 팝업4(목재 채집 안내) 닫힘 -> Step 5(게임 재개 및 목재 채집 실습 시작) 진행
+        else if (currentStep == 4 && closedPopupIndex == 4)
+        {
+            StartStep(5);
+        }
+        // [Step 6] 팝업5(광석 채집 안내) 닫힘 -> Step 7(게임 재개 및 철 채집 실습 시작) 진행
+        else if (currentStep == 6 && closedPopupIndex == 5)
+        {
+            StartStep(7);
+        }
+        // [Step 8] 팝업6(레일 제작 안내) 닫힘 -> Step 9(게임 재개 및 레일 제작 실습 시작) 진행
+        else if (currentStep == 8 && closedPopupIndex == 6)
+        {
+            StartStep(9);
+        }
+        // [Step 10] 팝업7(레일 설치 안내) 닫힘 -> Step 11(게임 재개 및 레일 설치치 실습 시작) 진행
+        else if (currentStep == 10 && closedPopupIndex == 7)
+        {
+            StartStep(11);
+        }
+        // [Step 12] 팝업8(레일 재설치 안내) 닫힘 -> Step 13(최종 클리어 팝업 열기) 진행
+        else if (currentStep == 12 && closedPopupIndex == 8)
+        {
+            StartStep(13);
+        }
     }
 
     private void SpawnBlock(BlockType blockType)
@@ -182,43 +235,53 @@ public class TutorialManager : MonoBehaviour
     }
 
     /// <summary>
-    /// 튜토리얼 나무 채집될 때 호출
+    /// 튜토리얼 실습 중 목재 채집될 때 호출
     /// </summary>
     public void OnTreeMined()
     {
-        Debug.Log("TreeMined");
-        StartStep(4);
+        StartCoroutine(PopUpDelayRoutine(6));
     }
 
     /// <summary>
-    /// 튜토리얼 돌 채집될 때 호출
+    /// 튜토리얼 실습 중 돌 채집될 때 호출
     /// </summary>
     public void OnRockMined()
     {
-        StartStep(6);
+        StartCoroutine(PopUpDelayRoutine(8));
     }
+    
+    
+    // 실습 완료후 0.5초 딜레이를 준뒤 팝업 호출
+    private IEnumerator PopUpDelayRoutine(int nextStepIndex)
+    {
+        yield return delaySecond;
+        
+        StartStep(nextStepIndex);
+    }
+    
+    
 
     /// <summary>
     /// 제작칸에서 부착된 추가 스크립트를 통해 제작칸의 레일 보유수 검사하고 호출 
     /// </summary>
     public void OnRailCrafted()
     {
-        if (currentStep == 7)
+        if (currentStep == 9)
         {
             
-            StartStep(8);
+            StartStep(10);
         }
     }
 
     /// <summary>
-    /// TODO: 메인 게임매니저에서 게임오버 상태를 만들때 호출
+    /// 메인 게임매니저에서 게임오버 상태를 만들때 호출
     /// </summary>
     public void OnGameEnd()
     {
-        if (currentStep == 9)
+        if (currentStep == 11)
         {
             _splineManager.TrainDepart();
-            StartStep(10); // 최종 클리어 팝업 호출
+            StartStep(12); // 레일 재설치 안내 팝업 호출
         }
     }
     
