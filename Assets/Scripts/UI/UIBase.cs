@@ -8,6 +8,7 @@ using UnityEngine.UI;
 /// </summary>
 public abstract class UIBase : MonoBehaviour
 {
+    [SerializeField] public AudioClip _UIClip;
     // 활성화시 UI이미지
     private Image _onImage;
     // 비활성화시 UI이미지
@@ -45,7 +46,15 @@ public abstract class UIBase : MonoBehaviour
     }
     // UI에 Enter시 OnImage활성화
     protected virtual void OnTriggerEnter(Collider other)
-    {
+    { AudioPlayer uiAudioPlayer = AudioManager.Instance.Take();
+
+        uiAudioPlayer
+            .Init()
+            .SetPriority(100)
+            .SetClip(_UIClip)
+            .SetLoop(false)
+            .Play();
+        
         if (other.gameObject.layer == 6 && _isAllExist)
         {
             _onImage.gameObject.SetActive(true);
