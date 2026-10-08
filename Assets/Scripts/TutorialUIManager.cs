@@ -11,6 +11,9 @@ public class TutorialUIManager : MonoBehaviour
     [Header("가이드 HUD 목록")]
     [SerializeField] private List<GameObject> hudList;
     
+    [SerializeField] private Rigidbody _playerRigidBody;
+
+    
     /// <summary>
     /// 팝업이 닫힐 때 TutorialManager에 알릴 이벤트 (닫힌 팝업의 index 전달)
     /// </summary>
@@ -46,6 +49,7 @@ public class TutorialUIManager : MonoBehaviour
     /// </summary>
     public void OpenPopup(int index)
     {
+        _playerRigidBody.constraints = RigidbodyConstraints.FreezePosition;
         // 현재 활성화된 팝업 번호 저장
         currentActivePopupIndex = index;
 
@@ -71,6 +75,7 @@ public class TutorialUIManager : MonoBehaviour
     /// </summary>
     public void ClosePopup(int index)
     {
+        _playerRigidBody.constraints = RigidbodyConstraints.FreezeRotation;
         // 인덱스 마이너스 일 때(즉 열린 팝업 리스트가 없을 떄),
         // 리스트 범위 초과할 때, 리스트에 팝업이 저장안되어 있으면 예외처리
         if (index >= 0 && index < popupList.Count && popupList[index] != null)

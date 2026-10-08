@@ -6163,6 +6163,7 @@ MonoBehaviour:
   - {fileID: 1374098461}
   - {fileID: 1584835816}
   - {fileID: 425535287}
+  _playerRigidBody: {fileID: 669603181}
 --- !u!4 &1100862223
 Transform:
   m_ObjectHideFlags: 0

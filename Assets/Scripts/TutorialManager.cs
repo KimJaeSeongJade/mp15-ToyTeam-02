@@ -8,7 +8,6 @@ public class TutorialManager : MonoBehaviour
     [Header("UI Manager")]
     [SerializeField] private TutorialUIManager uiManager;
     [SerializeField] private FilledBarUI _filledBarUI;
-
     public static TutorialManager Instance;
 
     private int currentStep = 0; // 튜토리얼 진행 단계
@@ -64,6 +63,7 @@ public class TutorialManager : MonoBehaviour
             case 0:
                 uiManager.HideAllHUDs();
                 uiManager.OpenPopup(0);
+                
                 break;
 
             // [단계 1] 게임안내 2 팝업
