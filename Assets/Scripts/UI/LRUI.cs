@@ -8,9 +8,9 @@ using UnityEngine;
 public class LRUI : MonoBehaviour
 {
     //화면에 보일 Text 오브젝트 배열
-    [SerializeField]private GameObject[] _text;
+    [SerializeField] protected GameObject[] _text;
     // 현재 페이지 숫자
-    private int _currntNum;
+    protected int _currntNum;
     // 이전 페이지 숫자
     private int _prevNum;
 
@@ -37,7 +37,7 @@ public class LRUI : MonoBehaviour
         _text[_currntNum].gameObject.SetActive(true);
     }
     // 유니티 이벤트에 등록시킬 페이지 바꾸는 매서드
-    public void ChangePage(int num)
+    public virtual void ChangePage(int num)
     {
         _currntNum += num;
 

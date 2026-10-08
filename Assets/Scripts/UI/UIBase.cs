@@ -82,13 +82,4 @@ public abstract class UIBase : MonoBehaviour
 
     // 각 UI별 기능 작동
     protected abstract void PlayUI();
-
-    private void OnUI()
-    {
-        gameObject.SetActive(true);
-    }
-    private void OffUI()
-    {
-        gameObject.SetActive(false);
-    }
 }
