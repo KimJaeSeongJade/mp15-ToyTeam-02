@@ -99,6 +99,11 @@ public class GameSceneManager : MonoBehaviour
 
     private void GameOver()
     {
+        if (GameManager.Instance.GMode == GameMode.Tutorial)
+        {
+            return;
+        }
+
         IsGameWin = false;
         GameManager.Instance.SetIsGameWin(IsGameWin);
         _loadSceneConnector.LoadEndScene();
