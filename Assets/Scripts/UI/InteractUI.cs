@@ -15,16 +15,16 @@ public class InteractUI : UIBase
 
     protected override void OnTriggerEnter(Collider other)
     {
-        
+
         AudioPlayer UIAudioPlayer = AudioManager.Instance.Take();
-        
+
         UIAudioPlayer
             .Init()
             .SetClip(_audioClip)
             .SetLoop(false)
             .Play();
 
-        
+
         base.OnTriggerEnter(other);
         if (other.gameObject.layer == 6)
         {
