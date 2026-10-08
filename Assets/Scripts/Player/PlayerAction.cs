@@ -22,6 +22,7 @@ public class PlayerAction : MonoBehaviour
     [SerializeField] private PlayerHand _hand;
     [SerializeField] private Animator _animator;
     [SerializeField] private DetectRange _detectRange;
+    [SerializeField] private AudioClip _walkSound;
     [SerializeField] private CameraFollow _cameraFollow;
 
     private float _moveSpeed;
@@ -226,6 +227,18 @@ public class PlayerAction : MonoBehaviour
     public void OnMine()
     {
         _target.AutoInteract(_hand.Item);
+    }
+
+    public void OnWalk()
+    {
+        AudioPlayer walkAudioPlayer = AudioManager.Instance.Take();
+
+        walkAudioPlayer
+            .Init()
+            .SetPriority(100)
+            .SetClip(_walkSound)
+            .SetLoop(false)
+            .Play();
     }
 
     public void CameraFollow()
