@@ -85,6 +85,7 @@ public class Train : MonoBehaviour
     public virtual void TrainDepart()
     {
         _splineAnimate.MaxSpeed = MaxTrainSpeed;
+        Debug.Log($"Train : TrainDepart train speed {_splineAnimate.MaxSpeed}");
         _splineAnimate.Restart(true);
     }
 

@@ -137,6 +137,7 @@ public class RailManager : MonoBehaviour
         // -> 모양 계산 중단 
         if (prevRailNode == null)
         {
+            Rails.Last.Value.ChangeRailShape(RailShape.HorizontalLine);
             return;
         }
             
@@ -315,6 +316,7 @@ public class RailManager : MonoBehaviour
         Map.Instance.SetHoldable(coord, newRail);
 
         newRail.SetupRailway();
+        newRail.ChangeRailShape(RailShape.HorizontalLine);
 
         if (_endRailCoord == new Vector2Int(-1, -1))
         {
