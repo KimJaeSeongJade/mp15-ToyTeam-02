@@ -9,6 +9,7 @@ public abstract class ResourceBase : MonoBehaviour, IInteractable, IPoolable
     [SerializeField] private GameObject _visualTop;
     [SerializeField] private GameObject _visualMiddle;
     [SerializeField] private GameObject _visualBottom;
+    [SerializeField] private AudioClip _hitSound;
 
     public GameObject GameObject => gameObject; 
     public abstract BlockType BlockType { get; }
@@ -40,6 +41,14 @@ public abstract class ResourceBase : MonoBehaviour, IInteractable, IPoolable
     private void OnMined()
     {
         Health--;
+        AudioPlayer hitAudioPlayer = AudioManager.Instance.Take();
+
+        hitAudioPlayer
+            .Init()
+            .SetPriority(100)
+            .SetClip(_hitSound)
+            .SetLoop(false)
+            .Play();
         UpdateVisuals();
 
         if (Health <= 0)
@@ -69,6 +78,11 @@ public abstract class ResourceBase : MonoBehaviour, IInteractable, IPoolable
 
     private void BreakResource()
     {
+
+       
+
+       
+        
         _dropItem = ObjectPool.Instance.Take(DropMaterialType);
         _dropItem.GameObject.transform.position = transform.position;
         _dropItem.GameObject.SetActive(true);

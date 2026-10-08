@@ -6,13 +6,22 @@ public class AudioManager : MonoBehaviour
 {
     public static AudioManager Instance;
 
-    private Stack<AudioPlayer> _audioPlayerStack;
+    [SerializeField] private GameObject _audioPlayerPrefab;
+    private Stack<AudioPlayer> _audioPlayerStack  = new Stack<AudioPlayer>();
 
     private void Awake() => SetSingleton();
 
     public AudioPlayer Take()
     {
-        return _audioPlayerStack.Pop();
+        if (_audioPlayerStack.Count > 0)
+        {
+            return _audioPlayerStack.Pop();
+        }
+        else
+        {
+            GameObject newAudioManager = Instantiate(_audioPlayerPrefab);
+            return newAudioManager.GetComponent<AudioPlayer>();
+        }
     }
 
     public void Return(AudioPlayer audioPlayer)
