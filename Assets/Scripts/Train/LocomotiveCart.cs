@@ -20,11 +20,12 @@ public class LocomotiveCart : Train
             .SetClip(_locomotiveClip)
             .SetPriority(50)
             .Play();
-        Locomotive
+        AudioPlayer LocomotiveHont = AudioManager.Instance.Take();
+        LocomotiveHont
             .Init()
             .SetClip(_locomotiveHontClip)
             .SetPriority(50)
-            .Play();
+            .SetPlayOnAwake(true);
         
         base.Init();
         GameManager.Instance.SetTrainSpeed(0f);
