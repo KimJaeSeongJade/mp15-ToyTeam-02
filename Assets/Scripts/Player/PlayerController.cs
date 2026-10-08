@@ -40,8 +40,10 @@ public class PlayerController : MonoBehaviour
     {
         ReadMove();
         ReadDash();
-        Detect().Forget();
+        // Detect().Forget();
+        TryDetectInteractable();
         ReadInteract();
+        AutoInteract();
         ReadCameraFollow();
     }
     private void OnDrawGizmos()
