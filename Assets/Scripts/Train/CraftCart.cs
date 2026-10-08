@@ -84,6 +84,27 @@ public class CraftCart : Train, IInteractable
         
         // 제작 상태 시작 및 비주얼 갱신
         isCrafting = true;
+        AudioPlayer rainHammerAudioPlayer = AudioManager.Instance.Take();
+        rainHammerAudioPlayer
+            .Init()
+            .SetClip(_rainHammerClip)
+            .SetPriority(50)
+            .Play();
+        AudioPlayer rainIronAudioPlayer = AudioManager.Instance.Take();
+
+        rainIronAudioPlayer
+            .Init()
+            .SetVolume(0.2f)
+            .SetClip(_rainIronClip)
+            .SetPriority(50)
+            .Play();
+        AudioPlayer rainWoodAudioPlayer = AudioManager.Instance.Take();
+
+        rainWoodAudioPlayer
+            .Init()
+            .SetClip(_rainWoodClip)
+            .SetPriority(50)
+            .Play();
         _progressBar.fillAmount = 0;
         
         UpdateCraftVisual();
@@ -117,6 +138,14 @@ public class CraftCart : Train, IInteractable
         }
 
         isCrafting = false;
+        
+        rainHammerAudioPlayer
+            .Stop();
+        rainIronAudioPlayer
+            .Stop();
+        rainWoodAudioPlayer
+            .Stop();
+        
         UpdateCraftVisual();
 
         // 제작 완료 후 남은 자원 및 공간이 있다면 연쇄 제작 시도

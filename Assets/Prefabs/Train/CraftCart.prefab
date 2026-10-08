@@ -54,6 +54,11 @@ MonoBehaviour:
   _splineAnimate: {fileID: 4693247588195454389}
   _offsetRate: 0
   _locomotiveCartOffsetRate: 6
+  _locomotiveClip: {fileID: 0}
+  _locomotiveHontClip: {fileID: 0}
+  _rainIronClip: {fileID: 8300000, guid: 19521ecdf3853184fb3c40d3c4d7a8bf, type: 3}
+  _rainWoodClip: {fileID: 8300000, guid: f7b56df676164e64a9686e555ef49c1a, type: 3}
+  _rainHammerClip: {fileID: 8300000, guid: 250373679d28708438427f5dcac669d9, type: 3}
   targetCargoCart: {fileID: 0}
   _railVisualTop: {fileID: 732763149330824658}
   _railVisualMiddle: {fileID: 4670408381392240326}
