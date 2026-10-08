@@ -13,16 +13,23 @@ public class InteractUI : UIBase
     // Collider에 올라왔는지 확인하는 bool
     private bool _isOnTrigger;
 
+    private void Awake()
+    {
+        GetAudioFile();
+    }
+
     protected override void OnTriggerEnter(Collider other)
     {
+        if (!_audioClip)
+        {
+            AudioPlayer UIAudioPlayer = AudioManager.Instance.Take();
 
-        AudioPlayer UIAudioPlayer = AudioManager.Instance.Take();
-
-        UIAudioPlayer
-            .Init()
-            .SetClip(_audioClip)
-            .SetLoop(false)
-            .Play();
+            UIAudioPlayer
+                .Init()
+                .SetClip(_audioClip)
+                .SetLoop(false)
+                .Play();
+        }
 
 
         base.OnTriggerEnter(other);
@@ -52,6 +59,14 @@ public class InteractUI : UIBase
         if (Input.GetKeyDown(_interactKey) && _isOnTrigger)
         {
             PlayUI();
+        }
+    }
+
+    private void GetAudioFile()
+    {
+        if (TryGetComponent<SaveAudioFile>(out SaveAudioFile _saveAudioFile))
+        {
+            _audioClip = _saveAudioFile._audioClip;
         }
     }
 
