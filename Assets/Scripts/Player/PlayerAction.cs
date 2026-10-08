@@ -239,6 +239,8 @@ public class PlayerAction : MonoBehaviour
             .SetClip(_walkSound)
             .SetLoop(false)
             .Play();
+
+        walkAudioPlayer.ReturnToPool();
     }
 
     public void CameraFollow()
