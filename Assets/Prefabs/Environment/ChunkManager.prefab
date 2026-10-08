@@ -44,10 +44,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 41f8e73558e198f48a21753ca00d38d9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _waveFunction: {fileID: 0}
   _targetTransform: {fileID: 0}
   _chunkPrefab: {fileID: 4683698725564829779, guid: ff108624e5a29264687bfa0c4e24939b, type: 3}
+  _invisibleHorizontalWallPrefab: {fileID: 8722073330026739839, guid: 0acbf1f8e1003e449b0e0cd88a9a5f58, type: 3}
+  _invisibleVerticalWallPrefab: {fileID: 8722073330026739839, guid: ab1c045ac83fe5c428401b659f9d3d8c, type: 3}
   _mapLoader: {fileID: 0}
+  _splineManager: {fileID: 0}
   _material: {fileID: 2100000, guid: a2fab81c2be4ff34bacc20847a27cba4, type: 2}
   _textureSize: 32
   _atlasSize: 4
-  _renderDistance: 2
