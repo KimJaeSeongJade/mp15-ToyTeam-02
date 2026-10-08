@@ -10,6 +10,11 @@ public class Train : MonoBehaviour
     [SerializeField] protected SplineAnimate _splineAnimate;
     [SerializeField] private float _offsetRate = 6f;
     [SerializeField] private float _locomotiveCartOffsetRate = 6f;
+    [SerializeField] public AudioClip _locomotiveClip;
+    [SerializeField] public AudioClip _locomotiveHontClip;
+    [SerializeField] public AudioClip _rainIronClip;
+    [SerializeField] public AudioClip _rainWoodClip;
+    [SerializeField] public AudioClip _rainHammerClip;
 
     /// <summary>
     /// 열차 속도

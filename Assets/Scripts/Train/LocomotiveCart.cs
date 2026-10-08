@@ -8,9 +8,24 @@ public class LocomotiveCart : Train
 {
     public event Action OnTrainArrived;
     private const int TRAIN_SPEED_SCALE = 1000;
+    
+    
 
     protected override void Init()
     {
+        AudioPlayer Locomotive = AudioManager.Instance.Take();
+
+        Locomotive
+            .Init()
+            .SetClip(_locomotiveClip)
+            .SetPriority(50)
+            .Play();
+        Locomotive
+            .Init()
+            .SetClip(_locomotiveHontClip)
+            .SetPriority(50)
+            .Play();
+        
         base.Init();
         GameManager.Instance.SetTrainSpeed(0f);
     }
