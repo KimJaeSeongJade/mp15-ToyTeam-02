@@ -5480,6 +5480,26 @@ PrefabInstance:
       propertyPath: _gameMode
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 6972055260089688410, guid: fd9297e98be2efb4f8f0850fc9d19eee, type: 3}
+      propertyPath: _files.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 6972055260089688410, guid: fd9297e98be2efb4f8f0850fc9d19eee, type: 3}
+      propertyPath: _files.Array.data[0]
+      value: 
+      objectReference: {fileID: 4900000, guid: 0fad80fe9b3c8d2488ffe6ee62b7d594, type: 3}
+    - target: {fileID: 6972055260089688410, guid: fd9297e98be2efb4f8f0850fc9d19eee, type: 3}
+      propertyPath: _files.Array.data[1]
+      value: 
+      objectReference: {fileID: 4900000, guid: 2fc7aa8e5d4c417409ab3d6a763b7fba, type: 3}
+    - target: {fileID: 6972055260089688410, guid: fd9297e98be2efb4f8f0850fc9d19eee, type: 3}
+      propertyPath: _files.Array.data[2]
+      value: 
+      objectReference: {fileID: 4900000, guid: eac3c252bdcf23847a3f685416b561b4, type: 3}
+    - target: {fileID: 6972055260089688410, guid: fd9297e98be2efb4f8f0850fc9d19eee, type: 3}
+      propertyPath: _files.Array.data[3]
+      value: 
+      objectReference: {fileID: 4900000, guid: 300378c5c7e8f684ab148e28221b352f, type: 3}
     - target: {fileID: 9127187142286411491, guid: fd9297e98be2efb4f8f0850fc9d19eee, type: 3}
       propertyPath: _chunkManager
       value: 
