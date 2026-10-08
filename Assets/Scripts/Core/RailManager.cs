@@ -316,6 +316,7 @@ public class RailManager : MonoBehaviour
         Map.Instance.SetHoldable(coord, newRail);
 
         newRail.SetupRailway();
+        newRail.ChangeRailShape(RailShape.HorizontalLine);
 
         if (_endRailCoord == new Vector2Int(-1, -1))
         {
