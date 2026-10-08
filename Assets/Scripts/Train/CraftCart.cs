@@ -22,6 +22,11 @@ public class CraftCart : Train, IInteractable
     [SerializeField] private Image _progressBarBackground;
 
     [SerializeField] private GameObject _progressBarUI;
+    
+    [Header("오디오")]
+    [SerializeField] private AudioSource _hammerSource;
+    [SerializeField] private AudioSource _ironSource;
+    [SerializeField] private AudioSource _woodSource;
 
     
     // 외부 참조용 프로퍼티
@@ -84,6 +89,10 @@ public class CraftCart : Train, IInteractable
         
         // 제작 상태 시작 및 비주얼 갱신
         isCrafting = true;
+        _hammerSource.Play();
+        _ironSource.Play();
+        _woodSource.Play();
+        
         _progressBar.fillAmount = 0;
         
         UpdateCraftVisual();
@@ -117,6 +126,9 @@ public class CraftCart : Train, IInteractable
         }
 
         isCrafting = false;
+        _hammerSource.Stop();
+        _ironSource.Stop();
+        _woodSource.Stop();
         UpdateCraftVisual();
 
         // 제작 완료 후 남은 자원 및 공간이 있다면 연쇄 제작 시도

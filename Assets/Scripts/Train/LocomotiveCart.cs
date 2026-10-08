@@ -6,8 +6,10 @@ using UnityEngine.Splines;
 
 public class LocomotiveCart : Train
 {
+    [SerializeField] private AudioSource _splineAudio;
     public event Action OnTrainArrived;
     private const int TRAIN_SPEED_SCALE = 1000;
+    private void Start() => _splineAudio.Play();
 
     protected override void Init()
     {
