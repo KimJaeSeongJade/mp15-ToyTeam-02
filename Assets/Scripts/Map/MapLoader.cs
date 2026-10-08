@@ -1,3 +1,4 @@
+using DG.Tweening.Plugins;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -8,6 +9,7 @@ using UnityEngine.UIElements;
 public class MapLoader : MonoBehaviour
 {
     [SerializeField] private GameMode _gameMode;
+    [SerializeField] private TextAsset[] _files;
 
     /// <summary>
     /// 저장한 맵 / 샘플 맵
@@ -29,7 +31,6 @@ public class MapLoader : MonoBehaviour
         { GameMode.Tutorial, "1277891633" },
         { GameMode.Test, "1935130282" }
         };
-
     /// <summary>
     /// 외부에서 맵 정보를 읽어와서 배열로 저장한 여부
     /// </summary>
@@ -48,28 +49,32 @@ public class MapLoader : MonoBehaviour
     private void Start()
     {
         _gameMode = GameManager.Instance.GMode;
-        StartCoroutine(LoadMapDataRoutine(_docId, _docGids[_gameMode]));
+        StartCoroutine(LoadMapDataRoutine(_docId, _gameMode));
     }    
 
-    private IEnumerator LoadMapDataRoutine(string docId, string gid)
+    private IEnumerator LoadMapDataRoutine(string docId, GameMode gameMode)
     {
         Debug.Log("Requesting Map Data...");
-        UnityWebRequest www = UnityWebRequest.Get($"https://docs.google.com/spreadsheets/d/{docId}/export?format=tsv&gid={gid}");
+        UnityWebRequest www = UnityWebRequest.Get($"https://docs.google.com/spreadsheets/d/{docId}/export?format=tsv&gid={_docGids[gameMode]}");
+        www.timeout = 5;
         yield return www.SendWebRequest();
 
-        if (www.result == UnityWebRequest.Result.ProtocolError || www.result == UnityWebRequest.Result.ConnectionError)
+        if (www.result != UnityWebRequest.Result.Success)
         {
-            Debug.Log("Web Request Error!");
-            yield break;
+            Debug.Log(www.error);
+            ParseCSV(gameMode);
+        }
+        else
+        {
+            ParseTSV(www.downloadHandler.text);
         }
 
-        ParseMapData(www.downloadHandler.text);
         OnMapSaved?.Invoke();
 
         if (_gameMode != GameMode.Infinite) CanLoadMap = true;
     }
 
-    private void ParseMapData(string text)
+    private void ParseTSV(string text)
     {
         string[] lines = text.Split("\r\n", StringSplitOptions.RemoveEmptyEntries);
 
@@ -131,6 +136,80 @@ public class MapLoader : MonoBehaviour
         for (int i = 0; i < ChunkManager.CHUNK_SIZE; i++)
         {
             string[] values = lines[i + rowStartIndex].Split('\t');
+
+            int y = row - 1 - i;
+
+            for (int x = columnStartIndex; x < columnStartIndex + infinityInitialMapColumn; x++)
+            {
+                int.TryParse(values[x], out _infiniteInitialMap[x - columnStartIndex, y]);
+            }
+        }
+    }
+
+    private void ParseCSV(GameMode gameMode)
+    {
+        string text = _files[(int)gameMode].text;
+
+        string[] lines = text.Split("\r\n", StringSplitOptions.RemoveEmptyEntries);
+
+        int columnStartIndex = 1;
+        int rowStartIndex = 2;
+
+        int row;
+
+        if (lines.Length - rowStartIndex > ChunkManager.CHUNK_SIZE)
+        {
+            row = ChunkManager.CHUNK_SIZE;
+        }
+        else
+        {
+            row = lines.Length - rowStartIndex;
+        }
+
+        int column = lines[0].Split(',').Length - columnStartIndex;
+
+        int totalChunk = (column - 1) % ChunkManager.CHUNK_SIZE;
+
+        _map = new int[column, row];
+
+
+        for (int i = 0; i < row; i++)
+        {
+            string[] values = lines[i + rowStartIndex].Split(',');
+
+            int y = row - 1 - i;
+
+            for (int x = columnStartIndex; x < values.Length; x++)
+            {
+                int.TryParse(values[x], out _map[x - columnStartIndex, y]);
+            }
+        }
+
+        // 무한 모드 초기 맵
+        rowStartIndex = ChunkManager.CHUNK_SIZE + rowStartIndex * 2 + 1;
+
+        if (lines.Length < rowStartIndex) return;
+
+        int infinityInitialMapColumn = 0;
+
+        string[] indices = lines[rowStartIndex - 1].Split(',');
+
+        for (int x = columnStartIndex; x < columnStartIndex + ChunkManager.CHUNK_SIZE; x++)
+        {
+            int value;
+            int.TryParse(indices[x], out value);
+
+            if (infinityInitialMapColumn < value) infinityInitialMapColumn = value;
+        }
+
+        // index이므로 실제 개수는 1 추가
+        infinityInitialMapColumn++;
+
+        _infiniteInitialMap = new int[infinityInitialMapColumn, ChunkManager.CHUNK_SIZE];
+
+        for (int i = 0; i < ChunkManager.CHUNK_SIZE; i++)
+        {
+            string[] values = lines[i + rowStartIndex].Split(',');
 
             int y = row - 1 - i;
 
