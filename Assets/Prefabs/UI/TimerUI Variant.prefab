@@ -210,6 +210,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 627c8d90e5c8a2c4ebf7d7408ee555b3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _UIClip: {fileID: 8300000, guid: 6c77941b013fba2438a305d5fa6e633d, type: 3}
   _delayTime: 5
   _elapsedTime: 0
   _bar: {fileID: 9062166134899009182}
