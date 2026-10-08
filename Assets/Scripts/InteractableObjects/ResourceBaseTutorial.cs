@@ -11,6 +11,7 @@ public abstract class ResourceBaseTutorial : MonoBehaviour, IInteractable, IPool
     [SerializeField] private GameObject _visualTop;
     [SerializeField] private GameObject _visualMiddle;
     [SerializeField] private GameObject _visualBottom;
+    [SerializeField] private AudioSource _source;
 
     public GameObject GameObject => gameObject; 
     public abstract BlockType BlockType { get; }
@@ -66,6 +67,10 @@ public abstract class ResourceBaseTutorial : MonoBehaviour, IInteractable, IPool
     private void OnMined()
     {
         Health--;
+        if (_source != null)
+        {
+            AudioSource.PlayClipAtPoint(_source.clip, transform.position);
+        }
         UpdateVisuals();
 
         if (Health <= 0)
