@@ -9,9 +9,9 @@ public class GameSceneManager : MonoBehaviour
     public static GameSceneManager Instance;
 
     [SerializeField] private LocomotiveCart _locomotiveCart;
-
     [SerializeField] private GameObject _pauseMenu;
     [SerializeField] private TextMeshProUGUI _trainSpeedUI;
+    [SerializeField] private LoadSceneConnector _loadSceneConnector;
 
     private KeyCode _pauseKey => KeyCode.Escape;
 
@@ -36,7 +36,7 @@ public class GameSceneManager : MonoBehaviour
         
         if(!SceneManagerA.Instance._isPause && Input.GetKeyDown(_pauseKey))
         {
-            StartCoroutine(OppenPause());            
+            StartCoroutine(OpenPause());            
         }
         SetTrainSpeed();
         
@@ -49,7 +49,7 @@ public class GameSceneManager : MonoBehaviour
     }
 
     // ClosePause와 키가 동시에 눌려 코루틴으로 사용
-    private IEnumerator OppenPause()
+    private IEnumerator OpenPause()
     {
         yield return null;        
         SceneManagerA.Instance._isPause = true;
@@ -99,18 +99,13 @@ public class GameSceneManager : MonoBehaviour
 
     private void GameOver()
     {
-        Debug.Log("Game over");
-        // OnGameEnd?.Invoke();
-        IsGameEnd = true;
         IsGameWin = false;
         GameManager.Instance.SetIsGameWin(IsGameWin);
+        _loadSceneConnector.LoadEndScene();
     }
 
     private void GameClear()
     {
-        Debug.Log("Game clear");
-        // OnGameEnd?.Invoke();
-        IsGameEnd = true;
         IsGameWin = true;
         
         // 튜토리얼 클리어시 튜토리얼 매니저 호출
@@ -124,6 +119,7 @@ public class GameSceneManager : MonoBehaviour
             tutorialManager.OnGameClear();
         }
         GameManager.Instance.SetIsGameWin(IsGameWin);
+        _loadSceneConnector.LoadEndScene();
     }
 
     private void BindGameEvents()
