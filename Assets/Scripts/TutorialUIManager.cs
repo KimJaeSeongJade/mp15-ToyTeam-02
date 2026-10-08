@@ -31,7 +31,7 @@ public class TutorialUIManager : MonoBehaviour
         // 화면에 해당 단계의 팝업이 실제로 열려 있을때만 엔터 입력 받음
         if (Input.GetKeyDown(KeyCode.Return))
         {
-            if (currentActivePopupIndex != -1)
+            if (currentActivePopupIndex != -1 && currentActivePopupIndex != 6)
             {
                 ClosePopup(currentActivePopupIndex);
             }

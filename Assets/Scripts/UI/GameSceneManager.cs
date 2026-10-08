@@ -106,18 +106,14 @@ public class GameSceneManager : MonoBehaviour
 
     private void GameClear()
     {
-        IsGameWin = true;
-        
-        // 튜토리얼 클리어시 튜토리얼 매니저 호출
-        
-        // 테스트용 테스트매니저 클래스로 연결 - 테스트 끝나면 삭제하고 아래 코드 주석 해제
-        TestManager tutorialManager = FindObjectOfType<TestManager>();
-        // TutorialManager tutorialManager FindObjectOfType<TestManager>();
-        
-        if (tutorialManager != null)
+        if (GameManager.Instance.GMode == GameMode.Tutorial)
         {
-            tutorialManager.OnGameClear();
+            OnGameEnd?.Invoke();
+            return;
         }
+
+        IsGameWin = true;
+
         GameManager.Instance.SetIsGameWin(IsGameWin);
         _loadSceneConnector.LoadEndScene();
     }

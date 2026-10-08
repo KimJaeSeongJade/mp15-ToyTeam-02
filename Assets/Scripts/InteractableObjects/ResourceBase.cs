@@ -18,7 +18,7 @@ public abstract class ResourceBase : MonoBehaviour, IInteractable, IPoolable
 
     private IPoolable _dropItem;
 
-    protected int Health = 3;
+    public int Health { get; protected set; }
 
     private void OnEnable() => Init();
 

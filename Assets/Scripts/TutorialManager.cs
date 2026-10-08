@@ -3,23 +3,23 @@ using System;
 
 public class TutorialManager : MonoBehaviour
 {
+    [SerializeField] SplineManager _splineManager;
+
     [Header("UI Manager")]
     [SerializeField] private TutorialUIManager uiManager;
     [SerializeField] private FilledBarUI _filledBarUI;
 
+    public static TutorialManager Instance;
+
     private int currentStep = 0; // 튜토리얼 진행 단계
-    
-    public static event Action<BlockType> OnResourceDropped;
 
-    public static void CallOnResourceDropped(BlockType type)
-    {
-        OnResourceDropped?.Invoke(type);
-    }
-
+    // 튜토리얼 씬에서만 존재하는 싱글톤
+    private void Awake() => SetSingleton();
     // 1. 이벤트 연결 및 해제
-    
     private void OnEnable()
     {
+        BindGameClearEvents();
+
         // 튜토리얼로 게임 모드 설정 안 하면 GameMode가 Quick으로 변경
         GameManager.Instance.SetGameMode(GameMode.Tutorial);
         uiManager.CloseAllUI();
@@ -31,11 +31,12 @@ public class TutorialManager : MonoBehaviour
             
         }
         _filledBarUI.OnBarLoaded += StartUIManager;
-        OnResourceDropped += OnBlockSpawned;
     }
 
     private void OnDisable()
     {
+        UnbindGameClearEvents();
+
         // 이벤트 해제
         if (uiManager != null)
         {
@@ -43,7 +44,6 @@ public class TutorialManager : MonoBehaviour
            
         }
         _filledBarUI.OnBarLoaded -= StartUIManager;
-        OnResourceDropped -= OnBlockSpawned;
     }
 
     private void StartUIManager()
@@ -73,6 +73,7 @@ public class TutorialManager : MonoBehaviour
 
             // [단계 2] 목재 채집 안내 팝업
             case 2:
+                SpawnBlock(BlockType.Wood);
                 uiManager.OpenPopup(2);
                 break;
 
@@ -86,6 +87,7 @@ public class TutorialManager : MonoBehaviour
 
             // [단계 4] 목재(BlockType.Wood) 생성 감지! -> 광석 채집 안내 팝업 + 게임 정지
             case 4:
+                SpawnBlock(BlockType.Rock);
                 PauseGame();
                 uiManager.OpenPopup(3);
                 
@@ -126,9 +128,7 @@ public class TutorialManager : MonoBehaviour
 
             // [단계 10] TODO: 게임매니저가 게임오버 상태를 만듬
             case 10:
-                PauseGame();
                 uiManager.OpenPopup(6); // 6번(마지막) 팝업: 튜토리얼 클리어 팝업
-                Debug.Log("[TutorialManager] 튜토리얼 전체 클리어!");
                 break;
         }
     }
@@ -156,35 +156,46 @@ public class TutorialManager : MonoBehaviour
         else if (currentStep == 8 && closedPopupIndex == 5) StartStep(9);   // 레일 설치 실습 시작
     }
 
-    /// <summary>
-    /// SpawnTrigger에서 자원 드롭 시 호출
-    /// TODO: 플레이어가 자원을 손에들 때로 트리거 변경 필요
-    /// </summary>
-    public void OnBlockSpawned(BlockType type)
+    private void SpawnBlock(BlockType blockType)
     {
-        
-        
-        if (currentStep == 3 && type == BlockType.Wood)
+        if (blockType == BlockType.Wood)
         {
-            StartStep(4);
-            Debug.Log(" 목재 나옴!!");
-            IPoolable pickaxe = ObjectPool.Instance.Take(BlockType.Pickaxe);
-            
-            pickaxe.GameObject.transform.position = new Vector3(17, 0, 6);
-            pickaxe.GameObject.SetActive(true);
-            
-            IPoolable rock = ObjectPool.Instance.Take(BlockType.Rock);
-            
-            rock.GameObject.transform.position = new Vector3(17, 0, 9);
-            rock.GameObject.SetActive(true);
+            IPoolable axe = ObjectPool.Instance.Take(BlockType.Axe);
+            axe.GameObject.transform.position = new Vector3(13.5f, 0, 6.5f);
+            axe.GameObject.SetActive(true);
 
-            
+            IPoolable tree = ObjectPool.Instance.Take(BlockType.Tree);
+            tree.GameObject.transform.position = new Vector3(13.5f, 0, 9.5f);
+            tree.GameObject.SetActive(true);
         }
-        else if (currentStep == 5 && type == BlockType.Iron)
+
+        if (blockType == BlockType.Rock)
         {
-            StartStep(6);
-            Debug.Log(" 철 나옴!!");
+            IPoolable pickaxe = ObjectPool.Instance.Take(BlockType.Pickaxe);
+            pickaxe.GameObject.transform.position = new Vector3(17.5f, 0, 6.5f);
+            pickaxe.GameObject.SetActive(true);
+
+            IPoolable rock = ObjectPool.Instance.Take(BlockType.Rock);
+            rock.GameObject.transform.position = new Vector3(17.5f, 0, 9.5f);
+            rock.GameObject.SetActive(true);
         }
+    }
+
+    /// <summary>
+    /// 튜토리얼 나무 채집될 때 호출
+    /// </summary>
+    public void OnTreeMined()
+    {
+        Debug.Log("TreeMined");
+        StartStep(4);
+    }
+
+    /// <summary>
+    /// 튜토리얼 돌 채집될 때 호출
+    /// </summary>
+    public void OnRockMined()
+    {
+        StartStep(6);
     }
 
     /// <summary>
@@ -202,13 +213,11 @@ public class TutorialManager : MonoBehaviour
     /// <summary>
     /// TODO: 메인 게임매니저에서 게임오버 상태를 만들때 호출
     /// </summary>
-    public void OnTrainMoved()
+    public void OnGameEnd()
     {
-        
         if (currentStep == 9)
         {
-            // TODO: 게임 매니저의 게임오버 상태 판정 가져오기
-            Debug.Log("튜토리얼 클리어 팝업 조건 달성");
+            _splineManager.TrainDepart();
             StartStep(10); // 최종 클리어 팝업 호출
         }
     }
@@ -217,4 +226,26 @@ public class TutorialManager : MonoBehaviour
 
     public void PauseGame() => Time.timeScale = 0f;
     public void ResumeGame() => Time.timeScale = 1f;
+
+    private void SetSingleton()
+    {
+        if (Instance != null && Instance != this)
+        {
+            Destroy(gameObject);
+        }
+        else
+        {
+            Instance = this;
+        }
+    }
+
+    private void BindGameClearEvents()
+    {
+        GameSceneManager.Instance.OnGameEnd += OnGameEnd;
+    }
+
+    private void UnbindGameClearEvents()
+    {
+        GameSceneManager.Instance.OnGameEnd -= OnGameEnd;
+    }
 }
