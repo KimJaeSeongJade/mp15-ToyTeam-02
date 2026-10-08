@@ -1,3 +1,5 @@
+using Cysharp.Threading.Tasks;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -9,6 +11,8 @@ public class PlayerAction : MonoBehaviour
 {
     private const float BASE_MOVE_SPEED = 5f;
     private const float DASH_SPEED_BONUS = 0.5f;
+    private const float DASH_DURATION = 0.3f;
+    private const float DASH_COOLDOWN = 1f;
     private const string PARAM_IS_MOVING = "IsMoving";
     private const string PARAM_IS_HOLDING = "IsHolding";
     private const string PARAM_IS_HOLDING_TOOL = "IsHoldingTool";
@@ -21,10 +25,11 @@ public class PlayerAction : MonoBehaviour
     [SerializeField] private CameraFollow _cameraFollow;
 
     private float _moveSpeed;
-    private WaitForSeconds _waitDashDuration = new WaitForSeconds(0.3f);
-    private WaitForSeconds _waitDashCooldown = new WaitForSeconds(1f);
     private bool _canDash;
     private IInteractable _target;
+
+    public DetectRange DetectRange => _detectRange;
+    public PlayerHand Hand => _hand;
 
     // ------------------------------
     private void Start() => Init();
@@ -53,18 +58,18 @@ public class PlayerAction : MonoBehaviour
     /// </summary>
     public void Dash()
     {
-        StartCoroutine(DashRoutine());
+        TryDash().Forget();
     }
 
-    private IEnumerator DashRoutine()
+    private async UniTaskVoid TryDash()
     {
-        if (!_canDash) yield break;
+        if (!_canDash) return;
 
         _canDash = false;
         _moveSpeed += (BASE_MOVE_SPEED * (1 + DASH_SPEED_BONUS));
-        yield return _waitDashDuration;
+        await UniTask.Delay(TimeSpan.FromSeconds(DASH_DURATION));
         _moveSpeed -= (BASE_MOVE_SPEED * (1 + DASH_SPEED_BONUS));
-        yield return _waitDashCooldown;
+        await UniTask.Delay(TimeSpan.FromSeconds(DASH_COOLDOWN));
         _canDash = true;
     }
 
