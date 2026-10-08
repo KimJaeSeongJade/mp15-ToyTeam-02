@@ -7,15 +7,20 @@ public class AudioPlayer : MonoBehaviour
 {
     [SerializeField] private AudioSource _audioSource;
 
-    private void OnEnable() => Init();
     private void Update() => WaitForEnd();
 
-    private void Init()
+    /// <summary>
+    /// AudioPlayer 초기화
+    /// </summary>
+    /// <returns></returns>
+    public AudioPlayer Init()
     {
-        _audioSource.volume = 1f;
-        _audioSource.playOnAwake = true;
-        _audioSource.loop = false;
+        _audioSource.volume = .5f;
+        _audioSource.priority = 128;
+        _audioSource.playOnAwake = false;
+        _audioSource.loop = true;
         _audioSource.clip = null;
+        return this;
     }
 
     private void WaitForEnd()
@@ -27,6 +32,12 @@ public class AudioPlayer : MonoBehaviour
     public AudioPlayer SetVolume(float volume)
     {
         _audioSource.volume = volume;
+        return this;
+    }
+
+    public AudioPlayer SetPriority(int priority)
+    {
+        _audioSource.priority = priority;
         return this;
     }
 
