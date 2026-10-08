@@ -55,101 +55,30 @@ public class MapLoader : MonoBehaviour
     private IEnumerator LoadMapDataRoutine(string docId, GameMode gameMode)
     {
         Debug.Log("Requesting Map Data...");
-        UnityWebRequest www = UnityWebRequest.Get($"https://docs.google.com/spreadsheets/d/{docId}/export?format=tsv&gid={_docGids[gameMode]}");
+        UnityWebRequest www = UnityWebRequest.Get($"https://docs.google.com/spreadsheets/d/{docId}/export?format=csv&gid={_docGids[gameMode]}");
         www.timeout = 5;
         yield return www.SendWebRequest();
+
+        string text;
 
         if (www.result != UnityWebRequest.Result.Success)
         {
             Debug.Log(www.error);
-            ParseCSV(gameMode);
+            text = _files[(int)gameMode].text;
         }
         else
         {
-            ParseTSV(www.downloadHandler.text);
+            text = www.downloadHandler.text;
         }
 
+        ParseCSV(text);
         OnMapSaved?.Invoke();
 
-        if (_gameMode != GameMode.Infinite) CanLoadMap = true;
+        if (_gameMode == GameMode.Test || _gameMode == GameMode.Tutorial) CanLoadMap = true;
     }
 
-    private void ParseTSV(string text)
+    private void ParseCSV(string text)
     {
-        string[] lines = text.Split("\r\n", StringSplitOptions.RemoveEmptyEntries);
-
-        int columnStartIndex = 1;
-        int rowStartIndex = 2;
-
-        int row;
-
-        if (lines.Length - rowStartIndex > ChunkManager.CHUNK_SIZE)
-        {
-            row = ChunkManager.CHUNK_SIZE;
-        }
-        else
-        {
-            row = lines.Length - rowStartIndex;
-        }
-
-        int column = lines[0].Split('\t').Length - columnStartIndex;
-
-        int totalChunk = (column - 1) % ChunkManager.CHUNK_SIZE;
-
-        _map = new int[column, row];
-
-
-        for (int i = 0; i < row; i++)
-        {
-            string[] values = lines[i + rowStartIndex].Split('\t');
-
-            int y = row - 1 - i;
-
-            for (int x = columnStartIndex; x < values.Length; x++)
-            {
-                int.TryParse(values[x], out _map[x - columnStartIndex, y]);
-            }
-        }
-
-        // 무한 모드 초기 맵
-        rowStartIndex = ChunkManager.CHUNK_SIZE + rowStartIndex * 2 + 1;
-
-        if (lines.Length < rowStartIndex) return;
-
-        int infinityInitialMapColumn = 0;
-
-        string[] indices = lines[rowStartIndex - 1].Split('\t');
-
-        for (int x = columnStartIndex; x < columnStartIndex + ChunkManager.CHUNK_SIZE; x++)
-        {
-            int value;
-            int.TryParse(indices[x], out value);
-
-            if (infinityInitialMapColumn < value) infinityInitialMapColumn = value;
-        }
-
-        // index이므로 실제 개수는 1 추가
-        infinityInitialMapColumn++;
-
-        _infiniteInitialMap = new int[infinityInitialMapColumn, ChunkManager.CHUNK_SIZE];
-
-        for (int i = 0; i < ChunkManager.CHUNK_SIZE; i++)
-        {
-            string[] values = lines[i + rowStartIndex].Split('\t');
-
-            int y = row - 1 - i;
-
-            for (int x = columnStartIndex; x < columnStartIndex + infinityInitialMapColumn; x++)
-            {
-                int.TryParse(values[x], out _infiniteInitialMap[x - columnStartIndex, y]);
-            }
-        }
-    }
-
-    private void ParseCSV(GameMode gameMode)
-    {
-        string text = _files[(int)gameMode].text;
-
         string[] lines = text.Split("\r\n", StringSplitOptions.RemoveEmptyEntries);
 
         int columnStartIndex = 1;
@@ -218,8 +147,6 @@ public class MapLoader : MonoBehaviour
                 int.TryParse(values[x], out _infiniteInitialMap[x - columnStartIndex, y]);
             }
         }
-
-        // PrintMapData(_infiniteInitialMap);
     }
 
     // 디버깅용
