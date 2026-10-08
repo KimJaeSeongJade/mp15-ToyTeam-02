@@ -5,23 +5,22 @@ using UnityEngine;
 /// </summary>
 public class CraftTrigger : MonoBehaviour
 {
-    private CraftCart craftCart;
+    [SerializeField] TutorialManager _tutorialManager;
+    private CraftCart _craftCart;
 
     private void Awake()
     {
-        craftCart = GetComponent<CraftCart>();
+        _craftCart = GetComponent<CraftCart>();
     }
 
     private void Update()
     {
         // 제작 수레에 레일이 1개 이상 쌓이면 감지
-        if (craftCart.CurrentCraftCount >= 1)
+        if (_craftCart.CurrentCraftCount >= 1)
         {
-
-            TestManager manager = FindObjectOfType<TestManager>();
-            if (manager != null)
+            if (_tutorialManager != null)
             {
-                manager.OnRailCrafted();
+                _tutorialManager.OnRailCrafted();
             }
 
             // 트리거 감지 후 자신 비활성화
