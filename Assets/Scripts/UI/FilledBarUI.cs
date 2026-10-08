@@ -47,6 +47,11 @@ public class FilledBarUI : MonoBehaviour
             _bar.fillAmount = (float)(_waveFunction.Iterations + _waveFunction.ChunkIndex * _infiniteModeIterations) /
                 (_infiniteModeIterations * 3);
         }
+        else if (_mapLoader.GameMode == GameMode.Quick)
+        {
+            _bar.fillAmount = (float)(_waveFunction.Iterations + _waveFunction.ChunkIndex * _infiniteModeIterations) /
+                (_infiniteModeIterations * 2);
+        }
         else
         {
             _bar.fillAmount = _elapsedTime / _delayTime;

@@ -72,9 +72,9 @@ public class ChunkManager : MonoBehaviour
         return (int)position.x / CHUNK_SIZE;
     }
 
-    private void CreateChunkMap(int chunkIndex)
+    private void CreateChunkMap(int chunkIndex, GameMode gameMode)
     {
-        _waveFunction.StartWaveFunctionCollapse(chunkIndex);
+        _waveFunction.StartWaveFunctionCollapse(chunkIndex, gameMode);
     }
 
     private IEnumerator LoadChunkRoutine(int chunkIndex)
@@ -85,8 +85,21 @@ public class ChunkManager : MonoBehaviour
 
         if (_gameMode == GameMode.Infinite)
         {
-            CreateChunkMap(chunkIndex);
+            CreateChunkMap(chunkIndex, _gameMode);
             yield return new WaitUntil(() => _isWaveFunctionEnd);
+        }
+        else if (_gameMode == GameMode.Quick)
+        {
+            if (chunkIndex > 1)
+            {
+                _isChunkMapSaved = true;
+                yield break;
+            }
+            else
+            {
+                CreateChunkMap(chunkIndex, _gameMode);
+                yield return new WaitUntil(() => _isWaveFunctionEnd);
+            }
         }
         else
         {

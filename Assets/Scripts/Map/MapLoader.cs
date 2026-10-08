@@ -20,13 +20,15 @@ public class MapLoader : MonoBehaviour
     /// 저장한 초기 무한모드 맵
     /// </summary>
     public int[,] InfiniteInitialMap => _infiniteInitialMap;
+    public int[,] QuickLastMap => _quickLastMap;
 
     private int[,] _map;
     private int[,] _infiniteInitialMap;
+    private int[,] _quickLastMap;
     private string _docId = "1aNNeM5KLbdZ4hOK1AM0-LkXCTkBRzoJswdcpBvjRjKI";
 
     private Dictionary<GameMode, string> _docGids = new Dictionary<GameMode, string> {
-        { GameMode.Quick, "0" },
+        { GameMode.Quick, "1355842421" },
         { GameMode.Infinite, "1355842421" },
         { GameMode.Tutorial, "1277891633" },
         { GameMode.Test, "1935130282" }
@@ -86,6 +88,7 @@ public class MapLoader : MonoBehaviour
 
         int row;
 
+        // 1. 월드맵 (샘플맵)
         if (lines.Length - rowStartIndex > ChunkManager.CHUNK_SIZE)
         {
             row = ChunkManager.CHUNK_SIZE;
@@ -114,19 +117,19 @@ public class MapLoader : MonoBehaviour
             }
         }
 
-        // 무한 모드 초기 맵
-        rowStartIndex = ChunkManager.CHUNK_SIZE + rowStartIndex * 2 + 1;
+        // 2. 무한 모드 초기 맵
+        rowStartIndex = ChunkManager.CHUNK_SIZE + 5;
 
         if (lines.Length < rowStartIndex) return;
 
         int infinityInitialMapColumn = 0;
 
-        string[] indices = lines[rowStartIndex - 1].Split(',');
+        string[] infinityIndices = lines[rowStartIndex - 1].Split(',');
 
         for (int x = columnStartIndex; x < columnStartIndex + ChunkManager.CHUNK_SIZE; x++)
         {
             int value;
-            int.TryParse(indices[x], out value);
+            int.TryParse(infinityIndices[x], out value);
 
             if (infinityInitialMapColumn < value) infinityInitialMapColumn = value;
         }
@@ -145,6 +148,31 @@ public class MapLoader : MonoBehaviour
             for (int x = columnStartIndex; x < columnStartIndex + infinityInitialMapColumn; x++)
             {
                 int.TryParse(values[x], out _infiniteInitialMap[x - columnStartIndex, y]);
+            }
+        }
+
+        // 3. 퀵 모드 마지막 맵
+        rowStartIndex = ChunkManager.CHUNK_SIZE * 2 + 8;
+        Debug.Log(rowStartIndex);
+        Debug.Log(lines.Length);
+        if (lines.Length < rowStartIndex) return;
+
+        string[] quickIndices = lines[rowStartIndex - 1].Split(',');
+
+        int quickLastMapColumn = ChunkManager.CHUNK_SIZE * 2 - int.Parse(quickIndices[columnStartIndex]);
+        Debug.Log(quickLastMapColumn);
+
+        _quickLastMap = new int[quickLastMapColumn, ChunkManager.CHUNK_SIZE];
+
+        for (int i = 0; i < ChunkManager.CHUNK_SIZE; i++)
+        {
+            string[] values = lines[i + rowStartIndex].Split(',');
+
+            int y = row - 1 - i;
+
+            for (int x = columnStartIndex; x < columnStartIndex + quickLastMapColumn; x++)
+            {
+                int.TryParse(values[x], out _quickLastMap[x - columnStartIndex, y]);
             }
         }
     }
