@@ -7,34 +7,33 @@ using UnityEngine;
 /// </summary>
 public class InteractUI : UIBase
 {
-    //[SerializeField] private AudioClip _audioClip;
+    [SerializeField] private AudioClip _audioClip;
     private KeyCode _interactKey => KeyCode.Space;
 
     // Collider에 올라왔는지 확인하는 bool
     private bool _isOnTrigger;
 
-    private void Awake()
+    protected override void Awake()
     {
-        //GetAudioFile();
+        base.Awake();
+        GetAudioFile();
     }
 
     protected override void OnTriggerEnter(Collider other)
     {
-        //if (!_audioClip)
-        //{
-        //    AudioPlayer UIAudioPlayer = AudioManager.Instance.Take();
-
-        //    UIAudioPlayer
-        //        .Init()
-        //        .SetClip(_audioClip)
-        //        .SetLoop(false)
-        //        .Play();
-        //}
-
-
         base.OnTriggerEnter(other);
         if (other.gameObject.layer == 6)
         {
+            if (_audioClip)
+            {
+                AudioPlayer UIAudioPlayer = AudioManager.Instance.Take();
+
+                UIAudioPlayer
+                    .Init()
+                    .SetClip(_audioClip)
+                    .SetLoop(false)
+                    .Play();
+            }
             _isOnTrigger = true;
         }
     }
@@ -62,13 +61,13 @@ public class InteractUI : UIBase
         }
     }
 
-    //private void GetAudioFile()
-    //{
-    //    if (TryGetComponent<SaveAudioFile>(out SaveAudioFile _saveAudioFile))
-    //    {
-    //        _audioClip = _saveAudioFile._audioClip;
-    //    }
-    //}
+    private void GetAudioFile()
+    {
+        if (TryGetComponent<SaveAudioFile>(out SaveAudioFile _saveAudioFile))
+        {
+            _audioClip = _saveAudioFile._audioClip[0];
+        }
+    }
 
     protected override void PlayUI()
     {
