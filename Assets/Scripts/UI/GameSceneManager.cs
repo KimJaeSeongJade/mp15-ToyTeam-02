@@ -12,6 +12,7 @@ public class GameSceneManager : MonoBehaviour
     [SerializeField] private GameObject _pauseMenu;
     [SerializeField] private TextMeshProUGUI _trainSpeedUI;
     [SerializeField] private LoadSceneConnector _loadSceneConnector;
+    [SerializeField] private PlayDataManager _playDataManager;
 
     private KeyCode _pauseKey => KeyCode.Escape;
 
@@ -111,11 +112,72 @@ public class GameSceneManager : MonoBehaviour
             OnGameEnd?.Invoke();
             return;
         }
+        if (GameManager.Instance.GMode == GameMode.Test)
+        {
+            if (SavePlayData())
+            {
+                Debug.Log("new record");
+            }
+            else
+            {
+                Debug.Log("not new record");
+            }
+        }
 
         IsGameWin = true;
 
         GameManager.Instance.SetIsGameWin(IsGameWin);
         _loadSceneConnector.LoadEndScene();
+    }
+
+    // 시간 모드에서 플레이 데이터 저장
+    private bool SavePlayData()
+    {
+        bool isNewRecord = false;
+
+        PlayDataList playDataList = _playDataManager.LoadData();
+
+        if (playDataList != null)
+        {
+            bool hasData = false;
+
+            for (int i = 0; i < playDataList.PlayDatas.Count; i++)
+            {
+                PlayData playData = playDataList.PlayDatas[i];
+                if (playData.TrainSpeed == GameManager.Instance.TrainSpeed)
+                {
+                    hasData = true;
+                    if (playData.PlayTime > GameManager.Instance.PlayTime)
+                    {
+                        isNewRecord = true;
+                        playData.PlayTime = GameManager.Instance.PlayTime;
+                    }
+                }
+            }
+
+            if (!hasData)
+            {
+                isNewRecord = true;
+                playDataList.PlayDatas.Add(new PlayData(
+                    GameManager.Instance.TrainSpeed,
+                    GameManager.Instance.PlayTime
+                ));
+                isNewRecord = true;
+            }
+        }
+        else
+        {
+            playDataList = new();
+            playDataList.PlayDatas.Add(new PlayData(
+                    GameManager.Instance.TrainSpeed,
+                    GameManager.Instance.PlayTime
+                ));
+            isNewRecord = true;
+        }
+
+        if (isNewRecord) _playDataManager.SaveData(playDataList);
+
+        return isNewRecord;
     }
 
     private void BindGameEvents()

@@ -37,12 +37,13 @@ public class GameManager : MonoBehaviour
 
     //[SerializeField] private float TrainSpeed;
 
-    // 게임이 Pasue상태인지 
+    // 게임이 Pause상태인지 
     public bool IsPaused { get; private set; }
 
     // 게임을 클리어 했는지
     public bool IsGameWin; //{ get; private set; }
 
+    private bool _isPlaying;
     //--------------------
     private void Awake()
     {        
@@ -58,11 +59,11 @@ public class GameManager : MonoBehaviour
 
     private void Update()
     {
-        //게임씬이고 게임 진행중일 때
-        //if (SceneManager.GetActiveScene().buildIndex == 2 && !IsPaused)
-        //{
-        //    PlayStart();
-        //}
+        // 게임씬이고 게임 진행중일 때
+        if (SceneManager.GetActiveScene().buildIndex == 4 && !IsPaused && _isPlaying)
+        {
+            PlayTime += Time.deltaTime;
+        }
     } 
     
     public void SetGameMode(GameMode gMode)
@@ -78,6 +79,8 @@ public class GameManager : MonoBehaviour
     public void SetIsGameWin(bool value)
     {
         IsGameWin = value;
+        _isPlaying = false;
+        Debug.Log($"PlayTime is {PlayTime}");
     }
 
     // 플레이 시간 리셋
@@ -87,10 +90,10 @@ public class GameManager : MonoBehaviour
     }
 
     // 플레이 시간 계산
-    private void PlayStart()
+    public void PlayStart()
     {
-        PlayTime += Time.deltaTime;
-        //Debug.Log(PlayTime);
+        ResetPlayTime();
+        _isPlaying = true;
     }
 
     // 열차 속도
