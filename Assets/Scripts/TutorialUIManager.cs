@@ -34,7 +34,7 @@ public class TutorialUIManager : MonoBehaviour
     private void Update()
     {
         // 화면에 해당 단계의 팝업이 실제로 열려 있을때만 엔터 입력 받음
-        if (Input.GetKeyDown(KeyCode.Return))
+        if (Input.GetKeyDown(KeyCode.Space))
         {
             if (currentActivePopupIndex != -1 && currentActivePopupIndex != 10)
             {
