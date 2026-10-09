@@ -28,6 +28,7 @@ public class PlayerAction : MonoBehaviour
     private float _moveSpeed;
     private bool _canDash;
     private IInteractable _target;
+    private AudioPlayer _walkAudioPlayer;
 
     public DetectRange DetectRange => _detectRange;
     public PlayerHand Hand => _hand;
@@ -231,16 +232,14 @@ public class PlayerAction : MonoBehaviour
 
     public void OnWalk()
     {
-        AudioPlayer walkAudioPlayer = AudioManager.Instance.Take();
-
-        walkAudioPlayer
+        _walkAudioPlayer
             .Init()
             .SetPriority(100)
             .SetClip(_walkSound)
             .SetLoop(false)
             .Play();
 
-        walkAudioPlayer.ReturnToPool();
+        _walkAudioPlayer.ReturnToPool();
     }
 
     public void CameraFollow()
@@ -252,5 +251,6 @@ public class PlayerAction : MonoBehaviour
     {
         _moveSpeed = BASE_MOVE_SPEED;
         _canDash = true;
+        _walkAudioPlayer = AudioManager.Instance.Take();
     }
 }
