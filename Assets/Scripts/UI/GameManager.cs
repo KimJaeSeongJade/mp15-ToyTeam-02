@@ -57,19 +57,20 @@ public class GameManager : MonoBehaviour
         Init();
     }
 
-    //private void Start()
-    //{
-    //    SetTrainSpeed(TrainSpeed);
-    //}
+//    private void Start()
+//    {
+//#if !UNITY_EDITOR && UNITY_WEBGL
+//        WebGLInput.stickyCursorLock = false;
+//#endif
+//    }
 
 
     private void Update()
-    {
+    {         
         // 게임씬이고 게임 진행중일 때
         if (SceneManager.GetActiveScene().buildIndex == 4 && !IsPaused && _isPlaying)
         {
             PlayTime += Time.deltaTime;
-            Debug.Log($"{PlayTime} / {TrainDistance}");
         }
     } 
     
@@ -135,6 +136,12 @@ public class GameManager : MonoBehaviour
         _trainSpeeds.Add(GameDifficulty.Normal, 0.075f);
         _trainSpeeds.Add(GameDifficulty.Hard, 0.1f);
     }
+
+    //private void CursorLock()
+    //{
+    //    Cursor.visible = false;
+    //    Cursor.lockState = CursorLockMode.Locked;
+    //}
 
     private void SetSingleton()
     {
