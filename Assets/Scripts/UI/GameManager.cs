@@ -26,6 +26,9 @@ public class GameManager : MonoBehaviour
     // 게임 모드
     public GameMode GMode { get; private set; }
 
+    // 게임 난이도
+    public GameDifficulty GDifficulty { get; private set; }
+
     // 플레이 시간
     public float PlayTime { get; private set; }
     
@@ -44,6 +47,9 @@ public class GameManager : MonoBehaviour
     public bool IsGameWin; //{ get; private set; }
     public bool IsNewRecord { get; private set; }
     private bool _isPlaying;
+
+    private Dictionary<GameDifficulty, float> _trainSpeeds = new();
+
     //--------------------
     private void Awake()
     {        
@@ -70,6 +76,12 @@ public class GameManager : MonoBehaviour
     public void SetGameMode(GameMode gMode)
     {
         GMode = gMode;
+    }
+
+    public void SetGameDifficulty(GameDifficulty gDifficulty)
+    {
+        GDifficulty = gDifficulty;
+        SetTrainSpeed(_trainSpeeds[gDifficulty]);
     }
 
     public void IsPause(bool value)
@@ -102,6 +114,7 @@ public class GameManager : MonoBehaviour
         TrainSpeed = value;
     }
 
+
     // 열차 이동 거리
     public void SetTrainDistance(int value)
     {
@@ -118,6 +131,9 @@ public class GameManager : MonoBehaviour
     {
         IsPause(false);
         TrainSpeed = 0.1f;
+        _trainSpeeds.Add(GameDifficulty.Easy, 0.05f);
+        _trainSpeeds.Add(GameDifficulty.Normal, 0.075f);
+        _trainSpeeds.Add(GameDifficulty.Hard, 0.1f);
     }
 
     private void SetSingleton()

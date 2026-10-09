@@ -8,6 +8,7 @@ public class GameSceneManager : MonoBehaviour
 {
     public static GameSceneManager Instance;
 
+    [SerializeField] private PlayDataManager _playDataManager;
     [SerializeField] private FilledBarUI _filledBarUI;
     [SerializeField] private LocomotiveCart _locomotiveCart;
     [SerializeField] private GameObject _pauseMenu;
@@ -110,6 +111,8 @@ public class GameSceneManager : MonoBehaviour
     {
         IsGameWin = false;
         GameManager.Instance.SetIsGameWin(IsGameWin);
+
+        TrySaveData();
         _loadSceneConnector.LoadEndScene();
 
     }
@@ -122,11 +125,92 @@ public class GameSceneManager : MonoBehaviour
             return;
         }
 
+        TrySaveData();
+
         IsGameWin = true;
 
         GameManager.Instance.SetIsGameWin(IsGameWin);
         _loadSceneConnector.LoadEndScene();
         
+    }
+    private void TrySaveData()
+    {
+        if (GameManager.Instance.GMode != GameMode.Tutorial)
+        {
+            if (SavePlayData())
+            {
+                GameManager.Instance.SetIsNewRecord(true);
+            }
+            else
+            {
+                GameManager.Instance.SetIsNewRecord(false);
+            }
+        }
+    }
+
+    // 시간 모드에서 플레이 데이터 저장
+    private bool SavePlayData()
+    {
+        bool isNewRecord = false;
+
+        PlayDataList playDataList = _playDataManager.LoadData();
+
+        if (playDataList != null)
+        {
+            bool hasData = false;
+
+            for (int i = 0; i < playDataList.PlayDatas.Count; i++)
+            {
+                PlayData playData = playDataList.PlayDatas[i];
+
+                if (playData.GameMode == GameManager.Instance.GMode)
+                {
+                    if (playData.GameDifficulty == GameManager.Instance.GDifficulty)
+                    {
+                        hasData = true;
+                        if (playData.TrainDistance < GameManager.Instance.TrainDistance)
+                        {
+                            isNewRecord = true;
+                            playData.TrainDistance = GameManager.Instance.TrainDistance;
+                            playData.PlayTime = GameManager.Instance.PlayTime;
+                        }
+                        else if (playData.TrainDistance == GameManager.Instance.TrainDistance
+                            && playData.PlayTime > GameManager.Instance.PlayTime)
+                        {
+                            isNewRecord = true;
+                            playData.PlayTime = GameManager.Instance.PlayTime;
+                        }
+                    }
+                }
+            }
+
+            if (!hasData)
+            {
+                isNewRecord = true;
+                playDataList.PlayDatas.Add(new PlayData(
+                    GameManager.Instance.GMode,
+                    GameManager.Instance.GDifficulty,
+                    GameManager.Instance.TrainDistance,
+                    GameManager.Instance.PlayTime
+                ));
+                isNewRecord = true;
+            }
+        }
+        else
+        {
+            playDataList = new();
+            playDataList.PlayDatas.Add(new PlayData(
+                    GameManager.Instance.GMode,
+                    GameManager.Instance.GDifficulty,
+                    GameManager.Instance.TrainDistance,
+                    GameManager.Instance.PlayTime
+                ));
+            isNewRecord = true;
+        }
+
+        if (isNewRecord) _playDataManager.SaveData(playDataList);
+
+        return isNewRecord;
     }
 
     private void BindGameEvents()
