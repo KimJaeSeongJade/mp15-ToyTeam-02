@@ -9,6 +9,7 @@ public class TutorialManager : MonoBehaviour
     [Header("UI Manager")]
     [SerializeField] private TutorialUIManager uiManager;
     [SerializeField] private FilledBarUI _filledBarUI;
+    [SerializeField] private AudioClip _gameBGM;
     public static TutorialManager Instance;
 
     private int currentStep = 0; // 튜토리얼 진행 단계
@@ -18,6 +19,11 @@ public class TutorialManager : MonoBehaviour
     
     // 튜토리얼 씬에서만 존재하는 싱글톤
     private void Awake() => SetSingleton();
+
+    private void Start()
+    {
+        Audi
+    }
     // 1. 이벤트 연결 및 해제
     private void OnEnable()
     {

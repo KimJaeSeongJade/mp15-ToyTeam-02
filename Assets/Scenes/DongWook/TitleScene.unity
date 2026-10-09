@@ -4352,6 +4352,8 @@ MonoBehaviour:
   _undoUI: {fileID: 282641357}
   _quitUI: {fileID: 2038469987}
   _settingUI: {fileID: 739022945}
+  _titleClip: {fileID: 8300000, guid: cada1ba089a7e864cae63146bff1433c, type: 3}
+  _birdClip: {fileID: 8300000, guid: 86d40aae7a2005c43a2de49d692a3649, type: 3}
 --- !u!4 &265411021
 Transform:
   m_ObjectHideFlags: 0
@@ -5475,6 +5477,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7e0f54497bb442647b9ebd23d180d944, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _UIClip: {fileID: 0}
   _onUIPressed:
     m_PersistentCalls:
       m_Calls:
@@ -12157,6 +12160,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8f401ebf871310a4b9010798e51a69c6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _UIClip: {fileID: 0}
   _titleSceneManager: {fileID: 265411020}
   _currentPanel: {fileID: 974431821}
   _NextPanel: {fileID: 0}
@@ -18509,6 +18513,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8f401ebf871310a4b9010798e51a69c6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _UIClip: {fileID: 0}
   _titleSceneManager: {fileID: 265411020}
   _currentPanel: {fileID: 974431821}
   _NextPanel: {fileID: 638201871}
@@ -19758,6 +19763,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7e0f54497bb442647b9ebd23d180d944, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _UIClip: {fileID: 0}
   _onUIPressed:
     m_PersistentCalls:
       m_Calls:
@@ -22967,6 +22973,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7e0f54497bb442647b9ebd23d180d944, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _UIClip: {fileID: 0}
   _onUIPressed:
     m_PersistentCalls:
       m_Calls:
@@ -23228,6 +23235,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c8e2fb1d4644a874482f7d3092cd6c94, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _UIClip: {fileID: 0}
   _delayTime: 5
   _elapsedTime: 0
   _bar: {fileID: 1094567322}
@@ -29438,6 +29446,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8f401ebf871310a4b9010798e51a69c6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _UIClip: {fileID: 0}
   _titleSceneManager: {fileID: 265411020}
   _currentPanel: {fileID: 918839005}
   _NextPanel: {fileID: 974431821}
@@ -33224,6 +33233,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c8e2fb1d4644a874482f7d3092cd6c94, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _UIClip: {fileID: 0}
   _delayTime: 4
   _elapsedTime: 0
   _bar: {fileID: 578249010}
@@ -39002,6 +39012,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7e0f54497bb442647b9ebd23d180d944, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _UIClip: {fileID: 0}
   _onUIPressed:
     m_PersistentCalls:
       m_Calls:

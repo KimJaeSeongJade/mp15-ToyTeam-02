@@ -1988,6 +1988,8 @@ MonoBehaviour:
   _locomotiveCart: {fileID: 0}
   _pauseMenu: {fileID: 1441181052}
   _trainSpeedUI: {fileID: 492912490}
+  _loadSceneConnector: {fileID: 0}
+  _gameClip: {fileID: 8300000, guid: 6b5917683a9e4f644b858a029dc7aee5, type: 3}
 --- !u!4 &325842376
 Transform:
   m_ObjectHideFlags: 0
@@ -6725,7 +6727,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f63865468f88c13438f207d6407731d6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  TrainSpeed: 0
   IsGameWin: 0
 --- !u!4 &1528498944
 Transform:

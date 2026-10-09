@@ -24,10 +24,12 @@ public class GameSceneManager : MonoBehaviour
     {
         SetSingleton();
         Init();
+      
     }
     private void Start()
     {
-        BindGameEvents();       
+        BindGameEvents();
+ 
     }
     private void OnDestroy() => UnbindGameEvents();
 
@@ -102,6 +104,7 @@ public class GameSceneManager : MonoBehaviour
         IsGameWin = false;
         GameManager.Instance.SetIsGameWin(IsGameWin);
         _loadSceneConnector.LoadEndScene();
+
     }
 
     private void GameClear()
@@ -116,6 +119,7 @@ public class GameSceneManager : MonoBehaviour
 
         GameManager.Instance.SetIsGameWin(IsGameWin);
         _loadSceneConnector.LoadEndScene();
+        
     }
 
     private void BindGameEvents()
