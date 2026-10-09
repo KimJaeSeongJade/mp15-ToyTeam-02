@@ -14432,9 +14432,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _clearObj: {fileID: 262836799}
   _overObj: {fileID: 2090979384}
-  _newRecordUI: {fileID: 1342164410}
-  _playTimeUI: {fileID: 1017441291}
-  _scoreUI: {fileID: 595397411}
+  _gameOverClip: {fileID: 8300000, guid: 28fa50026abcacd44983148474d2fe62, type: 3}
+  _gameClearClip: {fileID: 8300000, guid: ee0ccbec9a67a0d47aa5956434c9d32a, type: 3}
 --- !u!4 &1645206689
 Transform:
   m_ObjectHideFlags: 0

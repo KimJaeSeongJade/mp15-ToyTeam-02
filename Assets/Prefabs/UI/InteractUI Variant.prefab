@@ -143,7 +143,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   <_audioClip>k__BackingField:
-  - {fileID: 8300000, guid: 04e604f1848e2304581fa7646f43eb50, type: 3}
+  - {fileID: 8300000, guid: 6c77941b013fba2438a305d5fa6e633d, type: 3}
   - {fileID: 0}
   - {fileID: 0}
 --- !u!114 &3951344185650925850
@@ -158,5 +158,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a7392ec47fd081644bca5c61c584fc60, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _UIClip: {fileID: 0}
+  _UIClip: {fileID: 8300000, guid: 6c77941b013fba2438a305d5fa6e633d, type: 3}
   _audioClip: {fileID: 8300000, guid: 6e9431b931b83cf4cb7ef1b3debe113a, type: 3}
