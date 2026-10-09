@@ -23,8 +23,10 @@ public class WaveFunction : MonoBehaviour
     private List<Tile> _validOptions = new();
     private bool _isInitialLoad = true;
     private int[,] _initialMap;
+    private int[,] _lastMap;
     private int[,] _previousMap;
     private int _chunkIndex;
+    private GameMode _gameMode;
 
     public int ChunkIndex => _chunkIndex;
 
@@ -39,11 +41,12 @@ public class WaveFunction : MonoBehaviour
     /// <summary>
     /// 파동 함수 붕괴 알고리즘을 실행하여 맵 생성 시작
     /// </summary>
-    public void StartWaveFunctionCollapse(int chunkIndex)
+    public void StartWaveFunctionCollapse(int chunkIndex, GameMode gameMode)
     {
         Debug.Log("WaveFunctionCollapse started");
         int[,] sampleMapData = _mapLoader.Map;
         _chunkIndex = chunkIndex;
+        _gameMode = gameMode;
 
         if (_isInitialLoad) LoadMapData(sampleMapData);
         GridComponents = new List<Cell>();
@@ -104,6 +107,8 @@ public class WaveFunction : MonoBehaviour
         {
             _initialMap = _mapLoader.InfiniteInitialMap;
             Iterations = _initialMap.GetLength(0) * _initialMap.GetLength(1);
+
+            if (_gameMode == GameMode.Quick) _lastMap = _mapLoader.QuickLastMap;
         }
         else
         {
@@ -116,11 +121,10 @@ public class WaveFunction : MonoBehaviour
         {
             for (int x = 0; x < Dimensions; x++)
             {
-                if (_isInitialLoad &&
-                    _initialMap != null &&
-                    x < _initialMap.GetLength(0) &&
-                    y < _initialMap.GetLength(1)
-                    )
+                if (_isInitialLoad
+                    && _initialMap != null
+                    && x < _initialMap.GetLength(0)
+                    && y < _initialMap.GetLength(1))
                 {
                     // 1, 2, 3, 4, 5를 제외한 경우는 샘플 맵에 입력하지 않았으므로 제거
                     int mapIndex = _initialMap[x, y];
@@ -130,10 +134,23 @@ public class WaveFunction : MonoBehaviour
                     newCell.CreateCell(true, new Tile[] { _tiles[mapIndex] });
                     GridComponents.Add(newCell);
                 }
+                else if (_gameMode == GameMode.Quick
+                    && _chunkIndex == 1
+                    && x >= ChunkManager.CHUNK_SIZE * 2 - _lastMap.GetLength(0)
+                    && y < _lastMap.GetLength(1))
+                {
+                    // 1, 2, 3, 4, 5를 제외한 경우는 샘플 맵에 입력하지 않았으므로 제거
+                    int mapIndex = _lastMap[x, y];
+                    if (mapIndex == 0 || mapIndex > 5) mapIndex = 1;
+
+                    Cell newCell = new Cell();
+                    newCell.CreateCell(true, new Tile[] { _tiles[mapIndex] });
+                    GridComponents.Add(newCell);
+                }
                 else
                 {
                     Cell newCell = new Cell();
-                     newCell.CreateCell(false, _tiles.Values.ToArray());
+                    newCell.CreateCell(false, _tiles.Values.ToArray());
                     GridComponents.Add(newCell);
                 }
             }
@@ -362,15 +379,20 @@ public class WaveFunction : MonoBehaviour
                 int index = x + y * size;
                 Cell cell = GridComponents[index];
 
-                if (_isInitialLoad &&
-                    _initialMap != null &&
-                    x < _initialMap.GetLength(0) &&
-                    y < _initialMap.GetLength(1)
-                    )
+                if (_isInitialLoad
+                    && _initialMap != null
+                    && x < _initialMap.GetLength(0)
+                    && y < _initialMap.GetLength(1))
                 {
                     resultMap[x, y] = _initialMap[x, y];
                 }
-
+                else if (_gameMode == GameMode.Quick
+                    && _chunkIndex == 1
+                    && x >= ChunkManager.CHUNK_SIZE - _lastMap.GetLength(0)
+                    && y < _lastMap.GetLength(1))
+                {
+                    resultMap[x, y] = _lastMap[x - (ChunkManager.CHUNK_SIZE - _lastMap.GetLength(0)), y];
+                }
                 else
                 {
                     if (cell.Collapsed && cell.TileOptions != null && cell.TileOptions.Length > 0)
