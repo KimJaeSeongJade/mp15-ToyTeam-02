@@ -63,6 +63,7 @@ public class FilledBarUI : MonoBehaviour
         if (!_isInitialMapLoaded || _bar.fillAmount < 1) return;
 
         OnBarLoaded?.Invoke();
+        GameManager.Instance.PlayStart();
         gameObject.SetActive(false);
     }
 
