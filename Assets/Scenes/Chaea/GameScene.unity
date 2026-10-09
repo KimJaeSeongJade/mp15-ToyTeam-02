@@ -4156,7 +4156,7 @@ PrefabInstance:
     - target: {fileID: 2122204386168999431, guid: 8e2a7a1f4ab52d34c9a0159957517f92, type: 3}
       propertyPath: _walkSound
       value: 
-      objectReference: {fileID: 8300000, guid: 2477c7aff3e9ef149ad4a995cf091c95, type: 3}
+      objectReference: {fileID: 8300000, guid: 08569ca3fd6f997479a0b50fcd850c3d, type: 3}
     - target: {fileID: 2122204386168999431, guid: 8e2a7a1f4ab52d34c9a0159957517f92, type: 3}
       propertyPath: _playerBody
       value: 
