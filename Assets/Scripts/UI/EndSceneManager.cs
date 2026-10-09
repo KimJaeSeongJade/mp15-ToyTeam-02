@@ -24,6 +24,7 @@ public class EndSceneManager : MonoBehaviour
     private void Start()
     {
         SetGameEndScene();
+        SetNewRecord();
         SetPlayTime();
         SetScore();
     }
@@ -37,17 +38,19 @@ public class EndSceneManager : MonoBehaviour
     private void SetPlayTime()
     {
         float time = GameManager.Instance.PlayTime;
-        Debug.Log(time);
         _playTimeUI.GetComponent<TextNumChanger>().ChangeTimeNum(time);
     }
 
     private void SetScore()
     {
         float score = GameManager.Instance.TrainDistance;
-        Debug.Log(score);
         _scoreUI.GetComponent<TextNumChanger>().ChangeScoreNum(score);
     }
 
+    private void SetNewRecord()
+    {
+        //_isGameWinUI;
+    }
 
     private void SetGameEndScene()
     {
