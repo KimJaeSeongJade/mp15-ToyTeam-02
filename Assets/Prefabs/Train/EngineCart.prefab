@@ -51,6 +51,11 @@ MonoBehaviour:
   _splineAnimate: {fileID: 6402696198470065024}
   _offsetRate: 4
   _locomotiveCartOffsetRate: 6
+  _locomotiveClip: {fileID: 8300000, guid: 6ed0afef52661874382311445be6e4d9, type: 3}
+  _locomotiveHontClip: {fileID: 8300000, guid: ff5285dc0c7f3e04293a5c870b11b5a5, type: 3}
+  _rainIronClip: {fileID: 8300000, guid: b839fbef02555674ea0ad99f2d1bb510, type: 3}
+  _rainWoodClip: {fileID: 8300000, guid: 949ed6a99db155d47ad6e1e5347bb6ad, type: 3}
+  _rainHammerClip: {fileID: 8300000, guid: 909a88c7d77311b4d9a610739f7b38a2, type: 3}
 --- !u!114 &6402696198470065024
 MonoBehaviour:
   m_ObjectHideFlags: 0

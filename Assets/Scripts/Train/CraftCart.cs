@@ -94,7 +94,7 @@ public class CraftCart : Train, IInteractable
 
         rainIronAudioPlayer
             .Init()
-            .SetVolume(0.2f)
+            .SetVolume(0.1f)
             .SetClip(_rainIronClip)
             .SetPriority(50)
             .Play();
@@ -102,6 +102,7 @@ public class CraftCart : Train, IInteractable
 
         rainWoodAudioPlayer
             .Init()
+            .SetVolume(0.2f)
             .SetClip(_rainWoodClip)
             .SetPriority(50)
             .Play();

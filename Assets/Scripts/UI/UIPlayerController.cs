@@ -12,6 +12,7 @@ public class UIPlayerController : MonoBehaviour
     private const float BASE_MOVE_SPEED = 5f;
     private float _moveSpeed;
     private Vector3 _direction;
+    private AudioPlayer _walkAudioPlayer;
 
     private KeyCode _moveUp = KeyCode.W;
     private KeyCode _moveDown = KeyCode.S;
@@ -21,7 +22,7 @@ public class UIPlayerController : MonoBehaviour
     private bool _isPressedMoveKey => Input.GetKey(_moveUp) || Input.GetKey(_moveDown) || Input.GetKey(_moveLeft) || Input.GetKey(_moveRight);
 
     //---------------------
-    private void Awake() => Init();
+    private void Start() => Init();
 
     private void FixedUpdate()
     {
@@ -37,6 +38,7 @@ public class UIPlayerController : MonoBehaviour
     {
         _moveSpeed = BASE_MOVE_SPEED;
         _playerBody = GetComponent<Rigidbody>();
+        _walkAudioPlayer = AudioManager.Instance.Take();
     }
 
     private void ReadMove()
@@ -69,15 +71,13 @@ public class UIPlayerController : MonoBehaviour
 
     public void OnWalk()
     {
-        AudioPlayer walkAudioPlayer = AudioManager.Instance.Take();
-
-        walkAudioPlayer
+        _walkAudioPlayer
             .Init()
             .SetPriority(100)
             .SetClip(_walkSound)
             .SetLoop(false)
             .Play();
 
-        walkAudioPlayer.ReturnToPool();
+        _walkAudioPlayer.ReturnToPool();
     }
 }

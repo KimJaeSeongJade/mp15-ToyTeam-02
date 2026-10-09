@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -11,12 +12,41 @@ public class TitleSceneManager : MonoBehaviour
     private KeyCode _esc => KeyCode.Escape;
     [SerializeField] private GameObject _undoUI;
     [SerializeField] private GameObject _quitUI;
-    [SerializeField] private GameObject _settingUI;      
+    [SerializeField] private GameObject _settingUI;  
+    [SerializeField] private AudioClip _titleClip;
+    [SerializeField] private AudioClip _birdClip;
+
+    [SerializeField] private TextMeshProUGUI _highT;
+    [SerializeField] private TextMeshProUGUI _highS;
+
+
+    private PlayDataManager _pDataManager;
+
+    private float _highTime;
+    private int _highScore;
 
     //private bool _isSettingOpen;
 
     public Stack<(GameObject, GameObject)> StackUI = new ();
-    
+
+    private void Start()
+    {
+        _pDataManager = GetComponent<PlayDataManager>();
+        FindHighScore();
+        AudioPlayer titleAudioPlayer = AudioManager.Instance.Take();
+        titleAudioPlayer
+            .Init()
+            .SetClip(_titleClip)
+            .SetPriority(10)
+            .Play();
+        AudioPlayer titleBirdAudioPlayer = AudioManager.Instance.Take();
+        titleBirdAudioPlayer
+            .Init()
+            .SetClip(_birdClip)
+            .SetPriority(10)
+            .Play();
+    }  
+
     private void Update()
     {  
         if(StackUI.Count == 0)
@@ -34,6 +64,58 @@ public class TitleSceneManager : MonoBehaviour
         {
             CloseSetting();
         }
+    }
+
+    public void FindHighScore()
+    {
+        GameMode gm = GameManager.Instance.GMode;
+        GameDifficulty gd = GameManager.Instance.GDifficulty;
+        List<PlayData> playDList = null;
+
+        if (_pDataManager.LoadData() != null)
+            playDList = _pDataManager.LoadData().PlayDatas;
+
+        if (playDList == null)
+        {
+            _highScore = 0;
+            _highTime = 0;
+        }
+
+        else if(playDList != null)
+        {
+            _highScore = 0;
+            _highTime = 0;
+            for (int i =0;i<playDList.Count; i++)
+            {                
+                if (playDList[i].GameMode == gm && playDList[i].GameDifficulty == gd)
+                {
+                    if (playDList[i].TrainDistance > _highScore)
+                    {
+                        _highScore = playDList[i].TrainDistance;
+                        _highTime = playDList[i].PlayTime;
+                    }
+                    else if (playDList[i].TrainDistance == _highScore)
+                    {
+                        if (playDList[i].PlayTime < _highTime)
+                        {
+                            _highScore = playDList[i].TrainDistance;
+                            _highTime = playDList[i].PlayTime;
+                        }
+                        else if (playDList[i].PlayTime == _highTime)
+                        {
+                            continue;
+                        }
+                    }
+                }
+            }
+        }
+        RefreshText();
+    }
+
+    private void RefreshText()
+    {
+        _highT.GetComponent<TextNumChanger>().ChangeTimeNum(_highTime);
+        _highS.GetComponent<TextNumChanger>().ChangeScoreNum(_highScore);
     }
 
     // UI뒤로가기
@@ -69,16 +151,14 @@ public class TitleSceneManager : MonoBehaviour
             SceneManagerA.Instance._isPause = false;
             SceneManagerA.Instance.Continue();
             _settingUI.SetActive(false);
+            AudioPlayer titleAudioPlayer = AudioManager.Instance.Take();
+            titleAudioPlayer
+                .Stop();
+            AudioPlayer titleBirdAudioPlayer = AudioManager.Instance.Take();
+            titleBirdAudioPlayer
+                .Stop();
         }
     }
 
-    public void PlayerAdd()
-    {
-
-    }
-
-    public void PlayerDel()
-    {
-
-    }
+    
 }

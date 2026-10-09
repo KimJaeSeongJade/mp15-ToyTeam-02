@@ -7,10 +7,6 @@ public class LRGLevelUI : LRUI
     //[SerializeField] private GameObject[] _text;
     //private int _currntNum;
 
-    private float _easy;
-    private float _normal;
-    private float _hard;
-
     private void Awake()
     {
         Init();
@@ -23,10 +19,7 @@ public class LRGLevelUI : LRUI
 
     private void Init()
     {
-        _easy = 0.05f;
-        _normal = 0.075f;
-        _hard = 0.1f;
-        SetLevel(1);
+        SetLevel((int)GameDifficulty.Normal);
     }
 
     private void OnEnable()
@@ -53,20 +46,7 @@ public class LRGLevelUI : LRUI
 
     private void SetLevel(int num)
     {
-        switch (num)
-        {
-            case 0:
-                GameManager.Instance.SetTrainSpeed(_easy);
-                break;
-            case 1:
-                GameManager.Instance.SetTrainSpeed(_normal);
-                break;
-            case 2:
-                GameManager.Instance.SetTrainSpeed(_hard);
-                break;
-            default:
-                break;
-        }
+        GameManager.Instance.SetGameDifficulty((GameDifficulty)num);
     }
 
     private void RefreshUI()

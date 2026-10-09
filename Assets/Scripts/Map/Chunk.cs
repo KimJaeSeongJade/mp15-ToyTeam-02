@@ -145,6 +145,7 @@ public class Chunk : MonoBehaviour
         foreach (IPoolable poolable in _loadedPoolables)
         {
             poolable.ReturnToPool();
+            poolable.GameObject.SetActive(false);
         }
     }
 

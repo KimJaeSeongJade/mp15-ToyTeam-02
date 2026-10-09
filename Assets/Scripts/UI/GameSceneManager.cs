@@ -8,16 +8,18 @@ public class GameSceneManager : MonoBehaviour
 {
     public static GameSceneManager Instance;
 
+    [SerializeField] private PlayDataManager _playDataManager;
+    [SerializeField] private FilledBarUI _filledBarUI;
     [SerializeField] private LocomotiveCart _locomotiveCart;
     [SerializeField] private GameObject _pauseMenu;
     [SerializeField] private TextMeshProUGUI _trainSpeedUI;
     [SerializeField] private LoadSceneConnector _loadSceneConnector;
-    [SerializeField] private PlayDataManager _playDataManager;
 
     private KeyCode _pauseKey => KeyCode.Escape;
 
     public event Action OnGameEnd;
 
+    private bool _isGameStart = false;
     public bool IsGameEnd { get; private set; }
     public bool IsGameWin { get; private set; }
 
@@ -25,17 +27,19 @@ public class GameSceneManager : MonoBehaviour
     {
         SetSingleton();
         Init();
+      
     }
     private void Start()
     {
-        BindGameEvents();       
+        BindGameEvents();
+ 
     }
     private void OnDestroy() => UnbindGameEvents();
 
     private void Update()
     {
         
-        if(!SceneManagerA.Instance._isPause && Input.GetKeyDown(_pauseKey))
+        if(!SceneManagerA.Instance._isPause && Input.GetKeyDown(_pauseKey) && _isGameStart)
         {
             StartCoroutine(OpenPause());            
         }
@@ -98,14 +102,19 @@ public class GameSceneManager : MonoBehaviour
         _pauseMenu.SetActive(false);
     }
 
+    private void GameStart()
+    {
+        _isGameStart = true;
+    }
+
     private void GameOver()
     {
         IsGameWin = false;
         GameManager.Instance.SetIsGameWin(IsGameWin);
 
         TrySaveData();
-
         _loadSceneConnector.LoadEndScene();
+
     }
 
     private void GameClear()
@@ -122,11 +131,11 @@ public class GameSceneManager : MonoBehaviour
 
         GameManager.Instance.SetIsGameWin(IsGameWin);
         _loadSceneConnector.LoadEndScene();
+        
     }
-
     private void TrySaveData()
     {
-        if (GameManager.Instance.GMode == GameMode.Time || GameManager.Instance.GMode == GameMode.Infinite)
+        if (GameManager.Instance.GMode != GameMode.Tutorial)
         {
             if (SavePlayData())
             {
@@ -156,7 +165,7 @@ public class GameSceneManager : MonoBehaviour
 
                 if (playData.GameMode == GameManager.Instance.GMode)
                 {
-                    if (playData.TrainSpeed == GameManager.Instance.TrainSpeed)
+                    if (playData.GameDifficulty == GameManager.Instance.GDifficulty)
                     {
                         hasData = true;
                         if (playData.TrainDistance < GameManager.Instance.TrainDistance)
@@ -180,7 +189,7 @@ public class GameSceneManager : MonoBehaviour
                 isNewRecord = true;
                 playDataList.PlayDatas.Add(new PlayData(
                     GameManager.Instance.GMode,
-                    GameManager.Instance.TrainSpeed,
+                    GameManager.Instance.GDifficulty,
                     GameManager.Instance.TrainDistance,
                     GameManager.Instance.PlayTime
                 ));
@@ -192,7 +201,7 @@ public class GameSceneManager : MonoBehaviour
             playDataList = new();
             playDataList.PlayDatas.Add(new PlayData(
                     GameManager.Instance.GMode,
-                    GameManager.Instance.TrainSpeed,
+                    GameManager.Instance.GDifficulty,
                     GameManager.Instance.TrainDistance,
                     GameManager.Instance.PlayTime
                 ));
@@ -206,12 +215,14 @@ public class GameSceneManager : MonoBehaviour
 
     private void BindGameEvents()
     {
+        _filledBarUI.OnBarLoaded += GameStart;
         _locomotiveCart.OnTrainArrived += GameOver;
         RailManager.Instance.OnRailwayConnected += GameClear;
     }
 
     private void UnbindGameEvents()
     {
+        _filledBarUI.OnBarLoaded -= GameStart;
         _locomotiveCart.OnTrainArrived -= GameOver;
         RailManager.Instance.OnRailwayConnected -= GameClear;
     }

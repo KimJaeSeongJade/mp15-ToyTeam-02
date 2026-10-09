@@ -2,14 +2,14 @@
 public class PlayData
 {
     public GameMode GameMode;
-    public float TrainSpeed;
+    public GameDifficulty GameDifficulty;
     public int TrainDistance;
     public float PlayTime;
 
-    public PlayData(GameMode gameMode, float trainSpeed, int trainDistance, float playTime)
+    public PlayData(GameMode gameMode, GameDifficulty gameDifficulty, int trainDistance, float playTime)
     {
         GameMode = gameMode;
-        TrainSpeed = trainSpeed;
+        GameDifficulty = gameDifficulty;
         TrainDistance = trainDistance;
         PlayTime = playTime;
     }
