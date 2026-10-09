@@ -9,7 +9,7 @@ EditorBuildSettings:
     path: Assets/Scenes/DongWook/IntroScene.unity
     guid: 7e1d73bd965e04e4bb9b4db2328327d7
   - enabled: 1
-    path: Assets/Scenes/DongWook/TitleScene.unity
+    path: Assets/Scenes/DongWook/PrevTitleScene.unity
     guid: 58f9f5eaf5933ae40ae98ad18694df04
   - enabled: 1
     path: Assets/Scenes/YoungGyu/TutorialScene.unity

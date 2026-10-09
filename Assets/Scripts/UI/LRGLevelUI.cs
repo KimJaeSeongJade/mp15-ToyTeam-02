@@ -2,10 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class LRGLevelUI : MonoBehaviour
+public class LRGLevelUI : LRUI
 {
-    [SerializeField] private GameObject[] _text;
-    private int _currentNum;
+    //[SerializeField] private GameObject[] _text;
+    //private int _currntNum;
 
     private float _easy;
     private float _normal;
@@ -14,6 +14,11 @@ public class LRGLevelUI : MonoBehaviour
     private void Awake()
     {
         Init();
+    }
+
+    // 부모 Start 안받게 하기위한 선언
+    private void Start()
+    {       
     }
 
     private void Init()
@@ -26,23 +31,23 @@ public class LRGLevelUI : MonoBehaviour
 
     private void OnEnable()
     {
-        _currentNum = 1;
-        SetLevel(_currentNum);
+        _currntNum = 1;
+        SetLevel(_currntNum);
         RefreshUI();
     }
 
-    public void ChangePage(int value)
+    public override void ChangePage(int value)
     {
-        int next = _currentNum + value;
+        int next = _currntNum + value;
 
         if (next < 0 || next >= _text.Length)
         {
             return;
         }
 
-        _currentNum = next;
+        _currntNum = next;
 
-        SetLevel(_currentNum);
+        SetLevel(_currntNum);
         RefreshUI();
     }
 
@@ -68,7 +73,7 @@ public class LRGLevelUI : MonoBehaviour
     {
         for (int i = 0; i < _text.Length; i++)
         {
-            if (i == _currentNum)
+            if (i == _currntNum)
             {
                 _text[i].SetActive(true);
             }

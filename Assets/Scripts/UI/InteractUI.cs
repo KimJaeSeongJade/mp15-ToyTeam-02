@@ -7,21 +7,33 @@ using UnityEngine;
 /// </summary>
 public class InteractUI : UIBase
 {
+    [SerializeField] private AudioClip _audioClip;
     private KeyCode _interactKey => KeyCode.Space;
 
     // Collider에 올라왔는지 확인하는 bool
     private bool _isOnTrigger;
 
+    protected override void Awake()
+    {
+        base.Awake();
+        GetAudioFile();
+    }
+
     protected override void OnTriggerEnter(Collider other)
     {
-        
-        AudioPlayer UIAudioPlayer = AudioManager.Instance.Take();
-        
-
-        
         base.OnTriggerEnter(other);
         if (other.gameObject.layer == 6)
         {
+            if (_audioClip)
+            {
+                AudioPlayer UIAudioPlayer = AudioManager.Instance.Take();
+
+                UIAudioPlayer
+                    .Init()
+                    .SetClip(_audioClip)
+                    .SetLoop(false)
+                    .Play();
+            }
             _isOnTrigger = true;
         }
     }
@@ -46,6 +58,14 @@ public class InteractUI : UIBase
         if (Input.GetKeyDown(_interactKey) && _isOnTrigger)
         {
             PlayUI();
+        }
+    }
+
+    private void GetAudioFile()
+    {
+        if (TryGetComponent<SaveAudioFile>(out SaveAudioFile _saveAudioFile))
+        {
+            _audioClip = _saveAudioFile._audioClip[0];
         }
     }
 
