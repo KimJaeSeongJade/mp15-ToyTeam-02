@@ -51,14 +51,16 @@ public class GameManager : MonoBehaviour
         Init();
     }
 
-    //private void Start()
-    //{
-    //    SetTrainSpeed(TrainSpeed);
-    //}
+//    private void Start()
+//    {
+//#if !UNITY_EDITOR && UNITY_WEBGL
+//        WebGLInput.stickyCursorLock = false;
+//#endif
+//    }
 
 
     private void Update()
-    {
+    {         
         // 게임씬이고 게임 진행중일 때
         if (SceneManager.GetActiveScene().buildIndex == 4 && !IsPaused && _isPlaying)
         {
@@ -118,7 +120,14 @@ public class GameManager : MonoBehaviour
     {
         IsPause(false);
         TrainSpeed = 0.1f;
+        //CursorLock();
     }
+
+    //private void CursorLock()
+    //{
+    //    Cursor.visible = false;
+    //    Cursor.lockState = CursorLockMode.Locked;
+    //}
 
     private void SetSingleton()
     {
