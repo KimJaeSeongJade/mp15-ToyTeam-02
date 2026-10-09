@@ -8,6 +8,7 @@ public class GameSceneManager : MonoBehaviour
 {
     public static GameSceneManager Instance;
 
+    [SerializeField] private FilledBarUI _filledBarUI;
     [SerializeField] private LocomotiveCart _locomotiveCart;
     [SerializeField] private GameObject _pauseMenu;
     [SerializeField] private TextMeshProUGUI _trainSpeedUI;
@@ -17,6 +18,7 @@ public class GameSceneManager : MonoBehaviour
 
     public event Action OnGameEnd;
 
+    private bool _isGameStart = false;
     public bool IsGameEnd { get; private set; }
     public bool IsGameWin { get; private set; }
 
@@ -36,7 +38,7 @@ public class GameSceneManager : MonoBehaviour
     private void Update()
     {
         
-        if(!SceneManagerA.Instance._isPause && Input.GetKeyDown(_pauseKey))
+        if(!SceneManagerA.Instance._isPause && Input.GetKeyDown(_pauseKey) && _isGameStart)
         {
             StartCoroutine(OpenPause());            
         }
@@ -99,6 +101,11 @@ public class GameSceneManager : MonoBehaviour
         _pauseMenu.SetActive(false);
     }
 
+    private void GameStart()
+    {
+        _isGameStart = true;
+    }
+
     private void GameOver()
     {
         IsGameWin = false;
@@ -124,12 +131,14 @@ public class GameSceneManager : MonoBehaviour
 
     private void BindGameEvents()
     {
+        _filledBarUI.OnBarLoaded += GameStart;
         _locomotiveCart.OnTrainArrived += GameOver;
         RailManager.Instance.OnRailwayConnected += GameClear;
     }
 
     private void UnbindGameEvents()
     {
+        _filledBarUI.OnBarLoaded -= GameStart;
         _locomotiveCart.OnTrainArrived -= GameOver;
         RailManager.Instance.OnRailwayConnected -= GameClear;
     }
