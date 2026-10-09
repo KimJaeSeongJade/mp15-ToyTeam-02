@@ -70,12 +70,10 @@ public class TitleSceneManager : MonoBehaviour
     {
         GameMode gm = GameManager.Instance.GMode;
         GameDifficulty gd = GameManager.Instance.GDifficulty;
-        List<PlayData> playDList = _pDataManager.LoadData().PlayDatas;
+        List<PlayData> playDList = null;
 
-        for (int i = 0; i < playDList.Count; i++)
-        {
-            Debug.Log($"{playDList[i].GameMode} : {playDList[i].GameDifficulty} : {playDList[i].PlayTime} : {playDList[i].TrainDistance}");
-        }
+        if (_pDataManager.LoadData() != null)
+            playDList = _pDataManager.LoadData().PlayDatas;
 
         if (playDList == null)
         {
