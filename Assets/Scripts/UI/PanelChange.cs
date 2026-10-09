@@ -23,5 +23,6 @@ public class PanelChange : InteractUI
         _NextPanel.SetActive(true);
         _currentPanel.SetActive(false);
         _titleSceneManager.StackUI.Push((_currentPanel, _NextPanel));
+        _titleSceneManager.FindHighScore();
     }    
 }
