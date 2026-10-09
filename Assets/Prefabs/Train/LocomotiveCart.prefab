@@ -51,8 +51,8 @@ MonoBehaviour:
   _splineAnimate: {fileID: 8952186944878104725}
   _offsetRate: 6
   _locomotiveCartOffsetRate: 6
-  _locomotiveClip: {fileID: 8300000, guid: 6ed0afef52661874382311445be6e4d9, type: 3}
-  _locomotiveHontClip: {fileID: 8300000, guid: ff5285dc0c7f3e04293a5c870b11b5a5, type: 3}
+  _locomotiveClip: {fileID: 8300000, guid: 62b7236b1a0a7e44f8aa996edc0f1d94, type: 3}
+  _locomotiveHontClip: {fileID: 8300000, guid: 5d1e9bd54dc488448b4bdfc99c689656, type: 3}
   _rainIronClip: {fileID: 8300000, guid: b839fbef02555674ea0ad99f2d1bb510, type: 3}
   _rainWoodClip: {fileID: 8300000, guid: 949ed6a99db155d47ad6e1e5347bb6ad, type: 3}
   _rainHammerClip: {fileID: 8300000, guid: 909a88c7d77311b4d9a610739f7b38a2, type: 3}
@@ -122,19 +122,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: fdc82733ba6b1114c9410c20281f42fa, type: 3}
       propertyPath: m_LocalRotation.w
-      value: -0.007348394
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: fdc82733ba6b1114c9410c20281f42fa, type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: fdc82733ba6b1114c9410c20281f42fa, type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0.99997306
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: fdc82733ba6b1114c9410c20281f42fa, type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: fdc82733ba6b1114c9410c20281f42fa, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -142,7 +142,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: fdc82733ba6b1114c9410c20281f42fa, type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
-      value: 180.842
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: fdc82733ba6b1114c9410c20281f42fa, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z

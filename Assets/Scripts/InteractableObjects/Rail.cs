@@ -259,11 +259,7 @@ public class Rail : MonoBehaviour, IInteractable, IStackable, IPoolable
     /// RailManager의 계산 결과에 따라 레일의 프리팹(직선 or 곡선 모양) 및 회전 각도를 변경
     /// </summary>
     /// <param name="railShape">설정할 레일 모양 Enum</param>
-
-    /// <summary>
-    /// 연결된 railway에 맞도록 레일의 모양 변경
-    /// </summary>
-    /// <param name="railShape"></param>
+    
     public void ChangeRailShape(RailShape railShape)
     {
         
@@ -277,7 +273,7 @@ public class Rail : MonoBehaviour, IInteractable, IStackable, IPoolable
                 _curveRailPrefab.SetActive(false);
                 _lineRailPrefabBottom.transform.rotation = Quaternion.identity;
                 break;
-            // 2.1 가로 방향의 직선 레일 모양 만들기
+            // 1,2 가로 방향의 직선 레일 모양 만들기
             case RailShape.HorizontalLine:
                 _lineRailPrefabBottom.SetActive(true);
                 _curveRailPrefab.SetActive(false);
