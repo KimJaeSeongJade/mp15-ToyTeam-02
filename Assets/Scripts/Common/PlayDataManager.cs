@@ -7,7 +7,6 @@ public class PlayDataManager : MonoBehaviour
 {
     public void SaveData(PlayDataList playDataList)
     {
-        Debug.Log("PlayDataSaved");
         string path = Application.persistentDataPath + "/playdata.json";
         string json = JsonUtility.ToJson(playDataList, true);
         File.WriteAllText(path, json);
@@ -15,7 +14,6 @@ public class PlayDataManager : MonoBehaviour
 
     public PlayDataList LoadData()
     {   
-        Debug.Log("PlayDataLoaded");
         string path = Application.persistentDataPath + "/playdata.json";
 
         PlayDataList playDataList = null;

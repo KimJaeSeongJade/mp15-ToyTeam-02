@@ -43,7 +43,7 @@ public class WaveFunction : MonoBehaviour
     /// </summary>
     public void StartWaveFunctionCollapse(int chunkIndex, GameMode gameMode)
     {
-        Debug.Log("WaveFunctionCollapse started");
+        // Debug.Log("WaveFunctionCollapse started");
         int[,] sampleMapData = _mapLoader.Map;
         _chunkIndex = chunkIndex;
         _gameMode = gameMode;
@@ -112,7 +112,7 @@ public class WaveFunction : MonoBehaviour
         }
         else
         {
-            Debug.Log(_chunkIndex);
+            // Debug.Log(_chunkIndex);
             _previousMap = _chunkManager.Chunks[_chunkIndex - 1].ChunkMap;
             Iterations = 0;
         }
@@ -335,7 +335,7 @@ public class WaveFunction : MonoBehaviour
         }
         else
         {
-            Debug.Log("WaveFunctionCollapse Finished");
+            // Debug.Log("WaveFunctionCollapse Finished");
             OnWaveFunctionEnd?.Invoke(GetGeneratedMapData());
         }
     }

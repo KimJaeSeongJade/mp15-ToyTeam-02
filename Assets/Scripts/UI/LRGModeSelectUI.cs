@@ -26,7 +26,6 @@ public class LRGModeSelectUI : MonoBehaviour
         _currentNum = next;
 
         SetMode(_currentNum);
-        Debug.Log(GameManager.Instance.GMode);
         RefreshUI();
     }
 
@@ -41,7 +40,7 @@ public class LRGModeSelectUI : MonoBehaviour
                 GameManager.Instance.SetGameMode(GameMode.Quick);
                 break;
             case 2:
-                GameManager.Instance.SetGameMode(GameMode.Test);
+                GameManager.Instance.SetGameMode(GameMode.Time);
                 break;
             default:
                 break;
