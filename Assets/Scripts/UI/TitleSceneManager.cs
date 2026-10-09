@@ -11,11 +11,29 @@ public class TitleSceneManager : MonoBehaviour
     private KeyCode _esc => KeyCode.Escape;
     [SerializeField] private GameObject _undoUI;
     [SerializeField] private GameObject _quitUI;
-    [SerializeField] private GameObject _settingUI;      
+    [SerializeField] private GameObject _settingUI;  
+    [SerializeField] private AudioClip _titleClip;
+    [SerializeField] private AudioClip _birdClip;
 
     //private bool _isSettingOpen;
 
     public Stack<(GameObject, GameObject)> StackUI = new ();
+
+    private void Start()
+    {
+        AudioPlayer titleAudioPlayer = AudioManager.Instance.Take();
+        titleAudioPlayer
+            .Init()
+            .SetClip(_titleClip)
+            .SetPriority(10)
+            .Play();
+        AudioPlayer titleBirdAudioPlayer = AudioManager.Instance.Take();
+        titleBirdAudioPlayer
+            .Init()
+            .SetClip(_birdClip)
+            .SetPriority(10)
+            .Play();
+    }
     
     private void Update()
     {  
@@ -69,6 +87,12 @@ public class TitleSceneManager : MonoBehaviour
             SceneManagerA.Instance._isPause = false;
             SceneManagerA.Instance.Continue();
             _settingUI.SetActive(false);
+            AudioPlayer titleAudioPlayer = AudioManager.Instance.Take();
+            titleAudioPlayer
+                .Stop();
+            AudioPlayer titleBirdAudioPlayer = AudioManager.Instance.Take();
+            titleBirdAudioPlayer
+                .Stop();
         }
     }
 

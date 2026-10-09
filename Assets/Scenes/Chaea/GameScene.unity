@@ -1985,7 +1985,6 @@ MonoBehaviour:
   _pauseMenu: {fileID: 1441181052}
   _trainSpeedUI: {fileID: 492912490}
   _loadSceneConnector: {fileID: 325842377}
-  _playDataManager: {fileID: 535811989}
 --- !u!4 &325842376
 Transform:
   m_ObjectHideFlags: 0
@@ -2578,29 +2577,9 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2607123211334316190, guid: 806845fe282837243bbbba6fa121578b, type: 3}
-      propertyPath: _rainIronClip
-      value: 
-      objectReference: {fileID: 8300000, guid: 7f8996c633fb0d849892f348b940f310, type: 3}
-    - target: {fileID: 2607123211334316190, guid: 806845fe282837243bbbba6fa121578b, type: 3}
-      propertyPath: _rainWoodClip
-      value: 
-      objectReference: {fileID: 8300000, guid: c07536a6591fc5e4c9e3411da9e94350, type: 3}
-    - target: {fileID: 2607123211334316190, guid: 806845fe282837243bbbba6fa121578b, type: 3}
       propertyPath: _splineManager
       value: 
       objectReference: {fileID: 130247684}
-    - target: {fileID: 2607123211334316190, guid: 806845fe282837243bbbba6fa121578b, type: 3}
-      propertyPath: _locomotiveClip
-      value: 
-      objectReference: {fileID: 8300000, guid: e253465b3a6450a48b972d8d3db7055d, type: 3}
-    - target: {fileID: 2607123211334316190, guid: 806845fe282837243bbbba6fa121578b, type: 3}
-      propertyPath: _rainHammerClip
-      value: 
-      objectReference: {fileID: 8300000, guid: 179321e585114054cb93821a3db6934b, type: 3}
-    - target: {fileID: 2607123211334316190, guid: 806845fe282837243bbbba6fa121578b, type: 3}
-      propertyPath: _locomotiveHontClip
-      value: 
-      objectReference: {fileID: 8300000, guid: a142c8881a0df694da287115b792542b, type: 3}
     - target: {fileID: 4801280456084019704, guid: 806845fe282837243bbbba6fa121578b, type: 3}
       propertyPath: m_Name
       value: EngineCart
@@ -4365,33 +4344,13 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 130247685}
     - target: {fileID: 5748123833252116884, guid: be303c68ac4519843b28a366df901aa7, type: 3}
-      propertyPath: _rainIronClip
-      value: 
-      objectReference: {fileID: 8300000, guid: 7f8996c633fb0d849892f348b940f310, type: 3}
-    - target: {fileID: 5748123833252116884, guid: be303c68ac4519843b28a366df901aa7, type: 3}
-      propertyPath: _rainWoodClip
-      value: 
-      objectReference: {fileID: 8300000, guid: c07536a6591fc5e4c9e3411da9e94350, type: 3}
-    - target: {fileID: 5748123833252116884, guid: be303c68ac4519843b28a366df901aa7, type: 3}
       propertyPath: _splineManager
       value: 
       objectReference: {fileID: 130247684}
     - target: {fileID: 5748123833252116884, guid: be303c68ac4519843b28a366df901aa7, type: 3}
-      propertyPath: _locomotiveClip
-      value: 
-      objectReference: {fileID: 8300000, guid: e253465b3a6450a48b972d8d3db7055d, type: 3}
-    - target: {fileID: 5748123833252116884, guid: be303c68ac4519843b28a366df901aa7, type: 3}
-      propertyPath: _rainHammerClip
-      value: 
-      objectReference: {fileID: 8300000, guid: 179321e585114054cb93821a3db6934b, type: 3}
-    - target: {fileID: 5748123833252116884, guid: be303c68ac4519843b28a366df901aa7, type: 3}
       propertyPath: targetCargoCart
       value: 
       objectReference: {fileID: 1141553945}
-    - target: {fileID: 5748123833252116884, guid: be303c68ac4519843b28a366df901aa7, type: 3}
-      propertyPath: _locomotiveHontClip
-      value: 
-      objectReference: {fileID: 8300000, guid: a142c8881a0df694da287115b792542b, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -4539,29 +4498,9 @@ PrefabInstance:
       value: LocomotiveCart
       objectReference: {fileID: 0}
     - target: {fileID: 1257369285723835655, guid: af4fc58f54beefe49b4b149decbbead1, type: 3}
-      propertyPath: _rainIronClip
-      value: 
-      objectReference: {fileID: 8300000, guid: 7f8996c633fb0d849892f348b940f310, type: 3}
-    - target: {fileID: 1257369285723835655, guid: af4fc58f54beefe49b4b149decbbead1, type: 3}
-      propertyPath: _rainWoodClip
-      value: 
-      objectReference: {fileID: 8300000, guid: c07536a6591fc5e4c9e3411da9e94350, type: 3}
-    - target: {fileID: 1257369285723835655, guid: af4fc58f54beefe49b4b149decbbead1, type: 3}
       propertyPath: _splineManager
       value: 
       objectReference: {fileID: 130247684}
-    - target: {fileID: 1257369285723835655, guid: af4fc58f54beefe49b4b149decbbead1, type: 3}
-      propertyPath: _locomotiveClip
-      value: 
-      objectReference: {fileID: 8300000, guid: e253465b3a6450a48b972d8d3db7055d, type: 3}
-    - target: {fileID: 1257369285723835655, guid: af4fc58f54beefe49b4b149decbbead1, type: 3}
-      propertyPath: _rainHammerClip
-      value: 
-      objectReference: {fileID: 8300000, guid: 179321e585114054cb93821a3db6934b, type: 3}
-    - target: {fileID: 1257369285723835655, guid: af4fc58f54beefe49b4b149decbbead1, type: 3}
-      propertyPath: _locomotiveHontClip
-      value: 
-      objectReference: {fileID: 8300000, guid: a142c8881a0df694da287115b792542b, type: 3}
     - target: {fileID: 3112271626309469024, guid: af4fc58f54beefe49b4b149decbbead1, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -5990,33 +5929,13 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 130247685}
     - target: {fileID: 8428799586173725068, guid: 0a337133de3acc84ba0374c331784891, type: 3}
-      propertyPath: _rainIronClip
-      value: 
-      objectReference: {fileID: 8300000, guid: 7f8996c633fb0d849892f348b940f310, type: 3}
-    - target: {fileID: 8428799586173725068, guid: 0a337133de3acc84ba0374c331784891, type: 3}
-      propertyPath: _rainWoodClip
-      value: 
-      objectReference: {fileID: 8300000, guid: c07536a6591fc5e4c9e3411da9e94350, type: 3}
-    - target: {fileID: 8428799586173725068, guid: 0a337133de3acc84ba0374c331784891, type: 3}
       propertyPath: _splineManager
       value: 
       objectReference: {fileID: 130247684}
     - target: {fileID: 8428799586173725068, guid: 0a337133de3acc84ba0374c331784891, type: 3}
-      propertyPath: _locomotiveClip
-      value: 
-      objectReference: {fileID: 8300000, guid: e253465b3a6450a48b972d8d3db7055d, type: 3}
-    - target: {fileID: 8428799586173725068, guid: 0a337133de3acc84ba0374c331784891, type: 3}
-      propertyPath: _rainHammerClip
-      value: 
-      objectReference: {fileID: 8300000, guid: 179321e585114054cb93821a3db6934b, type: 3}
-    - target: {fileID: 8428799586173725068, guid: 0a337133de3acc84ba0374c331784891, type: 3}
       propertyPath: targetCraftCart
       value: 
       objectReference: {fileID: 690327866}
-    - target: {fileID: 8428799586173725068, guid: 0a337133de3acc84ba0374c331784891, type: 3}
-      propertyPath: _locomotiveHontClip
-      value: 
-      objectReference: {fileID: 8300000, guid: a142c8881a0df694da287115b792542b, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
