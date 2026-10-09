@@ -1981,6 +1981,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d14fc35c12f797b40a87176d3a5ba024, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _playDataManager: {fileID: 535811989}
   _filledBarUI: {fileID: 356166747}
   _locomotiveCart: {fileID: 700653273}
   _pauseMenu: {fileID: 1441181052}
