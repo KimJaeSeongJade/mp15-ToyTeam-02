@@ -26,7 +26,7 @@ public class MoveGuideUI : MonoBehaviour
     private IEnumerator CloseUI()
     {
         _isFade = true;
-        yield return new WaitForSeconds(2f);
+        yield return new WaitForSeconds(1.5f);
         _canvas.DOFade(0, 1.5f);
     }    
 }

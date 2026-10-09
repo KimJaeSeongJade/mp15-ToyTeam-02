@@ -63,6 +63,7 @@ public class GameManager : MonoBehaviour
         if (SceneManager.GetActiveScene().buildIndex == 4 && !IsPaused && _isPlaying)
         {
             PlayTime += Time.deltaTime;
+            Debug.Log($"{PlayTime} / {TrainDistance}");
         }
     } 
     

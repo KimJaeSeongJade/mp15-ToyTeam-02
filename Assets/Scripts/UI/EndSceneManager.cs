@@ -10,7 +10,11 @@ public class EndSceneManager : MonoBehaviour
     [SerializeField] private GameObject _clearObj;
     [SerializeField] private GameObject _overObj;
 
+    [SerializeField] private TextMeshProUGUI _playTimeUI;
+    [SerializeField] private TextMeshProUGUI _scoreUI;
+
     private bool _isGameWin;
+    private bool _isGameWinUI;
 
     private void Awake()
     {
@@ -20,11 +24,28 @@ public class EndSceneManager : MonoBehaviour
     private void Start()
     {
         SetGameEndScene();
+        SetPlayTime();
+        SetScore();
     }
 
     private void Init()
     {
         _isGameWin = GameManager.Instance.IsGameWin;
+        
+    }
+
+    private void SetPlayTime()
+    {
+        float time = GameManager.Instance.PlayTime;
+        Debug.Log(time);
+        _playTimeUI.GetComponent<TextNumChanger>().ChangeTimeNum(time);
+    }
+
+    private void SetScore()
+    {
+        float score = GameManager.Instance.TrainDistance;
+        Debug.Log(score);
+        _scoreUI.GetComponent<TextNumChanger>().ChangeScoreNum(score);
     }
 
 
