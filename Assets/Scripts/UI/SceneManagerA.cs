@@ -77,7 +77,7 @@ public class SceneManagerA : MonoBehaviour
     {
         FadeEffect.Instance.FadeOut();
         ResetScene();
-        GameManager.Instance.ResetPlayTime();
+        //GameManager.Instance.ResetPlayTime();
         SceneManager.LoadScene(3);
         FadeEffect.Instance.FadeIn();
     }
