@@ -4457,8 +4457,8 @@ MonoBehaviour:
   _undoUI: {fileID: 282641357}
   _quitUI: {fileID: 2038469987}
   _settingUI: {fileID: 739022945}
-  _titleClip: {fileID: 8300000, guid: cada1ba089a7e864cae63146bff1433c, type: 3}
-  _birdClip: {fileID: 8300000, guid: 86d40aae7a2005c43a2de49d692a3649, type: 3}
+  _titleClip: {fileID: 0}
+  _birdClip: {fileID: 0}
   _highT: {fileID: 1160115986}
   _highS: {fileID: 185449643}
 --- !u!4 &265411021

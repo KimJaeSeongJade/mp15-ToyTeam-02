@@ -3,14 +3,7 @@ guid: 2c08fc4c31859c848b1afeb9db3a9fb6
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
-  defaultReferences:
-  - _splineManager: {instanceID: 0}
-  - _splineAnimate: {instanceID: 0}
-  - _locomotiveClip: {instanceID: 0}
-  - _locomotiveHontClip: {instanceID: 0}
-  - _rainIronClip: {instanceID: 0}
-  - _rainWoodClip: {instanceID: 0}
-  - _rainHammerClip: {instanceID: 0}
+  defaultReferences: []
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 
