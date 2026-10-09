@@ -6141,6 +6141,8 @@ MonoBehaviour:
   - {fileID: 1584835816}
   - {fileID: 425535287}
   _playerRigidBody: {fileID: 669603181}
+  _playerAction: {fileID: 669603179}
+  _playerController: {fileID: 669603176}
 --- !u!4 &1100862223
 Transform:
   m_ObjectHideFlags: 0
