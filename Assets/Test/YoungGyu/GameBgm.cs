@@ -8,7 +8,6 @@ public class GameBgm : MonoBehaviour
     [SerializeField] private AudioClip _gameBgmClip;
     [SerializeField] private FilledBarUI _barUI;
 
-    public event Action OnBarLoaded;
     private void Start()
     {
 
@@ -26,7 +25,7 @@ public class GameBgm : MonoBehaviour
 
     private void OnDestroy()
     {
-        if (_barUI != null)
+        if (_gameBgmClip != null)
         {
             _barUI.OnBarLoaded -= playBgm;
         }

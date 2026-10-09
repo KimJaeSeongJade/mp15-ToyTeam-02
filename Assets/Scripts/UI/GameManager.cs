@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Net.NetworkInformation;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using System;
 
 /// <summary>
 /// Game관리 Singleton Manager
@@ -10,6 +11,9 @@ using UnityEngine.SceneManagement;
 public class GameManager : MonoBehaviour
 {
     private static GameManager _instance;
+    
+    public event Action<bool> OnGameOver;
+        
     public static GameManager Instance 
     { 
         get 
@@ -80,6 +84,7 @@ public class GameManager : MonoBehaviour
     {
         IsGameWin = value;
         _isPlaying = false;
+        OnGameOver?.Invoke(value);
     }
 
     // 플레이 시간 리셋
