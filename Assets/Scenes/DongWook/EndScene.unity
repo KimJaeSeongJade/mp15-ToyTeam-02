@@ -14435,6 +14435,8 @@ MonoBehaviour:
   _newRecordUI: {fileID: 1342164410}
   _playTimeUI: {fileID: 1017441291}
   _scoreUI: {fileID: 595397411}
+  _gameOverClip: {fileID: 0}
+  _gameClearClip: {fileID: 0}
 --- !u!4 &1645206689
 Transform:
   m_ObjectHideFlags: 0
@@ -18714,8 +18716,8 @@ Camera:
   m_GameObject: {fileID: 2134374222}
   m_Enabled: 1
   serializedVersion: 2
-  m_ClearFlags: 1
-  m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0}
+  m_ClearFlags: 2
+  m_BackGroundColor: {r: 0.254717, g: 0.254717, b: 0.254717, a: 0}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
   m_FOVAxisMode: 0
