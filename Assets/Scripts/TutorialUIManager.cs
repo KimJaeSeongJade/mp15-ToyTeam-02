@@ -158,6 +158,7 @@ public class TutorialUIManager : MonoBehaviour
     public void OnClickGoToMainMenu()
     {
         // SceneManagerA.Instance.LoadTitleScene();
+        Time.timeScale = 1f;
         SceneManager.LoadScene(1);
     }
 
