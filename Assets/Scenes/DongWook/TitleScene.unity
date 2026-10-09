@@ -4457,8 +4457,8 @@ MonoBehaviour:
   _undoUI: {fileID: 282641357}
   _quitUI: {fileID: 2038469987}
   _settingUI: {fileID: 739022945}
-  _titleClip: {fileID: 0}
-  _birdClip: {fileID: 0}
+  _titleClip: {fileID: 8300000, guid: cada1ba089a7e864cae63146bff1433c, type: 3}
+  _birdClip: {fileID: 8300000, guid: 86d40aae7a2005c43a2de49d692a3649, type: 3}
   _highT: {fileID: 1160115986}
   _highS: {fileID: 185449643}
 --- !u!4 &265411021
@@ -8333,9 +8333,13 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1076421355}
     - target: {fileID: 2819223673311614577, guid: ae21aa4947644a544bcf3a3609c629d8, type: 3}
+      propertyPath: _walkSound
+      value: 
+      objectReference: {fileID: 8300000, guid: 08569ca3fd6f997479a0b50fcd850c3d, type: 3}
+    - target: {fileID: 2819223673311614577, guid: ae21aa4947644a544bcf3a3609c629d8, type: 3}
       propertyPath: _playerBody
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 389546055}
     - target: {fileID: 4643136718547891161, guid: ae21aa4947644a544bcf3a3609c629d8, type: 3}
       propertyPath: m_Name
       value: UIPlayer
@@ -8400,6 +8404,11 @@ PrefabInstance:
       addedObject: {fileID: 1425364456}
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ae21aa4947644a544bcf3a3609c629d8, type: 3}
+--- !u!54 &389546055 stripped
+Rigidbody:
+  m_CorrespondingSourceObject: {fileID: 8857709797366645412, guid: ae21aa4947644a544bcf3a3609c629d8, type: 3}
+  m_PrefabInstance: {fileID: 389546054}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &389566552
 GameObject:
   m_ObjectHideFlags: 0
@@ -14418,7 +14427,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 404033cb4c0c71641976769eae2dbfaf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _prevMenu: {fileID: 0}
+  _prevMenu: {fileID: 739022950}
   _panel:
   - {fileID: 595190581}
   - {fileID: 2050788394}
