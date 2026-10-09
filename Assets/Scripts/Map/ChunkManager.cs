@@ -14,15 +14,17 @@ public class ChunkManager : MonoBehaviour
     [SerializeField] private WaveFunction _waveFunction;
     [SerializeField] private Transform _targetTransform; // 청크 스트리밍 기준 타켓의 transform
     [SerializeField] private Chunk _chunkPrefab;
-    [SerializeField] private GameObject _invisibleWallPrefab;
+    [SerializeField] private GameObject _invisibleHorizontalWallPrefab;
+    [SerializeField] private GameObject _invisibleVerticalWallLeft;
+    [SerializeField] private GameObject _invisibleVerticalWallRight;
     [SerializeField] private MapLoader _mapLoader;
     [SerializeField] private SplineManager _splineManager;
     [SerializeField] private UnityEngine.Material _material;
     [SerializeField] private float _textureSize = 32f;
     [SerializeField] private int _atlasSize = 4;
 
-    private Queue<GameObject> _invisibleWallPool = new();
-    private Queue<GameObject> _loadedInvisibleWalls = new();
+    private Queue<GameObject> _invisibleHorizontalWallPool = new();
+    private Queue<GameObject> _loadedInvisibleHorizontalWalls = new();
     private Dictionary<int, Chunk> _chunks = new();
     private Queue<Chunk> _chunkPool = new();
     private Queue<Chunk> _loadedChunks = new();
@@ -65,6 +67,7 @@ public class ChunkManager : MonoBehaviour
 
         StartCoroutine(LoadChunkRoutine(currentChunkIndex + RENDER_DISTANCE));
         LoadInvisibleWall(currentChunkIndex + RENDER_DISTANCE);
+        SetInvisibleVerticalWalls(currentChunkIndex);
     }
 
     private int GetChunkIndex(Vector3 position)
@@ -123,10 +126,10 @@ public class ChunkManager : MonoBehaviour
 
     private void LoadInvisibleWall(int chunkIndex)
     {
-        if (_invisibleWallPool.Count == 0) return;
+        if (_invisibleHorizontalWallPool.Count == 0) return;
 
-        GameObject invisibleWallTop = _invisibleWallPool.Dequeue();
-        GameObject invisibleWallBottom = _invisibleWallPool.Dequeue();
+        GameObject invisibleWallTop = _invisibleHorizontalWallPool.Dequeue();
+        GameObject invisibleWallBottom = _invisibleHorizontalWallPool.Dequeue();
 
         invisibleWallTop.transform.position = new Vector3(chunkIndex * CHUNK_SIZE, 0f, -1f);
         invisibleWallBottom.transform.position = new Vector3(chunkIndex * CHUNK_SIZE, 0f, 20f);
@@ -135,8 +138,8 @@ public class ChunkManager : MonoBehaviour
         invisibleWallTop.SetActive(true);
         invisibleWallBottom.SetActive(true);
 
-        _loadedInvisibleWalls.Enqueue(invisibleWallTop);
-        _loadedInvisibleWalls.Enqueue(invisibleWallBottom);
+        _loadedInvisibleHorizontalWalls.Enqueue(invisibleWallTop);
+        _loadedInvisibleHorizontalWalls.Enqueue(invisibleWallBottom);
     }
 
     private void RemoveOldestChunk()
@@ -154,16 +157,16 @@ public class ChunkManager : MonoBehaviour
 
     private void RemoveOldestInvisibleWalls()
     {
-        if (_loadedInvisibleWalls.Count == 0) return;
+        if (_loadedInvisibleHorizontalWalls.Count == 0) return;
 
-        GameObject invisibleWallTop = _loadedInvisibleWalls.Dequeue();
-        GameObject invisibleWallBottom = _loadedInvisibleWalls.Dequeue();
+        GameObject invisibleWallTop = _loadedInvisibleHorizontalWalls.Dequeue();
+        GameObject invisibleWallBottom = _loadedInvisibleHorizontalWalls.Dequeue();
 
         invisibleWallTop.SetActive(false);
         invisibleWallBottom.SetActive(false);
 
-        _invisibleWallPool.Enqueue(invisibleWallTop);
-        _invisibleWallPool.Enqueue(invisibleWallBottom);
+        _invisibleHorizontalWallPool.Enqueue(invisibleWallTop);
+        _invisibleHorizontalWallPool.Enqueue(invisibleWallBottom);
     }
 
     private IEnumerator InitialLoad()
@@ -199,11 +202,11 @@ public class ChunkManager : MonoBehaviour
     {
         for (int i = 0; i < _chunkPool.Count * 2; i++)
         {
-            GameObject invisibleWall = Instantiate(_invisibleWallPrefab, transform);
+            GameObject invisibleHorizontalWall = Instantiate(_invisibleHorizontalWallPrefab, transform);
 
-            invisibleWall.gameObject.SetActive(false);
+            invisibleHorizontalWall.gameObject.SetActive(false);
 
-            _invisibleWallPool.Enqueue(invisibleWall);
+            _invisibleHorizontalWallPool.Enqueue(invisibleHorizontalWall);
         }
     }
 
@@ -233,6 +236,13 @@ public class ChunkManager : MonoBehaviour
     public Chunk GetChunk(Vector2Int coord)
     {
         return _chunks[coord.x / CHUNK_SIZE];
+    }
+
+    private void SetInvisibleVerticalWalls(int targetChunkIndex)
+    {
+        if (_invisibleVerticalWallLeft == null || _invisibleVerticalWallRight == null) return;
+        _invisibleVerticalWallLeft.transform.position = new Vector3((targetChunkIndex - RENDER_DISTANCE) * CHUNK_SIZE, 0f, 0f);
+        _invisibleVerticalWallRight.transform.position = new Vector3((targetChunkIndex + RENDER_DISTANCE) * CHUNK_SIZE, 0f, 0f);
     }
 
     private void OnWaveFunctionEnd(int[,] chunkMap)
