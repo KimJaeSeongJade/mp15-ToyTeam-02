@@ -334,8 +334,8 @@ public class RailManager : MonoBehaviour
         if (coord.x == _endRailCoord.x && Mathf.Abs(coord.y - _endRailCoord.y) == 1 ||
             coord.y == _endRailCoord.y && Mathf.Abs(coord.x - _endRailCoord.x) == 1)
         {
-            OnRailwayConnected?.Invoke();
             SetTrainDistance(true);
+            OnRailwayConnected?.Invoke();
 
             foreach (Vector2Int endRailCoord in _endRails)
             {

@@ -42,7 +42,7 @@ public class GameManager : MonoBehaviour
 
     // 게임을 클리어 했는지
     public bool IsGameWin; //{ get; private set; }
-
+    public bool IsNewRecord { get; private set; }
     private bool _isPlaying;
     //--------------------
     private void Awake()
@@ -80,7 +80,6 @@ public class GameManager : MonoBehaviour
     {
         IsGameWin = value;
         _isPlaying = false;
-        Debug.Log($"PlayTime is {PlayTime}");
     }
 
     // 플레이 시간 리셋
@@ -102,10 +101,16 @@ public class GameManager : MonoBehaviour
         TrainSpeed = value;
     }
 
+    // 열차 이동 거리
     public void SetTrainDistance(int value)
     {
         TrainDistance = value;
-        Debug.Log($"Train Distance is {value}");
+    }
+
+    // 신기록
+    public void SetIsNewRecord(bool value)
+    {
+        IsNewRecord = value;
     }
 
     private void Init()

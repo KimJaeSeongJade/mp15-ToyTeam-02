@@ -29,7 +29,6 @@ public class LocomotiveCart : Train
             .SetPlayOnAwake(true);
         */
         base.Init();
-        GameManager.Instance.SetTrainSpeed(0f);
     }
 
     public override void TrainDepart()

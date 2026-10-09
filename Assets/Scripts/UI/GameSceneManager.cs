@@ -102,6 +102,9 @@ public class GameSceneManager : MonoBehaviour
     {
         IsGameWin = false;
         GameManager.Instance.SetIsGameWin(IsGameWin);
+
+        TrySaveData();
+
         _loadSceneConnector.LoadEndScene();
     }
 
@@ -112,22 +115,28 @@ public class GameSceneManager : MonoBehaviour
             OnGameEnd?.Invoke();
             return;
         }
-        if (GameManager.Instance.GMode == GameMode.Test)
-        {
-            if (SavePlayData())
-            {
-                Debug.Log("new record");
-            }
-            else
-            {
-                Debug.Log("not new record");
-            }
-        }
+
+        TrySaveData();
 
         IsGameWin = true;
 
         GameManager.Instance.SetIsGameWin(IsGameWin);
         _loadSceneConnector.LoadEndScene();
+    }
+
+    private void TrySaveData()
+    {
+        if (GameManager.Instance.GMode == GameMode.Time || GameManager.Instance.GMode == GameMode.Infinite)
+        {
+            if (SavePlayData())
+            {
+                GameManager.Instance.SetIsNewRecord(true);
+            }
+            else
+            {
+                GameManager.Instance.SetIsNewRecord(false);
+            }
+        }
     }
 
     // 시간 모드에서 플레이 데이터 저장
@@ -144,13 +153,24 @@ public class GameSceneManager : MonoBehaviour
             for (int i = 0; i < playDataList.PlayDatas.Count; i++)
             {
                 PlayData playData = playDataList.PlayDatas[i];
-                if (playData.TrainSpeed == GameManager.Instance.TrainSpeed)
+
+                if (playData.GameMode == GameManager.Instance.GMode)
                 {
-                    hasData = true;
-                    if (playData.PlayTime > GameManager.Instance.PlayTime)
+                    if (playData.TrainSpeed == GameManager.Instance.TrainSpeed)
                     {
-                        isNewRecord = true;
-                        playData.PlayTime = GameManager.Instance.PlayTime;
+                        hasData = true;
+                        if (playData.TrainDistance < GameManager.Instance.TrainDistance)
+                        {
+                            isNewRecord = true;
+                            playData.TrainDistance = GameManager.Instance.TrainDistance;
+                            playData.PlayTime = GameManager.Instance.PlayTime;
+                        }
+                        else if (playData.TrainDistance == GameManager.Instance.TrainDistance
+                            && playData.PlayTime > GameManager.Instance.PlayTime)
+                        {
+                            isNewRecord = true;
+                            playData.PlayTime = GameManager.Instance.PlayTime;
+                        }
                     }
                 }
             }
@@ -159,7 +179,9 @@ public class GameSceneManager : MonoBehaviour
             {
                 isNewRecord = true;
                 playDataList.PlayDatas.Add(new PlayData(
+                    GameManager.Instance.GMode,
                     GameManager.Instance.TrainSpeed,
+                    GameManager.Instance.TrainDistance,
                     GameManager.Instance.PlayTime
                 ));
                 isNewRecord = true;
@@ -169,7 +191,9 @@ public class GameSceneManager : MonoBehaviour
         {
             playDataList = new();
             playDataList.PlayDatas.Add(new PlayData(
+                    GameManager.Instance.GMode,
                     GameManager.Instance.TrainSpeed,
+                    GameManager.Instance.TrainDistance,
                     GameManager.Instance.PlayTime
                 ));
             isNewRecord = true;

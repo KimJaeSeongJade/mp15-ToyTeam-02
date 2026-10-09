@@ -31,7 +31,7 @@ public class MapLoader : MonoBehaviour
         { GameMode.Quick, "1355842421" },
         { GameMode.Infinite, "1355842421" },
         { GameMode.Tutorial, "1277891633" },
-        { GameMode.Test, "1935130282" }
+        { GameMode.Time, "1935130282" }
         };
     /// <summary>
     /// 외부에서 맵 정보를 읽어와서 배열로 저장한 여부
@@ -56,7 +56,6 @@ public class MapLoader : MonoBehaviour
 
     private IEnumerator LoadMapDataRoutine(string docId, GameMode gameMode)
     {
-        Debug.Log("Requesting Map Data...");
         UnityWebRequest www = UnityWebRequest.Get($"https://docs.google.com/spreadsheets/d/{docId}/export?format=csv&gid={_docGids[gameMode]}");
         www.timeout = 5;
         yield return www.SendWebRequest();
@@ -76,7 +75,7 @@ public class MapLoader : MonoBehaviour
         ParseCSV(text);
         OnMapSaved?.Invoke();
 
-        if (_gameMode == GameMode.Test || _gameMode == GameMode.Tutorial) CanLoadMap = true;
+        if (_gameMode == GameMode.Time || _gameMode == GameMode.Tutorial) CanLoadMap = true;
     }
 
     private void ParseCSV(string text)
@@ -153,14 +152,12 @@ public class MapLoader : MonoBehaviour
 
         // 3. 퀵 모드 마지막 맵
         rowStartIndex = ChunkManager.CHUNK_SIZE * 2 + 8;
-        Debug.Log(rowStartIndex);
-        Debug.Log(lines.Length);
+
         if (lines.Length < rowStartIndex) return;
 
         string[] quickIndices = lines[rowStartIndex - 1].Split(',');
 
         int quickLastMapColumn = ChunkManager.CHUNK_SIZE * 2 - int.Parse(quickIndices[columnStartIndex]);
-        Debug.Log(quickLastMapColumn);
 
         _quickLastMap = new int[quickLastMapColumn, ChunkManager.CHUNK_SIZE];
 
