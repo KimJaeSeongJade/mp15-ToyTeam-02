@@ -232,6 +232,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _playerBody: {fileID: 0}
   _animator: {fileID: 4851484256185710381}
+  _walkSound: {fileID: 8300000, guid: 3ce907c99a5f26941ba99e768656cc86, type: 3}
 --- !u!1001 &5807754954222647443
 PrefabInstance:
   m_ObjectHideFlags: 0

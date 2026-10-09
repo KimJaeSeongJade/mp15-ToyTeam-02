@@ -7,6 +7,7 @@ public class UIPlayerController : MonoBehaviour
     
     [SerializeField] private Rigidbody _playerBody;
     [SerializeField] private Animator _animator;
+    [SerializeField] private AudioClip _walkSound;
 
     private const float BASE_MOVE_SPEED = 5f;
     private float _moveSpeed;
@@ -64,5 +65,19 @@ public class UIPlayerController : MonoBehaviour
         _animator.SetBool("IsMoving", true);
         _playerBody.rotation = Quaternion.LookRotation(direction);
         _playerBody.velocity = _playerBody.transform.forward * _moveSpeed;
+    }
+
+    public void OnWalk()
+    {
+        AudioPlayer walkAudioPlayer = AudioManager.Instance.Take();
+
+        walkAudioPlayer
+            .Init()
+            .SetPriority(100)
+            .SetClip(_walkSound)
+            .SetLoop(false)
+            .Play();
+
+        walkAudioPlayer.ReturnToPool();
     }
 }
