@@ -46,7 +46,8 @@ public abstract class UIBase : MonoBehaviour
     }
     // UI에 Enter시 OnImage활성화
     protected virtual void OnTriggerEnter(Collider other)
-    { AudioPlayer uiAudioPlayer = AudioManager.Instance.Take();
+    { 
+        AudioPlayer uiAudioPlayer = AudioManager.Instance.Take();
 
         uiAudioPlayer
             .Init()
