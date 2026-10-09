@@ -685,7 +685,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _delayTime: 0.15
-  _fadeTime: 0.2
+  _fadeTime: 0.3
 --- !u!114 &71155911
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10222,7 +10222,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _delayTime: 0.3
-  _fadeTime: 0.2
+  _fadeTime: 0.3
 --- !u!114 &1177834471
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12311,8 +12311,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2df75a9be22f9644096e03dd27489ff7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _delayTime: 0.3
-  _fadeTime: 0.2
+  _delayTime: 0.8
+  _fadeTime: 0.3
 --- !u!114 &1342164414
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12448,7 +12448,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _delayTime: 0.6
-  _fadeTime: 0.15
+  _fadeTime: 0.3
 --- !u!114 &1353269510
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14436,6 +14436,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _clearObj: {fileID: 262836799}
   _overObj: {fileID: 2090979384}
+  _newRecordUI: {fileID: 1342164410}
   _playTimeUI: {fileID: 1017441291}
   _scoreUI: {fileID: 595397411}
 --- !u!4 &1645206689

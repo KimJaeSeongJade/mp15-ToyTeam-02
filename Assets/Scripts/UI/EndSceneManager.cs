@@ -9,12 +9,13 @@ public class EndSceneManager : MonoBehaviour
     //[SerializeField] private TextMeshProUGUI _over;
     [SerializeField] private GameObject _clearObj;
     [SerializeField] private GameObject _overObj;
+    [SerializeField] private GameObject _newRecordUI;
 
     [SerializeField] private TextMeshProUGUI _playTimeUI;
     [SerializeField] private TextMeshProUGUI _scoreUI;
 
     private bool _isGameWin;
-    private bool _isGameWinUI;
+    private bool _isNewRecord;
 
     private void Awake()
     {
@@ -32,7 +33,7 @@ public class EndSceneManager : MonoBehaviour
     private void Init()
     {
         _isGameWin = GameManager.Instance.IsGameWin;
-        
+        _isNewRecord = GameManager.Instance.IsNewRecord;
     }
 
     private void SetPlayTime()
@@ -49,7 +50,14 @@ public class EndSceneManager : MonoBehaviour
 
     private void SetNewRecord()
     {
-        //_isGameWinUI;
+       if(_isNewRecord)
+        {
+            _newRecordUI.SetActive(true);
+        }
+       else
+        {
+            _newRecordUI.SetActive(false);
+        }
     }
 
     private void SetGameEndScene()
