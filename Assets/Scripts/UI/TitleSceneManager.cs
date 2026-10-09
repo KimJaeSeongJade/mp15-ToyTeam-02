@@ -45,8 +45,8 @@ public class TitleSceneManager : MonoBehaviour
             .SetClip(_birdClip)
             .SetPriority(10)
             .Play();
-    }
-    
+    }  
+
     private void Update()
     {  
         if(StackUI.Count == 0)
@@ -77,7 +77,7 @@ public class TitleSceneManager : MonoBehaviour
             Debug.Log($"{playDList[i].GameMode} : {playDList[i].GameDifficulty} : {playDList[i].PlayTime} : {playDList[i].TrainDistance}");
         }
 
-            if (playDList == null)
+        if (playDList == null)
         {
             _highScore = 0;
             _highTime = 0;
