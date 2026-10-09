@@ -2086,6 +2086,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d14fc35c12f797b40a87176d3a5ba024, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _filledBarUI: {fileID: 260590868}
   _locomotiveCart: {fileID: 700653273}
   _pauseMenu: {fileID: 1441181052}
   _trainSpeedUI: {fileID: 492912490}
@@ -3557,6 +3558,10 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7696465103147844158, guid: 5bc70ece1ae56914191e4438e1c522dc, type: 3}
+      propertyPath: _trainUI
+      value: 
+      objectReference: {fileID: 658800257}
+    - target: {fileID: 7696465103147844158, guid: 5bc70ece1ae56914191e4438e1c522dc, type: 3}
       propertyPath: _delayTime
       value: 3
       objectReference: {fileID: 0}
@@ -3568,6 +3573,10 @@ PrefabInstance:
       propertyPath: _chunkManager
       value: 
       objectReference: {fileID: 1945417508}
+    - target: {fileID: 7696465103147844158, guid: 5bc70ece1ae56914191e4438e1c522dc, type: 3}
+      propertyPath: _pauseGuideUI
+      value: 
+      objectReference: {fileID: 1759645473}
     - target: {fileID: 8648141330170667627, guid: 5bc70ece1ae56914191e4438e1c522dc, type: 3}
       propertyPath: m_Pivot.x
       value: 0
