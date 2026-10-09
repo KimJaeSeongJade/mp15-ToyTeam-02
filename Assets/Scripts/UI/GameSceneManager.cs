@@ -8,16 +8,17 @@ public class GameSceneManager : MonoBehaviour
 {
     public static GameSceneManager Instance;
 
+    [SerializeField] private FilledBarUI _filledBarUI;
     [SerializeField] private LocomotiveCart _locomotiveCart;
     [SerializeField] private GameObject _pauseMenu;
     [SerializeField] private TextMeshProUGUI _trainSpeedUI;
     [SerializeField] private LoadSceneConnector _loadSceneConnector;
-    [SerializeField] private PlayDataManager _playDataManager;
 
     private KeyCode _pauseKey => KeyCode.Escape;
 
     public event Action OnGameEnd;
 
+    private bool _isGameStart = false;
     public bool IsGameEnd { get; private set; }
     public bool IsGameWin { get; private set; }
 
@@ -25,17 +26,19 @@ public class GameSceneManager : MonoBehaviour
     {
         SetSingleton();
         Init();
+      
     }
     private void Start()
     {
-        BindGameEvents();       
+        BindGameEvents();
+ 
     }
     private void OnDestroy() => UnbindGameEvents();
 
     private void Update()
     {
         
-        if(!SceneManagerA.Instance._isPause && Input.GetKeyDown(_pauseKey))
+        if(!SceneManagerA.Instance._isPause && Input.GetKeyDown(_pauseKey) && _isGameStart)
         {
             StartCoroutine(OpenPause());            
         }
@@ -98,14 +101,17 @@ public class GameSceneManager : MonoBehaviour
         _pauseMenu.SetActive(false);
     }
 
+    private void GameStart()
+    {
+        _isGameStart = true;
+    }
+
     private void GameOver()
     {
         IsGameWin = false;
         GameManager.Instance.SetIsGameWin(IsGameWin);
-
-        TrySaveData();
-
         _loadSceneConnector.LoadEndScene();
+
     }
 
     private void GameClear()
@@ -116,102 +122,23 @@ public class GameSceneManager : MonoBehaviour
             return;
         }
 
-        TrySaveData();
-
         IsGameWin = true;
 
         GameManager.Instance.SetIsGameWin(IsGameWin);
         _loadSceneConnector.LoadEndScene();
-    }
-
-    private void TrySaveData()
-    {
-        if (GameManager.Instance.GMode == GameMode.Time || GameManager.Instance.GMode == GameMode.Infinite)
-        {
-            if (SavePlayData())
-            {
-                GameManager.Instance.SetIsNewRecord(true);
-            }
-            else
-            {
-                GameManager.Instance.SetIsNewRecord(false);
-            }
-        }
-    }
-
-    // 시간 모드에서 플레이 데이터 저장
-    private bool SavePlayData()
-    {
-        bool isNewRecord = false;
-
-        PlayDataList playDataList = _playDataManager.LoadData();
-
-        if (playDataList != null)
-        {
-            bool hasData = false;
-
-            for (int i = 0; i < playDataList.PlayDatas.Count; i++)
-            {
-                PlayData playData = playDataList.PlayDatas[i];
-
-                if (playData.GameMode == GameManager.Instance.GMode)
-                {
-                    if (playData.TrainSpeed == GameManager.Instance.TrainSpeed)
-                    {
-                        hasData = true;
-                        if (playData.TrainDistance < GameManager.Instance.TrainDistance)
-                        {
-                            isNewRecord = true;
-                            playData.TrainDistance = GameManager.Instance.TrainDistance;
-                            playData.PlayTime = GameManager.Instance.PlayTime;
-                        }
-                        else if (playData.TrainDistance == GameManager.Instance.TrainDistance
-                            && playData.PlayTime > GameManager.Instance.PlayTime)
-                        {
-                            isNewRecord = true;
-                            playData.PlayTime = GameManager.Instance.PlayTime;
-                        }
-                    }
-                }
-            }
-
-            if (!hasData)
-            {
-                isNewRecord = true;
-                playDataList.PlayDatas.Add(new PlayData(
-                    GameManager.Instance.GMode,
-                    GameManager.Instance.TrainSpeed,
-                    GameManager.Instance.TrainDistance,
-                    GameManager.Instance.PlayTime
-                ));
-                isNewRecord = true;
-            }
-        }
-        else
-        {
-            playDataList = new();
-            playDataList.PlayDatas.Add(new PlayData(
-                    GameManager.Instance.GMode,
-                    GameManager.Instance.TrainSpeed,
-                    GameManager.Instance.TrainDistance,
-                    GameManager.Instance.PlayTime
-                ));
-            isNewRecord = true;
-        }
-
-        if (isNewRecord) _playDataManager.SaveData(playDataList);
-
-        return isNewRecord;
+        
     }
 
     private void BindGameEvents()
     {
+        _filledBarUI.OnBarLoaded += GameStart;
         _locomotiveCart.OnTrainArrived += GameOver;
         RailManager.Instance.OnRailwayConnected += GameClear;
     }
 
     private void UnbindGameEvents()
     {
+        _filledBarUI.OnBarLoaded -= GameStart;
         _locomotiveCart.OnTrainArrived -= GameOver;
         RailManager.Instance.OnRailwayConnected -= GameClear;
     }

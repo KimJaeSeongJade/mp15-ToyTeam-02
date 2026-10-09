@@ -9,7 +9,7 @@ public class AudioManager : MonoBehaviour
     [SerializeField] private GameObject _audioPlayerPrefab;
     private Stack<AudioPlayer> _audioPlayerStack  = new Stack<AudioPlayer>();
 
-    private void Awake() => SetSingleton();
+    private void Awake() => SetInstance();
 
     public AudioPlayer Take()
     {
@@ -29,16 +29,8 @@ public class AudioManager : MonoBehaviour
         _audioPlayerStack.Push(audioPlayer);
     }
 
-    private void SetSingleton()
+    private void SetInstance()
     {
-        if (Instance != null && Instance != this)
-        {
-            Destroy(gameObject);
-        }
-        else
-        {
-            Instance = this;
-            DontDestroyOnLoad(gameObject);
-        }
+        Instance = this;
     }
 }

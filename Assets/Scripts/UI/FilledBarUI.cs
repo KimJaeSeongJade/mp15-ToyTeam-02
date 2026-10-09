@@ -9,13 +9,14 @@ public class FilledBarUI : MonoBehaviour
     [SerializeField] private MapLoader _mapLoader;
     [SerializeField] private ChunkManager _chunkManager;
     [SerializeField] private WaveFunction _waveFunction;
+    [SerializeField] private GameObject _trainUI;
+    [SerializeField] private GameObject _pauseGuideUI;
     [SerializeField] private float _delayTime;
     [SerializeField] private Image _bar;
     [SerializeField] private float _elapsedTime;
 
     private bool _isInitialMapLoaded;
     private int _infiniteModeIterations = ChunkManager.CHUNK_SIZE * ChunkManager.CHUNK_SIZE;
-    private int _loadedChunks;
 
     public event Action OnBarLoaded;
 
@@ -25,7 +26,7 @@ public class FilledBarUI : MonoBehaviour
     }
 
     private void OnEnable() => BindMapLoadedEvents();
-
+    private void Start() => HideUI();
     private void Update()
     {
         CurrentTime();
@@ -62,6 +63,7 @@ public class FilledBarUI : MonoBehaviour
     {
         if (!_isInitialMapLoaded || _bar.fillAmount < 1) return;
 
+        ShowUI();
         OnBarLoaded?.Invoke();
         GameManager.Instance.PlayStart();
         gameObject.SetActive(false);
@@ -70,6 +72,18 @@ public class FilledBarUI : MonoBehaviour
     private void OnInitialMapLoaded()
     {
         _isInitialMapLoaded = true;
+    }
+
+    private void ShowUI()
+    {
+        _trainUI.SetActive(true);
+        _pauseGuideUI.SetActive(true);
+    }
+
+    private void HideUI()
+    {
+        _trainUI.SetActive(false);
+        _pauseGuideUI.SetActive(false);
     }
 
     private void BindMapLoadedEvents()
