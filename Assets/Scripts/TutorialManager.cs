@@ -151,6 +151,10 @@ public class TutorialManager : MonoBehaviour
             case 13:
                 uiManager.OpenPopup(9); // 6번(마지막) 팝업: 튜토리얼 클리어 팝업
                 break;
+            // [단계 14] 엔터 입력 -> 튜토리얼 클리어 팝업 호출
+            case 14:
+                uiManager.OnClickGoToMainMenu(); // 메인 메뉴로 돌아가기
+                break;
         }
     }
 
@@ -206,6 +210,11 @@ public class TutorialManager : MonoBehaviour
         else if (currentStep == 12 && closedPopupIndex == 8)
         {
             StartStep(13);
+        }
+        // [Step 13] 팝업9(메인 메뉴로 돌아가기) 닫힘 -> Step 14(메인 메뉴로 돌아가기) 진행
+        else if (currentStep == 13 && closedPopupIndex == 9)
+        {
+            StartStep(14);
         }
     }
 
