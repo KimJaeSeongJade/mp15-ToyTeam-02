@@ -213,13 +213,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 627c8d90e5c8a2c4ebf7d7408ee555b3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _UIClip: {fileID: 8300000, guid: 04e604f1848e2304581fa7646f43eb50, type: 3}
   _delayTime: 5
   _elapsedTime: 0
   _bar: {fileID: 9062166134899009182}
-  _audioClip1: {fileID: 8300000, guid: b839fbef02555674ea0ad99f2d1bb510, type: 3}
-  _audioClip2: {fileID: 8300000, guid: 949ed6a99db155d47ad6e1e5347bb6ad, type: 3}
-  _audioClip3: {fileID: 8300000, guid: 909a88c7d77311b4d9a610739f7b38a2, type: 3}
+  _audioClip1: {fileID: 8300000, guid: 250373679d28708438427f5dcac669d9, type: 3}
+  _audioClip2: {fileID: 8300000, guid: 19521ecdf3853184fb3c40d3c4d7a8bf, type: 3}
+  _audioClip3: {fileID: 8300000, guid: f7b56df676164e64a9686e555ef49c1a, type: 3}
 --- !u!114 &2473941707223966853
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -233,6 +232,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   <_audioClip>k__BackingField:
-  - {fileID: 8300000, guid: c07536a6591fc5e4c9e3411da9e94350, type: 3}
-  - {fileID: 8300000, guid: 7f8996c633fb0d849892f348b940f310, type: 3}
-  - {fileID: 8300000, guid: 179321e585114054cb93821a3db6934b, type: 3}
+  - {fileID: 8300000, guid: 250373679d28708438427f5dcac669d9, type: 3}
+  - {fileID: 8300000, guid: 19521ecdf3853184fb3c40d3c4d7a8bf, type: 3}
+  - {fileID: 8300000, guid: f7b56df676164e64a9686e555ef49c1a, type: 3}
