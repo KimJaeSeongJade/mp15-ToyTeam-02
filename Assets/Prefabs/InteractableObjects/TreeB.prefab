@@ -50,7 +50,7 @@ MonoBehaviour:
   _visualTop: {fileID: 2044472905669693466}
   _visualMiddle: {fileID: 6103991437514137419}
   _visualBottom: {fileID: 4689230292714158027}
-  _hitSound: {fileID: 8300000, guid: c05b3f334ff57984c88d33bbec3139bb, type: 3}
+  _hitSound: {fileID: 8300000, guid: fd5c3a2dfd2eb3a4cae69ecd219b9ffc, type: 3}
   _outline: {fileID: 676614223231022044}
 --- !u!114 &676614223231022044
 MonoBehaviour:
