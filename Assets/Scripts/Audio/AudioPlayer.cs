@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using UnityEngine;
+using UnityEngine.Audio;
 
 public class AudioPlayer : MonoBehaviour
 {
@@ -27,6 +28,12 @@ public class AudioPlayer : MonoBehaviour
     {
         if (_audioSource.isPlaying || _audioSource.loop) return;
         Stop();
+    }
+
+    public AudioPlayer SetMixerGroup(AudioMixerGroup group)
+    {
+        _audioSource.outputAudioMixerGroup = group;
+        return this;
     }
 
     public AudioPlayer SetVolume(float volume)

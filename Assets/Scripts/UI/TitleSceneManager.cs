@@ -33,13 +33,13 @@ public class TitleSceneManager : MonoBehaviour
     {
         _pDataManager = GetComponent<PlayDataManager>();
         FindHighScore();
-        AudioPlayer titleAudioPlayer = AudioManager.Instance.Take();
+        AudioPlayer titleAudioPlayer = AudioManager.Instance.Take(true);
         titleAudioPlayer
             .Init()
             .SetClip(_titleClip)
             .SetPriority(10)
             .Play();
-        AudioPlayer titleBirdAudioPlayer = AudioManager.Instance.Take();
+        AudioPlayer titleBirdAudioPlayer = AudioManager.Instance.Take(true);
         titleBirdAudioPlayer
             .Init()
             .SetClip(_birdClip)
