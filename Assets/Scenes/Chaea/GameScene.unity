@@ -5632,7 +5632,7 @@ PrefabInstance:
     - target: {fileID: 6972055260089688410, guid: fd9297e98be2efb4f8f0850fc9d19eee, type: 3}
       propertyPath: _files.Array.data[3]
       value: 
-      objectReference: {fileID: 4900000, guid: 300378c5c7e8f684ab148e28221b352f, type: 3}
+      objectReference: {fileID: 4900000, guid: 6225c2c863a003d41b1f113c5cf7c7e0, type: 3}
     - target: {fileID: 9127187142286411491, guid: fd9297e98be2efb4f8f0850fc9d19eee, type: 3}
       propertyPath: _chunkManager
       value: 

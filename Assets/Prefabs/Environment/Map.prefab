@@ -45,6 +45,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d91e424793502024facc4a3865f193ea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _chunkManager: {fileID: 0}
 --- !u!114 &6972055260089688410
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -57,3 +58,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: faf2cce35e66fc742b87db7067d241da, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _gameMode: 0
+  _files:
+  - {fileID: 4900000, guid: 0fad80fe9b3c8d2488ffe6ee62b7d594, type: 3}
+  - {fileID: 4900000, guid: 2fc7aa8e5d4c417409ab3d6a763b7fba, type: 3}
+  - {fileID: 4900000, guid: eac3c252bdcf23847a3f685416b561b4, type: 3}
+  - {fileID: 4900000, guid: 6225c2c863a003d41b1f113c5cf7c7e0, type: 3}

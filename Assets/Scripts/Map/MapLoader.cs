@@ -31,7 +31,7 @@ public class MapLoader : MonoBehaviour
         { GameMode.Quick, "1355842421" },
         { GameMode.Infinite, "1355842421" },
         { GameMode.Tutorial, "1277891633" },
-        { GameMode.Time, "1935130282" }
+        { GameMode.Time, "0" }
         };
     /// <summary>
     /// 외부에서 맵 정보를 읽어와서 배열로 저장한 여부
