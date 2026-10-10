@@ -16,7 +16,7 @@ public class GameManager : MonoBehaviour
         {
             if(_instance == null )
             {
-                _instance = _instance = FindObjectOfType <GameManager> ();
+                _instance = FindObjectOfType <GameManager> ();
                 DontDestroyOnLoad( _instance.gameObject );
             }
             return _instance;
@@ -55,18 +55,18 @@ public class GameManager : MonoBehaviour
     {        
         SetSingleton();
         Init();
+        CursorLock();
     }
-
-//    private void Start()
-//    {
-//#if !UNITY_EDITOR && UNITY_WEBGL
-//        WebGLInput.stickyCursorLock = false;
-//#endif
-//    }
 
 
     private void Update()
-    {         
+    {
+#if !UNITY_EDITOR
+    if (Cursor.lockState != CursorLockMode.Locked)
+    {
+        CursorLock();
+    }
+#endif
         // 게임씬이고 게임 진행중일 때
         if (SceneManager.GetActiveScene().buildIndex == 4 && !IsPaused && _isPlaying)
         {
@@ -137,11 +137,11 @@ public class GameManager : MonoBehaviour
         _trainSpeeds.Add(GameDifficulty.Hard, 0.1f);
     }
 
-    //private void CursorLock()
-    //{
-    //    Cursor.visible = false;
-    //    Cursor.lockState = CursorLockMode.Locked;
-    //}
+    private void CursorLock()
+    {
+        Cursor.visible = false;
+        Cursor.lockState = CursorLockMode.Locked;
+    }
 
     private void SetSingleton()
     {
