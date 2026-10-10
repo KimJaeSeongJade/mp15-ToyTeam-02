@@ -76,7 +76,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0cd44c1031e13a943bb63640046fad76, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_UiScaleMode: 0
+  m_UiScaleMode: 1
   m_ReferencePixelsPerUnit: 100
   m_ScaleFactor: 1
   m_ReferenceResolution: {x: 800, y: 600}
@@ -116,7 +116,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 55e8ebccd434cb54bb07a9538bf0ea70, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _delayTime: 5
+  _mapLoader: {fileID: 0}
+  _chunkManager: {fileID: 0}
+  _waveFunction: {fileID: 0}
+  _trainUI: {fileID: 0}
+  _pauseGuideUI: {fileID: 0}
+  _delayTime: 3
   _bar: {fileID: 8978584562436803522}
   _elapsedTime: 0
 --- !u!1 &1190737062789190975
@@ -151,11 +156,11 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 8648141330170667627}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: -440}
-  m_SizeDelta: {x: 100, y: 100}
-  m_Pivot: {x: 0.5, y: 0.5}
+  m_AnchorMin: {x: 0.5, y: 0}
+  m_AnchorMax: {x: 0.5, y: 0}
+  m_AnchoredPosition: {x: 0, y: 16}
+  m_SizeDelta: {x: 41.744995, y: 50.72}
+  m_Pivot: {x: 0.5, y: 0}
 --- !u!222 &7891058774789751879
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -226,11 +231,11 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 5338262344118876831}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: -320}
-  m_SizeDelta: {x: 400, y: 200}
-  m_Pivot: {x: 0.5, y: 0.5}
+  m_AnchorMin: {x: 0.5, y: 0}
+  m_AnchorMax: {x: 0.5, y: 0}
+  m_AnchoredPosition: {x: 0, y: 67}
+  m_SizeDelta: {x: 200, y: 100}
+  m_Pivot: {x: 0.5, y: 0}
 --- !u!222 &2605467537289066826
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -286,8 +291,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 80
-  m_fontSizeBase: 80
+  m_fontSize: 36
+  m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -322,7 +327,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 0, y: -35.999664, z: 0, w: 0}
+  m_margin: {x: 0, y: 27.649815, z: 0, w: 0}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0

@@ -4392,10 +4392,6 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 658800257}
     - target: {fileID: 7696465103147844158, guid: 5bc70ece1ae56914191e4438e1c522dc, type: 3}
-      propertyPath: _delayTime
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 7696465103147844158, guid: 5bc70ece1ae56914191e4438e1c522dc, type: 3}
       propertyPath: _mapLoader
       value: 
       objectReference: {fileID: 1053474437}
