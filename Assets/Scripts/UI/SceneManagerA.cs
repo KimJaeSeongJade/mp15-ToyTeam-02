@@ -128,7 +128,7 @@ public class SceneManagerA : MonoBehaviour
     public void ChangeScreenMode(int value)
     {
         _screenModeNum = Mathf.Clamp(value, 0, 2);
-        Debug.Log($"ResolutionNum: {_screenModeNum}");
+        // Debug.Log($"ResolutionNum: {_screenModeNum}");
         switch (_screenModeNum)
         {
             case 0:
@@ -149,20 +149,20 @@ public class SceneManagerA : MonoBehaviour
     public void SetResolution(int value)
     {        
         _resolutionNum = Mathf.Clamp(value, 0, 2);
-        Debug.Log($"ResolutionNum: {_resolutionNum}");
+        // Debug.Log($"ResolutionNum: {_resolutionNum}");
         switch (_resolutionNum)
         {
             case 0:
                 Screen.SetResolution(1280, 720, Screen.fullScreen);
-                Debug.Log($"해상도 변경: ({Screen.width}x{Screen.height})");
+                // Debug.Log($"해상도 변경: ({Screen.width}x{Screen.height})");
                 break;
             case 1:
                 Screen.SetResolution(1920, 1080, Screen.fullScreen);
-                Debug.Log($"해상도 변경: ({Screen.width}x{Screen.height})");
+                // Debug.Log($"해상도 변경: ({Screen.width}x{Screen.height})");
                 break;
             case 2:
                 Screen.SetResolution(2560, 1440, Screen.fullScreen);
-                Debug.Log($"해상도 변경: ({Screen.width}x{Screen.height})");
+                // Debug.Log($"해상도 변경: ({Screen.width}x{Screen.height})");
                 break;
             default:
                 break;
@@ -172,10 +172,10 @@ public class SceneManagerA : MonoBehaviour
     // 오디오 크기 저장
     public void SetBgmVolume(float value)
     {
-        Debug.Log(
+        /*Debug.Log(
        $"[BGM 변경] {value}\n" +
        StackTraceUtility.ExtractStackTrace()
-   );
+   );*/
 
         _bgmVolume = Mathf.Clamp(value, 0f, 100f);
 
@@ -197,10 +197,10 @@ public class SceneManagerA : MonoBehaviour
 
     public void SetSfxVolume(float value)
     {
-        Debug.Log(
+        /*Debug.Log(
      $"[SFX 변경] {value}\n" +
      StackTraceUtility.ExtractStackTrace()
- );
+ );*/
 
         _sfxVolume = Mathf.Clamp(value, 0f, 100f);
 

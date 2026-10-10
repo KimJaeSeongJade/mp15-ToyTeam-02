@@ -39,7 +39,7 @@ public class TimerUI : UIBase
 
         if (other.gameObject.layer == 6)
         {
-            Debug.Log($"[사운드 시작] {gameObject.name} / {other.name} / {Time.time}");
+            // Debug.Log($"[사운드 시작] {gameObject.name} / {other.name} / {Time.time}");
             if (_audioClip1)
             {
                 UIAudioPlayer1
@@ -115,7 +115,7 @@ public class TimerUI : UIBase
 
     protected override void PlayUI()
     {
-        Debug.Log("UI활성화");
+        // Debug.Log("UI활성화");
     }
 
     // 시간 계산

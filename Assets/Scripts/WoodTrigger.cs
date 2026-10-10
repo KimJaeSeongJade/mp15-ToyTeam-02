@@ -9,7 +9,7 @@ public class WoodTrigger : MonoBehaviour
 
     private void OnEnable()
     {   
-        Debug.Log("Wood trigger enabled");
+        // Debug.Log("Wood trigger enabled");
         if (_isInitialLoad) _isInitialLoad = false;
         else if (TutorialManager.Instance != null && !_isInitialLoad)
         {

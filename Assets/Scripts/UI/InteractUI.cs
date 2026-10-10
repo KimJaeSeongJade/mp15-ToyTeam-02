@@ -73,6 +73,6 @@ public class InteractUI : UIBase
 
     protected override void PlayUI()
     {
-        Debug.Log("UI활성화");
+        // Debug.Log("UI활성화");
     }
 }

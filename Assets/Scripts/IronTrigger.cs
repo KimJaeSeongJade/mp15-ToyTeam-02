@@ -9,7 +9,7 @@ public class IronTrigger : MonoBehaviour
 
     private void OnEnable()
     {
-        Debug.Log("Iron trigger enabled");
+        // Debug.Log("Iron trigger enabled");
         if (_isInitialLoad) _isInitialLoad = false;
         else if (TutorialManager.Instance != null && !_isInitialLoad)
         {

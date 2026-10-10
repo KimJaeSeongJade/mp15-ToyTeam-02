@@ -401,7 +401,7 @@ public class WaveFunction : MonoBehaviour
                     }
                     else
                     {
-                        Debug.Log("Collapsed failed");
+                        // Debug.Log("Collapsed failed");
                         resultMap[x, y] = 1;
                     }
                 }

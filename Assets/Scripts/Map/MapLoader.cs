@@ -64,7 +64,7 @@ public class MapLoader : MonoBehaviour
 
         if (www.result != UnityWebRequest.Result.Success)
         {
-            Debug.Log(www.error);
+            // Debug.Log(www.error);
             text = _files[(int)gameMode].text;
         }
         else

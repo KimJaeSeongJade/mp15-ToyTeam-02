@@ -88,7 +88,7 @@ public class CraftCart : Train, IInteractable
     /// </summary>
     private IEnumerator CraftRoutine()
     {
-        Debug.Log("CraftRoutine");
+        // Debug.Log("CraftRoutine");
 
         // 제작 상태 시작 및 비주얼 갱신
         isCrafting = true;
