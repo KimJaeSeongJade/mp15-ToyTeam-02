@@ -1235,6 +1235,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c39c40ab2e301de46873960ee56ba76c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _audioMixer: {fileID: 24100000, guid: ef2952bc94e4ece4eb6a4cdcbe18b5b3, type: 2}
   _isPause: 0
   _isSelectNow: 0
 --- !u!4 &1666402556
