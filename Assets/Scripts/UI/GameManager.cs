@@ -16,7 +16,7 @@ public class GameManager : MonoBehaviour
         {
             if(_instance == null )
             {
-                _instance = _instance = FindObjectOfType <GameManager> ();
+                _instance = FindObjectOfType <GameManager> ();
                 DontDestroyOnLoad( _instance.gameObject );
             }
             return _instance;
@@ -60,7 +60,13 @@ public class GameManager : MonoBehaviour
 
 
     private void Update()
-    {         
+    {
+#if !UNITY_EDITOR
+    if (Cursor.lockState != CursorLockMode.Locked)
+    {
+        CursorLock();
+    }
+#endif
         // 게임씬이고 게임 진행중일 때
         if (SceneManager.GetActiveScene().buildIndex == 4 && !IsPaused && _isPlaying)
         {
