@@ -28,15 +28,18 @@ public class TimerUI : UIBase
         _elapsedTime = 0;
         GetAudioFile();
     }
+       
     private void Update()
     {
         _bar.fillAmount = _elapsedTime / _delayTime;
     }
-    protected void OnTriggerEnter(Collider other)
+    protected override void OnTriggerEnter(Collider other)
     {
         base.OnTriggerEnter(other);
+
         if (other.gameObject.layer == 6)
         {
+            Debug.Log($"[사운드 시작] {gameObject.name} / {other.name} / {Time.time}");
             if (_audioClip1)
             {
                 UIAudioPlayer1

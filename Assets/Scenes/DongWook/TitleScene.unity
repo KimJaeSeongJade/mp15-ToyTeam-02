@@ -5596,7 +5596,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7e0f54497bb442647b9ebd23d180d944, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _UIClip: {fileID: 0}
   _audioClip: {fileID: 0}
   _onUIPressed:
     m_PersistentCalls:
@@ -18706,7 +18705,7 @@ PrefabInstance:
     - target: {fileID: 1118550386209001753, guid: d70e992f250798442b0bd82a5786b4bf, type: 3}
       propertyPath: m_sharedMaterial
       value: 
-      objectReference: {fileID: 2100000, guid: 15556b859f83c4d488f24fe126c0b3d3, type: 2}
+      objectReference: {fileID: 8795290694196030887, guid: 918b9cd3dd3d91547b1f8b9bdf511c11, type: 2}
     - target: {fileID: 1118550386209001753, guid: d70e992f250798442b0bd82a5786b4bf, type: 3}
       propertyPath: m_characterSpacing
       value: 8
@@ -18786,7 +18785,7 @@ PrefabInstance:
     - target: {fileID: 7866986191245646068, guid: d70e992f250798442b0bd82a5786b4bf, type: 3}
       propertyPath: m_sharedMaterial
       value: 
-      objectReference: {fileID: 2100000, guid: 15556b859f83c4d488f24fe126c0b3d3, type: 2}
+      objectReference: {fileID: 8795290694196030887, guid: 918b9cd3dd3d91547b1f8b9bdf511c11, type: 2}
     - target: {fileID: 7866986191245646068, guid: d70e992f250798442b0bd82a5786b4bf, type: 3}
       propertyPath: m_characterSpacing
       value: 8
@@ -18942,7 +18941,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8f401ebf871310a4b9010798e51a69c6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _UIClip: {fileID: 0}
   _audioClip: {fileID: 0}
   _titleSceneManager: {fileID: 265411020}
   _currentPanel: {fileID: 974431821}
@@ -20268,7 +20266,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7e0f54497bb442647b9ebd23d180d944, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _UIClip: {fileID: 0}
   _audioClip: {fileID: 0}
   _onUIPressed:
     m_PersistentCalls:
@@ -23761,7 +23758,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7e0f54497bb442647b9ebd23d180d944, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _UIClip: {fileID: 0}
   _audioClip: {fileID: 0}
   _onUIPressed:
     m_PersistentCalls:
@@ -24024,7 +24020,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c8e2fb1d4644a874482f7d3092cd6c94, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _UIClip: {fileID: 0}
   _delayTime: 3.5
   _elapsedTime: 0
   _bar: {fileID: 1094567322}
@@ -30123,7 +30118,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8f401ebf871310a4b9010798e51a69c6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _UIClip: {fileID: 0}
   _audioClip: {fileID: 0}
   _titleSceneManager: {fileID: 265411020}
   _currentPanel: {fileID: 918839005}
@@ -34036,7 +34030,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c8e2fb1d4644a874482f7d3092cd6c94, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _UIClip: {fileID: 0}
   _delayTime: 3.5
   _elapsedTime: 0
   _bar: {fileID: 578249010}
@@ -38055,7 +38048,7 @@ PrefabInstance:
     - target: {fileID: 1118550386209001753, guid: d70e992f250798442b0bd82a5786b4bf, type: 3}
       propertyPath: m_sharedMaterial
       value: 
-      objectReference: {fileID: 2100000, guid: 15556b859f83c4d488f24fe126c0b3d3, type: 2}
+      objectReference: {fileID: 8795290694196030887, guid: 918b9cd3dd3d91547b1f8b9bdf511c11, type: 2}
     - target: {fileID: 1118550386209001753, guid: d70e992f250798442b0bd82a5786b4bf, type: 3}
       propertyPath: m_characterSpacing
       value: 8
@@ -39823,7 +39816,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7e0f54497bb442647b9ebd23d180d944, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _UIClip: {fileID: 0}
   _audioClip: {fileID: 0}
   _onUIPressed:
     m_PersistentCalls:
