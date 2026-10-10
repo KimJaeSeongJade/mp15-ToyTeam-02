@@ -114,12 +114,14 @@ public class SceneManagerA : MonoBehaviour
     {
         Time.timeScale = 0f;
         GameManager.Instance.IsPause(true);
+        SetSfxVolume(_sfxVolume);
     }
     // 게임 Pause해제
     public void Continue()
     {
         Time.timeScale = 1f;
         GameManager.Instance.IsPause(false);
+        SetSfxVolume(_sfxVolume);
     }
 
     // 게임 창모드 변경
@@ -215,7 +217,9 @@ public class SceneManagerA : MonoBehaviour
             dB = -80f;
         }
 
-        _audioMixer.SetFloat("SFXVolume", dB);
+        if (!_isPause)
+            _audioMixer.SetFloat("SFXVolume", dB);
+        else _audioMixer.SetFloat("SFXVolume", -80f);
     }
 
     private void SetSingleton()
