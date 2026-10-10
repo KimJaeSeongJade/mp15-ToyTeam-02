@@ -28,7 +28,7 @@ public class GameBgm : MonoBehaviour
 
     private void playBgm()
     { 
-        AudioPlayer gameBgmPlayer = AudioManager.Instance.Take();
+        AudioPlayer gameBgmPlayer = AudioManager.Instance.Take(true);
         gameBgmPlayer
             .Init()
             .SetPriority(10)
