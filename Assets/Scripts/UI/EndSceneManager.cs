@@ -68,7 +68,7 @@ public class EndSceneManager : MonoBehaviour
         {
             //_clear.gameObject.SetActive(true);
             //_over.gameObject.SetActive(false);
-            AudioPlayer gameOver = AudioManager.Instance.Take();
+            AudioPlayer gameOver = AudioManager.Instance.Take(true);
             gameOver
                 .Init()
                 .SetVolume(1f)
@@ -84,7 +84,7 @@ public class EndSceneManager : MonoBehaviour
             
             //_clear.gameObject.SetActive(false);
             //_over.gameObject.SetActive(true);
-            AudioPlayer gameclear = AudioManager.Instance.Take();
+            AudioPlayer gameclear = AudioManager.Instance.Take(true);
             gameclear
                 .Init()
                 .SetVolume(1f)

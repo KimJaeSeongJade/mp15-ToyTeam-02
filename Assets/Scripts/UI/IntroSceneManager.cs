@@ -8,12 +8,13 @@ using UnityEngine;
 public class IntroSceneManager : MonoBehaviour
 {
     [SerializeField] private AudioClip _introClip;
+    private AudioPlayer introPlayer;
     private bool _canInput;
 
     private void Start()
     {
         StartCoroutine(BlockInput());
-        AudioPlayer introPlayer = AudioManager.Instance.Take();
+        introPlayer = AudioManager.Instance.Take(true);
         introPlayer
             .Init()
             .SetClip(_introClip)
@@ -25,12 +26,9 @@ public class IntroSceneManager : MonoBehaviour
     {        
         if (_canInput && Input.anyKeyDown)
         {
-            SceneManagerA.Instance.LoadTitleScene();
-            AudioPlayer introPlayer = AudioManager.Instance.Take();
+            SceneManagerA.Instance.LoadTitleScene();           
             introPlayer
-                .SetClip(_introClip)
-                .Stop();
-            
+                .Stop();            
         }
     }
 

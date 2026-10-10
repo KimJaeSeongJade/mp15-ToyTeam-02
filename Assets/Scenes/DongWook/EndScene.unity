@@ -2688,7 +2688,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c8e2fb1d4644a874482f7d3092cd6c94, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _UIClip: {fileID: 0}
   _delayTime: 3.5
   _elapsedTime: 0
   _bar: {fileID: 690414688}
@@ -4949,6 +4948,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c39c40ab2e301de46873960ee56ba76c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _audioMixer: {fileID: 0}
   _isPause: 0
   _isSelectNow: 0
 --- !u!4 &1290161806
@@ -6845,7 +6845,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c8e2fb1d4644a874482f7d3092cd6c94, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _UIClip: {fileID: 0}
   _delayTime: 3.5
   _elapsedTime: 0
   _bar: {fileID: 578249010}

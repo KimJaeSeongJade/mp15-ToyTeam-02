@@ -5,6 +5,7 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using UnityEngine.Audio;
 
 /// <summary>
 /// Scene 관리 Singleton Manager
@@ -24,6 +25,8 @@ public class SceneManagerA : MonoBehaviour
             return _instance;
         }
     }
+    [SerializeField] private AudioMixer _audioMixer;
+
     private int _screenModeNum;
     private int _resolutionNum;
 
@@ -167,12 +170,52 @@ public class SceneManagerA : MonoBehaviour
     // 오디오 크기 저장
     public void SetBgmVolume(float value)
     {
-        _bgmVolume = value;
+        Debug.Log(
+       $"[BGM 변경] {value}\n" +
+       StackTraceUtility.ExtractStackTrace()
+   );
+
+        _bgmVolume = Mathf.Clamp(value, 0f, 100f);
+
+        float volume = _bgmVolume / 100f;
+
+        float dB;
+
+        if (volume > 0f)
+        {
+            dB = Mathf.Log10(volume) * 20f;
+        }
+        else
+        {
+            dB = -80f;
+        }
+
+        _audioMixer.SetFloat("BGMVolume", dB);
     }
 
     public void SetSfxVolume(float value)
     {
-        _sfxVolume = value;
+        Debug.Log(
+     $"[SFX 변경] {value}\n" +
+     StackTraceUtility.ExtractStackTrace()
+ );
+
+        _sfxVolume = Mathf.Clamp(value, 0f, 100f);
+
+        float volume = _sfxVolume / 100f;
+
+        float dB;
+
+        if (volume > 0f)
+        {
+            dB = Mathf.Log10(volume) * 20f;
+        }
+        else
+        {
+            dB = -80f;
+        }
+
+        _audioMixer.SetFloat("SFXVolume", dB);
     }
 
     private void SetSingleton()

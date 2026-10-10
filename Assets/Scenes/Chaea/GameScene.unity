@@ -5820,6 +5820,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c39c40ab2e301de46873960ee56ba76c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _audioMixer: {fileID: 24100000, guid: ef2952bc94e4ece4eb6a4cdcbe18b5b3, type: 2}
   _isPause: 0
   _isSelectNow: 0
 --- !u!4 &1120274214
@@ -6079,7 +6080,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3b15b5819eeb9df40b1f006a6ea612ee, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _multiV: 0
+  _multiV: 1
 --- !u!114 &1150646529
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6690,7 +6691,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3b15b5819eeb9df40b1f006a6ea612ee, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _multiV: 0
+  _multiV: 1
 --- !u!114 &1268315726
 MonoBehaviour:
   m_ObjectHideFlags: 0
