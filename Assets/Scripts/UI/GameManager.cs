@@ -55,14 +55,8 @@ public class GameManager : MonoBehaviour
     {        
         SetSingleton();
         Init();
+        CursorLock();
     }
-
-//    private void Start()
-//    {
-//#if !UNITY_EDITOR && UNITY_WEBGL
-//        WebGLInput.stickyCursorLock = false;
-//#endif
-//    }
 
 
     private void Update()
@@ -137,11 +131,11 @@ public class GameManager : MonoBehaviour
         _trainSpeeds.Add(GameDifficulty.Hard, 0.1f);
     }
 
-    //private void CursorLock()
-    //{
-    //    Cursor.visible = false;
-    //    Cursor.lockState = CursorLockMode.Locked;
-    //}
+    private void CursorLock()
+    {
+        Cursor.visible = false;
+        Cursor.lockState = CursorLockMode.Locked;
+    }
 
     private void SetSingleton()
     {
