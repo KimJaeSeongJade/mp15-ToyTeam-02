@@ -32,11 +32,18 @@ public class CraftCart : Train, IInteractable
     public BlockType BlockType => BlockType.None;
 
     private bool isCrafting = false;
+    private AudioPlayer _rainHammerAudioPlayer;
+    private AudioPlayer _rainIronAudioPlayer;
+    private AudioPlayer _rainWoodAudioPlayer;
 
     protected override void OnEnable()
     {
         // 제작칸의 비주얼 상태 초기화
         UpdateCraftVisual();
+
+        _rainHammerAudioPlayer = AudioManager.Instance.Take();
+        _rainIronAudioPlayer = AudioManager.Instance.Take();
+        _rainWoodAudioPlayer = AudioManager.Instance.Take();
 
         // 테두리 끄기
         if (_outline != null)
@@ -81,31 +88,32 @@ public class CraftCart : Train, IInteractable
     /// </summary>
     private IEnumerator CraftRoutine()
     {
-        
+        Debug.Log("CraftRoutine");
+
         // 제작 상태 시작 및 비주얼 갱신
         isCrafting = true;
-        AudioPlayer rainHammerAudioPlayer = AudioManager.Instance.Take();
-        rainHammerAudioPlayer
+        _rainHammerAudioPlayer
             .Init()
             .SetClip(_rainHammerClip)
             .SetPriority(50)
             .Play();
-        AudioPlayer rainIronAudioPlayer = AudioManager.Instance.Take();
 
-        rainIronAudioPlayer
+
+        _rainIronAudioPlayer
             .Init()
             .SetVolume(0.1f)
             .SetClip(_rainIronClip)
             .SetPriority(50)
             .Play();
-        AudioPlayer rainWoodAudioPlayer = AudioManager.Instance.Take();
 
-        rainWoodAudioPlayer
+
+        _rainWoodAudioPlayer
             .Init()
             .SetVolume(0.2f)
             .SetClip(_rainWoodClip)
             .SetPriority(50)
             .Play();
+
         _progressBar.fillAmount = 0;
         
         UpdateCraftVisual();
@@ -140,11 +148,11 @@ public class CraftCart : Train, IInteractable
 
         isCrafting = false;
         
-        rainHammerAudioPlayer
+        _rainHammerAudioPlayer
             .Stop();
-        rainIronAudioPlayer
+        _rainIronAudioPlayer
             .Stop();
-        rainWoodAudioPlayer
+        _rainWoodAudioPlayer
             .Stop();
         
         UpdateCraftVisual();
