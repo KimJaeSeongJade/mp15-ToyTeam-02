@@ -26,6 +26,8 @@ public class InteractUI : UIBase
         base.OnTriggerEnter(other);
         if (other.gameObject.layer == 6)
         {
+            _isOnTrigger = true;
+
             if (_audioClip)
             {
                 UIAudioPlayer
@@ -33,8 +35,7 @@ public class InteractUI : UIBase
                     .SetClip(_audioClip)
                     .SetLoop(false)
                     .Play();
-            }
-            _isOnTrigger = true;
+            }           
         }
     }
 
@@ -43,10 +44,15 @@ public class InteractUI : UIBase
         base.OnTriggerExit(other);
         if (other.gameObject.layer == 6)
         {
-            UIAudioPlayer
-                   .Stop();
             _isOnTrigger = false;
+            UIAudioPlayer
+                   .Stop();           
         }
+    }
+
+    private void OnEnable()
+    {
+        _isOnTrigger = false;
     }
 
     protected override void OnDisable()
