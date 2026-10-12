@@ -59,6 +59,7 @@ public class SceneManagerA : MonoBehaviour
         _resolutionNum = 1;
         _bgmVolume = 100f;
         _sfxVolume = 100f;
+        ChangeScreenMode(0);
     }       
 
     public void LoadTitleScene()
