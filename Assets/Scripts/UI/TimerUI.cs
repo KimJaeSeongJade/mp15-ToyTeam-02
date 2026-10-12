@@ -81,6 +81,8 @@ public class TimerUI : UIBase
         base.OnTriggerExit(other);
         if (other.gameObject.layer == 6)
         {
+            _elapsedTime = 0;
+
             if (_audioClip1)
             {
                 UIAudioPlayer1
@@ -95,8 +97,7 @@ public class TimerUI : UIBase
             {
                 UIAudioPlayer3
                     .Stop();
-            }
-            _elapsedTime = 0;
+            }            
         }
     }
 
